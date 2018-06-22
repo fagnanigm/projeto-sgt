@@ -1,6 +1,0 @@
-1 - integração omie salvando os clientes em uma base de dados local
-2 - integração omie salvando CFOP em uma base de dados local
-3 - salvar natureza
-4 - criação do view
-5 - criação do model
-

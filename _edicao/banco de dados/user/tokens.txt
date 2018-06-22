@@ -1,5 +1,0 @@
-- id
-- id_user
-- token
-- create_time
-- limit_time
