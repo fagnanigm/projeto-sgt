@@ -1,0 +1,7 @@
+Alterações 13/04
+
+- Registros no CTE: listar código + status + motivo de sucesso de retorno, + numero do protocolo (NProt).
+- Salvar no CTE o destinatario e tomador
+- Botão para enviar CTE para o ACBR e outro para salvar somente no banco. 
+
+

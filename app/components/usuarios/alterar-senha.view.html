@@ -1,0 +1,36 @@
+<h1 class="title-page">Alterar senha</h1>
+
+<div class="box-content">
+
+	<form ng-submit="vm.setUser()">
+
+		<div class="box-subtitle">
+			<h2>Alteração de senha</h2>
+		</div>
+
+		<div class="row">
+
+			<div class="col-md-6">
+
+				<div class="form-group">
+					<label for="password">Senha</label>
+					<input type="password" class="form-control" id="password" placeholder="Senha" ng-model="user.password" required>
+				</div>
+
+				<div class="form-group">
+					<label for="password2">Confirmação de senha</label>
+					<input type="password" class="form-control" id="password2" placeholder="Confirmação de senha" ng-model="user.password2" required>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="cadastro-footer margin-top-25">
+			<a href="/usuarios" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
+			<button type="submit" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+		</div>
+
+
+	</form>
+
+</div>

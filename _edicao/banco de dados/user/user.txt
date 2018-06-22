@@ -1,0 +1,11 @@
+- id
+- username
+- email
+- phone_01
+- phone_02
+- password
+- person 
+- cpf
+- cnpj
+- create_time
+- permission
