@@ -5,37 +5,21 @@
         .module('app')
         .controller('Usuarios.IndexController', Controller);
 
-    function Controller($rootScope,$scope,$http,ngToast, PagerService) {
-        var vm = this;
-
-        vm.pager = {};
-        vm.setPage = setPage;
-        vm.paged_num = 8;
-        vm.old_items = [];
-
-        vm.usuarios = [];
-
+    function Controller($rootScope,$scope,$http,ngToast) {
+        
         initController();
 
-        $scope.$watch('search_field', function() {
-            if($scope.search_field == null || $scope.search_field.length == 0){
-                vm.items = vm.old_items;
-                vm.old_items = [];
-            }else{
-                if(vm.old_items.length == 0){
-                    vm.old_items = vm.items;
-                }
-                vm.items = vm.usuarios;
-            }
-        });
+        $scope.users = {};
 
         function get_users(){
-        	$http.post('http://model.exodocientifica.com.br/usuarios/read').then(function (response) {
-                vm.usuarios = response.data;
-                vm.setPage(1);
+        	$http.get('/api/public/users/get').then(function (response) {
+
+                $scope.users = response.data;
+                console.log($scope.users);
+                
 			}, function(response) {
 				$rootScope.is_error = true;
-				$rootScope.is_error_text = "Erro: " + response.data.message;
+				$rootScope.is_error_text = "Erro: " + response.data.error;
 			}).finally(function() {
 				$rootScope.is_loading = false;
 			});
@@ -46,6 +30,7 @@
         	get_users();
         }
 
+        /*
         vm.delete_user = function(id){
             if(confirm("Deseja excluir esse usuário?")){
                 $rootScope.is_loading = true;
@@ -66,14 +51,7 @@
             }
         }
 
-        function setPage(page) {
-            if (page < 1 || page > vm.pager.totalPages) {
-                return;
-            }
-
-            vm.pager = PagerService.GetPager(vm.usuarios.length, page, vm.paged_num);
-            vm.items = vm.usuarios.slice(vm.pager.startIndex, vm.pager.endIndex + 1);
-        }
+        */
 
     }
 

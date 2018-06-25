@@ -18,23 +18,17 @@
             if($rootScope.$state.name == "insert-usuario"){
 
                 $scope.user = {
-                    person_type : 'fisica',
-                    type : 'admin'
+                    person : 'f',
+                    permission : 'master'
                 }
 
             }else{
 
-                var data = {
-                    conditions : { id : $rootScope.$stateParams.id_user },
-                    operator : { 0 : '=' },
-                    single : true
-                }
-
-                $http.post('http://model.exodocientifica.com.br/usuarios/read',data).then(function (response) {
-                    $scope.user = response.data;
+                $http.get('/api/public/users/get/' + $rootScope.$stateParams.id_user).then(function (response) {
+                    $scope.user = response.data.user;
                 }, function(response) {
                     $rootScope.is_error = true;
-                    $rootScope.is_error_text = "Erro: " + response.data.message;
+                    $rootScope.is_error_text = "Erro: " + response.data.error;
                 }).finally(function() {
                     $rootScope.is_loading = false;
                 });

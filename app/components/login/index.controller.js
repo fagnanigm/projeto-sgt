@@ -24,8 +24,6 @@
             $rootScope.is_loading = true;
             AuthenticationService.Login(vm.username, vm.password, function (result) {
 
-                console.log(result);
-
                 if (result === true) {
                     $location.path('/seleciona-empresa'); 
                 } else {

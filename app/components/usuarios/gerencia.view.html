@@ -12,14 +12,14 @@
 			<div class="col-md-6">
 
 				<div class="form-group">
-					<input type="radio" ng-model="user.person_type" value="fisica"> Pessoa física
-					<input type="radio" class="margin-left-15" ng-model="user.person_type" value="juridica"> Pessoa juridica
+					<input type="radio" ng-model="user.person" value="f"> Pessoa física
+					<input type="radio" class="margin-left-15" ng-model="user.person" value="j"> Pessoa juridica
 				</div>
 
 				<div class="form-group">
-					<label for="responsavel" ng-if="user.person_type == 'fisica'">Responsável</label>
-					<label for="responsavel" ng-if="user.person_type == 'juridica'">Razão social</label>
-					<input type="text" class="form-control" id="responsavel" placeholder="{{ user.person_type == 'fisica' ? 'Nome completo' : 'Razão social' }}" ng-model="user.username" required>
+					<label for="responsavel" ng-if="user.person == 'f'">Responsável</label>
+					<label for="responsavel" ng-if="user.person == 'j'">Razão social</label>
+					<input type="text" class="form-control" id="responsavel" placeholder="{{ user.person == 'f' ? 'Nome completo' : 'Razão social' }}" ng-model="user.username" required>
 				</div>
 
 				<div class="row">
@@ -33,12 +33,12 @@
 					</div>
 					<div class="col-md-6">
 
-						<div class="form-group" ng-show="user.person_type == 'fisica'">
+						<div class="form-group" ng-show="user.person == 'f'">
 							<label for="cpf">CPF</label>
 							<input type="text" class="form-control" id="cpf" placeholder="CPF" ng-model="user.cpf" mask="999.999.999-99" clean="true">
 						</div>
 
-						<div class="form-group ng-hide" ng-show="user.person_type == 'juridica'">
+						<div class="form-group ng-hide" ng-show="user.person == 'j'">
 							<label for="cnpj">CNPJ</label>
 							<input type="text" class="form-control" id="cnpj" placeholder="CNPJ" ng-model="user.cnpj" mask="99.999.999/9999-99" clean="true">
 						</div>
@@ -70,9 +70,10 @@
 
 						<div class="form-group">
 							<label for="type">Tipo</label>
-							<select class="form-control" id="type" ng-model="user.type" ng-disabled="logged_user.id == user.id">
-								<option value="admin">Administrador</option>
-								<option value="customer">Cliente</option>
+							<select class="form-control" id="type" ng-model="user.permission" ng-disabled="logged_user.id == user.id">
+								<option value="master">Master</option>
+								<option value="gerente">Gerente</option>
+								<option value="operacional">Operacional</option>
 							</select>
 						</div>
 

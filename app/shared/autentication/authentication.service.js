@@ -15,17 +15,11 @@
 
         function Login(username, password, callback) {
 
-            $rootScope.is_logged = true;
-
-            callback(true);
-
-
-            /*
-            $http.post('http://model.exodocientifica.com.br/authenticate', { email: username, password: password })
+            $http.post('/api/public/users/login', { email: username, password: password })
                 .success(function (response) {
 
-                    // login successful if there's a token in the response
-                    if (response.token) {
+
+                    if (response.result) {
                         // store username and token in local storage to keep user logged in between page refreshes
                         $localStorage.currentUser = { username: username, token: response.token };
 
@@ -43,9 +37,10 @@
                         callback(false);
                         $rootScope.is_logged = false;
                     }
+
+                    
                 });
 
-                */
         }
 
         function Logout() {

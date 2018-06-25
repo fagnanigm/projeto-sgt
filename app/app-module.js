@@ -20,14 +20,12 @@
             $rootScope.is_logged = false;
         }
         
-        /*
         if ($localStorage.currentUser) {
             $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
             $rootScope.is_logged = true;
         }else{
             $rootScope.is_logged = false;
         }
-        */
         
         // redirect to login page if not logged in and trying to access a restricted page
         $rootScope.$on('$locationChangeStart', function (event, next, current) {

@@ -2,7 +2,7 @@
 	<div class="row">
 
 		<div class="col-md-8">
-			<h1>Usuários <small>(10 registros)</small></h1>
+			<h1>Usuários <small>({{ users.config.total }} registros)</small></h1>
 		</div>
 		<div class="col-md-4 text-right">
 			<a href="/usuarios/importar-do-omie" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Importar do OMIE</a>
@@ -18,6 +18,7 @@
 
 	<div class="box-subtitle"><h2>Usuários do sistema</h2></div>
 
+	<!-- 
 	<div class="row">
 		<div class="col-md-12">
 
@@ -28,110 +29,27 @@
 
 		</div>
 	</div>
+	-->
 
 	<table class="table margin-top-30">
-		<tr>
+		<tr ng-repeat="(key, user) in users.results">
 			<td>
-				<strong>Usuário de teste</strong> <br />
-				<span>CNPJ: 61.498.035/0001-97</span> <br /> 
-				email@teste.com.br
+				<strong>{{ user.username }}</strong> <br />
+				<span ng-if="user.person == 'j'">CNPJ: {{ user.cnpj }}</span> 
+				<span ng-if="user.person == 'f'">CPF: {{ user.cpf }}</span> 
+				<br /> 
+				{{ user.email }}
 			</td>
-			<td>
-				Administrador
+			<td class="text-capitalize">
+				{{ user.permission }}
 			</td>
 			<td><small>Cadastrado em 10/06/2018</small></td>
 			<td width="150">
 				<div class="buttons-capsule">
-					<a href="/usuarios/gerencia/" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger" ng-disabled="logged_user.id == val.id" ng-click="vm.delete_user(val.id)">Excluir</button>
+					<a href="/usuarios/gerencia/{{ user.id }}" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger" ng-disabled="logged_user.id == user.id" ng-click="delete_user(user.id)">Excluir</button>
 				</div>
 			</td>
 		</tr>
-
-		<tr>
-			<td>
-				<strong>Usuário de teste</strong> <br />
-				<span>CNPJ: 61.498.035/0001-97</span> <br /> 
-				email@teste.com.br
-			</td>
-			<td>
-				Administrador
-			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
-			<td width="150">
-				<div class="buttons-capsule">
-					<a href="/usuarios/gerencia/" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger" ng-disabled="logged_user.id == val.id" ng-click="vm.delete_user(val.id)">Excluir</button>
-				</div>
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<strong>Usuário de teste</strong> <br />
-				<span>CNPJ: 61.498.035/0001-97</span> <br /> 
-				email@teste.com.br
-			</td>
-			<td>
-				Administrador
-			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
-			<td width="150">
-				<div class="buttons-capsule">
-					<a href="/usuarios/gerencia/" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger" ng-disabled="logged_user.id == val.id" ng-click="vm.delete_user(val.id)">Excluir</button>
-				</div>
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<strong>Usuário de teste</strong> <br />
-				<span>CNPJ: 61.498.035/0001-97</span> <br /> 
-				email@teste.com.br
-			</td>
-			<td>
-				Administrador
-			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
-			<td width="150">
-				<div class="buttons-capsule">
-					<a href="/usuarios/gerencia/" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger" ng-click="vm.delete_user(val.id)">Excluir</button>
-				</div>
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<strong>Usuário de teste</strong> <br />
-				<span>CNPJ: 61.498.035/0001-97</span> <br /> 
-				email@teste.com.br
-			</td>
-			<td>
-				Administrador
-			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
-			<td width="150">
-				<div class="buttons-capsule">
-					<a href="/usuarios/gerencia/" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger" ng-disabled="logged_user.id == val.id" ng-click="vm.delete_user(val.id)">Excluir</button>
-				</div>
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<strong>Usuário de teste</strong> <br />
-				<span>CNPJ: 61.498.035/0001-97</span> <br /> 
-				email@teste.com.br
-			</td>
-			<td>
-				Administrador
-			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
-			<td width="150">
-				<div class="buttons-capsule">
-					<a href="/usuarios/gerencia/" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger" ng-disabled="logged_user.id == val.id" ng-click="vm.delete_user(val.id)">Excluir</button>
-				</div>
-			</td>
-		</tr>
-
 
 	</table>
 
