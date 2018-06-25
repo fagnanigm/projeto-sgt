@@ -1,5 +1,8 @@
 <?php
 // DIC configuration
+use Classes\Authenticate;
+
+define("AUTHENTICATE_KEY", "RKypTy0HJeyklSAxQm30amSeGZ8OCDR2znNdU4Dm723ykqSaMVigYqCvc/f9A8HXFSkkbYwDlJYxPY2K2+lTLuddlTEof9ggu/pVsTRjlXGZh3JkVAGpmGpjhuuSgPLJh8vjOJahOfFjWP2dIQPS16evgL+z38COWVUF64003Uo=");
 
 $container = $app->getContainer();
 
@@ -9,7 +12,7 @@ $container['db'] = function ($c) {
 	define('DB_HOST'        , "DESKTOP-JS575OC");
 	define('DB_USER'        , NULL);
 	define('DB_PASSWORD'    , NULL);
-	define('DB_NAME'        , "NecBrasil_Emissor_CTE");
+	define('DB_NAME'        , "db_sgt");
 
 	/// Não alterar
 
@@ -20,9 +23,12 @@ $container['db'] = function ($c) {
 
 	$pdo = new \Slim\PDO\Database($dsn, $usr, $pwd, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT));
 
-	// $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );  
-
     return $pdo;
+};
+
+$container['auth'] = function ($c){
+	$Authenticate = new Authenticate($c['db']);	
+	return $Authenticate;
 };
 
 // view renderer
