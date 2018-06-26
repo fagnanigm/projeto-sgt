@@ -461,20 +461,25 @@ textarea.form-control {
 
 /* TABELAS */
 
-.table tr.text-warning td a:not(.btn) {
+.table tr.text-warning td a:not(.btn):not(.dropdown-item) {
     color: #ffc107!important;
 }
 
-.table tr.text-danger td a:not(.btn) {
+.table tr.text-danger td a:not(.btn):not(.dropdown-item) {
     color: #dc3545!important
 }
 
-.table tr.text-success td a:not(.btn) {
+.table tr.text-success td a:not(.btn):not(.dropdown-item) {
     color: #28a745!important
 }
 
-.table tr.text-primary td a:not(.btn) {
+.table tr.text-primary td a:not(.btn):not(.dropdown-item) {
     color: #007bff!important
+}
+
+.dropdown-item {
+    padding: .25rem 1.0rem;
+    font-size: 12px;
 }
 
 
