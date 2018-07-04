@@ -14,9 +14,8 @@
 
         function initController() {
             // reset login status
-            //AuthenticationService.Logout();]
             if($rootScope.is_logged){
-                //$location.path('/dashboard');
+                $location.path('/dashboard');
             }
         };
 

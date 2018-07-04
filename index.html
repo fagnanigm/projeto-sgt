@@ -76,33 +76,36 @@
         <div class="sub-header-mask"></div>
 
         <div class="sub-header">
-            <div class="logo">
-                <a href="/dashboard"><img src="/assets/img/logo_nec_white.png"></a>
+            <div class="top-sub-header">
+                <div class="logo">
+                    <a href="/dashboard"><img src="/assets/img/logo_nec_white.png"></a>
+                </div>
+                <ul class="sub-header-menu">
+                    <li><a href="/usuarios">Usuários</a></li>
+                    <li><a href="/configuracoes">Configurações</a></li>
+                    <li class="has-dropdown">
+                        <a href="#"><i class="icon-user icons"></i> Nome do usuário <i class="icon-arrow-down icons"></i></a>
+
+                        <ul class="drop-sub-header-menu">
+                            <li><a href="/usuarios/visualizar-usuario">Minha conta</a></li>
+                            <li><a href="/usuarios/alterar-senha">Alterar senha</a></li>
+                            <li><a href="#" ng-click="gl.logout()">Sair</a></li>
+                        </ul>
+
+                    </li>
+                </ul>
             </div>
-            <ul class="sub-header-menu">
-                <li><a href="/usuarios">Usuários</a></li>
-                <li><a href="/configuracoes">Configurações</a></li>
-                <li class="has-dropdown">
-                    <a href="#"><i class="icon-user icons"></i> Nome do usuário <i class="icon-arrow-down icons"></i></a>
-
-                    <ul class="drop-sub-header-menu">
-                        <li><a href="/usuarios/visualizar-usuario">Minha conta</a></li>
-                        <li><a href="/usuarios/alterar-senha">Alterar senha</a></li>
-                        <li><a href="#" ng-click="gl.logout()">Sair</a></li>
-                    </ul>
-
-                </li>
-            </ul>
+            <div class="context-bar">
+                <ul>
+                    <li>Empresa selecionada</li>
+                    <li><img src="/assets/img/logo.jpg"></li>
+                    <li><a href="/seleciona-empresa" class="btn btn-sm btn-outline-secondary">Alterar</a></li>
+                </ul>
+            </div>
         </div>
 
         <!-- Context -->
-        <section class="context-bar">
-            <ul>
-                <li>Empresa selecionada</li>
-                <li><img src="/assets/img/logo.jpg"></li>
-                <li><a href="/seleciona-empresa" class="btn btn-sm btn-outline-secondary">Alterar</a></li>
-            </ul>
-        </section>
+        
 
 
         <!-- menu -->
