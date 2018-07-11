@@ -251,6 +251,43 @@
                 controllerAs: 'vm'
             })
 
+            .state('emitir-cte', {
+                url: '/emitir-cte',
+                templateUrl: 'app/components/cte/emitir.view.html',
+                controller: 'Relatorios.IndexController',
+                controllerAs: 'vm'
+            })
+
+
+            // ORDEM DE COLETA
+
+            .state('ordem-de-coleta', {
+                url: '/gerar-ordem-de-coleta',
+                templateUrl: 'app/components/ordem-de-coleta/gerar.view.html',
+                controller: 'Relatorios.IndexController',
+                controllerAs: 'vm'
+            })
+
+
+            // ORDEM DE SERVIÇO
+
+            .state('ordem-de-servico', {
+                url: '/gerar-ordem-de-servico',
+                templateUrl: 'app/components/ordem-de-servico/gerar.view.html',
+                controller: 'Relatorios.IndexController',
+                controllerAs: 'vm'
+            })
+
+
+            // NOTA FISCAL
+
+            .state('emitir-nota-fiscal', {
+                url: '/emitir-nota-fiscal',
+                templateUrl: 'app/components/nota-fiscal/emitir.view.html',
+                controller: 'Relatorios.IndexController',
+                controllerAs: 'vm'
+            })
+
 
             // OUTROS
 

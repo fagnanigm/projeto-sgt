@@ -14,7 +14,7 @@
 
         function initController() {
             // reset login status
-            if($rootScope.is_logged){
+            if($rootScope.is_logged && $location.path() == '/'){
                 $location.path('/dashboard');
             }
         };

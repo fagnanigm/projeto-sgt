@@ -1,0 +1,452 @@
+<h1 class="title-page">Gerar ordem de coleta</h1>
+
+<div class="box-content">
+
+	<form ng-submit="vm.setUser()">
+
+		<div class="box-subtitle">
+			<h2>Emissão de ordem de coleta</h2>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Código</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="id">Cliente (n. fantasia)</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+					
+					
+				</div>
+
+			</div>
+			<div class="col-md-6">
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Filial</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Status</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Data de cadastro</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Vendedor</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+				</div>
+
+				
+
+				
+
+			</div>
+		</div>
+
+		<hr class="margin-top-40 margin-bottom-40"/>
+
+		<div class="form-group">
+			<label for="id">Cliente Tomador do Serviço</label>
+			<div class="row">
+				<div class="col-md-2">
+					<input type="radio" name=""> Remente
+				</div>
+				<div class="col-md-2">
+					<input type="radio" name=""> Distinatário
+				</div>
+				<div class="col-md-2">
+					<input type="radio" name=""> Consignatário
+				</div>
+			</div>
+		</div>
+
+
+
+		<hr class="margin-top-40 margin-bottom-40"/>
+
+		<div class="row">
+			<div class="col-md-4">
+
+				<div class="form-group">
+					<label for="id">Cliente remetente:</label>
+					<input type="text" class="form-control" id="id">
+				</div>
+
+				<table class="table">
+					<tr>
+						<th width="120">CNPJ:</th>
+						<td>00.000.000/000-00</td>
+					</tr>
+					<tr>
+						<th>Ins. Estadual:</th>
+						<td>000.000.000.000</td>
+					</tr>
+					<tr>
+						<th>Endereço</th>
+						<td>Rua / Avenida / etc...	Bairro	Cidade - UF	CEP</td>
+					</tr>
+					<tr>
+						<th>Contato:</th>
+						<td>Responsável - Faturamento	
+						Depto.	
+						Telefone 1	
+						Telefone 2	
+						Celular 1 	
+						Celular 2	
+						Email	
+						</td>
+					</tr>
+				</table>
+				
+			</div>
+
+			<div class="col-md-4">
+
+				<div class="form-group">
+					<label for="id">Cliente destinatário:</label>
+					<input type="text" class="form-control" id="id">
+				</div>
+
+				<table class="table">
+					<tr>
+						<th width="120">CNPJ:</th>
+						<td>00.000.000/000-00</td>
+					</tr>
+					<tr>
+						<th>Ins. Estadual:</th>
+						<td>000.000.000.000</td>
+					</tr>
+					<tr>
+						<th>Endereço</th>
+						<td>Rua / Avenida / etc...	Bairro	Cidade - UF	CEP</td>
+					</tr>
+					<tr>
+						<th>Contato:</th>
+						<td>Responsável - Faturamento	
+						Depto.	
+						Telefone 1	
+						Telefone 2	
+						Celular 1 	
+						Celular 2	
+						Email	
+						</td>
+					</tr>
+				</table>
+				
+			</div>
+
+			<div class="col-md-4">
+
+				<div class="form-group">
+					<label for="id">Cliente Consignatário:</label>
+					<input type="text" class="form-control" id="id">
+				</div>
+
+				<table class="table">
+					<tr>
+						<th width="120">CNPJ:</th>
+						<td>00.000.000/000-00</td>
+					</tr>
+					<tr>
+						<th>Ins. Estadual:</th>
+						<td>000.000.000.000</td>
+					</tr>
+					<tr>
+						<th>Endereço</th>
+						<td>Rua / Avenida / etc...	Bairro	Cidade - UF	CEP</td>
+					</tr>
+					<tr>
+						<th>Contato:</th>
+						<td>Responsável - Faturamento	
+						Depto.	
+						Telefone 1	
+						Telefone 2	
+						Celular 1 	
+						Celular 2	
+						Email	
+						</td>
+					</tr>
+				</table>
+				
+			</div>
+
+		</div>
+
+		<hr class="margin-top-40 margin-bottom-40"/>
+
+		<div class="row">
+			<div class="col-md-4">
+
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-6">
+							<label for="id">Local de coleta:</label>
+						</div>
+						<div class="col-md-6 text-right">
+							<input type="checkbox" name=""> Exterior
+						</div>
+					</div>
+					<input type="text" class="form-control" id="id">
+				</div>
+
+				<table class="table">
+					<tr>
+						<th width="120">CNPJ:</th>
+						<td>00.000.000/000-00</td>
+					</tr>
+					<tr>
+						<th>Ins. Estadual:</th>
+						<td>000.000.000.000</td>
+					</tr>
+					<tr>
+						<th>Endereço</th>
+						<td>Rua / Avenida / etc...	Bairro	Cidade - UF	CEP</td>
+					</tr>
+					<tr>
+						<th>Contato:</th>
+						<td>Responsável - Faturamento	
+						Depto.	
+						Telefone 1	
+						Telefone 2	
+						Celular 1 	
+						Celular 2	
+						Email	
+						</td>
+					</tr>
+				</table>
+
+				<div class="form-group">
+					<label for="id">Procurar por:</label>
+					<input type="text" class="form-control" id="id">
+				</div>
+
+			</div>
+			<div class="col-md-4">
+
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-6">
+							<label for="id">Local da entrega:</label>
+						</div>
+						<div class="col-md-6 text-right">
+							<input type="checkbox" name=""> Exterior
+						</div>
+					</div>
+					<input type="text" class="form-control" id="id">
+				</div>
+
+				<table class="table">
+					<tr>
+						<th width="120">CNPJ:</th>
+						<td>00.000.000/000-00</td>
+					</tr>
+					<tr>
+						<th>Ins. Estadual:</th>
+						<td>000.000.000.000</td>
+					</tr>
+					<tr>
+						<th>Endereço</th>
+						<td>Rua / Avenida / etc...	Bairro	Cidade - UF	CEP</td>
+					</tr>
+					<tr>
+						<th>Contato:</th>
+						<td>Responsável - Faturamento	
+						Depto.	
+						Telefone 1	
+						Telefone 2	
+						Celular 1 	
+						Celular 2	
+						Email	
+						</td>
+					</tr>
+				</table>
+
+				<div class="form-group">
+					<label for="id">Procurar por:</label>
+					<input type="text" class="form-control" id="id">
+				</div>
+
+			</div>
+			<div class="col-md-4">
+
+				<div class="form-group">
+					<label for="id">Observações para o Operacional</label>
+					<textarea class="form-control"></textarea>
+				</div>
+
+				<div class="form-group">
+					<label for="id">Previsão de Coleta:</label>
+					<input type="text" class="form-control" id="id">
+				</div>
+
+				<div class="form-group">
+					<label for="id">Previsão de Entrega:</label>
+					<input type="text" class="form-control" id="id">
+				</div>
+
+				<div class="form-group">
+					<label for="id">Equipamento a ser utilizado</label>
+					<textarea class="form-control"></textarea>
+				</div>
+
+				<div class="form-group">
+					<label for="id">Emitido</label>
+					<div class="row">
+						<div class="col-md-4">
+							<input type="checkbox" name=""> Licença
+						</div>
+						<div class="col-md-4">
+							<input type="checkbox" name=""> Viabilização
+						</div>
+						<div class="col-md-4">
+							<input type="checkbox" name=""> Ser. Rigging
+						</div>
+						<div class="col-md-4">
+							<input type="checkbox" name=""> Taxas
+						</div>
+						<div class="col-md-4">
+							<input type="checkbox" name=""> Instrumentação
+						</div>
+						<div class="col-md-4">
+							<input type="checkbox" name=""> Ser. escolta
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		
+
+		<div class="box-subtitle">
+			<h2>Objeto de carregamento</h2>
+		</div>
+
+		<table class="table table-striped">
+			<tr>
+				<th>Item</th>
+				<th>Qtd.</th>
+				<th>Descrição</th>
+				<th>Origem</th>
+				<th>Destino</th>
+				<th>KM</th>
+				<th>Comp. (m)</th>
+				<th>Larg. (m)</th>
+				<th>Alt. (m)</th>
+				<th>Peso. (kg)</th>
+				<th>Equipamento (tipo)</th>
+				<th>NFS</th>
+			</tr>
+			<tr>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+			</tr>
+
+			<tr>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+			</tr>
+
+			<tr>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+			</tr>
+
+			<tr>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+				<td>Exemplo</td>
+			</tr>
+
+		</table>
+
+		<button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Adicionar</button>
+
+		<hr class="margin-top-40 margin-bottom-20" />
+
+		<div class="form-group">
+			<label for="id">Condições Comerciais Adcionais</label>
+			<textarea class="form-control"></textarea>
+		</div>
+
+		<hr class="margin-top-40 margin-bottom-40" />
+
+		
+
+		<div class="cadastro-footer margin-top-25">
+			<a href="/autorizacao-de-servico" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
+			<button type="submit" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+		</div>
+
+
+	</form>
+
+</div>

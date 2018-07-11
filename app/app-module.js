@@ -57,6 +57,8 @@
             $rootScope.$stateParams = toParams;
             $rootScope.is_error = false;
 
+            window.scrollTo(0, 0);
+
             /*
             if($rootScope.is_logged && $rootScope.$state.name == 'login'){
                 $location.path('/dashboard');
