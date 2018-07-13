@@ -9,7 +9,7 @@
         
         $scope.users = {};
 
-        $scope.currentPage = ($rootScope.$state != 'usuarios-paged' ? $rootScope.$stateParams.page : '1' );
+        $scope.currentPage = ($rootScope.$state.name == 'usuarios-paged' ? $rootScope.$stateParams.page : '1' );
 
         $scope.get_users = function(){
 
