@@ -5,16 +5,18 @@
         .module('app')
         .controller('Usuarios.IndexController', Controller);
 
-    function Controller($rootScope,$scope,$http,ngToast) {
+    function Controller($rootScope,$scope,$http,$location,ngToast) {
         
-        initController();
-
         $scope.users = {};
 
-        function get_users(){
-        	$http.get('/api/public/users/get').then(function (response) {
+        $scope.currentPage = ($rootScope.$state != 'usuarios-paged' ? $rootScope.$stateParams.page : '1' );
+
+        $scope.get_users = function(){
+
+        	$http.get('/api/public/users/get?current_page='+$scope.currentPage).then(function (response) {
 
                 $scope.users = response.data;
+                $scope.users.config.current_page = parseInt($scope.users.config.current_page);
                 console.log($scope.users);
                 
 			}, function(response) {
@@ -25,10 +27,9 @@
 			});
         }
 
-        function initController() {
-        	$rootScope.is_loading = true;
-        	get_users();
-        }
+
+        $rootScope.is_loading = true;
+        $scope.get_users();
 
         /*
         vm.delete_user = function(id){

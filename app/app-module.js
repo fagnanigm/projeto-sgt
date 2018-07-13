@@ -5,7 +5,8 @@
         .module('app', ['ui.router', 'ngMessages', 'ngStorage', 'ngAnimate','ngToast','ngMask'])
         .run(run)
         .animation('.yAnimate',animation)
-        .factory('PagerService', PagerService);
+        .factory('PagerService', PagerService)
+        .filter('range', rangeService);
 
     function run($rootScope, $http, $location, $localStorage, $state, $stateParams,AuthenticationService) {
 
@@ -154,5 +155,15 @@
             animation : 'fade'
         });
     }]);
+
+
+    function rangeService(){
+        return function(input, total) {
+            total = parseInt(total);
+            for (var i=1; i<=total; i++)
+                input.push(i);
+                return input;
+        };
+    };
 
 })();

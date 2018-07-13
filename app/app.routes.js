@@ -76,6 +76,12 @@
                 controller: 'Usuarios.IndexController',
                 controllerAs: 'vm'
             })
+            .state('usuarios-paged', {
+                url: '/usuarios/{page}?queryString',
+                templateUrl: 'app/components/usuarios/index.view.html',
+                controller: 'Usuarios.IndexController',
+                controllerAs: 'vm'
+            })
             .state('insert-usuario', {
                 url: '/usuarios/gerencia',
                 templateUrl: 'app/components/usuarios/gerencia.view.html',
