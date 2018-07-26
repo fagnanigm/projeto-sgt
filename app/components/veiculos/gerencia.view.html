@@ -1,0 +1,852 @@
+<h1 class="title-page">Gerencia veículo</h1>
+
+<div class="box-content">
+
+	<form ng-submit="vm.setUser()">
+
+		<div class="box-subtitle">
+			<h2>Cadastro / edição de veículo</h2>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+
+				<div class="row">
+
+					<div class="col-md-3">
+						<input type="radio"> Própria
+					</div>
+
+					<div class="col-md-3">
+						<input type="radio"> Emprestado
+					</div>
+
+					<div class="col-md-3">
+						<input type="radio"> Terceirizado
+					</div>
+
+				</div>
+
+				<div class="row margin-top-30">
+				
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Nº de frota</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Filial</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Status</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Placa</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Nº final da placa</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Fabricante</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Modelo</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Ano fab.</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Ano mod.</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">ANTT</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Validade ANTT</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">RENAVAM</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Tipo/Categoria</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Venc. tacógrafo</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">CODESP</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Seguro</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">St. financiamento</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">D. quitação</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="id">Observação do cadastro</label>
+							<textarea class="form-control"></textarea>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+			<div class="col-md-6">
+
+				<div class="row">
+
+					<div class="col-md-4">
+						<input type="checkbox"> IPVA
+					</div>
+					<div class="col-md-4">
+						<input type="checkbox"> IPVA isento
+					</div>
+
+					<div class="col-md-4">
+						<input type="checkbox"> Seguro de obrigatório
+					</div>
+
+					<div class="col-md-4">
+						<input type="checkbox"> Licenciado
+					</div>
+
+					<div class="col-md-4">
+						<input type="checkbox"> Permanente
+					</div>
+
+					<div class="col-md-4">
+						<input type="checkbox"> Credenciado PRF
+					</div>
+
+					<div class="col-md-4">
+						<input type="checkbox"> Cama / Leito
+					</div>
+
+					<div class="col-md-4">
+						<input type="checkbox"> Aces. especial
+					</div>
+
+					<div class="col-md-4">
+						<input type="checkbox"> Cintas / Lonas / Encerado
+					</div>
+
+					<div class="col-md-4">
+						<input type="checkbox"> Cx. Ferramentas
+					</div>
+
+					<div class="col-md-4">
+						<input type="checkbox"> CTF
+					</div>
+
+					<div class="col-md-4">
+						<input type="checkbox"> Rastreador
+					</div>
+
+					<div class="col-md-4">
+						<input type="checkbox"> Telemetria
+					</div>
+
+					<div class="col-md-4">
+						<input type="checkbox"> Sem parar
+					</div>
+
+					<div class="col-md-4">
+						<input type="checkbox"> Kit ambiental
+					</div>
+
+				</div>
+
+				<div class="box-subtitle margin-top-30">
+					<h2>Status em viagem</h2>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Data de saída</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Motorista</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">RV</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">CTRC</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">AS</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Cliente</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">UF Dest.</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+				</div>
+
+
+
+			</div>
+		</div>
+
+		<div class="box-subtitle margin-top-30">
+			<h2>Histórico da 3 útlimas viagens concluídas</h2>
+		</div>
+
+		<div class="row">
+			<div class="col-md-2">
+				<div class="form-group">
+					<label for="id">Data de saída</label>
+					<input type="text" class="form-control" id="id">
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="form-group">
+					<label for="id">Data de retorno</label>
+					<input type="text" class="form-control" id="id">
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="form-group">
+					<label for="id">Motorista</label>
+					<input type="text" class="form-control" id="id">
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="form-group">
+					<label for="id">AS</label>
+					<input type="text" class="form-control" id="id">
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="form-group">
+					<label for="id">UF Origem</label>
+					<input type="text" class="form-control" id="id">
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="form-group">
+					<label for="id">UF Destino</label>
+					<input type="text" class="form-control" id="id">
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-2">
+				<div class="form-group">
+					<label for="id">Data de saída</label>
+					<input type="text" class="form-control" id="id">
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="form-group">
+					<label for="id">Data de retorno</label>
+					<input type="text" class="form-control" id="id">
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="form-group">
+					<label for="id">Motorista</label>
+					<input type="text" class="form-control" id="id">
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="form-group">
+					<label for="id">AS</label>
+					<input type="text" class="form-control" id="id">
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="form-group">
+					<label for="id">UF Origem</label>
+					<input type="text" class="form-control" id="id">
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="form-group">
+					<label for="id">UF Destino</label>
+					<input type="text" class="form-control" id="id">
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-2">
+				<div class="form-group">
+					<label for="id">Data de saída</label>
+					<input type="text" class="form-control" id="id">
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="form-group">
+					<label for="id">Data de retorno</label>
+					<input type="text" class="form-control" id="id">
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="form-group">
+					<label for="id">Motorista</label>
+					<input type="text" class="form-control" id="id">
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="form-group">
+					<label for="id">AS</label>
+					<input type="text" class="form-control" id="id">
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="form-group">
+					<label for="id">UF Origem</label>
+					<input type="text" class="form-control" id="id">
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="form-group">
+					<label for="id">UF Destino</label>
+					<input type="text" class="form-control" id="id">
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+
+				<div class="box-subtitle margin-top-30">
+					<h2>Controle de manutenções preventivas</h2>
+				</div>
+
+				<table class="table">
+					
+					<tr>
+						<th></th>
+						<th>Data</th>
+						<th>Vencimento</th>
+					</tr>
+
+					<tr>
+						<td>Tr. Óleo motor</td>
+						<td><input type="text" class="form-control" id="id"></td>
+						<td><input type="text" class="form-control" id="id"></td>
+					</tr>
+
+					<tr>
+						<td>Tr. Óleo camb/dif</td>
+						<td><input type="text" class="form-control" id="id"></td>
+						<td><input type="text" class="form-control" id="id"></td>
+					</tr>
+
+					<tr>
+						<td>Tr. filtro de comb.</td>
+						<td><input type="text" class="form-control" id="id"></td>
+						<td><input type="text" class="form-control" id="id"></td>
+					</tr>
+
+					<tr>
+						<td>Tr. filtro de ar</td>
+						<td><input type="text" class="form-control" id="id"></td>
+						<td><input type="text" class="form-control" id="id"></td>
+					</tr>
+
+					<tr>
+						<td>Tr. correias</td>
+						<td><input type="text" class="form-control" id="id"></td>
+						<td><input type="text" class="form-control" id="id"></td>
+					</tr>
+
+					<tr>
+						<td>Tr. past. freios</td>
+						<td><input type="text" class="form-control" id="id"></td>
+						<td><input type="text" class="form-control" id="id"></td>
+					</tr>
+
+					<tr>
+						<td>Tr. bateria</td>
+						<td><input type="text" class="form-control" id="id"></td>
+						<td><input type="text" class="form-control" id="id"></td>
+					</tr>
+
+					<tr>
+						<td>Tr. transmissão</td>
+						<td><input type="text" class="form-control" id="id"></td>
+						<td><input type="text" class="form-control" id="id"></td>
+					</tr>
+
+					<tr>
+						<td>Rev. parte elétrica</td>
+						<td><input type="text" class="form-control" id="id"></td>
+						<td></td>
+					</tr>
+
+					<tr>
+						<td>Rev. suspensão</td>
+						<td><input type="text" class="form-control" id="id"></td>
+						<td></td>
+					</tr>
+
+					<tr>
+						<td>Rev. rodeio</td>
+						<td><input type="text" class="form-control" id="id"></td>
+						<td></td>
+					</tr>
+
+					<tr>
+						<td>Rev. acessórios</td>
+						<td><input type="text" class="form-control" id="id"></td>
+						<td></td>
+					</tr>
+
+				</table>
+
+				<div class="box-subtitle margin-top-30">
+					<h2>Registro de pneus (marca de fogo) em uso</h2>
+				</div>
+
+				<div class="row registro-pneus-box">
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">TD</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">P7</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">P17</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">TE</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">P8</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">P18</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">EST</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">P10</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">P20</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">P1</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">P11</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">P21</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">P2</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">P12</span>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">P22</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">P3</span>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">P13</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">P23</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">P4</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">P14</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">P24</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">P5</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">P15</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">P25</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">P6</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">P16</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+							<div class="input-group-append">
+								<span class="input-group-text">P26</span>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+
+			</div>
+			<div class="col-md-6">
+
+				<div class="box-subtitle margin-top-30">
+					<h2>Histórico das últimas manutenções</h2>
+				</div>
+
+				<table class="table">
+					<tr>
+						<th>Data</th>
+						<th>Ord. Serv.</th>
+						<th>Descrição</th>
+						<th>NF</th>
+						<th>Custo</th>
+					</tr>
+					<tr>
+						<td><input type="text" class="form-control" id="id"></td>
+						<td><input type="text" class="form-control" id="id"></td>
+						<td><input type="text" class="form-control" id="id"></td>
+						<td><input type="text" class="form-control" id="id"></td>
+						<td><input type="text" class="form-control" id="id"></td>
+					</tr>
+				</table>
+
+				<div class="text-right">
+					<button class="btn btn-success">+</button>
+				</div>
+
+				<div class="row">
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Custo total em peças</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Custo de mão de obra</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Custo serv. terceiros</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Custo total em manutenções</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="cadastro-footer margin-top-25">
+			<a href="/veiculos" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
+			<button type="submit" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+		</div>
+
+
+	</form>
+
+</div>

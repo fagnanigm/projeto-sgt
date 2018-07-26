@@ -1,0 +1,107 @@
+<h1 class="title-page">Gerencia usuário</h1>
+
+<div class="box-content">
+
+	<form ng-submit="vm.setUser()">
+
+		<div class="box-subtitle">
+			<h2>Cadastro / edição de usuário</h2>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+
+				<div class="form-group">
+					<input type="radio" ng-model="user.person" value="f"> Pessoa física
+					<input type="radio" class="margin-left-15" ng-model="user.person" value="j"> Pessoa juridica
+				</div>
+
+				<div class="form-group">
+					<label for="responsavel" ng-if="user.person == 'f'">Responsável</label>
+					<label for="responsavel" ng-if="user.person == 'j'">Razão social</label>
+					<input type="text" class="form-control" id="responsavel" placeholder="{{ user.person == 'f' ? 'Nome completo' : 'Razão social' }}" ng-model="user.username" required>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+
+						<div class="form-group">
+							<label for="responsavel">E-mail</label>
+							<input type="email" class="form-control" id="responsavel" placeholder="E-mail" ng-model="user.email" required ng-disabled="$state.name == 'edit-usuario'">
+						</div>
+						
+					</div>
+					<div class="col-md-6">
+
+						<div class="form-group" ng-show="user.person == 'f'">
+							<label for="cpf">CPF</label>
+							<input type="text" class="form-control" id="cpf" placeholder="CPF" ng-model="user.cpf" mask="999.999.999-99" clean="true">
+						</div>
+
+						<div class="form-group ng-hide" ng-show="user.person == 'j'">
+							<label for="cnpj">CNPJ</label>
+							<input type="text" class="form-control" id="cnpj" placeholder="CNPJ" ng-model="user.cnpj" mask="99.999.999/9999-99" clean="true">
+						</div>
+						
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+
+						<div class="form-group">
+							<label for="telefone">Telefone</label>
+							<input type="text" class="form-control" id="telefone" placeholder="Telefone" ng-model="user.phone1" mask="(99) 9?9999-9999">
+						</div>
+
+					</div>
+					<div class="col-md-6">
+
+						<div class="form-group">
+							<label for="celular">Celular</label>
+							<input type="text" class="form-control" id="celular" placeholder="Celular" ng-model="user.phone2" mask="(99) 9?9999-9999">
+						</div>
+
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+
+						<div class="form-group">
+							<label for="type">Tipo</label>
+							<select class="form-control" id="type" ng-model="user.permission" ng-disabled="logged_user.id == user.id">
+								<option value="master">Master</option>
+								<option value="gerente">Gerente</option>
+								<option value="operacional">Operacional</option>
+							</select>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+			<div class="col-md-6" ng-if="$state.name == 'insert-usuario'">
+
+				<div class="form-group">
+					<label for="password">Senha</label>
+					<input type="password" class="form-control" id="password" placeholder="Senha" ng-model="user.password" required>
+				</div>
+
+				<div class="form-group">
+					<label for="password2">Confirmação de senha</label>
+					<input type="password" class="form-control" id="password2" placeholder="Confirmação de senha" ng-model="user.password2" required>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="cadastro-footer margin-top-25">
+			<a href="/usuarios" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
+			<button type="submit" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+		</div>
+
+
+	</form>
+
+</div>

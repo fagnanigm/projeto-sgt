@@ -1,0 +1,130 @@
+<h1 class="title-page">Gerencia local</h1>
+
+<div class="box-content">
+
+	<form ng-submit="vm.setUser()">
+
+		<div class="box-subtitle">
+			<h2>Cadastro / edição de local</h2>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+
+				<div class="row">
+
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="id">Apelido do local</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="id">Associar cliente</label>
+							
+							<div class="input-group mb-3">
+								<input type="text" class="form-control">
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="button">Pesquisar</button>
+								</div>
+							</div>
+
+
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">CEP</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Logradouro</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Número</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Complemento</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Bairro</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Cidade</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="id">Estado</label>
+							<select class="form-control">
+								<option>Selecione...</option>
+								<option value="AC">Acre</option>
+								<option value="AL">Alagoas</option>
+								<option value="AP">Amapá</option>
+								<option value="AM">Amazonas</option>
+								<option value="BA">Bahia</option>
+								<option value="CE">Ceará</option>
+								<option value="DF">Distrito Federal</option>
+								<option value="ES">Espírito Santo</option>
+								<option value="GO">Goiás</option>
+								<option value="MA">Maranhão</option>
+								<option value="MT">Mato Grosso</option>
+								<option value="MS">Mato Grosso do Sul</option>
+								<option value="MG">Minas Gerais</option>
+								<option value="PA">Pará</option>
+								<option value="PB">Paraíba</option>
+								<option value="PR">Paraná</option>
+								<option value="PE">Pernambuco</option>
+								<option value="PI">Piauí</option>
+								<option value="RJ">Rio de Janeiro</option>
+								<option value="RN">Rio Grande do Norte</option>
+								<option value="RS">Rio Grande do Sul</option>
+								<option value="RO">Rondônia</option>
+								<option value="RR">Roraima</option>
+								<option value="SC">Santa Catarina</option>
+								<option value="SP">São Paulo</option>
+								<option value="SE">Sergipe</option>
+								<option value="TO">Tocantins</option>
+							</select>
+						</div>
+					</div>
+
+				</div>
+
+				
+
+			</div>
+		</div>
+
+		<div class="cadastro-footer margin-top-25">
+			<a href="/locais" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
+			<button type="submit" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+		</div>
+
+
+	</form>
+
+</div>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+
+    <title>SGT - Sistema Administrativo</title>
+
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="/assets/libs/bootstrap-4.1.1/css/bootstrap.min.css">
+
+
+    <!-- toast -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/ng-toast/2.0.0/ngToast.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/ng-toast/2.0.0/ngToast-animations.min.css">
+
+   
+
+    <!-- application css -->
+    <link href="/assets/css/app.css" rel="stylesheet" />
+
+    <!-- fonts -->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="icon" href="/assets/img/ico.png" />
+
+    <base href="/">
+
+</head>
+<body ng-controller="GlobalServicesCtrl as gl">
+
+    <toast></toast>
+
+    <!-- login -->
+    <div ng-controller="Login.IndexController as vm" class="login-dashboard ng-hide" ng-hide="is_logged">
+
+        <div class="login-box">
+
+            <center><a href="/"><img src="/assets/img/logo_nec.png" class="img-fluid"></a></center>
+
+            <h2 class="text-center font-size-16 text-uppercase margin-top-15"><i class="fa fa-lock" aria-hidden="true"></i> Acesso administrativo</h2>
+            <form name="form" ng-submit="form.$valid && vm.login()" novalidate>
+                <div class="form-group" ng-class="{ 'has-error': form.$submitted && form.username.$invalid }">
+                    <label for="username">E-mail</label>
+                    <input type="text" name="username" class="form-control" ng-model="vm.username" required />
+                    <div ng-messages="form.$submitted && form.username.$error" class="help-block text-danger">
+                        <div ng-message="required">O e-mail é obrigatório.</div>
+                    </div>
+                </div>
+                <div class="form-group margin-top-10" ng-class="{ 'has-error': form.$submitted && form.password.$invalid }">
+                    <label for="password">Senha</label>
+                    <input type="password" name="password" class="form-control" ng-model="vm.password" required />
+                    <div ng-messages="form.$submitted && form.password.$error" class="help-block text-danger">
+                        <div ng-message="required">A senha é obrigatória.</div>
+                    </div>
+                </div>
+                <div ng-if="vm.error" class="alert alert-danger margin-top-20">{{vm.error}}</div>
+                <div class="margin-top-20 forgot-password"><a href="/">Esqueci a minha senha</a></div>
+                <div class="form-group text-center margin-top-20">
+                    <button class="btn btn-primary"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</button>
+                </div>
+                
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- main app container -->
+    <section class="ng-hide" ng-show="is_logged">
+            
+        <!-- sub header -->
+        <div class="sub-header-mask"></div>
+
+        <div class="sub-header">
+            <div class="top-sub-header">
+                <div class="logo">
+                    <a href="/dashboard"><img src="/assets/img/logo_nec_white.png"></a>
+                </div>
+                <ul class="sub-header-menu">
+                    <li><a href="/usuarios">Usuários</a></li>
+                    <li><a href="/configuracoes">Configurações</a></li>
+                    <li class="has-dropdown">
+                        <a href="#"><i class="icon-user icons"></i> Nome do usuário <i class="icon-arrow-down icons"></i></a>
+
+                        <ul class="drop-sub-header-menu">
+                            <li><a href="/usuarios/visualizar-usuario">Minha conta</a></li>
+                            <li><a href="/usuarios/alterar-senha">Alterar senha</a></li>
+                            <li><a href="#" ng-click="gl.logout()">Sair</a></li>
+                        </ul>
+
+                    </li>
+                </ul>
+            </div>
+            <div class="context-bar">
+                <ul>
+                    <li>Empresa selecionada</li>
+                    <li><img src="/assets/img/logo.jpg"></li>
+                    <li><a href="/seleciona-empresa" class="btn btn-sm btn-outline-secondary">Alterar</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Context -->
+        
+
+
+        <!-- menu -->
+        <div class="menu">
+
+            <div class="box-menu">
+                <ul>
+                    <li ng-class="{ active: $state.name == 'dashboard' }"><a href="/dashboard"><i class="icon-home"></i> Dashboard</a></li>
+                    <li class="heading">
+                        <h3 class="uppercase">Cadastros</h3>
+                    </li>
+                    <li ng-class="{ active: $state.name == 'clientes' }"><a href="/clientes"><i class="icon-people icons"></i> Clientes</a></li>
+                    <li ng-class="{ active: $state.name == 'produtos' }"><a href="/produtos"><i class="icon-layers icons"></i> Produtos</a></li>
+                    <li ng-class="{ active: $state.name == 'locais' }"><a href="/locais"><i class="icon-location-pin icons"></i> Locais</a></li>
+                    <li ng-class="{ active: $state.name == 'veiculos' }"><a href="/veiculos"><i class="icon-rocket icons"></i> Veículos</a></li>
+                    <li ng-class="{ active: $state.name == 'motoristas' }"><a href="/motoristas"><i class="icon-user icons"></i> Motoristas</a></li>
+                    <li class="heading">
+                        <h3 class="uppercase">Projetos</h3>
+                    </li>
+                    <li ng-class="{ active: $state.name == 'orcamentos' }"><a href="/projetos"><i class="icon-grid icons"></i> Projetos</a></li>
+                    <li ng-class="{ active: $state.name == 'orcamentos' }"><a href="/autorizacao-de-servico"><i class="icon-briefcase icons"></i> Aut. de serviço</a></li>
+                    <li ng-class="{ active: $state.name == 'orcamentos' }"><a href="/cte-emitidos"><i class="icon-paper-clip icons"></i> CT-e emitidos</a></li>
+                    <li ng-class="{ active: $state.name == 'relatorios' }"><a href="/relatorios"><i class="icon-pie-chart icons"></i> Relatórios</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- content -->
+        <div class="content">
+            <div class="palco">
+                <!-- <div class="alert alert-danger ng-hide" ng-show="is_error">{{ is_error_text }}</div> -->
+                <div class="yAnimate" ui-view></div>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- global loading -->
+    <div class="global-loading ng-hide" ng-show="is_loading"><i class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></i></div>
+
+    <!-- bootstrap -->
+    <script src="/assets/libs/jquery/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="/assets/libs/bootstrap-4.1.1/js/bootstrap.min.js"></script>
+
+    <!-- Twenn Max -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
+
+    <!-- angular scripts -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.3/angular-animate.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-messages.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.6/ngStorage.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-sanitize.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-toast/2.0.0/ngToast.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngMask/3.1.1/ngMask.min.js"></script>
+
+    <!-- application scripts -->
+    <script src="/app/app-module.js"></script>
+    <script src="/app/app.routes.js"></script>
+
+
+    <!-- shared -->
+    <script src="/app/shared/autentication/authentication.service.js"></script>
+    <script src="/app/shared/services/services.controller.js"></script>
+    <script src="/app/shared/services/services.factory.js"></script>
+
+    <!-- components -->
+    <script src="/app/components/home/index.controller.js"></script>
+    <script src="/app/components/login/index.controller.js"></script>
+
+    <!-- produtos -->
+    <script src="/app/components/produtos/index.controller.js"></script>
+    <script src="/app/components/produtos/gerencia.controller.js"></script>
+
+    <!-- categorias -->
+    <script src="/app/components/categorias/index.controller.js"></script>
+
+    <!-- fornecedores -->
+    <script src="/app/components/fornecedores/index.controller.js"></script>
+
+    <!-- marcas -->
+    <script src="/app/components/marcas/index.controller.js"></script>
+
+    <!-- usuarios -->
+    <script src="/app/components/usuarios/index.controller.js"></script>
+    <script src="/app/components/usuarios/gerencia.controller.js"></script>
+
+    <!-- orcamentos -->
+    <script src="/app/components/orcamentos/index.controller.js"></script>
+
+    <!-- relatorios -->
+    <script src="/app/components/relatorios/index.controller.js"></script>
+
+    <!-- scripts for fake backend -->
+
+    <!-- <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-mocks.js"></script>
+    <script src="/app/shared/fake-backend.js"></script>-->
+
+
+</body>
+</html

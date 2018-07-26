@@ -1,0 +1,73 @@
+<div class="title-page">
+	<div class="row">
+
+		<div class="col-md-8">
+			<h1>Usuários <small>({{ users.config.total }} registros)</small></h1>
+		</div>
+		<div class="col-md-4 text-right">
+			<a href="/usuarios/importar-do-omie" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Importar do OMIE</a>
+			<a href="/usuarios/gerencia" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Cadastrar</a>
+		</div>
+
+	</div>
+</div>
+
+
+
+<div class="box-content">
+
+	<div class="box-subtitle"><h2>Usuários do sistema</h2></div>
+
+	<!-- 
+	<div class="row">
+		<div class="col-md-12">
+
+			<div class="form-group margin-bottom-0">
+				<label>Filtro</label>
+				<input type="text" class="form-control" placeholder="Busca de usuário" ng-model="search_field">
+			</div>
+
+		</div>
+	</div>
+	-->
+
+	<table class="table margin-top-30">
+		<tr ng-repeat="(key, user) in users.results">
+			<td>
+				<strong>{{ user.username }}</strong> <br />
+				<span ng-if="user.person == 'j'">CNPJ: {{ user.cnpj }}</span> 
+				<span ng-if="user.person == 'f'">CPF: {{ user.cpf }}</span> 
+				<br /> 
+				{{ user.email }}
+			</td>
+			<td class="text-capitalize">
+				{{ user.permission }}
+			</td>
+			<td><small>Cadastrado em 10/06/2018</small></td>
+			<td width="150">
+				<div class="buttons-capsule">
+					<a href="/usuarios/gerencia/{{ user.id }}" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger" ng-disabled="logged_user.id == user.id" ng-click="delete_user(user.id)">Excluir</button>
+				</div>
+			</td>
+		</tr>
+
+	</table>
+
+	<!-- pager -->
+	<div class="text-center margin-top-30">
+		<div aria-label="navigation" ng-if="users.config.total_pages > 1" class="d-inline-block">
+		    <ul class="pagination">
+		        <li ng-class="{disabled:users.config.current_page == 1}" class="page-item">
+		            <a href="/usuarios/{{users.config.current_page - 1}}" class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+		        </li>
+		        <li ng-repeat="page in [] | range: users.config.total_pages" ng-class="{active:users.config.current_page == page}" class="page-item">
+		            <a href="/usuarios/{{page}}" class="page-link">{{page}}</a>
+		        </li>                
+		        <li ng-class="{disabled:users.config.current_page == users.config.total_pages}" class="page-item">
+		            <a href="/usuarios/{{ users.config.current_page + 1 }}" class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+		        </li>
+		    </ul>
+		</div>
+	</div>
+
+</div>
