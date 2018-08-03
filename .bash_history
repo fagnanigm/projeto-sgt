@@ -7,3 +7,7 @@ ls
 cd /home
 ls
 exit
+ls
+sudo su
+exit
+sudo su

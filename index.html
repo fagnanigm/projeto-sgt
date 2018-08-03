@@ -84,7 +84,7 @@
                     <li><a href="/usuarios">Usuários</a></li>
                     <li><a href="/configuracoes">Configurações</a></li>
                     <li class="has-dropdown">
-                        <a href="#"><i class="icon-user icons"></i> Nome do usuário <i class="icon-arrow-down icons"></i></a>
+                        <a href="#"><i class="icon-user icons"></i> {{ logged_user.username }} <i class="icon-arrow-down icons"></i></a>
 
                         <ul class="drop-sub-header-menu">
                             <li><a href="/usuarios/visualizar-usuario">Minha conta</a></li>
@@ -180,14 +180,14 @@
     <script src="/app/components/login/index.controller.js"></script>
 
     <!-- produtos -->
-    <script src="/app/components/produtos/index.controller.js"></script>
-    <script src="/app/components/produtos/gerencia.controller.js"></script>
+    <!--- <script src="/app/components/produtos/index.controller.js"></script>
+    <script src="/app/components/produtos/gerencia.controller.js"></script> -->
 
     <!-- categorias -->
     <script src="/app/components/categorias/index.controller.js"></script>
 
     <!-- fornecedores -->
-    <script src="/app/components/fornecedores/index.controller.js"></script>
+    <!-- <script src="/app/components/fornecedores/index.controller.js"></script> -->
 
     <!-- marcas -->
     <script src="/app/components/marcas/index.controller.js"></script>
@@ -195,9 +195,7 @@
     <!-- usuarios -->
     <script src="/app/components/usuarios/index.controller.js"></script>
     <script src="/app/components/usuarios/gerencia.controller.js"></script>
-
-    <!-- orcamentos -->
-    <script src="/app/components/orcamentos/index.controller.js"></script>
+    <script src="/app/components/usuarios/visualizaController.js"></script>
 
     <!-- relatorios -->
     <script src="/app/components/relatorios/index.controller.js"></script>

@@ -76,20 +76,15 @@
                 controller: 'Usuarios.IndexController',
                 controllerAs: 'vm'
             })
-            .state('usuarios-paged', {
-                url: '/usuarios/{page}?queryString',
-                templateUrl: 'app/components/usuarios/index.view.html',
-                controller: 'Usuarios.IndexController',
-                controllerAs: 'vm'
-            })
-            .state('insert-usuario', {
-                url: '/usuarios/gerencia',
+            
+            .state('edit-usuario', {
+                url: '/usuarios/gerencia/{id_user}?queryString',
                 templateUrl: 'app/components/usuarios/gerencia.view.html',
                 controller: 'Usuarios.GerenciaController',
                 controllerAs: 'vm'
             })
-            .state('edit-usuario', {
-                url: '/usuarios/gerencia/{id_user}?queryString',
+            .state('insert-usuario', {
+                url: '/usuarios/gerencia',
                 templateUrl: 'app/components/usuarios/gerencia.view.html',
                 controller: 'Usuarios.GerenciaController',
                 controllerAs: 'vm'
@@ -103,13 +98,19 @@
             .state('visualizar-usuario', {
                 url: '/usuarios/visualizar-usuario',
                 templateUrl: 'app/components/usuarios/visualizar.view.html',
-                controller: 'Usuarios.GerenciaController',
+                controller: 'Usuarios.VisualizaController',
                 controllerAs: 'vm'
             })
             .state('alterar-senha-usuario', {
                 url: '/usuarios/alterar-senha',
                 templateUrl: 'app/components/usuarios/alterar-senha.view.html',
                 controller: 'Usuarios.GerenciaController',
+                controllerAs: 'vm'
+            })
+            .state('usuarios-paged', {
+                url: '/usuarios/{page}?queryString',
+                templateUrl: 'app/components/usuarios/index.view.html',
+                controller: 'Usuarios.IndexController',
                 controllerAs: 'vm'
             })
 

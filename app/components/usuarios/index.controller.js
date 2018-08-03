@@ -11,7 +11,11 @@
 
         $scope.currentPage = ($rootScope.$state.name == 'usuarios-paged' ? $rootScope.$stateParams.page : '1' );
 
+
+
         $scope.get_users = function(){
+
+            $rootScope.is_loading = true;
 
         	$http.get('/api/public/users/get?current_page='+$scope.currentPage).then(function (response) {
 
@@ -31,12 +35,12 @@
         $rootScope.is_loading = true;
         $scope.get_users();
 
-        /*
-        vm.delete_user = function(id){
+    
+        $scope.delete_user = function(id){
             if(confirm("Deseja excluir esse usuário?")){
                 $rootScope.is_loading = true;
-                $http.post('http://model.exodocientifica.com.br/usuarios/remove',{ id : id }).then(function (response) {
-                    get_users();
+                $http.post('/api/public/users/delete',{ id : id }).then(function (response) {
+                    $scope.get_users();
 
                     ngToast.create({
                         className: 'success',
@@ -52,7 +56,7 @@
             }
         }
 
-        */
+    
 
     }
 

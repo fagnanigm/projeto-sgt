@@ -8,7 +8,7 @@
         .factory('PagerService', PagerService)
         .filter('range', rangeService);
 
-    function run($rootScope, $http, $location, $localStorage, $state, $stateParams,AuthenticationService) {
+    function run($rootScope, $http, $location, $localStorage, $state, $stateParams,AuthenticationService, GlobalServices) {
 
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
@@ -23,22 +23,20 @@
         
         if ($localStorage.currentUser) {
             $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
-            $rootScope.is_logged = true;
         }else{
             $rootScope.is_logged = false;
         }
         
         // redirect to login page if not logged in and trying to access a restricted page
         $rootScope.$on('$locationChangeStart', function (event, next, current) {
-
-            /*
+            
             var publicPages = ['/login'];
             var restrictedPage = publicPages.indexOf($location.path()) === -1;
             if (restrictedPage && !$localStorage.currentUser) {
                 $location.path('/');
             }else{  
                 $rootScope.is_loading = true;
-                $http.post("http://model.exodocientifica.com.br/token/persist",{ token : $localStorage.currentUser.token }).then(function (response) {
+                $http.get("/api/public/users/get/"+$localStorage.currentUser.id,).then(function (response) {
                     
                     if(!response.data.result){
                         AuthenticationService.Logout();
@@ -46,10 +44,17 @@
                     }else{
                         $rootScope.is_loading = false;
                         $rootScope.logged_user = response.data.user;
+                        $rootScope.is_logged = true;
+
+                        // Converte algumas informações
+                        $rootScope.logged_user.phone1 = GlobalServices.phone_parser({ ddd : $rootScope.logged_user.ddd_phone_01, number : $rootScope.logged_user.phone_01 }, 'implode');
+                        $rootScope.logged_user.phone2 = GlobalServices.phone_parser({ ddd : $rootScope.logged_user.ddd_phone_02, number : $rootScope.logged_user.phone_02 }, 'implode');
+
+                        console.log($rootScope.logged_user);
                     }
                 });
             }
-            */
+            
         });
 
         // Refresh state name
