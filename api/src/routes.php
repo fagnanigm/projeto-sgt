@@ -16,6 +16,8 @@ $app->get('/[{name}]', function ($request, $response, array $args) {
 });
 
 
-
 // USERS 
 require 'routes/users/users.php';
+
+// EMPRESAS
+require 'routes/empresas/empresas.php';
