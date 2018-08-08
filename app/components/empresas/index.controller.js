@@ -19,8 +19,7 @@
 
                 $scope.empresas = response.data;
                 $scope.empresas.config.current_page = parseInt($scope.empresas.config.current_page);
-                console.log($scope.empresas);
-                
+
 			}, function(response) {
 				$rootScope.is_error = true;
 				$rootScope.is_error_text = "Erro: " + response.data.error;

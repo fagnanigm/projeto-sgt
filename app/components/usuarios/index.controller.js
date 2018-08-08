@@ -21,8 +21,7 @@
 
                 $scope.users = response.data;
                 $scope.users.config.current_page = parseInt($scope.users.config.current_page);
-                console.log($scope.users);
-                
+
 			}, function(response) {
 				$rootScope.is_error = true;
 				$rootScope.is_error_text = "Erro: " + response.data.error;

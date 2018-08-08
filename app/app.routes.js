@@ -326,7 +326,7 @@
             .state('configuracoes', {
                 url: '/configuracoes',
                 templateUrl: 'app/components/configuracoes/index.view.html',
-                controller: 'Relatorios.IndexController',
+                controller: 'Configuracoes.IndexController',
                 controllerAs: 'vm'
             });
     }
