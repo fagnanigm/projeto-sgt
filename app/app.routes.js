@@ -21,13 +21,31 @@
             .state('select-empresa', {
                 url: '/seleciona-empresa',
                 templateUrl: 'app/components/empresas/seleciona-empresa.view.html',
-                controller: 'Home.IndexController',
+                controller: 'Empresas.SelectController',
                 controllerAs: 'vm'
             })
             .state('insert-empresa', {
                 url: '/cadastrar-empresa',
                 templateUrl: 'app/components/empresas/cadastro-empresa.view.html',
-                controller: 'Home.IndexController',
+                controller: 'Empresas.GerenciaController',
+                controllerAs: 'vm'
+            })
+            .state('update-empresa', {
+                url: '/empresas/gerencia/{id_empresa}?queryString',
+                templateUrl: 'app/components/empresas/cadastro-empresa.view.html',
+                controller: 'Empresas.GerenciaController',
+                controllerAs: 'vm'
+            })
+            .state('empresas', {
+                url: '/empresas',
+                templateUrl: 'app/components/empresas/index.view.html',
+                controller: 'Empresas.IndexController',
+                controllerAs: 'vm'
+            })
+            .state('empresas-paged', {
+                url: '/empresas/{page}?queryString',
+                templateUrl: 'app/components/empresas/index.view.html',
+                controller: 'Empresas.IndexController',
                 controllerAs: 'vm'
             })
 

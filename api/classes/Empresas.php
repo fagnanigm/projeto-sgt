@@ -139,29 +139,46 @@ class Empresas {
 
 		$response = array();
 
+		$args['getall'] = (isset($args['getall']) ? $args['getall'] : false);
+
 		// Count total
 		$selectStatement = $this->db->select(array('COUNT(*) AS total'))->from('empresas')->where('active','=','Y');
 		$stmt = $selectStatement->execute();
 		$total_data = $stmt->fetch();
 
-		$config = array(
-			'total' => $total_data['total'],
-			'item_per_page' => $this->item_per_page,
-			'total_pages' => ceil($total_data['total'] / $this->item_per_page),
-			'current_page' => (isset($args['current_page']) ? $args['current_page'] : 1 )
-		);
+		if($args['getall'] == '1'){
 
-		$response['config'] = $config;
+			$config = array(
+				'total' => $total_data['total'],
+			);
 
-		if($config['current_page'] <= $config['total_pages']){
+			$response['config'] = $config;
 
-			$offset = ($config['current_page'] == '1' ? 0 : ($config['current_page'] - 1) * $config['item_per_page'] );
-			$select = $this->db->query('SELECT * FROM empresas WHERE active = \'Y\' ORDER BY create_time OFFSET '.$offset.' ROWS FETCH NEXT '.$config['item_per_page'].' ROWS ONLY');
+			$select = $this->db->query('SELECT * FROM empresas WHERE active = \'Y\' ORDER BY create_time');
 			$response['results'] = $this->parser_fecth($select->fetchAll(\PDO::FETCH_ASSOC),'all');
-			$response['config']['page_items_total'] = count($response['results']);
 
 		}else{
-			$response['results'] = [];
+
+			$config = array(
+				'total' => $total_data['total'],
+				'item_per_page' => $this->item_per_page,
+				'total_pages' => ceil($total_data['total'] / $this->item_per_page),
+				'current_page' => (isset($args['current_page']) ? $args['current_page'] : 1 )
+			);
+
+			$response['config'] = $config;
+
+			if($config['current_page'] <= $config['total_pages']){
+
+				$offset = ($config['current_page'] == '1' ? 0 : ($config['current_page'] - 1) * $config['item_per_page'] );
+				$select = $this->db->query('SELECT * FROM empresas WHERE active = \'Y\' ORDER BY create_time OFFSET '.$offset.' ROWS FETCH NEXT '.$config['item_per_page'].' ROWS ONLY');
+				$response['results'] = $this->parser_fecth($select->fetchAll(\PDO::FETCH_ASSOC),'all');
+				$response['config']['page_items_total'] = count($response['results']);
+
+			}else{
+				$response['results'] = [];
+			}
+
 		}
 
 		return $response;

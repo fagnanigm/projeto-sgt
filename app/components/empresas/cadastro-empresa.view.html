@@ -2,145 +2,153 @@
 
 <div class="box-content">
 
-	<div class="row">
-		<div class="col-md-6">
+	<form ng-submit="vm.setEmpresa()">
 
-			<div class="row">
-				<div class="col-md-12">
-					<div class="form-group">
-						<label for="id">Nome da empresa</label>
-						<input type="text" class="form-control" id="id">
-					</div>
-				</div>
-				<div class="col-md-12">
-					<div class="form-group">
-						<label for="id">Responsável</label>
-						<input type="text" class="form-control" id="id">
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="id">E-mail</label>
-						<input type="text" class="form-control" id="id">
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="id">Telefone</label>
-						<input type="text" class="form-control" id="id">
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="id">CNPJ</label>
-						<input type="text" class="form-control" id="id">
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="id">I.E</label>
-						<input type="text" class="form-control" id="id">
-					</div>
-				</div>
-				<div class="col-md-12">
-					<div class="form-group">
-						<label for="id">Logotipo</label>
-						<input type="file" class="form-control" id="id">
-					</div>
-				</div>
-			</div>
+		<div class="row">
+			<div class="col-md-6">
 
-		</div>
-		<div class="col-md-6">
-
-			<div class="row">
-
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="id">CEP</label>
-						<input type="text" class="form-control" id="id">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="nome">Nome da empresa*</label>
+							<input type="text" class="form-control" id="nome" ng-model="empresa.empresa_name" required placeholder="Nome da empresa">
+						</div>
 					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="id">Logradouro</label>
-						<input type="text" class="form-control" id="id">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="responsavel">Responsável</label>
+							<input type="text" class="form-control" id="responsavel" ng-model="empresa.empresa_responsavel" placeholder="Responsável">
+						</div>
 					</div>
-				</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="email">E-mail</label>
+							<input type="text" class="form-control" id="email" ng-model="empresa.empresa_email" placeholder="E-mail">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="telefone">Telefone</label>
+							<input type="text" class="form-control" id="telefone" ng-model="empresa.phone1" placeholder="Telefone" mask="(99) 9?9999-9999">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="cnpj">CNPJ*</label>
+							<input type="text" class="form-control" id="cnpj" ng-model="empresa.empresa_cnpj" placeholder="CNPJ" mask="99.999.999/9999-99" required>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="ie">I.E</label>
+							<input type="text" class="form-control" id="ie" ng-model="empresa.empresa_ie" placeholder="Inscrição Estadual" mask="999.999.999.999">
+						</div>
+					</div>
 
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="id">Número</label>
-						<input type="text" class="form-control" id="id">
+					<!-- 
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="id">Logotipo</label>
+							<input type="file" class="form-control" id="id">
+						</div>
 					</div>
-				</div>
+					-->
 
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="id">Complemento</label>
-						<input type="text" class="form-control" id="id">
-					</div>
-				</div>
-
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="id">Bairro</label>
-						<input type="text" class="form-control" id="id">
-					</div>
-				</div>
-
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="id">Cidade</label>
-						<input type="text" class="form-control" id="id">
-					</div>
-				</div>
-
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="id">Estado</label>
-						<select class="form-control">
-							<option>Selecione...</option>
-							<option value="AC">Acre</option>
-							<option value="AL">Alagoas</option>
-							<option value="AP">Amapá</option>
-							<option value="AM">Amazonas</option>
-							<option value="BA">Bahia</option>
-							<option value="CE">Ceará</option>
-							<option value="DF">Distrito Federal</option>
-							<option value="ES">Espírito Santo</option>
-							<option value="GO">Goiás</option>
-							<option value="MA">Maranhão</option>
-							<option value="MT">Mato Grosso</option>
-							<option value="MS">Mato Grosso do Sul</option>
-							<option value="MG">Minas Gerais</option>
-							<option value="PA">Pará</option>
-							<option value="PB">Paraíba</option>
-							<option value="PR">Paraná</option>
-							<option value="PE">Pernambuco</option>
-							<option value="PI">Piauí</option>
-							<option value="RJ">Rio de Janeiro</option>
-							<option value="RN">Rio Grande do Norte</option>
-							<option value="RS">Rio Grande do Sul</option>
-							<option value="RO">Rondônia</option>
-							<option value="RR">Roraima</option>
-							<option value="SC">Santa Catarina</option>
-							<option value="SP">São Paulo</option>
-							<option value="SE">Sergipe</option>
-							<option value="TO">Tocantins</option>
-						</select>
-					</div>
 				</div>
 
 			</div>
+			<div class="col-md-6">
+
+				<div class="row">
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="cep">CEP</label>
+							<input type="text" class="form-control" id="cep" ng-model="empresa.empresa_cep" placeholder="CEP" mask="99999-999">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="logradouro">Logradouro</label>
+							<input type="text" class="form-control" id="logradouro" ng-model="empresa.empresa_logradouro" placeholder="Logradouro">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="numero">Número</label>
+							<input type="text" class="form-control" id="numero" ng-model="empresa.empresa_numero" placeholder="Número">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="complemento">Complemento</label>
+							<input type="text" class="form-control" id="complemento" ng-model="empresa.empresa_complemento" placeholder="Complemento">
+						</div> 
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="bairro">Bairro</label>
+							<input type="text" class="form-control" id="bairro" ng-model="empresa.empresa_bairro" placeholder="Bairro">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="cidade">Cidade</label>
+							<input type="text" class="form-control" id="cidade" ng-model="empresa.empresa_cidade" placeholder="Cidade">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="estado">Estado</label>
+							<select class="form-control" ng-model="empresa.empresa_estado">
+								<option value="0">Selecione...</option>
+								<option value="AC">Acre</option>
+								<option value="AL">Alagoas</option>
+								<option value="AP">Amapá</option>
+								<option value="AM">Amazonas</option>
+								<option value="BA">Bahia</option>
+								<option value="CE">Ceará</option>
+								<option value="DF">Distrito Federal</option>
+								<option value="ES">Espírito Santo</option>
+								<option value="GO">Goiás</option>
+								<option value="MA">Maranhão</option>
+								<option value="MT">Mato Grosso</option>
+								<option value="MS">Mato Grosso do Sul</option>
+								<option value="MG">Minas Gerais</option>
+								<option value="PA">Pará</option>
+								<option value="PB">Paraíba</option>
+								<option value="PR">Paraná</option>
+								<option value="PE">Pernambuco</option>
+								<option value="PI">Piauí</option>
+								<option value="RJ">Rio de Janeiro</option>
+								<option value="RN">Rio Grande do Norte</option>
+								<option value="RS">Rio Grande do Sul</option>
+								<option value="RO">Rondônia</option>
+								<option value="RR">Roraima</option>
+								<option value="SC">Santa Catarina</option>
+								<option value="SP">São Paulo</option>
+								<option value="SE">Sergipe</option>
+								<option value="TO">Tocantins</option>
+							</select>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>	
+
+		<div class="cadastro-footer margin-top-25">
+			<a href="/empresas" class="btn btn-danger">Cancelar</a>
+			<button type="submit" class="btn btn-success">Cadastrar</button>
 
 		</div>
-	</div>	
 
-	<div class="cadastro-footer margin-top-25">
-		<a href="/seleciona-empresa" class="btn btn-danger">Cancelar</a>
-		<a href="/seleciona-empresa" class="btn btn-success">Cadastrar</a>
-
-	</div>
+	</form>
 
 </div>

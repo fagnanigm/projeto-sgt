@@ -82,6 +82,7 @@
                 </div>
                 <ul class="sub-header-menu">
                     <li><a href="/usuarios">Usuários</a></li>
+                    <li><a href="/empresas">Empresas</a></li>
                     <li><a href="/configuracoes">Configurações</a></li>
                     <li class="has-dropdown">
                         <a href="#"><i class="icon-user icons"></i> {{ logged_user.username }} <i class="icon-arrow-down icons"></i></a>
@@ -95,13 +96,25 @@
                     </li>
                 </ul>
             </div>
+
+
             <div class="context-bar">
-                <ul>
+
+                <ul ng-if="gl.is_empresa_selected()">
                     <li>Empresa selecionada</li>
-                    <li><img src="/assets/img/logo.jpg"></li>
+                    <!-- <li><img src="/assets/img/logo.jpg"></li> -->
+                    <li><strong>{{ selectedEmpresa.empresa_name }}</strong></li>
                     <li><a href="/seleciona-empresa" class="btn btn-sm btn-outline-secondary">Alterar</a></li>
                 </ul>
+
+                <ul ng-if="!gl.is_empresa_selected()">
+                    <li>Empresa selecionada</li>
+                    <li><strong>Nenhuma empresa selecionada</strong></li>
+                    <li><a href="/seleciona-empresa" class="btn btn-sm btn-outline-success">Selecionar</a></li>
+                </ul>
             </div>
+
+
         </div>
 
         <!-- Context -->
@@ -111,8 +124,8 @@
         <!-- menu -->
         <div class="menu">
 
-            <div class="box-menu">
-                <ul>
+            <div class="box-menu" >
+                <ul ng-if="gl.is_empresa_selected()">
                     <li ng-class="{ active: $state.name == 'dashboard' }"><a href="/dashboard"><i class="icon-home"></i> Dashboard</a></li>
                     <li class="heading">
                         <h3 class="uppercase">Cadastros</h3>
@@ -130,7 +143,13 @@
                     <li ng-class="{ active: $state.name == 'orcamentos' }"><a href="/cte-emitidos"><i class="icon-paper-clip icons"></i> CT-e emitidos</a></li>
                     <li ng-class="{ active: $state.name == 'relatorios' }"><a href="/relatorios"><i class="icon-pie-chart icons"></i> Relatórios</a></li>
                 </ul>
-            </div>
+
+                <div class="box-menu-empty" ng-if="!gl.is_empresa_selected()">
+                    <p>Por favor, selecione uma empresa.</p>
+                </div>
+
+            </div>            
+
         </div>
 
         <!-- content -->
@@ -169,7 +188,6 @@
     <script src="/app/app-module.js"></script>
     <script src="/app/app.routes.js"></script>
 
-
     <!-- shared -->
     <script src="/app/shared/autentication/authentication.service.js"></script>
     <script src="/app/shared/services/services.controller.js"></script>
@@ -196,6 +214,11 @@
     <script src="/app/components/usuarios/index.controller.js"></script>
     <script src="/app/components/usuarios/gerencia.controller.js"></script>
     <script src="/app/components/usuarios/visualizaController.js"></script>
+
+    <!-- empresas -->
+    <script src="/app/components/empresas/select.controller.js"></script>
+    <script src="/app/components/empresas/gerencia.controller.js"></script>
+    <script src="/app/components/empresas/index.controller.js"></script>
 
     <!-- relatorios -->
     <script src="/app/components/relatorios/index.controller.js"></script>

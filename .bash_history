@@ -11,3 +11,16 @@ ls
 sudo su
 exit
 sudo su
+ls
+cd api 
+ls
+cd src
+ls
+cd routes
+ls
+cd ../
+ls
+cd ../
+ls
+cd ../
+sudo su -

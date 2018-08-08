@@ -36,7 +36,7 @@
                 $location.path('/');
             }else{  
                 $rootScope.is_loading = true;
-                $http.get("/api/public/users/get/"+$localStorage.currentUser.id,).then(function (response) {
+                $http.get("/api/public/users/get/"+$localStorage.currentUser.id ).then(function (response) {
                     
                     if(!response.data.result){
                         AuthenticationService.Logout();
@@ -50,7 +50,6 @@
                         $rootScope.logged_user.phone1 = GlobalServices.phone_parser({ ddd : $rootScope.logged_user.ddd_phone_01, number : $rootScope.logged_user.phone_01 }, 'implode');
                         $rootScope.logged_user.phone2 = GlobalServices.phone_parser({ ddd : $rootScope.logged_user.ddd_phone_02, number : $rootScope.logged_user.phone_02 }, 'implode');
 
-                        console.log($rootScope.logged_user);
                     }
                 });
             }

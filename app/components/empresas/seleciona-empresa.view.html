@@ -1,57 +1,14 @@
 <h1 class="title-page">Selecione a empresa abaixo</h1>
 
 <div class="empresas-lista">
-	<div class="box-content margin-bottom-25">
+
+	<div class="box-content margin-bottom-25" ng-repeat="(key, val) in empresas.results">
 
 		<ul class="empresa-info">
-			<li><img src="/assets/img/logo.jpg" width="170"></li>
-			<li><strong>Cruz de malta</strong></li>
+			<!-- <li><img src="/assets/img/logo.jpg" width="170"></li> -->
+			<li><strong>{{ val.empresa_name }}</strong></li>
 			<li>Cadastrado em 10/06/2018</li>
-			<li><a href="/dashboard" class="btn btn-primary">Selecionar</a></li>
-		</ul>
-
-	</div>
-
-	<div class="box-content margin-bottom-25">
-
-		<ul class="empresa-info">
-			<li><img src="/assets/img/logo.jpg" width="170"></li>
-			<li><strong>Cruz de malta</strong></li>
-			<li>Cadastrado em 10/06/2018</li>
-			<li><a href="/dashboard" class="btn btn-primary">Selecionar</a></li>
-		</ul>
-
-	</div>
-
-	<div class="box-content margin-bottom-25">
-
-		<ul class="empresa-info">
-			<li><img src="/assets/img/logo.jpg" width="170"></li>
-			<li><strong>Cruz de malta</strong></li>
-			<li>Cadastrado em 10/06/2018</li>
-			<li><a href="/dashboard" class="btn btn-primary">Selecionar</a></li>
-		</ul>
-
-	</div>
-
-	<div class="box-content margin-bottom-25">
-
-		<ul class="empresa-info">
-			<li><img src="/assets/img/logo.jpg" width="170"></li>
-			<li><strong>Cruz de malta</strong></li>
-			<li>Cadastrado em 10/06/2018</li>
-			<li><a href="/dashboard" class="btn btn-primary">Selecionar</a></li>
-		</ul>
-
-	</div>
-
-	<div class="box-content margin-bottom-25">
-
-		<ul class="empresa-info">
-			<li><img src="/assets/img/logo.jpg" width="170"></li>
-			<li><strong>Cruz de malta</strong></li>
-			<li>Cadastrado em 10/06/2018</li>
-			<li><a href="/dashboard" class="btn btn-primary">Selecionar</a></li>
+			<li><a href="#" ng-click="setEmpresaContext(key)" class="btn btn-primary">Selecionar</a></li>
 		</ul>
 
 	</div>
