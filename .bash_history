@@ -24,3 +24,4 @@ cd ../
 ls
 cd ../
 sudo su -
+sudo su

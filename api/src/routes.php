@@ -24,3 +24,6 @@ require 'routes/empresas/empresas.php';
 
 // CONFIGURAÇÕES
 require 'routes/configuracoes/configuracoes.php';
+
+// CLIENTES
+require 'routes/clientes/clientes.php';
