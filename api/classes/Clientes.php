@@ -182,9 +182,9 @@ class Clientes {
 			$cliente[$key] = trim($field);
 		}
 		if($cliente['cliente_person'] == 'f'){
-			$cliente['cliente_cpf'] = (strlen($cliente['cliente_cpf']) > 0 ? Utilities::mask($cliente['cpf'],'###.###.###-##') : '');
+			$cliente['cliente_cpf'] = (strlen($cliente['cliente_cpf']) > 0 ? Utilities::mask($cliente['cliente_cpf'],'###.###.###-##') : '');
 		}else{
-			$cliente['cliente_cnpj'] = (strlen($cliente['cliente_cnpj']) > 0 ? Utilities::mask($cliente['cnpj'],'##.###.###/####-##') : '');
+			$cliente['cliente_cnpj'] = (strlen($cliente['cliente_cnpj']) > 0 ? Utilities::mask($cliente['cliente_cnpj'],'##.###.###/####-##') : '');
 		}
 		return $cliente;
 	}

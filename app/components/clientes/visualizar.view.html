@@ -2,82 +2,79 @@
 
 <div class="box-content">
 
-	<form ng-submit="vm.setUser()">
+	<div class="box-subtitle">
+		<h2>Cliente #{{ cliente.id }}</h2>
+	</div>
 
-		<div class="box-subtitle">
-			<h2>Cliente #123</h2>
-		</div>
+	<div class="row">
+		<div class="col-md-6">
 
-		<div class="row">
-			<div class="col-md-6">
-
-				<div class="form-group">
-					Pessoa física
-				</div>
-
-				<div class="form-group">
-					<label for="responsavel">Responsável</label>
-					<p>Nome do usuário</p>
-				</div>
-
-				<div class="row">
-					<div class="col-md-6">
-
-						<div class="form-group">
-							<label for="responsavel">E-mail</label>
-							<p>teste@teste.com.br</p>
-						</div>
-						
-					</div>
-					<div class="col-md-6">
-
-						<div class="form-group">
-							<label for="cpf">CPF</label>
-							<p>123.345.678-9</p>
-						</div>
-
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-6">
-
-						<div class="form-group">
-							<label for="telefone">Telefone</label>
-							<p>(19) 99999-9999</p>
-						</div>
-
-					</div>
-					<div class="col-md-6">
-
-						<div class="form-group">
-							<label for="celular">Celular</label>
-							<p>(19) 99999-9999</p>
-						</div>
-
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-6">
-
-						<div class="form-group">
-							<label for="type">Tipo</label>
-							<p>Administrador</p>
-						</div>
-
-					</div>
-				</div>
-
+			<div class="form-group">
+				<strong>{{ cliente.cliente_person == 'j' ? 'Pessoa jurídica' : 'Pessoa física' }}</strong>
 			</div>
-			
+
+			<div class="form-group">
+				<label for="responsavel">Nome do cliente</label>
+				<p>{{ cliente.cliente_nome }}</p>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6">
+
+					<div class="form-group">
+						<label for="responsavel">E-mail</label>
+						<p>{{ cliente.cliente_email }}</p>
+					</div>
+					
+				</div>
+				<div class="col-md-6">
+
+					<div class="form-group" ng-if="cliente.cliente_person == 'f'">
+						<label for="cpf">CPF</label>
+						<p>{{ cliente.cliente_cpf }}</p>
+					</div>
+
+					<div class="form-group" ng-if="cliente.cliente_person == 'j'">
+						<label for="cpf">CNPJ</label>
+						<p>{{ cliente.cliente_cnpj }}</p>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6">
+
+					<div class="form-group">
+						<label for="telefone">Telefone</label>
+						<p>({{ cliente.cliente_phone_01_ddd }}) {{ cliente.cliente_phone_01 }}</p>
+					</div>
+
+				</div>
+				<div class="col-md-6">
+
+					
+
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6">
+
+					<div class="form-group">
+						<label for="type">Origem</label>
+						<p class="text-capitalize">{{ cliente.cliente_origem }}</p>
+					</div>
+
+				</div>
+			</div>
+
 		</div>
+		
+	</div>
 
-		<div class="cadastro-footer margin-top-25">
-			<a href="/clientes" class="btn btn-primary"><i class="icon-arrow-left icons"></i> Voltar</a>
-		</div>
-
-
-	</form>
+	<div class="cadastro-footer margin-top-25">
+		<a href="/clientes" class="btn btn-primary"><i class="icon-arrow-left icons"></i> Voltar</a>
+	</div>
 
 </div>

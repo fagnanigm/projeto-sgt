@@ -2,7 +2,7 @@
 	<div class="row">
 
 		<div class="col-md-8">
-			<h1>Clientes <small>(1879 registros)</small></h1>
+			<h1>Clientes <small>({{ clientes.config.total }} registros)</small></h1>
 		</div>
 		<div class="col-md-4 text-right">
 			<a href="/clientes/importar-do-omie" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Importar do OMIE</a>
@@ -17,6 +17,8 @@
 
 	<div class="box-subtitle"><h2>Listagem dos clientes</h2></div>
 
+	<!--
+
 	<div class="row">
 		<div class="col-md-12">
 
@@ -28,66 +30,39 @@
 		</div>
 	</div>
 
+	-->
+
 	<table class="table margin-top-30">
-		<tr>
+		<tr ng-repeat="(key, val) in clientes.results">
 			<td>
-				<strong>Cliente de teste</strong> <br />
-				<span>CNPJ: 61.498.035/0001-97</span> <br /> 
+				<strong>{{ val.cliente_nome }}</strong><br />
+				<span>{{ val.cliente_person == 'f' ? val.cliente_cpf : val.cliente_cnpj }}</span>
 			</td>
 			<td>
-				email@teste.com.br
+				{{ val.cliente_email }}
 			</td>
 			<td><small>Cadastrado em 10/06/2018</small></td>
 			<td width="180">
 				<div class="buttons-capsule">
-					<a href="/clientes/visualizar" class="btn btn-sm btn-primary">Visualizar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
+					<a href="/clientes/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><button href="#" ng-click="delete_cliente(val.id)" class="btn btn-sm btn-danger">Excluir</button>
 				</div>
 			</td>
 		</tr>
-		<tr>
-			<td>
-				<strong>Cliente de teste</strong> <br />
-				<span>CNPJ: 61.498.035/0001-97</span> <br /> 
-			</td>
-			<td>
-				email@teste.com.br
-			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
-			<td width="180">
-				<div class="buttons-capsule">
-					<a href="/clientes/visualizar" class="btn btn-sm btn-primary">Visualizar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<strong>Cliente de teste</strong> <br />
-				<span>CNPJ: 61.498.035/0001-97</span> <br /> 
-			</td>
-			<td>
-				email@teste.com.br
-			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
-			<td width="180">
-				<div class="buttons-capsule">
-					<a href="/clientes/visualizar" class="btn btn-sm btn-primary">Visualizar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
-				</div>
-			</td>
-		</tr>
+		
 	</table>
 
 	<!-- pager -->
 	<div class="text-center margin-top-30">
-		<div aria-label="navigation" ng-if="vm.pager.pages.length && ( search_field == null || search_field.length == 0) " class="d-inline-block">
+		<div aria-label="navigation" ng-if="clientes.config.total_pages > 1" class="d-inline-block">
 		    <ul class="pagination">
-		        <li ng-class="{disabled:vm.pager.currentPage === 1}" class="page-item">
-		            <a ng-click="vm.setPage(vm.pager.currentPage - 1)" class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+		        <li ng-class="{disabled:clientes.config.current_page == 1}" class="page-item">
+		            <a href="/clientes/{{clientes.config.current_page - 1}}" class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
 		        </li>
-		        <li ng-repeat="page in vm.pager.pages" ng-class="{active:vm.pager.currentPage === page}" class="page-item">
-		            <a ng-click="vm.setPage(page)" class="page-link">{{page}}</a>
+		        <li ng-repeat="page in [] | range: clientes.config.total_pages | limitTo:10" ng-class="{active:clientes.config.current_page == page}" class="page-item">
+		            <a href="/clientes/{{page}}" class="page-link">{{page}}</a>
 		        </li>                
-		        <li ng-class="{disabled:vm.pager.currentPage === vm.pager.totalPages}" class="page-item">
-		            <a ng-click="vm.setPage(vm.pager.currentPage + 1)" class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+		        <li ng-class="{disabled:clientes.config.current_page == clientes.config.total_pages}" class="page-item">
+		            <a href="/clientes/{{ clientes.config.current_page + 1 }}" class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
 		        </li>
 		    </ul>
 		</div>

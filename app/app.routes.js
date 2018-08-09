@@ -143,12 +143,18 @@
             .state('importar-cliente', {
                 url: '/clientes/importar-do-omie',
                 templateUrl: 'app/components/clientes/importar.view.html',
-                controller: 'Clientes.IndexController',
+                controller: 'Importar.IndexController',
                 controllerAs: 'vm'
             })
             .state('visualizar-cliente', {
-                url: '/clientes/visualizar',
+                url: '/clientes/visualizar/{id_cliente}?queryString',
                 templateUrl: 'app/components/clientes/visualizar.view.html',
+                controller: 'Clientes.VisualizarController',
+                controllerAs: 'vm'
+            })
+            .state('clientes-paged', {
+                url: '/clientes/{page}?queryString',
+                templateUrl: 'app/components/clientes/index.view.html',
                 controller: 'Clientes.IndexController',
                 controllerAs: 'vm'
             })

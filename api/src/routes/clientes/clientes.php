@@ -12,7 +12,7 @@ $app->post('/clientes/insert', function (Request $request, Response $response, a
 });
 
 $app->get('/clientes/get', function (Request $request, Response $response, array $args) {
-	$clientes = new Clientes($this->db);
+	$clientes = new Clientes($this->db, 10);
 	$data = $clientes->get($request->getParams());
 	return $response->withJson($data);
 });

@@ -10,9 +10,19 @@
 	<div class="row">
 		<div class="col-md-6">
 
-			<button type="submit" class="btn btn-success">Iniciar importação</button>
+			<button type="button" ng-click="importar()" class="btn btn-success">Iniciar importação</button>
 
-			<p class="margin-top-20 text-success"><strong>1845</strong> clientes foram importados com sucesso.</p>
+			<div class="card margin-top-30" ng-if="import">
+				<div class="card-header">
+					<strong>Resultados</strong>
+				</div>
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item"><strong>{{ import.config.total_data }}</strong> Itens encontrados</li>
+					<li class="list-group-item text-success"><strong>{{ import.config.count_insert }}</strong> Itens inseridos</li>
+					<li class="list-group-item text-danger"><strong>{{ import.config.count_error }}</strong> Itens com erro</li>
+					<li class="list-group-item text-warning"><strong>{{ import.config.count_repeats }}</strong> Itens repeatidos na base de dados.</li>
+				</ul>
+			</div>
 
 		</div>
 	</div>
