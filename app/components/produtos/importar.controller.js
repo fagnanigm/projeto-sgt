@@ -3,7 +3,7 @@
 
     angular
         .module('app')
-        .controller('Importar.IndexController', Controller);
+        .controller('Produtos.ImportController', Controller);
 
     function Controller($rootScope,$scope,$http,$location,ngToast,$localStorage) {
 

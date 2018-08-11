@@ -81,7 +81,7 @@
             .state('importar-produto', {
                 url: '/produtos/importar-do-omie',
                 templateUrl: 'app/components/produtos/importar.view.html',
-                controller: 'Importar.IndexController',
+                controller: 'Produtos.ImportController',
                 controllerAs: 'vm'
             })
             .state('produtos-paged', {
@@ -149,7 +149,7 @@
             .state('importar-cliente', {
                 url: '/clientes/importar-do-omie',
                 templateUrl: 'app/components/clientes/importar.view.html',
-                controller: 'Importar.IndexController',
+                controller: 'Clientes.ImportController',
                 controllerAs: 'vm'
             })
             .state('visualizar-cliente', {
