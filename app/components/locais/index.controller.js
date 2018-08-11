@@ -3,66 +3,47 @@
 
     angular
         .module('app')
-        .controller('Produtos.IndexController', Controller);
+        .controller('Locais.IndexController', Controller);
 
-    function Controller($rootScope,$scope,$http,ngToast, PagerService) {
-        var vm = this;
+    function Controller($rootScope,$scope,$http,$location,ngToast,$localStorage) {
+        
+        $scope.locais = {};
 
-        vm.pager = {};
-        vm.setPage = setPage;
-        vm.paged_num = 8;
-        vm.old_items = [];
+        $scope.currentPage = ($rootScope.$state.name == 'locais-paged' ? $rootScope.$stateParams.page : '1' );
 
-        vm.products = [];
+        $scope.get_locais = function(){
 
-        initController();
+            $rootScope.is_loading = true;
 
-        $scope.$watch('search_field', function() {
-            if($scope.search_field == null || $scope.search_field.length == 0){
-                vm.items = vm.old_items;
-                vm.old_items = [];
-            }else{
-                if(vm.old_items.length == 0){
-                    vm.old_items = vm.items;
-                }
-                vm.items = vm.products;
-            }
-        });
+            $http.get('/api/public/locais/get?context='+$localStorage.currentEmpresaId+'&current_page='+$scope.currentPage).then(function (response) {
 
-        function get_products(){
-            $http.post('http://model.exodocientifica.com.br/produtos/read').then(function (response) {
-                vm.products = response.data.data;
-                vm.setPage(1);
+                $scope.locais = response.data;
+                $scope.locais.config.current_page = parseInt($scope.locais.config.current_page);
+
+                console.log( $scope.locais);
+
             }, function(response) {
                 $rootScope.is_error = true;
-                $rootScope.is_error_text = "Erro: " + response.data.message;
+                $rootScope.is_error_text = "Erro: " + response.data.error;
             }).finally(function() {
                 $rootScope.is_loading = false;
             });
         }
 
-        function initController() {
-            get_products();
-        }
 
-        function setPage(page) {
-            if (page < 1 || page > vm.pager.totalPages) {
-                return;
-            }
+        $rootScope.is_loading = true;
+        $scope.get_locais();
 
-            vm.pager = PagerService.GetPager(vm.products.length, page, vm.paged_num);
-            vm.items = vm.products.slice(vm.pager.startIndex, vm.pager.endIndex + 1);
-        }
-
-        vm.delete_product = function(id){
-            if(confirm("Deseja excluir esse produto?")){
+    
+        $scope.delete_local = function(id){
+            if(confirm("Deseja excluir esse local?")){
                 $rootScope.is_loading = true;
-                $http.post('http://model.exodocientifica.com.br/produtos/remove',{ id : id }).then(function (response) {
-                    get_products();
+                $http.post('/api/public/locais/delete',{ id : id }).then(function (response) {
+                    $scope.get_locais();
 
                     ngToast.create({
                         className: 'success',
-                        content: 'Produto excluído com sucesso'
+                        content: 'Local excluído com sucesso'
                     });
 
                 }, function(response) {
@@ -73,6 +54,9 @@
                 });
             }
         }
+
+    
+
     }
 
 })();

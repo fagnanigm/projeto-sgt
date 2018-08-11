@@ -2,7 +2,7 @@
 	<div class="row">
 
 		<div class="col-md-8">
-			<h1>Locais <small>(105 registros)</small></h1>
+			<h1>Locais <small>({{ locais.config.total }} registros)</small></h1>
 		</div>
 		<div class="col-md-4 text-right">
 			<a href="/locais/gerencia" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Cadastrar</a>
@@ -17,6 +17,7 @@
 		<h2>Locais do sistema</h2>
 	</div>
 
+	<!-- 
 	<div class="row">
 		<div class="col-md-12">
 
@@ -26,87 +27,39 @@
 			</div>
 
 		</div>
-
-
 	</div>
+	--> 
 
 	<table class="table margin-top-30">
-		<tr>
+		<tr ng-repeat="(key, val) in locais.results">
 			<td>
-				<strong>Exemplo de local</strong><br />
-				<small>Código: #123</small>
+				<strong>{{ val.local_apelido }}</strong><br />
+				<small>Código: #{{ val.id }}</small>
 			</td>
 			<td><small>Cadastrado em 10/06/2018</small></td>
 			<td width="220">
 				<div class="buttons-capsule">
-					<a href="/locais/visualizar" class="btn btn-sm btn-primary">Visualizar</a><a href="/locais/gerencia" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<strong>Exemplo de local</strong><br />
-				<small>Código: #123</small>
-			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
-			<td width="220">
-				<div class="buttons-capsule">
-					<a href="/locais/visualizar" class="btn btn-sm btn-primary">Visualizar</a><a href="/locais/gerencia" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
-				</div>
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<strong>Exemplo de local</strong><br />
-				<small>Código: #123</small>
-			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
-			<td width="220">
-				<div class="buttons-capsule">
-					<a href="/locais/visualizar" class="btn btn-sm btn-primary">Visualizar</a><a href="/locais/gerencia" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
-				</div>
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<strong>Exemplo de local</strong><br />
-				<small>Código: #123</small>
-			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
-			<td width="220">
-				<div class="buttons-capsule">
-					<a href="/locais/visualizar" class="btn btn-sm btn-primary">Visualizar</a><a href="/locais/gerencia" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
-				</div>
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<strong>Exemplo de local</strong><br />
-				<small>Código: #123</small>
-			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
-			<td width="220">
-				<div class="buttons-capsule">
-					<a href="/locais/visualizar" class="btn btn-sm btn-primary">Visualizar</a><a href="/locais/gerencia" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
-				</div>
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<strong>Exemplo de local</strong><br />
-				<small>Código: #123</small>
-			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
-			<td width="220">
-				<div class="buttons-capsule">
-					<a href="/locais/visualizar" class="btn btn-sm btn-primary">Visualizar</a><a href="/locais/gerencia" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
+					<a href="/locais/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><a href="/locais/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">Editar</a><button ng-click="delete_local(val.id)" class="btn btn-sm btn-danger">Excluir</button>
 				</div>
 			</td>
 		</tr>
 	</table>
+
+	<!-- pager -->
+	<div class="text-center margin-top-30">
+		<div aria-label="navigation" ng-if="locais.config.total_pages > 1" class="d-inline-block">
+		    <ul class="pagination">
+		        <li ng-class="{disabled:locais.config.current_page == 1}" class="page-item">
+		            <a href="/locais/{{locais.config.current_page - 1}}" class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+		        </li>
+		        <li ng-repeat="page in [] | range: locais.config.total_pages | limitTo:10" ng-class="{active:locais.config.current_page == page}" class="page-item">
+		            <a href="/locais/{{page}}" class="page-link">{{page}}</a>
+		        </li>                
+		        <li ng-class="{disabled:locais.config.current_page == locais.config.total_pages}" class="page-item">
+		            <a href="/locais/{{ locais.config.current_page + 1 }}" class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+		        </li>
+		    </ul>
+		</div>
+	</div>
 
 </div>

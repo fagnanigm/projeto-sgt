@@ -171,19 +171,31 @@
             .state('locais', {
                 url: '/locais',
                 templateUrl: 'app/components/locais/index.view.html',
-                controller: 'Produtos.IndexController',
+                controller: 'Locais.IndexController',
                 controllerAs: 'vm'
             })
             .state('insert-local', {
                 url: '/locais/gerencia',
                 templateUrl: 'app/components/locais/gerencia.view.html',
-                controller: 'Produtos.IndexController',
+                controller: 'Locais.GerenciaController',
+                controllerAs: 'vm'
+            })
+            .state('update-local', {
+                url: '/locais/gerencia/{id_local}?queryString',
+                templateUrl: 'app/components/locais/gerencia.view.html',
+                controller: 'Locais.GerenciaController',
                 controllerAs: 'vm'
             })
             .state('visualizar-local', {
-                url: '/locais/visualizar',
+                url: '/locais/visualizar/{id_local}?queryString',
                 templateUrl: 'app/components/locais/visualizar.view.html',
-                controller: 'Produtos.IndexController',
+                controller: 'Locais.VisualizarController',
+                controllerAs: 'vm'
+            })
+            .state('locais-paged', {
+                url: '/locais/{page}?queryString',
+                templateUrl: 'app/components/locais/index.view.html',
+                controller: 'Locais.IndexController',
                 controllerAs: 'vm'
             })
 
