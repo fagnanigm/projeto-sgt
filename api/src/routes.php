@@ -30,3 +30,6 @@ require 'routes/clientes/clientes.php';
 
 // PRODUTOS
 require 'routes/produtos/produtos.php';
+
+// LOCAIS
+require 'routes/locais/locais.php';
