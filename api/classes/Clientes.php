@@ -236,7 +236,7 @@ class Clientes {
 			$response['error'] = 'ID não informado.';
 		}
 
-		$selectStatement = $this->db->select()->from('clientes')->whereMany(array('id' => $id, 'id_empresa' => $args['context']), '=' );
+		$selectStatement = $this->db->select()->from('clientes')->whereMany(array('id' => $id, 'id_empresa' => $args['context'], 'active' => 'Y'), '=' );
 
 		$stmt = $selectStatement->execute();
 		$data = $stmt->fetch();

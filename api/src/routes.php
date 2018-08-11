@@ -27,3 +27,6 @@ require 'routes/configuracoes/configuracoes.php';
 
 // CLIENTES
 require 'routes/clientes/clientes.php';
+
+// PRODUTOS
+require 'routes/produtos/produtos.php';
