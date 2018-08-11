@@ -73,15 +73,21 @@
                 controllerAs: 'vm'
             })
             .state('visualizar-produto', {
-                url: '/produtos/visualizar',
+                url: '/produtos/visualizar/{id_produto}?queryString',
                 templateUrl: 'app/components/produtos/visualizar.view.html',
-                controller: 'Produtos.GerenciaController',
+                controller: 'Produtos.VisualizarController',
                 controllerAs: 'vm'
             })
             .state('importar-produto', {
                 url: '/produtos/importar-do-omie',
                 templateUrl: 'app/components/produtos/importar.view.html',
-                controller: 'Usuarios.GerenciaController',
+                controller: 'Importar.IndexController',
+                controllerAs: 'vm'
+            })
+            .state('produtos-paged', {
+                url: '/produtos/{page}?queryString',
+                templateUrl: 'app/components/produtos/index.view.html',
+                controller: 'Produtos.IndexController',
                 controllerAs: 'vm'
             })
 

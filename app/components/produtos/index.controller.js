@@ -5,60 +5,41 @@
         .module('app')
         .controller('Produtos.IndexController', Controller);
 
-    function Controller($rootScope,$scope,$http,ngToast, PagerService) {
-        var vm = this;
+    function Controller($rootScope,$scope,$http,ngToast, PagerService, $localStorage) {
 
-        vm.pager = {};
-        vm.setPage = setPage;
-        vm.paged_num = 8;
-        vm.old_items = [];
+        $scope.produtos = {};
 
-        vm.products = [];
+        $scope.currentPage = ($rootScope.$state.name == 'produtos-paged' ? $rootScope.$stateParams.page : '1' );
 
-        initController();
+        $scope.get_produtos = function(){
 
-        $scope.$watch('search_field', function() {
-            if($scope.search_field == null || $scope.search_field.length == 0){
-                vm.items = vm.old_items;
-                vm.old_items = [];
-            }else{
-                if(vm.old_items.length == 0){
-                    vm.old_items = vm.items;
-                }
-                vm.items = vm.products;
-            }
-        });
+            $rootScope.is_loading = true;
 
-        function get_products(){
-            $http.post('http://model.exodocientifica.com.br/produtos/read').then(function (response) {
-                vm.products = response.data.data;
-                vm.setPage(1);
+            $http.get('/api/public/produtos/get?context='+$localStorage.currentEmpresaId+'&current_page='+$scope.currentPage).then(function (response) {
+
+                $scope.produtos = response.data;
+                $scope.produtos.config.current_page = parseInt($scope.produtos.config.current_page);
+
+                console.log( $scope.produtos);
+
             }, function(response) {
                 $rootScope.is_error = true;
-                $rootScope.is_error_text = "Erro: " + response.data.message;
+                $rootScope.is_error_text = "Erro: " + response.data.error;
             }).finally(function() {
                 $rootScope.is_loading = false;
             });
         }
 
-        function initController() {
-            get_products();
-        }
 
-        function setPage(page) {
-            if (page < 1 || page > vm.pager.totalPages) {
-                return;
-            }
+        $rootScope.is_loading = true;
+        $scope.get_produtos();
 
-            vm.pager = PagerService.GetPager(vm.products.length, page, vm.paged_num);
-            vm.items = vm.products.slice(vm.pager.startIndex, vm.pager.endIndex + 1);
-        }
-
-        vm.delete_product = function(id){
+    
+        $scope.delete_produto = function(id){
             if(confirm("Deseja excluir esse produto?")){
                 $rootScope.is_loading = true;
-                $http.post('http://model.exodocientifica.com.br/produtos/remove',{ id : id }).then(function (response) {
-                    get_products();
+                $http.post('/api/public/produtos/delete',{ id : id }).then(function (response) {
+                    $scope.get_produtos();
 
                     ngToast.create({
                         className: 'success',
@@ -73,6 +54,8 @@
                 });
             }
         }
+
+
     }
 
 })();

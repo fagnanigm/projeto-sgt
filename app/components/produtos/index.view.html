@@ -2,7 +2,7 @@
 	<div class="row">
 
 		<div class="col-md-8">
-			<h1>Produtos <small>(5879 registros)</small></h1>
+			<h1>Produtos <small>({{ produtos.config.total }} registros)</small></h1>
 		</div>
 		<div class="col-md-4 text-right">
 			<a href="/produtos/importar-do-omie" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Importar do OMIE</a>
@@ -17,6 +17,8 @@
 		<h2>Produtos do sistema</h2>
 	</div>
 
+	<!-- 
+
 	<div class="row">
 		<div class="col-md-12">
 
@@ -26,97 +28,38 @@
 			</div>
 
 		</div>
-
-
 	</div>
 
+	-->
+
 	<table class="table margin-top-30">
-		<tr>
+		<tr ng-repeat="(key, val) in produtos.results">
 			<td>
-				<strong>Exemplo de produto</strong><br />
-				<small>Código: #123</small>
+				<strong>{{ val.produto_name }}</strong><br />
+				<small>Código: #{{ val.id }}</small>
 			</td>
 			<td><small>Cadastrado em 10/06/2018</small></td>
 			<td width="180">
 				<div class="buttons-capsule">
-					<a href="/produtos/visualizar" class="btn btn-sm btn-primary">Visualizar</a><button href="#" class="btn btn-sm btn-danger" ng-click="vm.delete_product(val.id)">Excluir</button>
+					<a href="/produtos/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><button href="#" class="btn btn-sm btn-danger" ng-click="delete_produto(val.id)">Excluir</button>
 				</div>
 			</td>
 		</tr>
-		<tr>
-			<td>
-				<strong>Exemplo de produto</strong><br />
-				<small>Código: #123</small>
-			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
-			<td width="180">
-				<div class="buttons-capsule">
-					<a href="/produtos/visualizar" class="btn btn-sm btn-primary">Visualizar</a><button href="#" class="btn btn-sm btn-danger" ng-click="vm.delete_product(val.id)">Excluir</button>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<strong>Exemplo de produto</strong><br />
-				<small>Código: #123</small>
-			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
-			<td width="180">
-				<div class="buttons-capsule">
-					<a href="/produtos/visualizar" class="btn btn-sm btn-primary">Visualizar</a><button href="#" class="btn btn-sm btn-danger" ng-click="vm.delete_product(val.id)">Excluir</button>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<strong>Exemplo de produto</strong><br />
-				<small>Código: #123</small>
-			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
-			<td width="180">
-				<div class="buttons-capsule">
-					<a href="/produtos/visualizar" class="btn btn-sm btn-primary">Visualizar</a><button href="#" class="btn btn-sm btn-danger" ng-click="vm.delete_product(val.id)">Excluir</button>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<strong>Exemplo de produto</strong><br />
-				<small>Código: #123</small>
-			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
-			<td width="180">
-				<div class="buttons-capsule">
-					<a href="/produtos/visualizar" class="btn btn-sm btn-primary">Visualizar</a><button href="#" class="btn btn-sm btn-danger" ng-click="vm.delete_product(val.id)">Excluir</button>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<strong>Exemplo de produto</strong><br />
-				<small>Código: #123</small>
-			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
-			<td width="180">
-				<div class="buttons-capsule">
-					<a href="/produtos/visualizar" class="btn btn-sm btn-primary">Visualizar</a><button href="#" class="btn btn-sm btn-danger" ng-click="vm.delete_product(val.id)">Excluir</button>
-				</div>
-			</td>
-		</tr>
+		
 	</table>
 
 	<!-- pager -->
 	<div class="text-center margin-top-30">
-		<div aria-label="navigation" ng-if="vm.pager.pages.length && ( search_field == null || search_field.length == 0) " class="d-inline-block">
+		<div aria-label="navigation" ng-if="produtos.config.total_pages > 1" class="d-inline-block">
 		    <ul class="pagination">
-		        <li ng-class="{disabled:vm.pager.currentPage === 1}" class="page-item">
-		            <a ng-click="vm.setPage(vm.pager.currentPage - 1)" class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+		        <li ng-class="{disabled:produtos.config.current_page == 1}" class="page-item">
+		            <a href="/produtos/{{produtos.config.current_page - 1}}" class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
 		        </li>
-		        <li ng-repeat="page in vm.pager.pages" ng-class="{active:vm.pager.currentPage === page}" class="page-item">
-		            <a ng-click="vm.setPage(page)" class="page-link">{{page}}</a>
+		        <li ng-repeat="page in [] | range: produtos.config.total_pages | limitTo:10" ng-class="{active:produtos.config.current_page == page}" class="page-item">
+		            <a href="/produtos/{{page}}" class="page-link">{{page}}</a>
 		        </li>                
-		        <li ng-class="{disabled:vm.pager.currentPage === vm.pager.totalPages}" class="page-item">
-		            <a ng-click="vm.setPage(vm.pager.currentPage + 1)" class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+		        <li ng-class="{disabled:produtos.config.current_page == produtos.config.total_pages}" class="page-item">
+		            <a href="/produtos/{{ produtos.config.current_page + 1 }}" class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
 		        </li>
 		    </ul>
 		</div>
