@@ -33,3 +33,6 @@ require 'routes/produtos/produtos.php';
 
 // LOCAIS
 require 'routes/locais/locais.php';
+
+// VEÍCULOS
+require 'routes/veiculos/veiculos.php';
