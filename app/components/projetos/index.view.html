@@ -2,7 +2,7 @@
 	<div class="row">
 
 		<div class="col-md-8">
-			<h1>Projetos <small>(5454 registros)</small></h1>
+			<h1>Projetos <small>({{ projetos.config.total }} registros)</small></h1>
 		</div>
 		<div class="col-md-4 text-right">
 			<a href="/projetos/gerencia" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Cadastrar</a>
@@ -16,6 +16,8 @@
 	<div class="box-subtitle">
 		<h2>Listagem dos projetos</h2>
 	</div>
+
+	<!-- 
 
 	<div class="card">
 		<div class="card-body">
@@ -75,6 +77,8 @@
 		</div>
 	</div>
 
+	-->
+
 
 	<table class="table table-striped margin-top-30">
 
@@ -90,201 +94,44 @@
 			<th></th>
 		</tr>
 
-
-		<tr class="text-success">
-			<td><a href="/projetos/visualizar">13345</a></td>
+		<tr ng-repeat="(key, val) in projetos.results" ng-class="{ 
+			'text-success' : val.projeto_status == 'em-aberto', 
+			'text-primary' : val.projeto_status == 'finalizado',
+			'text-danger' : val.projeto_status == 'suspenso',
+			'text-warning' : val.projeto_status == 'em-viagem'
+		}">
+			<td><a href="/projetos/visualizar/{{ val.id }}">{{ val.projeto_codigo }}</a></td>
 			<td>06/06/2018</td>
-			<td>GE POWER</td>
-			<td>005 - Projeto exemplo</td>
-			<td>SP</td>
-			<td>RJ</td>
-			<td>Guilherme</td>
-			<td><a href="/projetos/visualizar">Em aberto</a></td>
+			<td>{{ val.projeto_cliente }}</td>
+			<td>{{ val.projeto_codigo }} - {{ val.projeto_apelido }}</td>
+			<td>--</td>
+			<td>--</td>
+			<td>--</td>
+			<td><a href="/projetos/visualizar/{{ val.id }}">{{ val.projeto_status }}</a></td>
 			<td width="220">
 				<div class="buttons-capsule">
-					<a href="/projetos/visualizar" class="btn btn-sm btn-primary">Visualizar</a><a href="/projetos/gerencia" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
+					<a href="/projetos/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><a href="/projetos/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">Editar</a><button ng-click="delete_projeto(val.id)" class="btn btn-sm btn-danger">Excluir</button>
 				</div>
 			</td>
 		</tr>
-
-		<tr class="text-primary">
-			<td><a href="/projetos/visualizar">13345</a></td>
-			<td>06/06/2018</td>
-			<td>GE POWER</td>
-			<td>005 - Projeto exemplo</td>
-			<td>SP</td>
-			<td>RJ</td>
-			<td>Guilherme</td>
-			<td><a href="/projetos/visualizar">Finalizado</a></td>
-			<td width="220">
-				<div class="buttons-capsule">
-					<a href="/projetos/visualizar" class="btn btn-sm btn-primary">Visualizar</a><a href="/projetos/gerencia" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
-				</div>
-			</td>
-		</tr>
-
-		<tr class="text-danger">
-			<td><a href="/projetos/visualizar">13345</a></td>
-			<td>06/06/2018</td>
-			<td>GE POWER</td>
-			<td>005 - Projeto exemplo</td>
-			<td>SP</td>
-			<td>RJ</td>
-			<td>Guilherme</td>
-			<td><a href="/projetos/visualizar">Suspenso</a></td>
-			<td width="220">
-				<div class="buttons-capsule">
-					<a href="/projetos/visualizar" class="btn btn-sm btn-primary">Visualizar</a><a href="/projetos/gerencia" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
-				</div>
-			</td>
-		</tr>
-
-		<tr class="text-warning">
-			<td><a href="/projetos/visualizar">13345</a></td>
-			<td>06/06/2018</td>
-			<td>GE POWER</td>
-			<td>005 - Projeto exemplo</td>
-			<td>SP</td>
-			<td>RJ</td>
-			<td>Guilherme</td>
-			<td><a href="/projetos/visualizar">Em viagem</a></td>
-			<td width="220">
-				<div class="buttons-capsule">
-					<a href="/projetos/visualizar" class="btn btn-sm btn-primary">Visualizar</a><a href="/projetos/gerencia" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
-				</div>
-			</td>
-		</tr>
-
-		<tr class="text-success">
-			<td><a href="/projetos/visualizar">13345</a></td>
-			<td>06/06/2018</td>
-			<td>GE POWER</td>
-			<td>005 - Projeto exemplo</td>
-			<td>SP</td>
-			<td>RJ</td>
-			<td>Guilherme</td>
-			<td><a href="/projetos/visualizar">Em aberto</a></td>
-			<td width="220">
-				<div class="buttons-capsule">
-					<a href="/projetos/visualizar" class="btn btn-sm btn-primary">Visualizar</a><a href="/projetos/gerencia" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
-				</div>
-			</td>
-		</tr>
-
-		<tr class="text-primary">
-			<td><a href="/projetos/visualizar">13345</a></td>
-			<td>06/06/2018</td>
-			<td>GE POWER</td>
-			<td>005 - Projeto exemplo</td>
-			<td>SP</td>
-			<td>RJ</td>
-			<td>Guilherme</td>
-			<td><a href="/projetos/visualizar">Finalizado</a></td>
-			<td width="220">
-				<div class="buttons-capsule">
-					<a href="/projetos/visualizar" class="btn btn-sm btn-primary">Visualizar</a><a href="/projetos/gerencia" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
-				</div>
-			</td>
-		</tr>
-
-		<tr class="text-danger">
-			<td><a href="/projetos/visualizar">13345</a></td>
-			<td>06/06/2018</td>
-			<td>GE POWER</td>
-			<td>005 - Projeto exemplo</td>
-			<td>SP</td>
-			<td>RJ</td>
-			<td>Guilherme</td>
-			<td><a href="/projetos/visualizar">Suspenso</a></td>
-			<td width="220">
-				<div class="buttons-capsule">
-					<a href="/projetos/visualizar" class="btn btn-sm btn-primary">Visualizar</a><a href="/projetos/gerencia" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
-				</div>
-			</td>
-		</tr>
-
-		<tr class="text-warning">
-			<td><a href="/projetos/visualizar">13345</a></td>
-			<td>06/06/2018</td>
-			<td>GE POWER</td>
-			<td>005 - Projeto exemplo</td>
-			<td>SP</td>
-			<td>RJ</td>
-			<td>Guilherme</td>
-			<td><a href="/projetos/visualizar">Em viagem</a></td>
-			<td width="220">
-				<div class="buttons-capsule">
-					<a href="/projetos/visualizar" class="btn btn-sm btn-primary">Visualizar</a><a href="/projetos/gerencia" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
-				</div>
-			</td>
-		</tr>
-
-
-		<tr class="text-success">
-			<td><a href="/projetos/visualizar">13345</a></td>
-			<td>06/06/2018</td>
-			<td>GE POWER</td>
-			<td>005 - Projeto exemplo</td>
-			<td>SP</td>
-			<td>RJ</td>
-			<td>Guilherme</td>
-			<td><a href="/projetos/visualizar">Em aberto</a></td>
-			<td width="220">
-				<div class="buttons-capsule">
-					<a href="/projetos/visualizar" class="btn btn-sm btn-primary">Visualizar</a><a href="/projetos/gerencia" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
-				</div>
-			</td>
-		</tr>
-
-		<tr class="text-primary">
-			<td><a href="/projetos/visualizar">13345</a></td>
-			<td>06/06/2018</td>
-			<td>GE POWER</td>
-			<td>005 - Projeto exemplo</td>
-			<td>SP</td>
-			<td>RJ</td>
-			<td>Guilherme</td>
-			<td><a href="/projetos/visualizar">Finalizado</a></td>
-			<td width="220">
-				<div class="buttons-capsule">
-					<a href="/projetos/visualizar" class="btn btn-sm btn-primary">Visualizar</a><a href="/projetos/gerencia" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
-				</div>
-			</td>
-		</tr>
-
-		<tr class="text-danger">
-			<td><a href="/projetos/visualizar">13345</a></td>
-			<td>06/06/2018</td>
-			<td>GE POWER</td>
-			<td>005 - Projeto exemplo</td>
-			<td>SP</td>
-			<td>RJ</td>
-			<td>Guilherme</td>
-			<td><a href="/projetos/visualizar">Suspenso</a></td>
-			<td width="220">
-				<div class="buttons-capsule">
-					<a href="/projetos/visualizar" class="btn btn-sm btn-primary">Visualizar</a><a href="/projetos/gerencia" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
-				</div>
-			</td>
-		</tr>
-
-		<tr class="text-warning">
-			<td><a href="/projetos/visualizar">13345</a></td>
-			<td>06/06/2018</td>
-			<td>GE POWER</td>
-			<td>005 - Projeto exemplo</td>
-			<td>SP</td>
-			<td>RJ</td>
-			<td>Guilherme</td>
-			<td><a href="/projetos/visualizar">Em viagem</a></td>
-			<td width="220">
-				<div class="buttons-capsule">
-					<a href="/projetos/visualizar" class="btn btn-sm btn-primary">Visualizar</a><a href="/projetos/gerencia" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
-				</div>
-			</td>
-		</tr>
-
 		
 	</table>
+
+	<!-- pager -->
+	<div class="text-center margin-top-30">
+		<div aria-label="navigation" ng-if="projetos.config.total_pages > 1" class="d-inline-block">
+		    <ul class="pagination">
+		        <li ng-class="{disabled:projetos.config.current_page == 1}" class="page-item">
+		            <a href="/projetos/{{projetos.config.current_page - 1}}" class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+		        </li>
+		        <li ng-repeat="page in [] | range: projetos.config.total_pages | limitTo:10" ng-class="{active:projetos.config.current_page == page}" class="page-item">
+		            <a href="/projetos/{{page}}" class="page-link">{{page}}</a>
+		        </li>                
+		        <li ng-class="{disabled:projetos.config.current_page == projetos.config.total_pages}" class="page-item">
+		            <a href="/projetos/{{ projetos.config.current_page + 1 }}" class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+		        </li>
+		    </ul>
+		</div>
+	</div>
 
 </div>

@@ -40,3 +40,6 @@ require 'routes/veiculos/veiculos.php';
 // MOTORISTAS
 require 'routes/motoristas/motoristas.php';
 
+// PROJETOS
+require 'routes/projetos/projetos.php';
+

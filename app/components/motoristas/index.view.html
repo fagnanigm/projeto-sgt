@@ -2,7 +2,7 @@
 	<div class="row">
 
 		<div class="col-md-8">
-			<h1>Motoristas <small>(645 registros)</small></h1>
+			<h1>Motoristas <small>({{ motoristas.config.total }} registros)</small></h1>
 		</div>
 		<div class="col-md-4 text-right">
 			<a href="/motoristas/gerencia" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Cadastrar</a>
@@ -17,6 +17,7 @@
 		<h2>Motoristas do sistema</h2>
 	</div>
 
+	<!--
 	<div class="row">
 		<div class="col-md-12">
 
@@ -26,67 +27,14 @@
 			</div>
 
 		</div>
-
-
 	</div>
+	--> 
 
 	<table class="table margin-top-30">
-		<tr>
+		<tr ng-repeat="(key, val) in motoristas.results">
 			<td>
-				<strong>Exemplo de motorista</strong><br />
-				<small>Código: #123</small>
-			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
-			<td width="220">
-				<div class="buttons-capsule">
-					<a href="/motoristas/visualizar" class="btn btn-sm btn-primary">Visualizar</a><a href="/motoristas/gerencia" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
-				</div>
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<strong>Exemplo de motorista</strong><br />
-				<small>Código: #123</small>
-			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
-			<td width="220">
-				<div class="buttons-capsule">
-					<a href="/motoristas/visualizar" class="btn btn-sm btn-primary">Visualizar</a><a href="/motoristas/gerencia" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
-				</div>
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<strong>Exemplo de motorista</strong><br />
-				<small>Código: #123</small>
-			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
-			<td width="220">
-				<div class="buttons-capsule">
-					<a href="/motoristas/visualizar" class="btn btn-sm btn-primary">Visualizar</a><a href="/motoristas/gerencia" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
-				</div>
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<strong>Exemplo de motorista</strong><br />
-				<small>Código: #123</small>
-			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
-			<td width="220">
-				<div class="buttons-capsule">
-					<a href="/motoristas/visualizar" class="btn btn-sm btn-primary">Visualizar</a><a href="/motoristas/gerencia" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
-				</div>
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<strong>Exemplo de motorista</strong><br />
-				<small>Código: #123</small>
+				<strong>{{ val.motorista_nome }}</strong><br />
+				<small>Código: #{{ val.id }}</small>
 			</td>
 			<td><small>Cadastrado em 10/06/2018</small></td>
 			<td width="220">
@@ -97,5 +45,22 @@
 		</tr>
 		
 	</table>
+
+	<!-- pager -->
+	<div class="text-center margin-top-30">
+		<div aria-label="navigation" ng-if="motoristas.config.total_pages > 1" class="d-inline-block">
+		    <ul class="pagination">
+		        <li ng-class="{disabled:motoristas.config.current_page == 1}" class="page-item">
+		            <a href="/motoristas/{{motoristas.config.current_page - 1}}" class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+		        </li>
+		        <li ng-repeat="page in [] | range: motoristas.config.total_pages | limitTo:10" ng-class="{active:motoristas.config.current_page == page}" class="page-item">
+		            <a href="/motoristas/{{page}}" class="page-link">{{page}}</a>
+		        </li>                
+		        <li ng-class="{disabled:motoristas.config.current_page == motoristas.config.total_pages}" class="page-item">
+		            <a href="/motoristas/{{ motoristas.config.current_page + 1 }}" class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+		        </li>
+		    </ul>
+		</div>
+	</div>
 
 </div>

@@ -204,20 +204,20 @@
             .state('veiculos', {
                 url: '/veiculos',
                 templateUrl: 'app/components/veiculos/index.view.html',
-                controller: 'Produtos.IndexController',
+                controller: 'Veiculos.IndexController',
                 controllerAs: 'vm'
             })
             .state('insert-veiculo', {
                 url: '/veiculos/gerencia',
                 templateUrl: 'app/components/veiculos/gerencia.view.html',
-                controller: 'Produtos.IndexController',
+                controller: 'Veiculos.GerenciaController',
                 controllerAs: 'vm'
             })
 
             .state('visualizar-veiculo', {
-                url: '/veiculos/visualizar',
+                url: '/veiculos/visualizar/{id_veiculo}?queryString',
                 templateUrl: 'app/components/veiculos/visualizar.view.html',
-                controller: 'Produtos.IndexController',
+                controller: 'Veiculos.VisualizarController',
                 controllerAs: 'vm'
             })
 
@@ -226,21 +226,21 @@
             .state('motoristas', {
                 url: '/motoristas',
                 templateUrl: 'app/components/motoristas/index.view.html',
-                controller: 'Produtos.IndexController',
+                controller: 'Motoristas.IndexController',
                 controllerAs: 'vm'
             })
 
-            .state('insert-motoristas', {
+            .state('insert-motorista', {
                 url: '/motoristas/gerencia',
                 templateUrl: 'app/components/motoristas/gerencia.view.html',
-                controller: 'Produtos.IndexController',
+                controller: 'Motoristas.GerenciaController',
                 controllerAs: 'vm'
             })
 
             .state('visualizar-motoristas', {
                 url: '/motoristas/visualizar',
                 templateUrl: 'app/components/motoristas/visualizar.view.html',
-                controller: 'Produtos.IndexController',
+                controller: 'Motoristas.VisualizarController',
                 controllerAs: 'vm'
             })
 
@@ -250,21 +250,28 @@
             .state('projetos', {
                 url: '/projetos',
                 templateUrl: 'app/components/projetos/index.view.html',
-                controller: 'Produtos.IndexController',
+                controller: 'Projetos.IndexController',
                 controllerAs: 'vm'
             })
 
             .state('insert-projeto', {
                 url: '/projetos/gerencia',
                 templateUrl: 'app/components/projetos/gerencia.view.html',
-                controller: 'Produtos.IndexController',
+                controller: 'Projetos.GerenciaController',
+                controllerAs: 'vm'
+            })
+
+            .state('update-projeto', {
+                url: '/projetos/gerencia/{id_projeto}?queryString',
+                templateUrl: 'app/components/projetos/gerencia.view.html',
+                controller: 'Projetos.GerenciaController',
                 controllerAs: 'vm'
             })
 
             .state('visualizar-projeto', {
-                url: '/projetos/visualizar',
+                url: '/projetos/visualizar/{id_projeto}?queryString',
                 templateUrl: 'app/components/projetos/visualizar.view.html',
-                controller: 'Produtos.IndexController',
+                controller: 'Projetos.VisualizarController',
                 controllerAs: 'vm'
             })
 

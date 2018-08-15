@@ -2,7 +2,7 @@
 
 <div class="box-content">
 
-	<form ng-submit="vm.setUser()">
+	<form ng-submit="vm.setProjeto()">
 
 		<div class="box-subtitle">
 			<h2>Cadastro / edição de projeto</h2>
@@ -14,8 +14,8 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="id">Código</label>
-							<input type="text" class="form-control" id="id">
+							<label for="codigo">Código</label>
+							<input type="text" class="form-control" id="codigo" ng-model="projeto.projeto_codigo" required>
 						</div>
 					</div>
 				</div>
@@ -23,44 +23,44 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="form-group">
-							<label for="id">Cliente (n. fantasia)</label>
-							<input type="text" class="form-control" id="id">
+							<label for="cliente">Cliente (n. fantasia)</label>
+							<input type="text" class="form-control" id="cliente" ng-model="projeto.projeto_cliente">
 						</div>
 					</div>
 					<div class="col-md-12">
 						<div class="form-group">
-							<label for="id">Contato</label>
-							<input type="text" class="form-control" id="id">
+							<label for="contato">Contato</label>
+							<input type="text" class="form-control" id="contato" ng-model="projeto.projeto_contato">
 						</div>
 					</div>
 					<div class="col-md-12">
 						<div class="form-group">
-							<label for="id">E-mail</label>
-							<input type="text" class="form-control" id="id">
+							<label for="email">E-mail</label>
+							<input type="text" class="form-control" id="email" ng-model="projeto.projeto_email">
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="id">Celular 1 / WhatsApp</label>
-							<input type="text" class="form-control" id="id">
+							<label for="celular1">Celular 1 / WhatsApp</label>
+							<input type="text" class="form-control" id="celular1" ng-model="projeto.projeto_phone1" mask="(99) 9?9999-9999">
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="id">Celular 2</label>
-							<input type="text" class="form-control" id="id">
+							<label for="celular2">Celular 2</label>
+							<input type="text" class="form-control" id="celular2" ng-model="projeto.projeto_phone2" mask="(99) 9?9999-9999">
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="id">Telefone Fixo</label>
-							<input type="text" class="form-control" id="id">
+							<label for="telefonefixo">Telefone Fixo</label>
+							<input type="text" class="form-control" id="telefonefixo" ng-model="projeto.projeto_phone3" mask="(99) 9?9999-9999">
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="id">Ramal</label>
-							<input type="text" class="form-control" id="id">
+							<label for="ramal">Ramal</label>
+							<input type="text" class="form-control" id="ramal" ng-model="projeto.projeto_ramal">
 						</div>
 					</div>
 				</div>
@@ -71,29 +71,38 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="id">Filial</label>
-							<input type="text" class="form-control" id="id">
+							<label for="filial">Filial</label>
+							<input type="text" class="form-control" id="filial" ng-model="projeto.projeto_filial">
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="id">Status</label>
-							<input type="text" class="form-control" id="id">
+							<label for="status">Status</label>
+							<select class="form-control" ng-model="projeto.projeto_status">
+								<option value="em-aberto">Em aberto</option>
+								<option value="finalizado">Finalizado</option>
+								<option value="suspenso">Suspenso</option>
+								<option value="em-viagem">Em viagem</option>
+							</select>
 						</div>
 					</div>
 
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="id">Data de cadastro</label>
-							<input type="text" class="form-control" id="id">
-						</div>
-					</div>
+					<!-- 
 
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="id">Vendedor</label>
-							<input type="text" class="form-control" id="id">
+							<label for="data-cadastro">Data de cadastro</label>
+							<input type="date" class="form-control" id="data-cadastro" ng-model="projeto.projeto_data_cadastro">
+						</div>
+					</div>
+
+					-->
+
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="vendedor">Vendedor</label>
+							<input type="text" class="form-control" id="vendedor" ng-model="projeto.projeto_vendedor">
 						</div>
 					</div>
 
@@ -103,23 +112,23 @@
 
 					<div class="col-md-8">
 						<div class="form-group">
-							<label for="id">Projeto (Apelido)</label>
-							<input type="text" class="form-control" id="id">
+							<label for="apelido">Projeto (Apelido)</label>
+							<input type="text" class="form-control" id="apelido" ng-model="projeto.projeto_apelido" required>
 						</div>
 					</div>
 
 					<div class="col-md-4">
 						<div class="form-group">
-							<label for="id">Cód. Cotação</label>
-							<input type="text" class="form-control" id="id">
+							<label for="cotacao-cod">Cód. Cotação</label>
+							<input type="text" class="form-control" id="cotacao-cod" ng-model="projeto.projeto_cod_cotacao">
 						</div>
 					</div>
 
 					
 					<div class="col-md-12">
 						<div class="form-group">
-							<label for="id">Resumo do projeto</label>
-							<textarea class="form-control"></textarea>
+							<label for="resumo-projeto">Resumo do projeto</label>
+							<textarea class="form-control" ng-model="projeto.projeto_resumo"></textarea>
 						</div>
 					</div>
 
@@ -134,6 +143,10 @@
 		<div class="box-subtitle">
 			<h2>Associação de AS's</h2>
 		</div>
+
+		<p>Em construção</p>
+
+		<!--
 
 		<table class="table table-striped">
 			<tr>
@@ -202,6 +215,10 @@
 		</table>
 
 		<button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Adicionar</button>
+
+		-->
+
+		<!--
 
 		<hr class="margin-top-40 margin-bottom-40" />
 
@@ -517,13 +534,13 @@
 			</div>
 		</div>
 
-
+		-->
 
 
 		<div class="cadastro-footer margin-top-25">
 			<a href="/projetos" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
-			<button type="submit" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</button>
-			<button type="submit" class="btn btn-primary"><i class="fa fa-clone" aria-hidden="true"></i> Duplicar</button>
+			<!--<button type="submit" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</button>
+			<button type="submit" class="btn btn-primary"><i class="fa fa-clone" aria-hidden="true"></i> Duplicar</button> -->
 			<button type="submit" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
 		</div>
 
