@@ -25,3 +25,5 @@ ls
 cd ../
 sudo su -
 sudo su
+poweroff
+sudo su
