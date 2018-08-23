@@ -11,7 +11,6 @@ class Locais {
 	public $schema = array(
 		"id_author",
 		"id_empresa",
-		"id_cliente",
 		"local_apelido",
 		"local_logradouro",
 		"local_numero",
@@ -24,7 +23,10 @@ class Locais {
 		"local_pais",
 		"local_pais_ibge",
 		"local_cep",
-		"local_create_time",
+		"local_cnpj",
+		"local_exterior",
+		"local_observacao",
+		"create_time",
 		"active"
 	);
 
@@ -105,8 +107,6 @@ class Locais {
 			return $response;
 		}
 
-		$args['id_cliente'] = (isset($args['id_cliente']) ? $args['id_cliente'] : 0);
-
 		// Init insert
 		$data = array_flip($this->schema);
 
@@ -119,6 +119,11 @@ class Locais {
 
 				// Tratamento de CEP
 				if($field == 'local_cep'){
+					$val = Utilities::unMask($val);
+				}
+
+				// Tratamento de CNPJ
+				if($field == 'local_cnpj'){
 					$val = Utilities::unMask($val);
 				}
 
@@ -233,7 +238,14 @@ class Locais {
 			$local[$key] = trim($field);
 		}
 
+		if(strlen($local['local_cnpj']) == 14){
+			$local['local_cnpj'] = Utilities::mask($local['local_cnpj'],'##.###.###/####-##');
+		}
+
+		$create_time = new \DateTime($local['create_time']);
+		$local['create_timestamp'] = $create_time->getTimestamp();
 		
+
 		return $local;
 	}
 
@@ -289,6 +301,8 @@ class Locais {
 			$id = $args['id'];
 			unset($args['id']);
 		}
+
+		unset($args['create_timestamp']);
 
 		$updateStatement = $this->db->update()->set($args)->table('locais')->whereMany( array('id' => $id, 'id_empresa' => $context), '=');
 

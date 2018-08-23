@@ -5,7 +5,7 @@
 			<h1>Produtos <small>({{ produtos.config.total }} registros)</small></h1>
 		</div>
 		<div class="col-md-4 text-right">
-			<a href="/produtos/importar-do-omie" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Importar do OMIE</a>
+			<a href="/produtos/gerencia" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Cadastrar</a>
 		</div>
 
 	</div>
@@ -38,10 +38,10 @@
 				<strong>{{ val.produto_name }}</strong><br />
 				<small>Código: #{{ val.id }}</small>
 			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
-			<td width="180">
+			<td><small>Cadastrado em {{ val.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm' }}</small></td>
+			<td width="220">
 				<div class="buttons-capsule">
-					<a href="/produtos/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><button href="#" class="btn btn-sm btn-danger" ng-click="delete_produto(val.id)">Excluir</button>
+					<a href="/produtos/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><a href="/produtos/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger" ng-click="delete_produto(val.id)">Excluir</button>
 				</div>
 			</td>
 		</tr>

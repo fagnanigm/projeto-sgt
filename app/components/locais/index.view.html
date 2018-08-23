@@ -36,7 +36,7 @@
 				<strong>{{ val.local_apelido }}</strong><br />
 				<small>Código: #{{ val.id }}</small>
 			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
+			<td><small>Cadastrado em {{ val.create_timestamp * 1000 | date:"dd/MM/yyyy HH:mm" }}</small></td>
 			<td width="220">
 				<div class="buttons-capsule">
 					<a href="/locais/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><a href="/locais/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">Editar</a><button ng-click="delete_local(val.id)" class="btn btn-sm btn-danger">Excluir</button>

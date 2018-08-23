@@ -11,6 +11,12 @@ $app->post('/produtos/insert', function (Request $request, Response $response, a
 	return $response->withJson($data);
 });
 
+$app->post('/produtos/update', function (Request $request, Response $response, array $args) {
+	$produtos = new Produtos($this->db);
+	$data = $produtos->update($request->getParams());
+	return $response->withJson($data);
+});
+
 $app->get('/produtos/get', function (Request $request, Response $response, array $args) {
 	$produtos = new Produtos($this->db, 10);
 	$data = $produtos->get($request->getParams());
@@ -34,18 +40,5 @@ $app->post('/produtos/importOmie', function (Request $request, Response $respons
 	$data = $produtos->importOmie($request->getParams());
 	return $response->withJson($data);
 });
-
-
-/*
-
-$app->post('/users/update', function (Request $request, Response $response, array $args) {
-	$user = new User($this->db);
-	$data = $user->update($request->getParams());
-	return $response->withJson($data);
-});
-
-*/
-
-
 
 ?>

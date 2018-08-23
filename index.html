@@ -136,9 +136,14 @@
                     <li ng-class="{ active: $state.name == 'veiculos' }"><a href="/veiculos"><i class="icon-rocket icons"></i> Veículos</a></li>
                     <li ng-class="{ active: $state.name == 'motoristas' }"><a href="/motoristas"><i class="icon-user icons"></i> Motoristas</a></li>
                     <li class="heading">
-                        <h3 class="uppercase">Projetos</h3>
+                        <h3 class="uppercase">Comercial</h3>
                     </li>
-                    <li ng-class="{ active: $state.name == 'orcamentos' }"><a href="/projetos"><i class="icon-grid icons"></i> Projetos</a></li>
+
+                    <li ng-class="{ active: $state.name == 'cotacoes' }"><a href="/cotacoes"><i class="icon-drawer icons"></i> Cotações</a></li>
+
+                    <li ng-class="{ active: $state.name == 'projetos
+                    ' }"><a href="/projetos"><i class="icon-grid icons"></i> Projetos</a></li>
+
                     <li ng-class="{ active: $state.name == 'orcamentos' }"><a href="/autorizacao-de-servico"><i class="icon-briefcase icons"></i> Aut. de serviço</a></li>
                     <li ng-class="{ active: $state.name == 'orcamentos' }"><a href="/cte-emitidos"><i class="icon-paper-clip icons"></i> CT-e emitidos</a></li>
                     <li ng-class="{ active: $state.name == 'relatorios' }"><a href="/relatorios"><i class="icon-pie-chart icons"></i> Relatórios</a></li>
@@ -201,6 +206,7 @@
     <script src="/app/components/produtos/index.controller.js"></script>
     <script src="/app/components/produtos/visualizar.controller.js"></script>
     <script src="/app/components/produtos/importar.controller.js"></script>
+    <script src="/app/components/produtos/gerencia.controller.js"></script>
 
     <!-- categorias -->
     <script src="/app/components/categorias/index.controller.js"></script>
@@ -249,6 +255,9 @@
 
     <!-- configuracoes -->
     <script src="/app/components/configuracoes/index.controller.js"></script>
+
+    <!-- cotacoes -->
+    <script src="/app/components/cotacoes/index.controller.js"></script>
 
     <!-- scripts for fake backend -->
 

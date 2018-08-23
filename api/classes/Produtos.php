@@ -7,17 +7,10 @@ class Produtos {
 	private $db;
 
 	public $schema = array( 
-		"id_author",
 		"id_empresa",
+		"id_author",
 		"produto_name",
 		"produto_descricao",
-		"produto_codigo_cest",
-		"produto_codigo_omie",
-		"produto_ean",
-		"produto_ncm",
-		"produto_origem",
-		"produto_unidade", 
-		"produto_valor",
 		"create_time",
 		"active"
 	);
@@ -157,6 +150,9 @@ class Produtos {
 			$produto[$key] = trim($field);
 		}
 		
+		$create_time = new \DateTime($produto['create_time']);
+		$produto['create_timestamp'] = $create_time->getTimestamp();
+
 		return $produto;
 	}
 
@@ -172,6 +168,51 @@ class Produtos {
 		}
 
 		$updateStatement = $this->db->update(array('active' => 'N'))->table('produtos')->where('id', '=', $args['id']);
+		$affectedRows = $updateStatement->execute();
+
+		if($affectedRows > 0){
+
+			$response['result'] = true;
+			$response['affectedRows'] = $affectedRows;
+			return $response;
+
+		}else{
+			$response['error'] = 'Nenhum registro afetado.';
+		}
+
+		return $response;
+
+	}
+
+	public function update($args = array()){
+
+		$response = array(
+			'result' => false
+		);
+
+		if(!isset($args['context'])){
+			$response = array(
+				'result' => false,
+				'error' => 'Contexto não definido'
+			);
+			return $response;
+		}else{
+			$context = $args['context'];
+			unset($args['context']);
+		}
+
+		if(!isset($args['id'])){
+			$response['error'] = 'ID não informado.';
+			return $response;
+		}else{
+			$id = $args['id'];
+			unset($args['id']);
+		}
+
+		unset($args['create_timestamp']);
+
+		$updateStatement = $this->db->update()->set($args)->table('produtos')->whereMany( array('id' => $id, 'id_empresa' => $context), '=');
+
 		$affectedRows = $updateStatement->execute();
 
 		if($affectedRows > 0){

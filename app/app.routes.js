@@ -72,6 +72,12 @@
                 controller: 'Produtos.GerenciaController',
                 controllerAs: 'vm'
             })
+            .state('update-produto', {
+                url: '/produtos/gerencia/{id_produto}?queryString',
+                templateUrl: 'app/components/produtos/gerencia.view.html',
+                controller: 'Produtos.GerenciaController',
+                controllerAs: 'vm'
+            })
             .state('visualizar-produto', {
                 url: '/produtos/visualizar/{id_produto}?queryString',
                 templateUrl: 'app/components/produtos/visualizar.view.html',
@@ -359,7 +365,19 @@
                 templateUrl: 'app/components/configuracoes/index.view.html',
                 controller: 'Configuracoes.IndexController',
                 controllerAs: 'vm'
-            });
+            })
+
+
+            // COTAÇÕES
+
+            .state('cotacoes', {
+                url: '/cotacoes',
+                templateUrl: 'app/components/cotacoes/index.view.html',
+                controller: 'Cotacoes.IndexController',
+                controllerAs: 'vm'
+            })
+
+            ;
     }
 
     

@@ -3,32 +3,29 @@
 
     angular
         .module('app')
-        .controller('Locais.GerenciaController', Controller);
+        .controller('Produtos.GerenciaController', Controller);
 
     function Controller($rootScope,$scope,$http,ngToast,$location,GlobalServices, $localStorage) {
         var vm = this;
 
-        $scope.local = {};
+        $scope.produto = {};
 
         initController();
 
-        function get_local(){
+        function get_produto(){
 
-            if($rootScope.$state.name == "insert-local"){
+            if($rootScope.$state.name == "insert-produto"){
 
-                $scope.local = {
+                $scope.produto = {
                     id_author : $localStorage.currentUser.id,
-                    id_empresa : $localStorage.currentEmpresaId, 
-                    local_estado : '0',
-                    local_pais : 'Brasil',
-                    local_exterior : 'N'
+                    id_empresa : $localStorage.currentEmpresaId
                 }
 
             }else{
 
-                $http.get('/api/public/locais/get/' + $rootScope.$stateParams.id_local + '?context=' + $localStorage.currentEmpresaId).then(function (response) {
-                    $scope.local = response.data.local;
-                    $scope.local.context = $localStorage.currentEmpresaId;
+                $http.get('/api/public/produtos/get/' + $rootScope.$stateParams.id_produto + '?context=' + $localStorage.currentEmpresaId).then(function (response) {
+                    $scope.produto = response.data.produto;
+                    $scope.produto.context = $localStorage.currentEmpresaId;
                 }, function(response) {
                     $rootScope.is_error = true;
                     $rootScope.is_error_text = "Erro: " + response.data.error;
@@ -41,50 +38,32 @@
         }
 
         function initController() {
-        	get_local();
+        	get_produto();
         }
 
 
-        vm.setLocal = function(){
+        vm.setProduto = function(){
 
             var error = 0;
-            
-            // Validação 
-            if($scope.local.local_estado == '0'){
-                ngToast.create({
-                    className: 'danger',
-                    content: "Estado inválido"
-                });
-                error++;
-                return;
-            }
 
-            if($scope.local.local_pais == '0'){
-                ngToast.create({
-                    className: 'danger',
-                    content: "País inválido"
-                });
-                error++;
-                return;
-            }
-
+            // VALIDAÇÃO
     
             if(error == 0){
 
                 $rootScope.is_loading = true;
 
-                if($rootScope.$state.name == "insert-local"){
+                if($rootScope.$state.name == "insert-produto"){
 
-                    $http.post('/api/public/locais/insert', $scope.local).then(function (response) {
+                    $http.post('/api/public/produtos/insert', $scope.produto).then(function (response) {
                         
                         if(response.data.result){
 
                             ngToast.create({
                                 className: 'success',
-                                content: "Local cadastrado com sucesso!"
+                                content: "Produto cadastrado com sucesso!"
                             });
 
-                            $location.path('/locais');
+                            $location.path('/produtos');
 
                         }else{
                             ngToast.create({
@@ -102,16 +81,18 @@
 
                 }else{
 
-                    $http.post('/api/public/locais/update', $scope.local ).then(function (response) {
+                    console.log($scope.produto);
+
+                    $http.post('/api/public/produtos/update', $scope.produto ).then(function (response) {
                         
                         if(response.data.result){
 
                             ngToast.create({
                                 className: 'success',
-                                content: "Local editado com sucesso!"
+                                content: "Produto editado com sucesso!"
                             });
 
-                            $location.path('/locais');
+                            $location.path('/produtos');
 
                         }else{
                             ngToast.create({

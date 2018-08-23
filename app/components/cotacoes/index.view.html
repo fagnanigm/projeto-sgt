@@ -1,0 +1,71 @@
+<div class="title-page">
+	<div class="row">
+
+		<div class="col-md-8">
+			<h1>Cotações <small>({{ cotacoes.config.total }} registros)</small></h1>
+		</div>
+		<div class="col-md-4 text-right">
+			<a href="/cotacoes/gerencia" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Cadastrar</a>
+		</div>
+
+	</div>
+</div>
+
+
+
+<div class="box-content">
+
+	<div class="box-subtitle"><h2>Listagem das cotações</h2></div>
+
+	<!--
+
+	<div class="row">
+		<div class="col-md-12">
+
+			<div class="form-group margin-bottom-0">
+				<label>Filtro</label>
+				<input type="text" class="form-control" placeholder="Busca de cliente" ng-model="search_field">
+			</div>
+
+		</div>
+	</div>
+
+	-->
+
+	<table class="table margin-top-30">
+		<tr ng-repeat="(key, val) in clientes.results">
+			<td>
+				<strong>{{ val.cliente_nome }}</strong><br />
+				<span>{{ val.cliente_person == 'f' ? val.cliente_cpf : val.cliente_cnpj }}</span>
+			</td>
+			<td>
+				{{ val.cliente_email }}
+			</td>
+			<td><small>Cadastrado em 10/06/2018</small></td>
+			<td width="180">
+				<div class="buttons-capsule">
+					<a href="/clientes/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><button href="#" ng-click="delete_cliente(val.id)" class="btn btn-sm btn-danger">Excluir</button>
+				</div>
+			</td>
+		</tr>
+		
+	</table>
+
+	<!-- pager -->
+	<div class="text-center margin-top-30">
+		<div aria-label="navigation" ng-if="clientes.config.total_pages > 1" class="d-inline-block">
+		    <ul class="pagination">
+		        <li ng-class="{disabled:clientes.config.current_page == 1}" class="page-item">
+		            <a href="/clientes/{{clientes.config.current_page - 1}}" class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+		        </li>
+		        <li ng-repeat="page in [] | range: clientes.config.total_pages | limitTo:10" ng-class="{active:clientes.config.current_page == page}" class="page-item">
+		            <a href="/clientes/{{page}}" class="page-link">{{page}}</a>
+		        </li>                
+		        <li ng-class="{disabled:clientes.config.current_page == clientes.config.total_pages}" class="page-item">
+		            <a href="/clientes/{{ clientes.config.current_page + 1 }}" class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+		        </li>
+		    </ul>
+		</div>
+	</div>
+
+</div>

@@ -13,70 +13,91 @@
 
 				<div class="col-md-12">
 					<div class="form-group">
-						<label for="id">Apelido do local</label>
+						<label for="apelido">Apelido do local</label>
 						<p>{{ local.local_apelido }}</p>
 					</div>
 				</div>
 
 				<div class="col-md-12">
 					<div class="form-group">
-						<label for="id">Associar cliente</label>
-						<p></p>
+						<label for="cnpj">CNPJ</label>
+						<p>{{ local.local_cnpj }}</p>
 					</div>
 				</div>
 
 				<div class="col-md-6">
 					<div class="form-group">
-						<label for="id">CEP</label>
+						<label for="cep">CEP</label>
 						<p>{{ local.local_cep }}</p>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
-						<label for="id">Logradouro</label>
+						<label for="logradouro">Logradouro</label>
 						<p>{{ local.local_logradouro }}</p>
 					</div>
 				</div>
 
 				<div class="col-md-6">
 					<div class="form-group">
-						<label for="id">Número</label>
+						<label for="numero">Número</label>
 						<p>{{ local.local_numero }}</p>
 					</div>
 				</div>
 
 				<div class="col-md-6">
 					<div class="form-group">
-						<label for="id">Complemento</label>
+						<label for="complemento">Complemento</label>
 						<p>{{ local.local_complemento }}</p>
 					</div>
 				</div>
 
 				<div class="col-md-6">
 					<div class="form-group">
-						<label for="id">Bairro</label>
+						<label for="bairro">Bairro</label>
 						<p>{{ local.local_bairro }}</p>
 					</div>
 				</div>
 
 				<div class="col-md-6">
 					<div class="form-group">
-						<label for="id">Cidade</label>
+						<label for="cidade">Cidade</label>
 						<p>{{ local.local_cidade }}</p>
 					</div>
 				</div>
 
 				<div class="col-md-6">
 					<div class="form-group">
-						<label for="id">Estado</label>
+						<label for="estado">Estado</label>
 						<p>{{ local.local_estado }}</p>
 					</div>
 				</div>
 
 				<div class="col-md-6">
 					<div class="form-group">
-						<label for="id">País</label>
+						<label for="pais">País</label>
 						<p>{{ local.local_pais }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="exterior">Exterior</label>
+						<p>{{ local.local_exterior == "S" ? 'Sim' : 'Não' }}</p>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+		<div class="col-md-6">
+
+			<div class="row">
+
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="observacao">Observação</label>
+						<p>{{ local.local_observacao }}</p>
 					</div>
 				</div>
 

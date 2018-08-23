@@ -22,16 +22,8 @@
 
 					<div class="col-md-12">
 						<div class="form-group">
-							<label for="id">Associar cliente</label>
-							
-							<div class="input-group mb-3">
-								<input type="text" class="form-control" placeholder="Associar cliente">
-								<div class="input-group-append">
-									<button class="btn btn-primary" type="button" data-toggle="modal" data-target="#select-cliente-modal" data-backdrop="false">Pesquisar</button>
-								</div>
-							</div>
-
-
+							<label for="cnpj">CNPJ</label>
+							<input type="text" class="form-control" id="cnpj" placeholder="CNPJ" ng-model="local.local_cnpj" mask="99.999.999/9999-99" clean="true">
 						</div>
 					</div>
 
@@ -295,32 +287,35 @@
 						</div>
 					</div>
 
-				</div>
 
-				<!-- Modal -->
-				<div class="modal fade" id="select-cliente-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="false">
-					<div class="modal-dialog" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLongTitle">Selecionar cliente</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-							<div class="modal-body">
-								Em construção
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-								<button type="button" class="btn btn-primary">Salvar</button>
-							</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="exterior">Exterior</label>
+							<select class="form-control" ng-model="local.local_exterior">
+								<option value="N">Não</option>
+								<option value="S">Sim</option>
+							</select>
 						</div>
 					</div>
-				</div>
 
-				
+				</div>				
 
 			</div>
+			<div class="col-md-6">
+
+				<div class="row">
+
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="apelido">Observação</label>
+							<textarea class="form-control" ng-model="local.local_observacao"></textarea>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
 		</div>
 
 		<div class="cadastro-footer margin-top-25">
