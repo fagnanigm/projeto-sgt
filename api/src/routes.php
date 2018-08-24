@@ -43,3 +43,6 @@ require 'routes/motoristas/motoristas.php';
 // PROJETOS
 require 'routes/projetos/projetos.php';
 
+// LOCALIDADES
+require 'routes/localidades/localidades.php';
+

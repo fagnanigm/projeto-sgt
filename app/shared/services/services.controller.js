@@ -48,6 +48,20 @@
 
         }
 
+        $rootScope.get_ufs = function(){
+            $http.get('/api/public/localidades/get/ufs').then(function (response) {
+                $rootScope.ufs = response.data.results;
+                console.log($rootScope.ufs)
+            });
+        }
+
+        $rootScope.ufChange = function(term){
+
+
+
+            console.log(term);
+        }
+
 
 
     }

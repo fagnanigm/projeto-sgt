@@ -34,6 +34,14 @@ class Utilities {
 
 	}
 
+	public static function escape_sql_term($term){
+
+		$term = str_replace(array('\''), array('\'\''), $term);
+
+		return $term;
+
+	}
+
 }
 
 ?>

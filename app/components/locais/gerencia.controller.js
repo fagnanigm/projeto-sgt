@@ -19,7 +19,7 @@
                 $scope.local = {
                     id_author : $localStorage.currentUser.id,
                     id_empresa : $localStorage.currentEmpresaId, 
-                    local_estado : '0',
+                    local_estado : {},
                     local_pais : 'Brasil',
                     local_exterior : 'N'
                 }
@@ -38,14 +38,19 @@
 
             }
 
-        }
+        }        
 
         function initController() {
+            $rootScope.get_ufs();
         	get_local();
+           
         }
 
-
         vm.setLocal = function(){
+
+            console.log($scope.local);
+
+            /*
 
             var error = 0;
             
@@ -131,6 +136,9 @@
                 }
 
             }
+            /*/
+
+
 
             
         }

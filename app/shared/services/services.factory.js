@@ -5,13 +5,12 @@
         .module('app')
         .factory('GlobalServices', GlobalServices);
 
-    function GlobalServices() {
+    function GlobalServices($http) {
 
         var service = {};
 
         service.hierarchical_decode = hierarchical_decode;
         service.phone_parser = phone_parser;
-
 
         return service;
         
@@ -58,9 +57,7 @@
 
                 return phone;
 
-            }
-
-            
+            }  
 
         }
 
