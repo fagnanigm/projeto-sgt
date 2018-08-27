@@ -46,3 +46,5 @@ require 'routes/projetos/projetos.php';
 // LOCALIDADES
 require 'routes/localidades/localidades.php';
 
+// COTACOES
+require 'routes/cotacoes/cotacoes.php';
