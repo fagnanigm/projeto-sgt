@@ -55,11 +55,12 @@
             });
         }
 
-        $rootScope.ufChange = function(term){
-
-
-
-            console.log(term);
+        $rootScope.ufChange = function(term, obj){
+            $rootScope.is_loading = true;
+            $http.get('/api/public/localidades/get/municipios/'+term).then(function (response) {
+                $rootScope.municipios = response.data.municipios;
+                $rootScope.is_loading = false;
+            });
         }
 
 

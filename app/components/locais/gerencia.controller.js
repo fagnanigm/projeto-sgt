@@ -19,16 +19,24 @@
                 $scope.local = {
                     id_author : $localStorage.currentUser.id,
                     id_empresa : $localStorage.currentEmpresaId, 
-                    local_estado : {},
+                    local_estado : "0",
                     local_pais : 'Brasil',
-                    local_exterior : 'N'
+                    local_exterior : 'N',
+                    local_cidade : "0"
                 }
+
+                $scope.$watch('municipios', function() { 
+                    $scope.local.local_cidade = '0';
+                });
 
             }else{
 
                 $http.get('/api/public/locais/get/' + $rootScope.$stateParams.id_local + '?context=' + $localStorage.currentEmpresaId).then(function (response) {
                     $scope.local = response.data.local;
                     $scope.local.context = $localStorage.currentEmpresaId;
+
+                    $rootScope.ufChange($scope.local.local_estado);
+
                 }, function(response) {
                     $rootScope.is_error = true;
                     $rootScope.is_error_text = "Erro: " + response.data.error;
@@ -43,14 +51,11 @@
         function initController() {
             $rootScope.get_ufs();
         	get_local();
-           
         }
 
+        
+
         vm.setLocal = function(){
-
-            console.log($scope.local);
-
-            /*
 
             var error = 0;
             
@@ -59,6 +64,15 @@
                 ngToast.create({
                     className: 'danger',
                     content: "Estado inválido"
+                });
+                error++;
+                return;
+            }
+
+            if($scope.local.local_cidade == '0'){
+                ngToast.create({
+                    className: 'danger',
+                    content: "Cidade inválida"
                 });
                 error++;
                 return;
@@ -73,10 +87,16 @@
                 return;
             }
 
+
+
     
             if(error == 0){
 
                 $rootScope.is_loading = true;
+
+                $scope.local.local_estado_ibge = $('select[name="local_estado"] option:selected').data('ibge-code');
+                $scope.local.local_cidade_ibge = $('select[name="local_cidade"] option:selected').data('ibge-code');
+                $scope.local.local_pais_ibge = $('select[name="local_pais"] option:selected').data('ibge-code');
 
                 if($rootScope.$state.name == "insert-local"){
 
@@ -136,9 +156,6 @@
                 }
 
             }
-            /*/
-
-
 
             
         }

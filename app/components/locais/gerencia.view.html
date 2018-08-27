@@ -54,7 +54,7 @@
 						</div>
 					</div>
 
-					<div class="col-md-6">
+					<div class="col-md-12">
 						<div class="form-group">
 							<label for="bairro">Bairro</label>
 							<input type="text" class="form-control" id="bairro" placeholder="Bairro" ng-model="local.local_bairro" required>
@@ -63,16 +63,20 @@
 
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="cidade">Cidade</label>
-							<input type="text" class="form-control" id="cidade" placeholder="Cidade" ng-model="local.local_cidade" required>
+							<label for="estado">Estado</label>
+							<select class="form-control" name="local_estado" ng-model="local.local_estado" ng-change="ufChange(local.local_estado)">
+								<option value="0">Selecione...</option>
+								<option ng-repeat="(key, uf) in ufs" value="{{ uf.uf_nome }}" data-ibge-code="{{ uf.uf_code_ibge }}">{{ uf.uf_nome }}</option>
+							</select>
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="estado">Estado</label>
-							<select class="form-control" ng-model="local.local_estado" ng-options="u.uf_nome for u in ufs" ng-change="ufChange(local.local_estado)"> 
+							<label for="cidade">Cidade</label>
+							<select class="form-control" name="local_cidade" ng-model="local.local_cidade">
 								<option value="0">Selecione...</option>
+								<option ng-repeat="(key, cidade) in municipios" value="{{ cidade.municipio_nome }}" data-ibge-code="{{ cidade.municipio_code_ibge }}">{{ cidade.municipio_nome }}</option>
 							</select>
 						</div>
 					</div>
@@ -80,7 +84,7 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="estado">País</label>
-							<select class="form-control" ng-model="local.local_pais">
+							<select class="form-control" name="local_pais" ng-model="local.local_pais">
 								<option value="0">Selecione...</option>
 								<option value="África do Sul">África do Sul</option>
 								<option value="Albânia">Albânia</option>
@@ -104,7 +108,7 @@
 								<option value="Benin">Benin</option>
 								<option value="Bermudas">Bermudas</option>
 								<option value="Botsuana">Botsuana</option>
-								<option value="Brasil" selected>Brasil</option>
+								<option value="Brasil" selected data-ibge-code="1058">Brasil</option>
 								<option value="Brunei">Brunei</option>
 								<option value="Bulgária">Bulgária</option>
 								<option value="Burkina Fasso">Burkina Fasso</option>
