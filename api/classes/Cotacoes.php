@@ -76,6 +76,50 @@ class Cotacoes {
 			return $response;
 		}
 
+		// Tratamento
+
+		if(isset($args['cotacao_comp'])){
+			if(strlen(trim($args['cotacao_comp'])) == 0){
+				unset($args['cotacao_comp']);
+			}
+		}
+
+		if(isset($args['cotacao_larg'])){
+			if(strlen(trim($args['cotacao_larg'])) == 0){
+				unset($args['cotacao_larg']);
+			}
+		}
+
+		if(isset($args['cotacao_alt'])){
+			if(strlen(trim($args['cotacao_alt'])) == 0){
+				unset($args['cotacao_alt']);
+			}
+		}
+
+		if(isset($args['cotacao_valor_un'])){
+			if(strlen(trim($args['cotacao_valor_un'])) == 0){
+				unset($args['cotacao_valor_un']);
+			}
+		}
+
+		if(isset($args['cotacao_valor_total'])){
+			if(strlen(trim($args['cotacao_valor_total'])) == 0){
+				unset($args['cotacao_valor_total']);
+			}
+		}
+
+		if(isset($args['cotacao_peso_un'])){
+			if(strlen(trim($args['cotacao_peso_un'])) == 0){
+				unset($args['cotacao_peso_un']);
+			}
+		}
+
+		if(isset($args['cotacao_peso_total'])){
+			if(strlen(trim($args['cotacao_peso_total'])) == 0){
+				unset($args['cotacao_peso_total']);
+			}
+		}
+
 		// Init insert
 		$data = array_flip($this->schema);
 
@@ -257,6 +301,50 @@ class Cotacoes {
 		}
 
 		unset($args['create_timestamp']);
+
+		// Tratamento
+
+		if(isset($args['cotacao_comp'])){
+			if(strlen(trim($args['cotacao_comp'])) == 0){
+				unset($args['cotacao_comp']);
+			}
+		}
+
+		if(isset($args['cotacao_larg'])){
+			if(strlen(trim($args['cotacao_larg'])) == 0){
+				unset($args['cotacao_larg']);
+			}
+		}
+
+		if(isset($args['cotacao_alt'])){
+			if(strlen(trim($args['cotacao_alt'])) == 0){
+				unset($args['cotacao_alt']);
+			}
+		}
+
+		if(isset($args['cotacao_valor_un'])){
+			if(strlen(trim($args['cotacao_valor_un'])) == 0){
+				unset($args['cotacao_valor_un']);
+			}
+		}
+
+		if(isset($args['cotacao_valor_total'])){
+			if(strlen(trim($args['cotacao_valor_total'])) == 0){
+				unset($args['cotacao_valor_total']);
+			}
+		}
+
+		if(isset($args['cotacao_peso_un'])){
+			if(strlen(trim($args['cotacao_peso_un'])) == 0){
+				unset($args['cotacao_peso_un']);
+			}
+		}
+
+		if(isset($args['cotacao_peso_total'])){
+			if(strlen(trim($args['cotacao_peso_total'])) == 0){
+				unset($args['cotacao_peso_total']);
+			}
+		}
 
 		$updateStatement = $this->db->update()->set($args)->table('cotacoes')->whereMany( array('id' => $id, 'id_empresa' => $context), '=');
 

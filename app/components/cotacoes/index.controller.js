@@ -11,16 +11,16 @@
 
         $scope.currentPage = ($rootScope.$state.name == 'cotacoes-paged' ? $rootScope.$stateParams.page : '1' );
 
-        $scope.get_clientes = function(){
+        $scope.get_cotacoes = function(){
 
             $rootScope.is_loading = true;
 
         	$http.get('/api/public/cotacoes/get?context='+$localStorage.currentEmpresaId+'&current_page='+$scope.currentPage).then(function (response) {
 
-                $scope.clientes = response.data;
-                $scope.clientes.config.current_page = parseInt($scope.clientes.config.current_page);
+                $scope.cotacoes = response.data;
+                $scope.cotacoes.config.current_page = parseInt($scope.cotacoes.config.current_page);
 
-                console.log( $scope.clientes);
+                console.log( $scope.cotacoes);
 
 			}, function(response) {
 				$rootScope.is_error = true;
@@ -32,18 +32,18 @@
 
 
         $rootScope.is_loading = true;
-        $scope.get_clientes();
+        $scope.get_cotacoes();
 
     
-        $scope.delete_cliente = function(id){
-            if(confirm("Deseja excluir esse cliente?")){
+        $scope.delete_cotacao = function(id){
+            if(confirm("Deseja excluir essa cotação?")){
                 $rootScope.is_loading = true;
-                $http.post('/api/public/clientes/delete',{ id : id }).then(function (response) {
-                    $scope.get_clientes();
+                $http.post('/api/public/cotacoes/delete',{ id : id }).then(function (response) {
+                    $scope.get_cotacoes();
 
                     ngToast.create({
                         className: 'success',
-                        content: 'Cliente excluído com sucesso'
+                        content: 'Cotação excluída com sucesso'
                     });
 
                 }, function(response) {

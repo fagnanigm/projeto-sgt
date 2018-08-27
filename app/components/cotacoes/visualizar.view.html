@@ -1,0 +1,142 @@
+<h1 class="title-page">Visualização de local</h1>
+
+<div class="box-content">
+
+	<div class="box-subtitle">
+		<h2>Local #{{ cotacao.id }}</h2>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6">
+
+			<div class="row">
+
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="item-cotacao">Item da cotação</label>
+						<p>{{ cotacao.cotacao_item }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="qtd">Quantidade</label>
+						<p>{{ cotacao.cotacao_qtd }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="equipamento">Equipamento</label>
+						<p>{{ cotacao.cotacao_equipamento }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="origem">Origem</label>
+						<p>{{ cotacao.cotacao_origem }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="destino">Destino</label>
+						<p>{{ cotacao.cotacao_destino }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="km">Km</label>
+						<p>{{ cotacao.cotacao_km }}</p>
+					</div>
+				</div>
+
+			</div>
+
+			<hr />
+
+			<div class="row">
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="comprimento">Comprimento (m)</label>
+						<p>{{ cotacao.cotacao_comp }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="largura">Largura (m)</label>
+						<p>{{ cotacao.cotacao_larg }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="altura">Altura (m)</label>
+						<p>{{ cotacao.cotacao_alt }}</p>
+					</div>
+				</div>
+
+			</div>				
+
+		</div>
+		<div class="col-md-6">
+
+			<div class="row">
+
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="descricao">Descrição</label>
+						<p>{{ cotacao.cotacao_descricao }}</p>
+					</div>
+				</div>
+
+			</div>
+
+			<hr />
+
+			<div class="row">
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="valor-unitario">Valor unitário</label>
+						<p>{{ cotacao.cotacao_valor_un }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="valor-total">Valor total</label>
+						<p>{{ cotacao.cotacao_valor_total }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="peso-unitario">Peso unitário (Kg)</label>
+						<p>{{ cotacao.cotacao_peso_un }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="peso-total">Peso total (Kg)</label>
+						<p>{{ cotacao.cotacao_peso_total }}</p>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="cadastro-footer margin-top-25">
+		<a href="/cotacoes" class="btn btn-primary"><i class="icon-arrow-left icons"></i> Voltar</a>
+	</div>
+
+
+</div>

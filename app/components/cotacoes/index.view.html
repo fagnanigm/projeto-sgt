@@ -33,18 +33,17 @@
 	-->
 
 	<table class="table margin-top-30">
-		<tr ng-repeat="(key, val) in clientes.results">
+		<tr ng-repeat="(key, val) in cotacoes.results">
 			<td>
-				<strong>{{ val.cliente_nome }}</strong><br />
-				<span>{{ val.cliente_person == 'f' ? val.cliente_cpf : val.cliente_cnpj }}</span>
+				<strong>{{ val.cotacao_item }}</strong>
 			</td>
 			<td>
-				{{ val.cliente_email }}
+				Qtd: {{ val.cotacao_qtd }}
 			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
-			<td width="180">
+			<td><small>Cadastrado em {{ val.create_timestamp * 1000 | date:"dd/MM/yyyy HH:mm" }}</small></td>
+			<td width="220">
 				<div class="buttons-capsule">
-					<a href="/clientes/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><button href="#" ng-click="delete_cliente(val.id)" class="btn btn-sm btn-danger">Excluir</button>
+					<a href="/cotacoes/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><a href="/cotacoes/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">Editar</a><button href="#" ng-click="delete_cotacao(val.id)" class="btn btn-sm btn-danger">Excluir</button>
 				</div>
 			</td>
 		</tr>
@@ -53,16 +52,16 @@
 
 	<!-- pager -->
 	<div class="text-center margin-top-30">
-		<div aria-label="navigation" ng-if="clientes.config.total_pages > 1" class="d-inline-block">
+		<div aria-label="navigation" ng-if="cotacoes.config.total_pages > 1" class="d-inline-block">
 		    <ul class="pagination">
-		        <li ng-class="{disabled:clientes.config.current_page == 1}" class="page-item">
-		            <a href="/clientes/{{clientes.config.current_page - 1}}" class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+		        <li ng-class="{disabled:cotacoes.config.current_page == 1}" class="page-item">
+		            <a href="/cotacoes/{{cotacoes.config.current_page - 1}}" class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
 		        </li>
-		        <li ng-repeat="page in [] | range: clientes.config.total_pages | limitTo:10" ng-class="{active:clientes.config.current_page == page}" class="page-item">
-		            <a href="/clientes/{{page}}" class="page-link">{{page}}</a>
+		        <li ng-repeat="page in [] | range: cotacoes.config.total_pages | limitTo:10" ng-class="{active:cotacoes.config.current_page == page}" class="page-item">
+		            <a href="/cotacoes/{{page}}" class="page-link">{{page}}</a>
 		        </li>                
-		        <li ng-class="{disabled:clientes.config.current_page == clientes.config.total_pages}" class="page-item">
-		            <a href="/clientes/{{ clientes.config.current_page + 1 }}" class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+		        <li ng-class="{disabled:cotacoes.config.current_page == cotacoes.config.total_pages}" class="page-item">
+		            <a href="/cotacoes/{{ cotacoes.config.current_page + 1 }}" class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
 		        </li>
 		    </ul>
 		</div>

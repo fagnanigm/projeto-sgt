@@ -376,7 +376,30 @@
                 controller: 'Cotacoes.IndexController',
                 controllerAs: 'vm'
             })
-
+            .state('insert-cotacao', {
+                url: '/cotacoes/gerencia',
+                templateUrl: 'app/components/cotacoes/gerencia.view.html',
+                controller: 'Cotacoes.GerenciaController',
+                controllerAs: 'vm'
+            })
+            .state('update-cotacao', {
+                url: '/cotacoes/gerencia/{id_cotacao}?queryString',
+                templateUrl: 'app/components/cotacoes/gerencia.view.html',
+                controller: 'Cotacoes.GerenciaController',
+                controllerAs: 'vm'
+            })
+            .state('visualizar-cotacao', {
+                url: '/cotacoes/visualizar/{id_cotacao}?queryString',
+                templateUrl: 'app/components/cotacoes/visualizar.view.html',
+                controller: 'Cotacoes.VisualizarController',
+                controllerAs: 'vm'
+            })
+            .state('cotacoes-paged', {
+                url: '/cotacoes/{page}?queryString',
+                templateUrl: 'app/components/cotacoes/index.view.html',
+                controller: 'Cotacoes.IndexController',
+                controllerAs: 'vm'
+            })
             ;
     }
 
