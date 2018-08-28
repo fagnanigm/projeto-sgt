@@ -48,3 +48,6 @@ require 'routes/localidades/localidades.php';
 
 // COTACOES
 require 'routes/cotacoes/cotacoes.php';
+
+// AUTORIZACAO SERVICO
+require 'routes/autorizacao-servico/autorizacao-servico.php';

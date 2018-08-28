@@ -14,14 +14,14 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="id">Código</label>
-							<input type="text" class="form-control" id="id">
+							<label for="codigo">Código</label>
+							<input type="text" class="form-control" id="codigo" placeholder="Código" ng-model="as.as_codigo">
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="id">Revisão</label>
-							<input type="text" class="form-control" id="id">
+							<label for="revisao">Revisão</label>
+							<input type="text" class="form-control" id="revisao" placeholder="Revisão" ng-model="as.as_revisao">
 						</div>
 					</div>
 				</div>
@@ -29,44 +29,51 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="form-group">
-							<label for="id">Cliente (n. fantasia)</label>
-							<input type="text" class="form-control" id="id">
+							<label for="cliente-nome-fantasia">Cliente (n. fantasia)</label>
+						
+							<div class="input-group">
+		  						<input type="text" class="form-control" placeholder="Selecionar cliente" id="cliente-nome-fantasia" ng-model="as.as_cliente_fantasia">
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_cliente('main_cliente')"><i class="icon-magnifier icons"></i></button>
+								</div>
+							</div>
+
 						</div>
 					</div>
 					<div class="col-md-12">
 						<div class="form-group">
-							<label for="id">Contato</label>
-							<input type="text" class="form-control" id="id">
+							<label for="contato-responsavel">Contato / Responsável</label>
+							<input type="text" class="form-control" id="contato-responsavel" placeholder="Contato responsável" ng-model="as.as_cliente_responsavel">
 						</div>
 					</div>
 					<div class="col-md-12">
 						<div class="form-group">
-							<label for="id">E-mail</label>
-							<input type="text" class="form-control" id="id">
+							<label for="email">E-mail</label>
+							<input type="email" class="form-control" id="email" placeholder="E-mail" ng-model="as.as_cliente_email">
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="id">Celular 1 / WhatsApp</label>
-							<input type="text" class="form-control" id="id">
+							<label for="celular1">Celular 1 / WhatsApp</label>
+							<input type="text" class="form-control" id="celular1" ng-model="as.as_cliente_phone1" mask="(99) 9?9999-9999" placeholder="Celular 1 / WhatsApp">
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="id">Celular 2</label>
-							<input type="text" class="form-control" id="id">
+							<label for="celular2">Celular 2</label>
+							<input type="text" class="form-control" id="celular2" ng-model="as.as_cliente_phone2" mask="(99) 9?9999-9999" placeholder="Celular 2">
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="id">Telefone Fixo</label>
-							<input type="text" class="form-control" id="id">
+							<label for="telefone-fixo">Telefone Fixo</label>
+							<input type="text" class="form-control" id="telefone-fixo" ng-model="as.as_cliente_phone3" mask="(99) 9?9999-9999" placeholder="Telefone fixo">
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="id">Ramal</label>
-							<input type="text" class="form-control" id="id">
+							<label for="ramal">Ramal</label>
+							<input type="text" class="form-control" id="ramal" ng-model="as.as_cliente_ramal" placeholder="Ramal">
 						</div>
 					</div>
 				</div>
@@ -77,29 +84,42 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="id">Filial</label>
-							<input type="text" class="form-control" id="id">
+							<label for="filial">Filial</label>
+							<select class="form-control" ng-model="as.as_filial">
+								<option value="0">Selecionar...</option>
+								<option value="1">TCM - Vila Maria</option>
+								<option value="2">TCM - Bonsucesso</option>
+								<option value="3">CM - Bonsucesso</option>
+								<option value="4">CM - Caucaia</option>
+								<option value="5">CM - Sorocaba</option>
+								<option value="6">CM - Itú</option>
+							</select>
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="id">Status</label>
-							<input type="text" class="form-control" id="id">
+							<label for="status">Status</label>
+							<select class="form-control" ng-model="as.as_status">
+								<option value="status1">Status 1</option>
+								<option value="status2">Status 2</option>
+								<option value="status3">Status 3</option>
+								<option value="status4">Status 4</option>
+							</select>
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="id">Data de cadastro</label>
-							<input type="text" class="form-control" id="id">
+							<label for="data-cadastro">Data de cadastro</label>
+							<input type="date" class="form-control" ng-model="as.as_data_cadastro_obj" id="data-cadastro" placeholder="Data de cadastro">
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="id">Vendedor</label>
-							<input type="text" class="form-control" id="id">
+							<label for="vendedor">Vendedor</label>
+							<input type="text" class="form-control" ng-model="as.as_vendedor" id="vendedor" placeholder="Vendedor">
 						</div>
 					</div>
 
@@ -107,25 +127,47 @@
 
 				<div class="row margin-top-55">
 
-					<div class="col-md-8">
+					<div class="col-md-7">
 						<div class="form-group">
-							<label for="id">Projeto (Apelido)</label>
-							<input type="text" class="form-control" id="id">
+							<label for="nome-cotacao">Nome Cotação</label>
+							<input type="text" class="form-control" ng-model="as.as_cotacao_nome" id="nome-cotacao" placeholder="Nome cotação">
 						</div>
 					</div>
 
-					<div class="col-md-4">
+					<div class="col-md-5">
 						<div class="form-group">
-							<label for="id">Cód. Cotação</label>
-							<input type="text" class="form-control" id="id">
+							<label for="cod-cotacao">Cód. Cotação</label>
+							<input type="text" class="form-control" ng-model="as.as_cotacao_cod" id="cod-cotacao" placeholder="Cód. cotação">
+						</div>
+					</div>
+
+					<div class="col-md-7">
+						<div class="form-group">
+							<label for="nome-projeto">Nome do projeto</label>
+							
+
+							<div class="input-group">
+		  						<input type="text" class="form-control" ng-model="as.as_projeto_nome" id="nome-projeto" placeholder="Selecionar projeto">
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_projeto('main_projeto')"><i class="icon-magnifier icons"></i></button>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<div class="col-md-5">
+						<div class="form-group">
+							<label for="cod-projeto">Cód. Projeto</label>
+							<input type="text" class="form-control" ng-model="as.as_projeto_cod" id="cod-projeto" placeholder="Nome do projeto">
 						</div>
 					</div>
 
 					
 					<div class="col-md-12">
 						<div class="form-group">
-							<label for="id">Resumo do projeto</label>
-							<textarea class="form-control"></textarea>
+							<label for="resumo-projeto">Resumo do projeto</label>
+							<textarea class="form-control" ng-model="as.as_projeto_resumo" placeholder="Resumo do projeto"></textarea>
 						</div>
 					</div>
 
@@ -146,7 +188,7 @@
 					<input type="radio" name=""> Consignatário / faturamento
 				</div>
 				<div class="col-md-3">
-					<input type="radio" name=""> Remente
+					<input type="radio" name=""> Remetente
 				</div>
 				<div class="col-md-3">
 					<input type="radio" name=""> Destinatário
@@ -1304,7 +1346,7 @@
 		<hr class="margin-top-40 margin-bottom-20" />
 
 		<div class="form-group">
-			<label for="id">Condições Comerciais Adcionais</label>
+			<label for="id">Condições Comerciais Adicionais</label>
 			<textarea class="form-control"></textarea>
 		</div>
 

@@ -309,6 +309,44 @@ class Projetos {
 
 	}
 
+
+	public function search($args = array()){
+
+		$response = array('result' => false);
+
+		if(!isset($args['context'])){
+			$response['error'] = 'Contexto não definido.';
+			return $response;
+		}
+
+		if(!isset($args['term'])){
+			$response['error'] = 'Termo não definido.';
+			return $response;
+		}else{
+			if(strlen(trim($args['term'])) == 0){
+				$response['error'] = 'Termo não definido.';
+				return $response;
+			}
+		}
+
+		$term = trim($args['term']);
+		
+		$select = $this->db->query('SELECT * FROM projetos 
+			WHERE active = \'Y\' 
+			AND id_empresa = \''.$args['context'].'\' AND (
+				projeto_apelido LIKE \'%'.$term.'%\' OR
+				projeto_codigo = \''.$term.'\'
+			)
+			ORDER BY projeto_apelido');
+			
+		$response['results'] = $this->parser_fecth($select->fetchAll(\PDO::FETCH_ASSOC),'all');
+
+		$response['result'] = true;
+
+		return $response;
+
+	}
+
 }
 
 ?>

@@ -293,7 +293,7 @@
             .state('insert-autorizacao-de-servico', {
                 url: '/autorizacao-de-servico/gerencia',
                 templateUrl: 'app/components/autorizacao-de-servico/gerencia.view.html',
-                controller: 'Produtos.IndexController',
+                controller: 'As.GerenciaController',
                 controllerAs: 'vm'
             })
 

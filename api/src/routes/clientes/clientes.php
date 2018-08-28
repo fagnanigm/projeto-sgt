@@ -35,6 +35,12 @@ $app->post('/clientes/importOmie', function (Request $request, Response $respons
 	return $response->withJson($data);
 });
 
+$app->get('/clientes/search', function (Request $request, Response $response, array $args) {
+	$clientes = new Clientes($this->db);
+	$data = $clientes->search($request->getParams());
+	return $response->withJson($data);
+});
+
 
 
 /*

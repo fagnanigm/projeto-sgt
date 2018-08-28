@@ -1122,3 +1122,37 @@ textarea.form-control {
     color: #7a7e99;
     margin: 0px;
 }
+
+.fade.in {
+    opacity: 1;
+}
+
+.modal.in .modal-dialog {
+  -webkit-transform: translate(0, 0);
+       -o-transform: translate(0, 0);
+          transform: translate(0, 0);
+}
+
+.modal-backdrop.in {
+    filter: alpha(opacity=50);
+    opacity: .5;
+}
+
+.modal-loading {
+    text-align: center;
+}
+
+.modal-results-box {
+    max-height: 300px;
+    overflow-y: scroll; 
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+}
+
+.modal-results-box .table {
+    margin: 0px;
+}
+
+.modal-results-box .table td, .modal-results-box .table th {
+    border: 0px;
+}

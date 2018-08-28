@@ -35,5 +35,11 @@ $app->post('/projetos/update', function (Request $request, Response $response, a
 	return $response->withJson($data);
 });
 
+$app->get('/projetos/search', function (Request $request, Response $response, array $args) {
+	$projetos = new Projetos($this->db);
+	$data = $projetos->search($request->getParams());
+	return $response->withJson($data);
+});
+
 
 ?>

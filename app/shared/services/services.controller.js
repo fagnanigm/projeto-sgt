@@ -5,7 +5,7 @@
         .module('app')
         .controller('GlobalServicesCtrl', Controller);
 
-    function Controller($rootScope, $http, $location, $localStorage, AuthenticationService) {
+    function Controller($rootScope, $http, $location, $localStorage, AuthenticationService, $uibModal, $document) {
         var gl = this;
 
         initController();
@@ -64,6 +64,21 @@
         }
 
 
+        // Modal
+        $rootScope.openModal = function (template, size, $scope) {
+
+            size = (typeof(size) == 'undefined' || size == false ? 'modal-sm' : size );
+
+            var modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: template,
+                controller: 'ModalInstanceCtrl',
+                controllerAs: '$ctrl',
+                scope: $scope,
+                size: size
+            });
+
+        };
 
     }
 
