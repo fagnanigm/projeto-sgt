@@ -210,7 +210,7 @@
 
         $scope.search_modal_projeto = function(){
             $rootScope.is_modal_loading = true;
-                        
+
             $http.get('/api/public/projetos/search?term=' + $scope.projeto_search_filter.free_term + '&context=' + $localStorage.currentEmpresaId, $scope.as ).then(function (response) {
                     
                 if(response.data.result){
