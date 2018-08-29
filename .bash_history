@@ -27,3 +27,4 @@ sudo su -
 sudo su
 poweroff
 sudo su
+sudo su 

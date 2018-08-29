@@ -11,8 +11,15 @@
 
         service.hierarchical_decode = hierarchical_decode;
         service.phone_parser = phone_parser;
+        service.get_as_code_sequencial = get_as_code_sequencial;
 
         return service;
+
+        function get_as_code_sequencial(code){
+            code = code.split("/");
+            var seq = code[0];
+            return seq; 
+        }
         
         function hierarchical_decode(data,nivel){
             var global_data = [];

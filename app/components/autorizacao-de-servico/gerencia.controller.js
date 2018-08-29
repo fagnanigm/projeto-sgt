@@ -25,6 +25,17 @@
                     as_data_cadastro_obj : new Date()
                 }
 
+
+                // Busca código
+                $http.get('/api/public/as/getnextcode' + '?context=' + $localStorage.currentEmpresaId).then(function (response) {
+                    $scope.as.as_codigo_seq = response.data.code;
+                    $scope.as.as_codigo = $scope.as.as_codigo_seq + '/' + $scope.as.as_filial + '-' + $scope.as.as_revisao;
+                });
+
+                $scope.$watchGroup(['as.as_revisao', 'as.as_filial'], function() { 
+                    $scope.as.as_codigo = $scope.as.as_codigo_seq + '/' + $scope.as.as_filial + '-' + $scope.as.as_revisao;
+                });            
+
             }else{
 
                 $http.get('/api/public/locais/get/' + $rootScope.$stateParams.id_as + '?context=' + $localStorage.currentEmpresaId).then(function (response) {
@@ -52,57 +63,27 @@
 
             var error = 0;
             
-            // Validação 
-            if($scope.as.as_estado == '0'){
-                ngToast.create({
-                    className: 'danger',
-                    content: "Estado inválido"
-                });
-                error++;
-                return;
-            }
-
-            if($scope.as.as_cidade == '0'){
-                ngToast.create({
-                    className: 'danger',
-                    content: "Cidade inválida"
-                });
-                error++;
-                return;
-            }
-
-            if($scope.as.as_pais == '0'){
-                ngToast.create({
-                    className: 'danger',
-                    content: "País inválido"
-                });
-                error++;
-                return;
-            }
-
-
+            // Validação
 
     
             if(error == 0){
 
                 $rootScope.is_loading = true;
 
-                $scope.as.as_estado_ibge = $('select[name="as_estado"] option:selected').data('ibge-code');
-                $scope.as.as_cidade_ibge = $('select[name="as_cidade"] option:selected').data('ibge-code');
-                $scope.as.as_pais_ibge = $('select[name="as_pais"] option:selected').data('ibge-code');
+                $scope.as.as_codigo_seq = GlobalServices.get_as_code_sequencial($scope.as.as_codigo);
+            
+                if($rootScope.$state.name == "insert-autorizacao-de-servico"){
 
-                if($rootScope.$state.name == "insert-as"){
-
-                    $http.post('/api/public/locais/insert', $scope.as).then(function (response) {
+                    $http.post('/api/public/as/insert', $scope.as).then(function (response) {
                         
                         if(response.data.result){
 
                             ngToast.create({
                                 className: 'success',
-                                content: "as cadastrado com sucesso!"
+                                content: "AS cadastrada com sucesso!"
                             });
 
-                            $location.path('/locais');
+                            $location.path('/autorizacao-de-servico');
 
                         }else{
                             ngToast.create({

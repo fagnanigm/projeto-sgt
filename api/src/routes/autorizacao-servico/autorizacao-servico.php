@@ -11,6 +11,12 @@ $app->post('/as/insert', function (Request $request, Response $response, array $
 	return $response->withJson($data);
 });
 
+$app->get('/as/getnextcode', function (Request $request, Response $response, array $args) {
+	$as = new AutorizacaoServico($this->db);
+	$data = $as->getnextcode($request->getParams());
+	return $response->withJson($data);
+});
+
 /*
 
 

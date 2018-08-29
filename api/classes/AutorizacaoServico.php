@@ -8,12 +8,15 @@ class AutorizacaoServico {
 
 	public $item_per_page = 5;
 
+	public $code_length = 6;
+
 	public $schema = array(
 		"id_empresa",
 		"id_author",
 
 		# Cadastro
 		"as_codigo",
+		"as_codigo_seq",
 		"as_revisao",
 		"as_cliente_id",
 		"as_cliente_fantasia",
@@ -141,6 +144,11 @@ class AutorizacaoServico {
 			return $response;
 		}
 
+		if(!isset($args['as_codigo_seq'])){
+			$response['error'] = 'O campo as_codigo_seq é obrigatório.';
+			return $response;
+		}
+
 		// Tratamento das datas
 		if(isset($args['as_data_cadastro'])){
 			$args['as_data_cadastro'] = abs($args['as_data_cadastro']);
@@ -201,6 +209,11 @@ class AutorizacaoServico {
 				// Tratamento de CEP
 				if($field == 'local_cep'){
 					$val = Utilities::unMask($val);
+				}
+
+				// Tratamento de CEP
+				if($field == 'as_codigo_seq'){
+					$val = $this->code_parser_seq($val);
 				}
 
 				// Tratamento de id
@@ -452,6 +465,36 @@ class AutorizacaoServico {
 		}else{
 			$response['error'] = 'Nenhum local encontrada para essa ID.';
 		}
+
+		return $response;
+
+	}
+
+	public function code_parser_seq($val = 0){
+		return str_pad($val, $this->code_length, "0", STR_PAD_LEFT); 
+	}
+
+	public function getnextcode($args){
+
+		$response = array(
+			'result' => true
+		);
+
+		if(!isset($args['context'])){
+			$response = array(
+				'result' => false,
+				'error' => 'Contexto não definido'
+			);
+			return $response;
+		}
+
+		$select = $this->db->query('SELECT max(as_codigo_seq) AS code FROM autorizacao_servico WHERE id_empresa = \''.$args['context'].'\' AND active = \'Y\'');
+
+		$max = $select->fetch(\PDO::FETCH_ASSOC);
+
+		$max = ($max ? $max['code'] + 1 : 1);
+
+		$response['code'] = $this->code_parser_seq($max);
 
 		return $response;
 

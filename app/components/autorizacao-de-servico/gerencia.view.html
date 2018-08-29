@@ -2,7 +2,7 @@
 
 <div class="box-content">
 
-	<form ng-submit="vm.setUser()">
+	<form ng-submit="vm.setAs()">
 
 		<div class="box-subtitle">
 			<h2>Cadastro / edição de autorização de serviço</h2>
@@ -15,7 +15,7 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="codigo">Código</label>
-							<input type="text" class="form-control" id="codigo" placeholder="Código" ng-model="as.as_codigo">
+							<input type="text" class="form-control" id="codigo" placeholder="Código" ng-model="as.as_codigo" mask="999999/9-9">
 						</div>
 					</div>
 					<div class="col-md-6">
