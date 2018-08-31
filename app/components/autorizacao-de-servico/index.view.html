@@ -2,7 +2,7 @@
 	<div class="row">
 
 		<div class="col-md-8">
-			<h1>Autorização de serviço <small>(987 registros)</small></h1>
+			<h1>Autorização de serviço <small>({{ autorizacoes.config.total }} registros)</small></h1>
 		</div>
 		<div class="col-md-4 text-right">
 			<a href="/autorizacao-de-servico/gerencia" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Cadastrar</a>
@@ -95,18 +95,18 @@
 			<th></th>
 		</tr>
 
-		<tr class="text-success">
-			<td><a href="/autorizacao-de-servico/visualizar">1235</a></td>
-			<td>845</td>
-			<td>156</td>
-			<td>789</td>
-			<td>18/06/2018</td>
-			<td>Cliente exemplo</td>
-			<td>Projeto xyz</td>
-			<td>SP</td>
-			<td>SP</td>
-			<td>Guilherme</td>
-			<td><a href="/autorizacao-de-servico/visualizar">Em aberto</a></td>
+		<tr ng-repeat="(key, val) in autorizacoes.results" class="text-success">
+			<td><a href="/autorizacao-de-servico/visualizar">{{ val.as_codigo }}</a></td>
+			<td>-</td>
+			<td>-</td>
+			<td>-</td>
+			<td>{{ val.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm'}}</td>
+			<td>{{ val.as_cliente_fantasia }}</td>
+			<td>{{ val.as_projeto_nome }}</td>
+			<td>-</td>
+			<td>-</td>
+			<td>{{ val.as_vendedor }}</td>
+			<td><a href="/autorizacao-de-servico/visualizar">{{ val.as_status }}</a></td>
 			<td width="150" class="text-right">
 				<div class="dropdown">
 					<button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

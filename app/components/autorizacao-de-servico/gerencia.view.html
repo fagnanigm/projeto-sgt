@@ -185,13 +185,13 @@
 			<label for="id">Cliente Tomador do Serviço</label>
 			<div class="row mt-3">
 				<div class="col-md-3">
-					<input type="radio" name=""> Consignatário / faturamento
+					<input type="radio" name="as_cliente_tomador_type" ng-model="as.as_cliente_tomador_type" value="consignatario"> Consignatário / faturamento
 				</div>
 				<div class="col-md-3">
-					<input type="radio" name=""> Remetente
+					<input type="radio" name="as_cliente_tomador_type" ng-model="as.as_cliente_tomador_type" value="remetente"> Remetente
 				</div>
 				<div class="col-md-3">
-					<input type="radio" name=""> Destinatário
+					<input type="radio" name="as_cliente_tomador_type" ng-model="as.as_cliente_tomador_type" value="destinatario"> Destinatário
 				</div>
 			</div>
 		</div>
@@ -208,40 +208,33 @@
 					<label for="id">Cliente Consignatário / faturamento:</label>
 					
 					<div class="input-group my-3">
-  						<input type="text" class="form-control" placeholder="Selecionar cliente consignatário" aria-label="Recipient's username" aria-describedby="button-addon2">
+  						<input type="text" class="form-control" placeholder="Selecionar cliente consignatário" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="cliente_consig_data.cliente_nome">
 						<div class="input-group-append">
-							<button class="btn btn-primary" type="button" id="button-addon2"><i class="icon-magnifier icons"></i></button>
+							<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_cliente('cliente_consignatario')"><i class="icon-magnifier icons"></i></button>
 						</div>
 					</div>
 
 				</div>
 
-				<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#cliente-consignatario-details" aria-expanded="false" aria-controls="cliente-consignatario-details">Ver detalhes</button>
+				<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#cliente-consignatario-details" aria-expanded="false" aria-controls="cliente-consignatario-details" ng-show="cliente_consig_data">Ver detalhes</button>
 
 				<div class="collapse mt-3" id="cliente-consignatario-details">
 					<table class="table">
 						<tr>
 							<th width="120">CNPJ:</th>
-							<td>00.000.000/000-00</td>
+							<td>{{ cliente_consig_data.cliente_cnpj }}</td>
 						</tr>
 						<tr>
 							<th>Ins. Estadual:</th>
-							<td>000.000.000.000</td>
+							<td>{{ cliente_consig_data.cliente_ie }}</td>
 						</tr>
 						<tr>
 							<th>Endereço</th>
-							<td>Rua / Avenida / etc...	Bairro	Cidade - UF	CEP</td>
+							<td>{{ cliente_consig_data.cliente_logradouro }}</td>
 						</tr>
 						<tr>
 							<th>Contato:</th>
-							<td>Responsável - Faturamento	
-							Depto.	
-							Telefone 1	
-							Telefone 2	
-							Celular 1 	
-							Celular 2	
-							Email	
-							</td>
+							<td>{{ cliente_consig_data.cliente_nome }}</td>
 						</tr>
 					</table>
 				</div>
@@ -254,40 +247,33 @@
 					<label for="id">Cliente remetente:</label>
 
 					<div class="input-group my-3">
-  						<input type="text" class="form-control" placeholder="Selecionar cliente remetente" aria-label="Recipient's username" aria-describedby="button-addon2">
+  						<input type="text" class="form-control" placeholder="Selecionar cliente remetente" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="cliente_remetente_data.cliente_nome">
 						<div class="input-group-append">
-							<button class="btn btn-primary" type="button" id="button-addon2"><i class="icon-magnifier icons"></i></button>
+							<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_cliente('cliente_remetente')"><i class="icon-magnifier icons"></i></button>
 						</div>
 					</div>
 
 				</div>
 
-				<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#cliente-remetente-details" aria-expanded="false" aria-controls="cliente-remetente-details">Ver detalhes</button>
+				<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#cliente-remetente-details" aria-expanded="false" aria-controls="cliente-remetente-details" ng-show="cliente_remetente_data">Ver detalhes</button>
 
 				<div class="collapse mt-3" id="cliente-remetente-details">
 					<table class="table">
 						<tr>
 							<th width="120">CNPJ:</th>
-							<td>00.000.000/000-00</td>
+							<td>{{ cliente_remetente_data.cliente_cnpj }}</td>
 						</tr>
 						<tr>
 							<th>Ins. Estadual:</th>
-							<td>000.000.000.000</td>
+							<td>{{ cliente_remetente_data.cliente_ie }}</td>
 						</tr>
 						<tr>
 							<th>Endereço</th>
-							<td>Rua / Avenida / etc...	Bairro	Cidade - UF	CEP</td>
+							<td>{{ cliente_remetente_data.cliente_logradouro }}</td>
 						</tr>
 						<tr>
 							<th>Contato:</th>
-							<td>Responsável - Faturamento	
-							Depto.	
-							Telefone 1	
-							Telefone 2	
-							Celular 1 	
-							Celular 2	
-							Email	
-							</td>
+							<td>{{ cliente_remetente_data.cliente_nome }}</td>
 						</tr>
 					</table>
 				</div>
@@ -300,43 +286,37 @@
 					<label for="id">Cliente destinatário:</label>
 					
 					<div class="input-group my-3">
-  						<input type="text" class="form-control" placeholder="Selecionar cliente destinatário" aria-label="Recipient's username" aria-describedby="button-addon2">
+  						<input type="text" class="form-control" placeholder="Selecionar cliente destinatário" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="cliente_destinatario_data.cliente_nome">
 						<div class="input-group-append">
-							<button class="btn btn-primary" type="button" id="button-addon2"><i class="icon-magnifier icons"></i></button>
+							<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_cliente('cliente_destinatario')"><i class="icon-magnifier icons"></i></button>
 						</div>
 					</div>
 
 				</div>
 
-				<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#cliente-destinatario-details" aria-expanded="false" aria-controls="cliente-destinatario-details">Ver detalhes</button>
+				<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#cliente-destinatario-details" aria-expanded="false" aria-controls="cliente-destinatario-details" ng-show="cliente_destinatario_data">Ver detalhes</button>
 
 				<div class="collapse mt-3" id="cliente-destinatario-details">
 
 					<table class="table">
 						<tr>
 							<th width="120">CNPJ:</th>
-							<td>00.000.000/000-00</td>
+							<td>{{ cliente_destinatario_data.cliente_cnpj }}</td>
 						</tr>
 						<tr>
 							<th>Ins. Estadual:</th>
-							<td>000.000.000.000</td>
+							<td>{{ cliente_destinatario_data.cliente_ie }}</td>
 						</tr>
 						<tr>
 							<th>Endereço</th>
-							<td>Rua / Avenida / etc...	Bairro	Cidade - UF	CEP</td>
+							<td>{{ cliente_destinatario_data.cliente_logradouro }}</td>
 						</tr>
 						<tr>
 							<th>Contato:</th>
-							<td>Responsável - Faturamento	
-							Depto.	
-							Telefone 1	
-							Telefone 2	
-							Celular 1 	
-							Celular 2	
-							Email	
-							</td>
+							<td>{{ cliente_destinatario_data.cliente_nome }}</td>
 						</tr>
 					</table>
+					
 				</div>
 				
 			</div>
@@ -361,9 +341,9 @@
 					</div>
 					
 					<div class="input-group my-3">
-  						<input type="text" class="form-control" placeholder="Selecionar local de coleta" aria-label="Recipient's username" aria-describedby="button-addon2">
+  						<input type="text" class="form-control" placeholder="Selecionar local de coleta" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="local_coleta_data.local_apelido">
 						<div class="input-group-append">
-							<button class="btn btn-primary" type="button" id="button-addon2"><i class="icon-magnifier icons"></i></button>
+							<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_local('local_coleta')"><i class="icon-magnifier icons"></i></button>
 						</div>
 					</div>
 
@@ -374,32 +354,21 @@
 					<input type="text" class="form-control" id="id">
 				</div>
 
-				<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#local-coleta-details" aria-expanded="false" aria-controls="cliente-destinatario-details">Ver detalhes</button>
+				<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#local-coleta-details" aria-expanded="false" aria-controls="cliente-destinatario-details" ng-show="local_coleta_data">Ver detalhes</button>
 
 				<div class="collapse mt-3" id="local-coleta-details">
 					<table class="table">
 						<tr>
-							<th width="120">CNPJ:</th>
-							<td>00.000.000/000-00</td>
+							<th>Apelido</th>
+							<td>{{ local_coleta_data.local_apelido }}</td>
 						</tr>
 						<tr>
-							<th>Ins. Estadual:</th>
-							<td>000.000.000.000</td>
+							<th width="120">CNPJ:</th>
+							<td>{{ local_coleta_data.local_cnpj }}</td>
 						</tr>
 						<tr>
 							<th>Endereço</th>
-							<td>Rua / Avenida / etc...	Bairro	Cidade - UF	CEP</td>
-						</tr>
-						<tr>
-							<th>Contato:</th>
-							<td>Responsável - Faturamento	
-							Depto.	
-							Telefone 1	
-							Telefone 2	
-							Celular 1 	
-							Celular 2	
-							Email	
-							</td>
+							<td>{{ local_coleta_data.local_logradouro }}</td>
 						</tr>
 					</table>
 				</div>
@@ -418,9 +387,9 @@
 					</div>
 					
 					<div class="input-group my-3">
-  						<input type="text" class="form-control" placeholder="Selecionar local de entrega" aria-label="Recipient's username" aria-describedby="button-addon2">
+  						<input type="text" class="form-control" placeholder="Selecionar local de entrega" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="local_entrega_data.local_apelido">
 						<div class="input-group-append">
-							<button class="btn btn-primary" type="button" id="button-addon2"><i class="icon-magnifier icons"></i></button>
+							<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_local('local_entrega')"><i class="icon-magnifier icons"></i></button>
 						</div>
 					</div>
 
@@ -431,32 +400,21 @@
 					<input type="text" class="form-control" id="id">
 				</div>
 
-				<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#local-entrega-details" aria-expanded="false" aria-controls="cliente-destinatario-details">Ver detalhes</button>
+				<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#local-entrega-details" aria-expanded="false" aria-controls="cliente-destinatario-details" ng-show="local_entrega_data">Ver detalhes</button>
 
 				<div class="collapse mt-3" id="local-entrega-details">
 					<table class="table">
 						<tr>
-							<th width="120">CNPJ:</th>
-							<td>00.000.000/000-00</td>
+							<th>Apelido</th>
+							<td>{{ local_entrega_data.local_apelido }}</td>
 						</tr>
 						<tr>
-							<th>Ins. Estadual:</th>
-							<td>000.000.000.000</td>
+							<th width="120">CNPJ:</th>
+							<td>{{ local_entrega_data.local_cnpj }}</td>
 						</tr>
 						<tr>
 							<th>Endereço</th>
-							<td>Rua / Avenida / etc...	Bairro	Cidade - UF	CEP</td>
-						</tr>
-						<tr>
-							<th>Contato:</th>
-							<td>Responsável - Faturamento	
-							Depto.	
-							Telefone 1	
-							Telefone 2	
-							Celular 1 	
-							Celular 2	
-							Email	
-							</td>
+							<td>{{ local_entrega_data.local_logradouro }}</td>
 						</tr>
 					</table>
 				</div>
@@ -480,7 +438,7 @@
 				<div class="form-group">
 					<label for="id">Data de carregamento:</label>
 					<div class="input-group my-3">
-  						<input type="text" class="form-control" placeholder="Data de carregamento" aria-label="Recipient's username" aria-describedby="button-addon2">
+  						<input type="date" class="form-control" placeholder="Data de carregamento" aria-label="Recipient's username" aria-describedby="button-addon2">
 						<div class="input-group-append">
 							<button class="btn btn-primary" type="button" id="button-addon2">Carregado</button>
 						</div>
@@ -489,7 +447,7 @@
 
 				<div class="form-group">
 					<label for="id">Previsão de Entrega:</label>
-					<input type="text" class="form-control" id="id">
+					<input type="date" class="form-control" id="id">
 				</div>
 
 			</div>
@@ -659,65 +617,58 @@
 					<label for="id">Faturamento</label>
 					
 					<div class="input-group my-3">
-  						<input type="text" class="form-control" placeholder="Sel. cliente faturamento" aria-label="Recipient's username" aria-describedby="button-addon2">
+  						<input type="text" class="form-control" placeholder="Sel. cliente faturamento" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="cliente_faturamento_data.cliente_nome">
 						<div class="input-group-append">
-							<button class="btn btn-primary" type="button" id="button-addon2"><i class="icon-magnifier icons"></i></button>
+							<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_cliente('cliente_faturamento')"><i class="icon-magnifier icons"></i></button>
 						</div>
 					</div>
 
 				</div>
 
-				<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#faturamento-details" aria-expanded="false" aria-controls="faturamento-details">Ver detalhes</button>
+				<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#faturamento-details" aria-expanded="false" aria-controls="faturamento-details" ng-show="cliente_faturamento_data">Ver detalhes</button>
 
 				<div class="collapse mt-3" id="faturamento-details">
 					<table class="table">
 						<tr>
 							<th width="120">CNPJ:</th>
-							<td>00.000.000/000-00</td>
+							<td>{{ cliente_faturamento_data.cliente_cnpj }}</td>
 						</tr>
 						<tr>
 							<th>Ins. Estadual:</th>
-							<td>000.000.000.000</td>
+							<td>{{ cliente_faturamento_data.cliente_ie }}</td>
 						</tr>
 						<tr>
 							<th>Endereço</th>
-							<td>Rua / Avenida / etc...	Bairro	Cidade - UF	CEP</td>
+							<td>{{ cliente_faturamento_data.cliente_logradouro }}</td>
 						</tr>
 						<tr>
 							<th>Contato:</th>
-							<td>Responsável - Faturamento	
-							Depto.	
-							Telefone 1	
-							Telefone 2	
-							Celular 1 	
-							Celular 2	
-							Email	
-							</td>
+							<td>{{ cliente_faturamento_data.cliente_nome }}</td>
 						</tr>
 					</table>
 				</div>
 
 				<div class="form-group mt-3">
-					<label for="id">Forma de Faturamento</label>
+					<label for="forma-faturamento">Forma de Faturamento</label>
 
 					<div class="row">
 						<div class="col-md-4">
-							<input type="radio"> CT-e
+							<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="cte"> CT-e
 						</div>
 						<div class="col-md-4">
-							<input type="radio"> NFE
+							<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="nfe"> NFE
 						</div>
 						<div class="col-md-4">
-							<input type="radio"> Fatura
+							<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="fatura"> Fatura
 						</div>
 						<div class="col-md-4">
-							<input type="radio"> NFS
+							<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="nfs"> NFS
 						</div>
 						<div class="col-md-4">
-							<input type="radio"> ND
+							<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="nd"> ND
 						</div>
 						<div class="col-md-4">
-							<input type="radio"> Outros
+							<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="outros"> Outros
 						</div>
 					</div>
 
@@ -729,17 +680,17 @@
 				</div>
 
 				<div class="form-group">
-					<label for="id">Forma de Pagamento</label>
+					<label for="forma-pagamento">Forma de Pagamento</label>
 				
 					<div class="row">
 						<div class="col-md-12">
-							<input type="radio"> Boleto
+							<input type="radio" name="as_faturamento_forma_pg" ng-model="as.as_faturamento_forma_pg" value="boleto"> Boleto
 						</div>
 						<div class="col-md-12">
-							<input type="radio"> Depósito
+							<input type="radio" name="as_faturamento_forma_pg" ng-model="as.as_faturamento_forma_pg" value="deposito"> Depósito
 						</div>
 						<div class="col-md-12">
-							<input type="radio"> Compensação
+							<input type="radio" name="as_faturamento_forma_pg" ng-model="as.as_faturamento_forma_pg" value="compensacao"> Compensação
 						</div>
 					</div>
 
@@ -747,7 +698,7 @@
 
 				<div class="form-group">
 					<label for="id">Prazo de pagamento</label>
-					<input type="text" class="form-control" id="id">
+					<input type="date" class="form-control" id="id">
 				</div>
 
 				<div class="form-group">
@@ -765,12 +716,12 @@
 
 				<div class="form-group">
 					<label for="id">Data do Faturamento:</label>
-					<input type="text" class="form-control" id="id">
+					<input type="date" class="form-control" id="id">
 				</div>
 
 				<div class="form-group">
 					<label for="id">Data do envio:</label>
-					<input type="text" class="form-control" id="id">
+					<input type="date" class="form-control" id="id">
 				</div>
 
 
@@ -1338,7 +1289,7 @@
 		<div class="row my-3">
 			<div class="col-md-12 text-right">
 
-				<button class="btn btn-sm btn-secondary">Faturar</button>
+				<button class="btn btn-sm btn-secondary" type="button">Faturar</button>
 
 			</div>
 		</div>

@@ -286,7 +286,7 @@
             .state('autorizacao-de-servico', {
                 url: '/autorizacao-de-servico',
                 templateUrl: 'app/components/autorizacao-de-servico/index.view.html',
-                controller: 'Produtos.IndexController',
+                controller: 'As.IndexController',
                 controllerAs: 'vm'
             })
 

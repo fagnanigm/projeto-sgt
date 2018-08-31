@@ -97,23 +97,6 @@
             </div>
 
 
-            <div class="context-bar">
-
-                <ul ng-if="gl.is_empresa_selected()">
-                    <li>Empresa selecionada</li>
-                    <!-- <li><img src="/assets/img/logo.jpg"></li> -->
-                    <li><strong>{{ selectedEmpresa.empresa_name }}</strong></li>
-                    <li><a href="/seleciona-empresa" class="btn btn-sm btn-outline-secondary">Alterar</a></li>
-                </ul>
-
-                <ul ng-if="!gl.is_empresa_selected()">
-                    <li>Empresa selecionada</li>
-                    <li><strong>Nenhuma empresa selecionada</strong></li>
-                    <li><a href="/seleciona-empresa" class="btn btn-sm btn-outline-success">Selecionar</a></li>
-                </ul>
-            </div>
-
-
         </div>
 
         <!-- Context -->
@@ -124,7 +107,7 @@
         <div class="menu">
 
             <div class="box-menu" >
-                <ul ng-if="gl.is_empresa_selected()">
+                <ul>
                     <li ng-class="{ active: $state.name == 'dashboard' }"><a href="/dashboard"><i class="icon-home"></i> Dashboard</a></li>
                     <li class="heading">
                         <h3 class="uppercase">Cadastros</h3>
@@ -147,10 +130,6 @@
                     <li ng-class="{ active: $state.name == 'orcamentos' }"><a href="/cte-emitidos"><i class="icon-paper-clip icons"></i> CT-e emitidos</a></li>
                     <li ng-class="{ active: $state.name == 'relatorios' }"><a href="/relatorios"><i class="icon-pie-chart icons"></i> Relatórios</a></li>
                 </ul>
-
-                <div class="box-menu-empty" ng-if="!gl.is_empresa_selected()">
-                    <p>Por favor, selecione uma empresa.</p>
-                </div>
 
             </div>            
 
@@ -264,6 +243,7 @@
     <script src="/app/components/cotacoes/visualizar.controller.js"></script>
 
     <!-- as -->
+    <script src="/app/components/autorizacao-de-servico/index.controller.js"></script>
     <script src="/app/components/autorizacao-de-servico/gerencia.controller.js"></script>
 
     <!-- scripts for fake backend -->

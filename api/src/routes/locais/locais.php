@@ -35,6 +35,12 @@ $app->post('/locais/update', function (Request $request, Response $response, arr
 	return $response->withJson($data);
 });
 
+$app->get('/locais/search', function (Request $request, Response $response, array $args) {
+	$locais = new Locais($this->db);
+	$data = $locais->search($request->getParams());
+	return $response->withJson($data);
+});
+
 
 
 

@@ -17,14 +17,16 @@ $app->get('/as/getnextcode', function (Request $request, Response $response, arr
 	return $response->withJson($data);
 });
 
+$app->get('/as/get', function (Request $request, Response $response, array $args) {
+	$as = new AutorizacaoServico($this->db);
+	$data = $as->get($request->getParams());
+	return $response->withJson($data);
+});
+
 /*
 
 
-$app->get('/AutorizacaoServico/get', function (Request $request, Response $response, array $args) {
-	$AutorizacaoServico = new AutorizacaoServico($this->db);
-	$data = $AutorizacaoServico->get($request->getParams());
-	return $response->withJson($data);
-});
+
 
 $app->get('/AutorizacaoServico/get/{id}', function (Request $request, Response $response, array $args) {
 	$AutorizacaoServico = new AutorizacaoServico($this->db);

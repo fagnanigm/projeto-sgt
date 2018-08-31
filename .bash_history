@@ -28,3 +28,4 @@ sudo su
 poweroff
 sudo su
 sudo su 
+sudo su

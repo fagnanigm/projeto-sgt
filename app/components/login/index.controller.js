@@ -24,7 +24,7 @@
             AuthenticationService.Login(vm.username, vm.password, function (result) {
 
                 if (result === true) {
-                    $location.path('/seleciona-empresa'); 
+                    $location.path('/dashboard');
                 } else {
                     vm.error = 'E-mail ou senha estão incorretos';
                 }

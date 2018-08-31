@@ -27,27 +27,6 @@
             $location.path('/');
         };
 
-        gl.is_empresa_selected = function(){
-
-            if(typeof($localStorage.currentEmpresaId) == 'undefined'){
-                return false;
-            }
-
-            return true;
-
-        }
-
-
-        if(gl.is_empresa_selected()){
-
-            $http.get('/api/public/empresas/get/'+$localStorage.currentEmpresaId).then(function (response) {
-                $rootScope.selectedEmpresa = response.data.empresa;
-            }, function(response) {
-                $rootScope.is_error_text = "Erro: " + response.data.error;
-            });
-
-        }
-
         $rootScope.get_ufs = function(){
             $http.get('/api/public/localidades/get/ufs').then(function (response) {
                 $rootScope.ufs = response.data.results;

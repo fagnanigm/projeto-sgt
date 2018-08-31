@@ -22,7 +22,8 @@
                     as_revisao : '0',
                     as_filial : '0',
                     as_status : 'status1',
-                    as_data_cadastro_obj : new Date()
+                    as_data_cadastro_obj : new Date(),
+                    as_cliente_tomador_type : 'consignatario'
                 }
 
 
@@ -55,6 +56,7 @@
         }        
 
         function initController() {
+
         	get_as();
         }
         
@@ -139,6 +141,10 @@
 
         $scope.cliente_search_filter = { free_term : '' };
         $scope.cliente_is_search = false;
+        $scope.cliente_consig_data = false;
+        $scope.cliente_destinatario_data = false;
+        $scope.cliente_remetente_data = false;
+        $scope.cliente_faturamento_data = false;
 
         $scope.search_modal_cliente = function(){
             $rootScope.is_modal_loading = true;
@@ -182,6 +188,30 @@
             $scope.as.as_cliente_responsavel = cliente.cliente_nome;
             $scope.as.as_cliente_email = cliente.cliente_email;
             $scope.as.as_cliente_phone1 = '(' + cliente.cliente_phone_01_ddd + ') ' + cliente.cliente_phone_01;
+        }
+
+        // Cliente consignatario
+        $scope.cliente_consignatario = function(cliente){
+            $scope.as.as_id_cliente_consig = cliente.id;
+            $scope.cliente_consig_data = cliente;
+        }
+
+        // Cliente remetente
+        $scope.cliente_remetente = function(cliente){
+            $scope.as.as_id_cliente_remetente = cliente.id;
+            $scope.cliente_remetente_data = cliente;
+        }
+
+        // Cliente destinatario
+        $scope.cliente_destinatario = function(cliente){
+            $scope.as.as_id_cliente_destinatario = cliente.id;
+            $scope.cliente_destinatario_data = cliente;
+        }
+
+        // Cliente faturamento
+        $scope.cliente_faturamento = function(cliente){
+            $scope.as.as_id_cliente_faturamento = cliente.id;
+            $scope.cliente_faturamento_data = cliente;
         }
 
         // Seleção de projeto
@@ -229,6 +259,60 @@
             $scope.as.as_projeto_nome = projeto.projeto_apelido;
             $scope.as.as_projeto_cod = projeto.projeto_codigo;
             $scope.as.as_projeto_resumo = projeto.projeto_resumo;
+        }
+
+        // Seleção de local
+
+        $scope.local_search_filter = { free_term : '' };
+        $scope.local_is_search = false;
+        $scope.local_coleta_data = false;
+        $scope.local_entrega_data = false;
+
+        $scope.search_modal_local = function(){
+            $rootScope.is_modal_loading = true;
+
+            $http.get('/api/public/locais/search?term=' + $scope.local_search_filter.free_term + '&context=' + $localStorage.currentEmpresaId, $scope.as ).then(function (response) {
+                    
+                if(response.data.result){
+                    $scope.locais = response.data.results;
+                    $scope.local_is_search = true;
+                }else{
+                    ngToast.create({
+                        className: 'danger',
+                        content: response.data.error
+                    });
+                }
+
+            }, function(response) {
+                $rootScope.is_error = true;
+                $rootScope.is_error_text = "Erro: " + response.data.message;
+            }).finally(function() {
+                $rootScope.is_modal_loading = false;
+            });
+
+        }
+
+        $scope.open_choose_local = function(fn){
+            $scope.open_choose_local_fn = fn;
+            $rootScope.openModal("/app/components/autorizacao-de-servico/locais.modal.html",false,$scope);
+        }
+
+        $scope.choose_local = function(local){
+            $scope[$scope.open_choose_local_fn](local);
+            $rootScope.closeModal();
+            $scope.local_is_search = false;
+        }
+
+        // Local de coleta
+        $scope.local_coleta = function(local){
+            $scope.as.as_id_local_coleta = local.id;
+            $scope.local_coleta_data = local;
+        }
+
+        // Local entrega
+        $scope.local_entrega = function(local){
+            $scope.as.as_id_local_entrega = local.id;
+            $scope.local_entrega_data = local;
         }
 
         

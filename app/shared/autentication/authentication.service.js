@@ -18,7 +18,6 @@
             $http.post('/api/public/users/login', { email: username, password: password })
                 .success(function (response) {
 
-
                     if (response.result) {
                         // store username and token in local storage to keep user logged in between page refreshes
                         $localStorage.currentUser = { id : response.user.id , username: username, token: response.token };

@@ -22,6 +22,7 @@
         }
         
         if ($localStorage.currentUser) {
+            $rootScope.is_logged = true;
             $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
         }else{
             $rootScope.is_logged = false;
@@ -63,13 +64,11 @@
             $rootScope.is_error = false;
 
             window.scrollTo(0, 0);
-
-            /*
+            
             if($rootScope.is_logged && $rootScope.$state.name == 'login'){
                 $location.path('/dashboard');
             }
-            */
-
+        
         }); 
 
         

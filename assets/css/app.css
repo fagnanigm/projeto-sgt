@@ -192,7 +192,7 @@ h3 {
 	left: 0px;
 	right: 0px;
 	z-index: 9;
-	height: 125px;
+	height: 69px;
 }
 
 .top-sub-header {
@@ -206,7 +206,7 @@ h3 {
 }
 
 .sub-header-mask {
-	height: 125px;
+	height: 69px;
 }
 
 .sub-header-menu {
@@ -263,7 +263,7 @@ h3 {
 .menu {
 	position: fixed;
 	left: 0px;
-	top:129px;
+	top:69px;
 	bottom: 0px;
 	width: 250px;
 	padding:0px 15px;
