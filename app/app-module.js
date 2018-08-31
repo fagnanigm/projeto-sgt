@@ -68,9 +68,11 @@
             if($rootScope.is_logged && $rootScope.$state.name == 'login'){
                 $location.path('/dashboard');
             }
-        
-        }); 
 
+            // Get filters
+            GlobalServices.get_filter_load();
+        
+        });
         
     }
 

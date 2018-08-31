@@ -3,29 +3,28 @@
 
     angular
         .module('app')
-        .controller('Produtos.GerenciaController', Controller);
+        .controller('Categorias.GerenciaController', Controller);
 
     function Controller($rootScope,$scope,$http,ngToast,$location,GlobalServices, $localStorage) {
+        
         var vm = this;
 
-        $scope.produto = {};
+        $scope.categoria = {};
 
         initController();
 
-        function get_produto(){
+        function get_categoria(){
 
-            if($rootScope.$state.name == "insert-produto"){
+            if($rootScope.$state.name == "insert-categoria"){
 
-                $scope.produto = {
-                    id_author : $localStorage.currentUser.id,
-                    id_empresa : $localStorage.currentEmpresaId
+                $scope.categoria = {
+                    id_author : $localStorage.currentUser.id
                 }
 
             }else{
 
-                $http.get('/api/public/produtos/get/' + $rootScope.$stateParams.id_produto + '?context=' + $localStorage.currentEmpresaId).then(function (response) {
-                    $scope.produto = response.data.produto;
-                    $scope.produto.context = $localStorage.currentEmpresaId;
+                $http.get('/api/public/categorias/get/' + $rootScope.$stateParams.id_categoria ).then(function (response) {
+                    $scope.categoria = response.data.categoria;
                 }, function(response) {
                     $rootScope.is_error = true;
                     $rootScope.is_error_text = "Erro: " + response.data.error;
@@ -38,11 +37,11 @@
         }
 
         function initController() {
-        	get_produto();
+        	get_categoria();
         }
 
 
-        vm.setProduto = function(){
+        vm.setCategoria = function(){
 
             var error = 0;
 
@@ -52,18 +51,18 @@
 
                 $rootScope.is_loading = true;
 
-                if($rootScope.$state.name == "insert-produto"){
+                if($rootScope.$state.name == "insert-categoria"){
 
-                    $http.post('/api/public/produtos/insert', $scope.produto).then(function (response) {
+                    $http.post('/api/public/categorias/insert', $scope.categoria).then(function (response) {
                         
                         if(response.data.result){
 
                             ngToast.create({
                                 className: 'success',
-                                content: "Produto cadastrado com sucesso!"
+                                content: "Categoria cadastrada com sucesso!"
                             });
 
-                            $location.path('/produtos');
+                            $location.path('/categorias');
 
                         }else{
                             ngToast.create({
@@ -81,18 +80,18 @@
 
                 }else{
 
-                    console.log($scope.produto);
+                    console.log($scope.categoria);
 
-                    $http.post('/api/public/produtos/update', $scope.produto ).then(function (response) {
+                    $http.post('/api/public/categorias/update', $scope.categoria ).then(function (response) {
                         
                         if(response.data.result){
 
                             ngToast.create({
                                 className: 'success',
-                                content: "Produto editado com sucesso!"
+                                content: "categoria editada com sucesso!"
                             });
 
-                            $location.path('/produtos');
+                            $location.path('/categorias');
 
                         }else{
                             ngToast.create({

@@ -58,42 +58,36 @@
                 controllerAs: 'vm'
             })
 
-            // PRODUTOS 
+            // CATEGORIAS 
 
-            .state('produtos', {
-                url: '/produtos',
-                templateUrl: 'app/components/produtos/index.view.html',
-                controller: 'Produtos.IndexController',
+            .state('categorias', {
+                url: '/categorias',
+                templateUrl: 'app/components/categorias/index.view.html',
+                controller: 'Categorias.IndexController',
                 controllerAs: 'vm'
             })
-            .state('insert-produto', {
-                url: '/produtos/gerencia',
-                templateUrl: 'app/components/produtos/gerencia.view.html',
-                controller: 'Produtos.GerenciaController',
+            .state('insert-categoria', {
+                url: '/categorias/gerencia',
+                templateUrl: 'app/components/categorias/gerencia.view.html',
+                controller: 'Categorias.GerenciaController',
                 controllerAs: 'vm'
             })
-            .state('update-produto', {
-                url: '/produtos/gerencia/{id_produto}?queryString',
-                templateUrl: 'app/components/produtos/gerencia.view.html',
-                controller: 'Produtos.GerenciaController',
+            .state('update-categoria', {
+                url: '/categorias/gerencia/{id_categoria}?queryString',
+                templateUrl: 'app/components/categorias/gerencia.view.html',
+                controller: 'Categorias.GerenciaController',
                 controllerAs: 'vm'
             })
-            .state('visualizar-produto', {
-                url: '/produtos/visualizar/{id_produto}?queryString',
-                templateUrl: 'app/components/produtos/visualizar.view.html',
-                controller: 'Produtos.VisualizarController',
+            .state('visualizar-categoria', {
+                url: '/categorias/visualizar/{id_categoria}?queryString',
+                templateUrl: 'app/components/categorias/visualizar.view.html',
+                controller: 'Categorias.VisualizarController',
                 controllerAs: 'vm'
             })
-            .state('importar-produto', {
-                url: '/produtos/importar-do-omie',
-                templateUrl: 'app/components/produtos/importar.view.html',
-                controller: 'Produtos.ImportController',
-                controllerAs: 'vm'
-            })
-            .state('produtos-paged', {
-                url: '/produtos/{page}?queryString',
-                templateUrl: 'app/components/produtos/index.view.html',
-                controller: 'Produtos.IndexController',
+            .state('categorias-paged', {
+                url: '/categorias/{page}?queryString',
+                templateUrl: 'app/components/categorias/index.view.html',
+                controller: 'Categorias.IndexController',
                 controllerAs: 'vm'
             })
 

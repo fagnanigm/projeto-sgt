@@ -28,8 +28,8 @@ require 'routes/configuracoes/configuracoes.php';
 // CLIENTES
 require 'routes/clientes/clientes.php';
 
-// PRODUTOS
-require 'routes/produtos/produtos.php';
+// CATEGORIAS
+require 'routes/categorias/categorias.php';
 
 // LOCAIS
 require 'routes/locais/locais.php';

@@ -5,115 +5,52 @@
         .module('app')
         .controller('Categorias.IndexController', Controller);
 
-    function Controller($rootScope,$scope,$http,ngToast,GlobalServices) {
+    function Controller($rootScope,$scope,$http,ngToast,$location,$localStorage,GlobalServices) {
+
         var vm = this;
 
-        $scope.categoria_data = {
-            id_parent : '0'
-        };
+        $scope.categorias = {};
 
-        $scope.categorias_mothers = [];
+        $scope.currentPage = ($rootScope.$state.name == 'categorias-paged' ? $rootScope.$stateParams.page : '1' );
 
-        function getCategories(){
+        $scope.get_categorias = function(){
 
-            $http.post('http://model.exodocientifica.com.br/categorias/read').then(function (response) {
+            $rootScope.is_loading = true;
 
-                $scope.categorias = response.data.data;
-                $scope.categorias_hierarchical = GlobalServices.hierarchical_decode(response.data.hierarchical,0);
+            var rest_address = '/api/public/categorias/get';
 
+            // Pagination
+            rest_address = rest_address + '?current_page=' + $scope.currentPage;
+
+            // Filter
+            $.each($rootScope.get_filters, function(key, val){
+                rest_address += '&' + key + '=' + val;
+            });
+
+            $http.get(rest_address).then(function (response) {
+                $scope.categorias = response.data;
+                $scope.categorias.config.current_page = parseInt($scope.categorias.config.current_page);
             }, function(response) {
                 $rootScope.is_error = true;
-                $rootScope.is_error_text = "Erro: " + response.data.message;
+                $rootScope.is_error_text = "Erro: " + response.data.error;
             }).finally(function() {
                 $rootScope.is_loading = false;
             });
-
         }
 
-        initController();
-
-        function initController() {
-            $rootScope.is_loading = true;
-            getCategories();
-
-            $scope.$watch('categorias', function() {
-                $scope.categorias_mothers = [];
-                $.each($scope.categorias,function(key,val){
-                    //if(val.id_parent == '0'){
-                        $scope.categorias_mothers.push($scope.categorias[key]);
-                    //}
-                });
-            });
-
-
-            
-
-        }
-
-            
-        $scope.insertCategoria = function(){
-
-            $rootScope.is_loading = true;
-
-            $http.post('http://model.exodocientifica.com.br/categorias/insert',{ values : $scope.categoria_data }).then(function (response) {
-
-                if(response.data.result){
+        $rootScope.is_loading = true;
+        $scope.get_categorias();
+    
+        $scope.delete_categoria = function(id){
+            if(confirm("Deseja excluir essa categoria?")){
+                $rootScope.is_loading = true;
+                $http.post('/api/public/categorias/delete',{ id : id }).then(function (response) {
+                    $scope.get_categorias();
 
                     ngToast.create({
                         className: 'success',
-                        content: "Categoria cadastrada com sucesso"
+                        content: 'Categoria excluída com sucesso'
                     });
-
-                    getCategories();
-
-                    $scope.categoria_data = {
-                        id_parent : '0',
-                        description : ''
-                    };
-
-                }else{
-
-                    ngToast.create({
-                        className: 'danger',
-                        content: response.data.error
-                    });
-
-                }
-
-            }, function(response) {
-                $rootScope.is_error = true;
-                $rootScope.is_error_text = "Erro: " + response.data.message;
-            }).finally(function() {
-                $rootScope.is_loading = false;
-            });
-
-        }
-
-        $scope.removeCategoria = function(id){
-
-            if(confirm("Deseja apagar esta categoria?")){
-
-                $rootScope.is_loading = true;
-
-                $http.post('http://model.exodocientifica.com.br/categorias/remove',{ id : id }).then(function (response) {
-                
-                    if(response.data.result){
-
-                        ngToast.create({
-                            className: 'success',
-                            content: "Categoria removida com sucesso"
-                        });
-
-                        getCategories();
-
-                    }else{
-
-                        ngToast.create({
-                            className: 'danger',
-                            content: response.data.error
-                        });
-
-                    }
 
                 }, function(response) {
                     $rootScope.is_error = true;
@@ -121,9 +58,7 @@
                 }).finally(function() {
                     $rootScope.is_loading = false;
                 });
-
             }
-
         }
 
     }

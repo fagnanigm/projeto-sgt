@@ -5,15 +5,21 @@
         .module('app')
         .factory('GlobalServices', GlobalServices);
 
-    function GlobalServices($http) {
+    function GlobalServices($http, $location, $rootScope) {
 
         var service = {};
 
         service.hierarchical_decode = hierarchical_decode;
         service.phone_parser = phone_parser;
         service.get_as_code_sequencial = get_as_code_sequencial;
+        service.get_filter_load = get_filter_load;
 
         return service;
+
+        function get_filter_load(){
+            var filters = $location.search()
+            $rootScope.get_filters = (typeof(filters) == 'undefined' ? false : filters);
+        }
 
         function get_as_code_sequencial(code){
             code = code.split("/");
