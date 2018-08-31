@@ -9,7 +9,10 @@ class Empresas {
 	public $item_per_page = 5;
 
 	public $schema = array(
-		"id_user_created",
+		"id_author",
+		"empresa_name",
+		"empresa_nome_fantasia",
+		"empresa_razao_social",
 		"empresa_name",
 		"empresa_responsavel",
 		"empresa_email",
@@ -17,6 +20,7 @@ class Empresas {
 		"empresa_phone",
 		"empresa_cnpj",
 		"empresa_ie",
+		"empresa_im",
 		"empresa_cep",
 		"empresa_logradouro",
 		"empresa_numero",
@@ -48,13 +52,13 @@ class Empresas {
 
 		// Block if required fields isn't informed
 
-		if(!isset($args['id_user_created'])){
+		if(!isset($args['id_author'])){
 			$response['error'] = 'O ID do autor é obrigatório.';
 			return $response;
 		}else{
 
 			// checa se id do usuário existe
-			$userSt = $this->db->select()->from('users')->whereMany(array('id' => $args['id_user_created'], 'active' => 'Y'), '=');
+			$userSt = $this->db->select()->from('users')->whereMany(array('id' => $args['id_author'], 'active' => 'Y'), '=');
 			$stmt = $userSt->execute();
 			$user_data = $stmt->fetch();
 
@@ -102,7 +106,7 @@ class Empresas {
 				}
 
 				// Tratamento de id
-				if($field == 'id_user_created'){
+				if($field == 'id_author'){
 					$val = intval($val);
 				}
 
@@ -202,10 +206,6 @@ class Empresas {
 
 		foreach ($empresa as $key => $field) {
 			$empresa[$key] = trim($field);
-		}
-
-		if(strlen($empresa['empresa_ie']) > 0){
-			$empresa['empresa_ie'] = Utilities::mask($empresa['empresa_ie'],'###.###.###.###');
 		}
 
 		if(strlen($empresa['empresa_cnpj']) > 0){

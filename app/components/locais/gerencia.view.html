@@ -15,6 +15,13 @@
 
 					<div class="col-md-12">
 						<div class="form-group">
+							<label for="nome">Nome do local</label>
+							<input type="text" class="form-control" id="nome" placeholder="Nome do local" ng-model="local.local_nome" required>
+						</div>
+					</div>
+
+					<div class="col-md-12">
+						<div class="form-group">
 							<label for="apelido">Apelido do local</label>
 							<input type="text" class="form-control" id="apelido" placeholder="Apelido" ng-model="local.local_apelido" required>
 						</div>
@@ -27,13 +34,30 @@
 						</div>
 					</div>
 
+				</div>
+
+				<hr />
+
+
+				<div class="row">
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="exterior">Exterior</label>
+							<select class="form-control" ng-model="local.local_exterior">
+								<option value="N">Não</option>
+								<option value="S">Sim</option>
+							</select>
+						</div>
+					</div>
+
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="cep">CEP</label>
 							<input type="text" class="form-control" id="cep" placeholder="CEP" ng-model="local.local_cep" mask="99999-999" required>
 						</div>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-12">
 						<div class="form-group">
 							<label for="logradouro">Logradouro</label>
 							<input type="text" class="form-control" id="logradouro" placeholder="Logradouro" ng-model="local.local_logradouro" required>
@@ -61,23 +85,51 @@
 						</div>
 					</div>
 
-					<div class="col-md-6">
+					<div class="col-md-6" ng-if="local.local_exterior == 'N'">
 						<div class="form-group">
 							<label for="estado">Estado</label>
 							<select class="form-control" name="local_estado" ng-model="local.local_estado" ng-change="ufChange(local.local_estado)">
-								<option value="0">Selecione...</option>
+								<option value="">Selecione...</option>
 								<option ng-repeat="(key, uf) in ufs" value="{{ uf.uf_nome }}" data-ibge-code="{{ uf.uf_code_ibge }}">{{ uf.uf_nome }}</option>
 							</select>
 						</div>
 					</div>
 
-					<div class="col-md-6">
+					<div class="col-md-6" ng-if="local.local_exterior == 'S'">
+						<div class="form-group">
+							<label for="estado">Estado</label>
+							<input type="text" class="form-control" name="local_estado" ng-model="local.local_estado" required>						
+						</div>
+					</div>
+
+					<div class="col-md-6" ng-if="local.local_exterior == 'S'">
+						<div class="form-group">
+							<label for="local_estado_ibge">Estado cód. IBGE</label>
+							<input type="text" class="form-control" name="local_estado_ibge" ng-model="local.local_estado_ibge" required>						
+						</div>
+					</div>
+
+					<div class="col-md-6" ng-if="local.local_exterior == 'N'">
 						<div class="form-group">
 							<label for="cidade">Cidade</label>
 							<select class="form-control" name="local_cidade" ng-model="local.local_cidade">
-								<option value="0">Selecione...</option>
+								<option value="">Selecione...</option>
 								<option ng-repeat="(key, cidade) in municipios" value="{{ cidade.municipio_nome }}" data-ibge-code="{{ cidade.municipio_code_ibge }}">{{ cidade.municipio_nome }}</option>
 							</select>
+						</div>
+					</div>
+
+					<div class="col-md-6" ng-if="local.local_exterior == 'S'">
+						<div class="form-group">
+							<label for="cidade">Cidade</label>
+							<input type="text" class="form-control" id="cidade" name="local_cidade" ng-model="local.local_cidade" required>	
+						</div>
+					</div>
+
+					<div class="col-md-6" ng-if="local.local_exterior == 'S'">
+						<div class="form-group">
+							<label for="cidade-ibge">Cidade cód. IBGE</label>
+							<input type="text" class="form-control" id="cidade-ibge" name="local_cidade_ibge" ng-model="local.local_cidade_ibge" required>	
 						</div>
 					</div>
 
@@ -265,16 +317,6 @@
 					</div>
 
 
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="exterior">Exterior</label>
-							<select class="form-control" ng-model="local.local_exterior">
-								<option value="N">Não</option>
-								<option value="S">Sim</option>
-							</select>
-						</div>
-					</div>
-
 				</div>				
 
 			</div>
@@ -285,7 +327,7 @@
 					<div class="col-md-12">
 						<div class="form-group">
 							<label for="apelido">Observação</label>
-							<textarea class="form-control" ng-model="local.local_observacao"></textarea>
+							<textarea class="form-control" ng-model="local.local_observacao" placeholder="Observação do local..."></textarea>
 						</div>
 					</div>
 

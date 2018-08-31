@@ -33,8 +33,11 @@
 	<table class="table margin-top-30">
 		<tr ng-repeat="(key, val) in locais.results">
 			<td>
-				<strong>{{ val.local_apelido }}</strong><br />
+				<strong>{{ val.local_nome }}</strong><br />
 				<small>Código: #{{ val.id }}</small>
+			</td>
+			<td>
+				<strong>{{ val.local_apelido }}</strong><br />
 			</td>
 			<td><small>Cadastrado em {{ val.create_timestamp * 1000 | date:"dd/MM/yyyy HH:mm" }}</small></td>
 			<td width="220">

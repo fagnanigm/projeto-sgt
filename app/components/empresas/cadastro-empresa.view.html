@@ -16,6 +16,18 @@
 					</div>
 					<div class="col-md-12">
 						<div class="form-group">
+							<label for="nome-fantasia">Nome fantasia</label>
+							<input type="text" class="form-control" id="nome-fantasia" ng-model="empresa.empresa_nome_fantasia" required placeholder="Nome fantasia">
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="razao-social">Razão social</label>
+							<input type="text" class="form-control" id="razao-social" ng-model="empresa.empresa_razao_social" required placeholder="Razão social">
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group">
 							<label for="responsavel">Responsável</label>
 							<input type="text" class="form-control" id="responsavel" ng-model="empresa.empresa_responsavel" placeholder="Responsável">
 						</div>
@@ -41,7 +53,14 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="ie">I.E</label>
-							<input type="text" class="form-control" id="ie" ng-model="empresa.empresa_ie" placeholder="Inscrição Estadual" mask="999.999.999.999">
+							<input type="text" class="form-control" id="ie" ng-model="empresa.empresa_ie" placeholder="Inscrição estadual">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="im">I.M</label>
+							<input type="text" class="form-control" id="im" ng-model="empresa.empresa_im" placeholder="Inscrição municipal">
 						</div>
 					</div>
 

@@ -36,6 +36,12 @@
                 controller: 'Empresas.GerenciaController',
                 controllerAs: 'vm'
             })
+            .state('visualizar-empresa', {
+                url: '/empresas/visualizar/{id_empresa}?queryString',
+                templateUrl: 'app/components/empresas/visualizar.view.html',
+                controller: 'Empresas.VisualizarController',
+                controllerAs: 'vm'
+            })
             .state('empresas', {
                 url: '/empresas',
                 templateUrl: 'app/components/empresas/index.view.html',

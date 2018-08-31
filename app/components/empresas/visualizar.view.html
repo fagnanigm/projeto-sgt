@@ -1,0 +1,135 @@
+<h1 class="title-page">Visualizar empresa</h1>
+
+<div class="box-content">
+
+	<div class="box-subtitle">
+		<h2>Empresa #{{ empresa.id }}</h2>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6">
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="nome">Nome da empresa*</label>
+						<p>{{ empresa.empresa_name }}</p>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="nome-fantasia">Nome fantasia</label>
+						<p>{{ empresa.empresa_nome_fantasia }}</p>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="razao-social">Razão social</label>
+						<p>{{ empresa.empresa_razao_social }}</p>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="responsavel">Responsável</label>
+						<p>{{ empresa.empresa_responsavel }}</p>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="email">E-mail</label>
+						<p>{{ empresa.empresa_email }}</p>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="telefone">Telefone</label>
+						<p>{{ empresa.phone1 }}</p>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="cnpj">CNPJ*</label>
+						<p>{{ empresa.empresa_cnpj }}</p>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="ie">I.E</label>
+						<p>{{ empresa.empresa_ie }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="im">I.M</label>
+						<p>{{ empresa.empresa_im }}</p>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+		<div class="col-md-6">
+
+			<div class="row">
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="cep">CEP</label>
+						<p>{{ empresa.empresa_cep }}</p>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="logradouro">Logradouro</label>
+						<p>{{ empresa.empresa_logradouro }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="numero">Número</label>
+						<p>{{ empresa.empresa_numero }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="complemento">Complemento</label>
+						<p>{{ empresa.empresa_complemento }}</p>
+					</div> 
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="bairro">Bairro</label>
+						<p>{{ empresa.empresa_bairro }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="cidade">Cidade</label>
+						<p>{{ empresa.empresa_cidade }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="estado">Estado</label>
+						<p>{{ empresa.empresa_estado }}</p>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>	
+
+	<div class="cadastro-footer margin-top-25">
+		<a href="/empresas" class="btn btn-danger">Cancelar</a>
+		<button type="submit" class="btn btn-success">Cadastrar</button>
+
+	</div>
+
+</div>

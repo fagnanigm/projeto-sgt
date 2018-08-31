@@ -15,12 +15,10 @@
 
             $rootScope.is_loading = true;
 
-            $http.get('/api/public/locais/get?context='+$localStorage.currentEmpresaId+'&current_page='+$scope.currentPage).then(function (response) {
+            $http.get('/api/public/locais/get?current_page='+$scope.currentPage).then(function (response) {
 
                 $scope.locais = response.data;
                 $scope.locais.config.current_page = parseInt($scope.locais.config.current_page);
-
-                console.log( $scope.locais);
 
             }, function(response) {
                 $rootScope.is_error = true;
@@ -30,10 +28,8 @@
             });
         }
 
-
         $rootScope.is_loading = true;
         $scope.get_locais();
-
     
         $scope.delete_local = function(id){
             if(confirm("Deseja excluir esse local?")){

@@ -69,11 +69,18 @@
 					<div class="col-md-6">
 
 						<div class="form-group">
-							<label for="type">Tipo</label>
+							<label for="type">Departamento / Permissão</label>
 							<select class="form-control" id="type" ng-model="user.permission" ng-disabled="logged_user.id == user.id">
 								<option value="master">Master</option>
-								<option value="gerente">Gerente</option>
+								<option value="gerencial">Gerencial</option>
+								<option value="comercial">Comercial</option>
 								<option value="operacional">Operacional</option>
+								<option value="expedicao">Expedição</option>
+								<option value="faturamento">Faturamento</option>
+								<option value="financeiro">Financeiro</option>
+								<option value="acerto-contas">Acerto de contas</option>
+								<option value="Controladoria">Controladoria</option>
+								<option value="Controladoria">ISO (qualidade)</option>
 							</select>
 						</div>
 

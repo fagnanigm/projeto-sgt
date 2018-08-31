@@ -10,7 +10,7 @@ class Locais {
 
 	public $schema = array(
 		"id_author",
-		"id_empresa",
+		"local_nome",
 		"local_apelido",
 		"local_logradouro",
 		"local_numero",
@@ -67,13 +67,8 @@ class Locais {
 
 		}
 
-		if(!isset($args['id_empresa'])){
-			$response['error'] = 'O campo id_empresa é obrigatório.';
-			return $response;
-		}
-
-		if(!isset($args['local_apelido'])){
-			$response['error'] = 'O campo local_apelido é obrigatório.';
+		if(!isset($args['local_nome'])){
+			$response['error'] = 'O campo local_nome é obrigatório.';
 			return $response;
 		}
 
@@ -165,18 +160,10 @@ class Locais {
 
 		$response = array();
 
-		if(!isset($args['context'])){
-			$response = array(
-				'result' => false,
-				'error' => 'Contexto não definido'
-			);
-			return $response;
-		}
-
 		$args['getall'] = (isset($args['getall']) ? $args['getall'] : false);
 
 		// Count total
-		$selectStatement = $this->db->select(array('COUNT(*) AS total'))->from('locais')->whereMany(array('active' => 'Y', 'id_empresa' => $args['context']),'=');
+		$selectStatement = $this->db->select(array('COUNT(*) AS total'))->from('locais')->whereMany(array('active' => 'Y'),'=');
 		$stmt = $selectStatement->execute();
 		$total_data = $stmt->fetch();
 
@@ -188,7 +175,7 @@ class Locais {
 
 			$response['config'] = $config;
 
-			$select = $this->db->query('SELECT * FROM locais WHERE id_empresa = \''.$args['context'].'\' AND active = \'Y\' ORDER BY create_time');
+			$select = $this->db->query('SELECT * FROM locais WHERE active = \'Y\' ORDER BY create_time');
 			$response['results'] = $this->parser_fecth($select->fetchAll(\PDO::FETCH_ASSOC),'all');
 
 		}else{
@@ -205,7 +192,7 @@ class Locais {
 			if($config['current_page'] <= $config['total_pages']){
 
 				$offset = ($config['current_page'] == '1' ? 0 : ($config['current_page'] - 1) * $config['item_per_page'] );
-				$select = $this->db->query('SELECT * FROM locais WHERE id_empresa = \''.$args['context'].'\' AND active = \'Y\' ORDER BY create_time OFFSET '.$offset.' ROWS FETCH NEXT '.$config['item_per_page'].' ROWS ONLY');
+				$select = $this->db->query('SELECT * FROM locais WHERE active = \'Y\' ORDER BY create_time OFFSET '.$offset.' ROWS FETCH NEXT '.$config['item_per_page'].' ROWS ONLY');
 				$response['results'] = $this->parser_fecth($select->fetchAll(\PDO::FETCH_ASSOC),'all');
 				$response['config']['page_items_total'] = count($response['results']);
 
@@ -283,17 +270,6 @@ class Locais {
 			'result' => false
 		);
 
-		if(!isset($args['context'])){
-			$response = array(
-				'result' => false,
-				'error' => 'Contexto não definido'
-			);
-			return $response;
-		}else{
-			$context = $args['context'];
-			unset($args['context']);
-		}
-
 		if(!isset($args['id'])){
 			$response['error'] = 'ID não informado.';
 			return $response;
@@ -304,7 +280,7 @@ class Locais {
 
 		unset($args['create_timestamp']);
 
-		$updateStatement = $this->db->update()->set($args)->table('locais')->whereMany( array('id' => $id, 'id_empresa' => $context), '=');
+		$updateStatement = $this->db->update()->set($args)->table('locais')->whereMany( array('id' => $id ), '=');
 
 		$affectedRows = $updateStatement->execute();
 
@@ -329,19 +305,11 @@ class Locais {
 			'result' => false
 		);
 
-		if(!isset($args['context'])){
-			$response = array(
-				'result' => false,
-				'error' => 'Contexto não definido'
-			);
-			return $response;
-		}
-
 		if(!$id){
 			$response['error'] = 'ID não informado.';
 		}
 
-		$selectStatement = $this->db->select()->from('locais')->whereMany(array('id' => $id, 'active' => 'Y', 'id_empresa' => $args['context'] ), '=');
+		$selectStatement = $this->db->select()->from('locais')->whereMany(array('id' => $id, 'active' => 'Y' ), '=');
 
 		$stmt = $selectStatement->execute();
 		$data = $stmt->fetch();

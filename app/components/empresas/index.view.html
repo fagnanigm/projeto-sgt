@@ -17,19 +17,6 @@
 
 	<div class="box-subtitle"><h2>Empresas do sistema</h2></div>
 
-	<!-- 
-	<div class="row">
-		<div class="col-md-12">
-
-			<div class="form-group margin-bottom-0">
-				<label>Filtro</label>
-				<input type="text" class="form-control" placeholder="Busca de usuário" ng-model="search_field">
-			</div>
-
-		</div>
-	</div>
-	-->
-
 	<table class="table margin-top-30">
 		<tr ng-repeat="(key, val) in empresas.results">
 			<td>
@@ -43,7 +30,7 @@
 			<td><small>Cadastrado em 10/06/2018</small></td>
 			<td width="250">
 				<div class="buttons-capsule">
-					<button href="#" class="btn btn-sm btn-primary" ng-click="setEmpresaContext(key)">Selecionar</button><a href="/empresas/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger" ng-click="delete_empresa(val.id)">Excluir</button>
+					<a href="/empresas/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><a href="/empresas/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger" ng-click="delete_empresa(val.id)">Excluir</button>
 				</div>
 			</td>
 		</tr>

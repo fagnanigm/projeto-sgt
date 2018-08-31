@@ -18,22 +18,23 @@
 
                 $scope.local = {
                     id_author : $localStorage.currentUser.id,
-                    id_empresa : $localStorage.currentEmpresaId, 
-                    local_estado : "0",
+                    local_estado : "",
                     local_pais : 'Brasil',
                     local_exterior : 'N',
-                    local_cidade : "0"
+                    local_cidade : ""
                 }
 
                 $scope.$watch('municipios', function() { 
-                    $scope.local.local_cidade = '0';
+                    $scope.local.local_cidade = '';
                 });
 
             }else{
 
-                $http.get('/api/public/locais/get/' + $rootScope.$stateParams.id_local + '?context=' + $localStorage.currentEmpresaId).then(function (response) {
+                $http.get('/api/public/locais/get/' + $rootScope.$stateParams.id_local).then(function (response) {
                     $scope.local = response.data.local;
                     $scope.local.context = $localStorage.currentEmpresaId;
+
+                    console.log($scope.local)
 
                     $rootScope.ufChange($scope.local.local_estado);
 
@@ -86,16 +87,16 @@
                 error++;
                 return;
             }
-
-
-
-    
+            
             if(error == 0){
 
                 $rootScope.is_loading = true;
 
-                $scope.local.local_estado_ibge = $('select[name="local_estado"] option:selected').data('ibge-code');
-                $scope.local.local_cidade_ibge = $('select[name="local_cidade"] option:selected').data('ibge-code');
+                if($scope.local.local_exterior == 'N'){
+                    $scope.local.local_estado_ibge = $('select[name="local_estado"] option:selected').data('ibge-code');
+                    $scope.local.local_cidade_ibge = $('select[name="local_cidade"] option:selected').data('ibge-code');
+                }
+
                 $scope.local.local_pais_ibge = $('select[name="local_pais"] option:selected').data('ibge-code');
 
                 if($rootScope.$state.name == "insert-local"){

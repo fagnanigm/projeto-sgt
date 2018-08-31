@@ -17,7 +17,7 @@
             if($rootScope.$state.name == "insert-empresa"){
 
                 $scope.empresa = {
-                    id_user_created : $localStorage.currentUser.id,
+                    id_author : $localStorage.currentUser.id,
                     empresa_estado : '0'
                 }
 
