@@ -28,6 +28,8 @@ class Empresas {
 		"empresa_bairro",
 		"empresa_cidade",
 		"empresa_estado",
+		"empresa_app_key",
+		"empresa_app_secret",
 		"active",
 		"create_time"
 	);

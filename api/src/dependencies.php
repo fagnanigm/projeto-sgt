@@ -1,6 +1,7 @@
 <?php
 // DIC configuration
 use Classes\Authenticate;
+use Classes\Logs;
 
 define("AUTHENTICATE_KEY", "RKypTy0HJeyklSAxQm30amSeGZ8OCDR2znNdU4Dm723ykqSaMVigYqCvc/f9A8HXFSkkbYwDlJYxPY2K2+lTLuddlTEof9ggu/pVsTRjlXGZh3JkVAGpmGpjhuuSgPLJh8vjOJahOfFjWP2dIQPS16evgL+z38COWVUF64003Uo=");
 
@@ -44,4 +45,10 @@ $container['logger'] = function ($c) {
     $logger->pushProcessor(new Monolog\Processor\UidProcessor());
     $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
     return $logger;
+};
+
+// local log
+$container['logs'] = function ($c){
+	$logs = new Logs($c['db']);	
+	return $logs;
 };

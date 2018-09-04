@@ -294,7 +294,7 @@ class User {
 				    "iss" => "http://201.26.16.228/api",
 				    "aud" => "http://201.26.16.228",
 				    "iat" => time(),
-				    "nbf" => strtotime('+3 seconds'),
+				    "nbf" => 0,
 				    "sub" => $user['id']
 				);
 
@@ -324,7 +324,7 @@ class User {
 			$response['error'] = 'ID não informado.';
 		}
 
-		$selectStatement = $this->db->select()->from('users')->where('id', '=', $id);
+		$selectStatement = $this->db->select()->from('users')->whereMany( array( 'id' => $id, 'active' => 'Y'), '=') ;
 
 		$stmt = $selectStatement->execute();
 		$data = $stmt->fetch();
