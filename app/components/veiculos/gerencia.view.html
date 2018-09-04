@@ -22,7 +22,7 @@
 					</div>
 
 					<div class="col-md-3">
-						<input type="radio" ng-model="veiculo.veiculo_person" value="Terceirizado"> Terceirizado
+						<input type="radio" ng-model="veiculo.veiculo_person" value="terceirizado"> Terceirizado
 					</div>
 
 				</div>
@@ -32,770 +32,208 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="n-frota">Nº de frota</label>
-							<input type="text" class="form-control" id="n-frota" ng-model="veiculo.veiculo_frota">
+							<input type="text" class="form-control" id="n-frota" ng-model="veiculo.veiculo_frota" placeholder="Número da frota" required>
 						</div>
 					</div>
+
 					<div class="col-md-6">
 						<div class="form-group">
+							<label for="filial">Tipo</label>
+							<select class="form-control" ng-model="veiculo.veiculo_tipo">
+								<option value="0">Selecionar...</option>
+								<option value="l">L</option>
+								<option value="ls">LS</option>
+								<option value="lt">LT</option>
+								<option value="lt4">LT4</option>
+								<option value="c-2-eixos">C 2 Eixos</option>
+								<option value="c-3-eixos">C 3 Eixos</option>
+								<option value="c-4-eixos">C 4 Eixos</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="col-md-12">
+						<div class="form-group">
 							<label for="filial">Filial</label>
-							<input type="text" class="form-control" id="filial" ng-model="veiculo.veiculo_filial">
+							<select class="form-control" ng-model="veiculo.id_filial">
+								<option value="0">Selecionar...</option>
+								<option ng-repeat="(key, val) in empresas" value="{{ val.id }}">{{ val.empresa_name }}</option>
+							</select>
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="status">Status</label>
-							<input type="text" class="form-control" id="status" ng-model="veiculo.veiculo_status">
+							<select class="form-control" ng-model="veiculo.veiculo_status">
+								<option value="0">Selecionar...</option>
+								<option value="em-viagem">Em Viagem</option>
+								<option value="patio">Pátio</option>
+								<option value="em-manutencao">Em Manutenção</option>
+								<option value="emprestado">Emprestado</option>
+								<option value="desativado">Desativado</option>
+								<option value="vendido">Vendido</option>
+								<option value="sinistro">Sinistro</option>
+							</select>
 						</div>
 					</div>
+
+				</div>
+
+				<hr />
+
+				<div class="row">
 
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="placa">Placa</label>
-							<input type="text" class="form-control" id="placa" ng-model="veiculo.veiculo_placa">
+							<input type="text" class="form-control" id="placa" ng-model="veiculo.veiculo_placa" mask="@@@-9999" placeholder="XXX-0000" required>
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="fabricante">Fabricante</label>
-							<input type="text" class="form-control" id="fabricante" ng-model="veiculo.veiculo_fabricante">
+							<input type="text" class="form-control" id="fabricante" ng-model="veiculo.veiculo_fabricante" placeholder="Fabricante" required>
 						</div>
 					</div>
 
-					<div class="col-md-6">
+					<div class="col-md-12">
 						<div class="form-group">
 							<label for="modelo">Modelo</label>
-							<input type="text" class="form-control" id="modelo" ng-model="veiculo.veiculo_modelo" required>
+							<input type="text" class="form-control" id="modelo" ng-model="veiculo.veiculo_modelo" placeholder="Modelo" required>
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="anofab">Ano fab.</label>
-							<input type="text" class="form-control" id="anofab" ng-model="veiculo.veiculo_ano_fab">
+							<select class="form-control" ng-model="veiculo.veiculo_ano_fab">
+								<option value="">Selecionar...</option>
+								<option ng-repeat="(key, val) in anos" value="{{ val }}">{{ val }}</option>
+							</select>
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="anomod">Ano mod.</label>
-							<input type="text" class="form-control" id="anomod" ng-model="veiculo.veiculo_ano_mod">
+							<select class="form-control" ng-model="veiculo.veiculo_ano_mod">
+								<option value="">Selecionar...</option>
+								<option ng-repeat="(key, val) in anos" value="{{ val }}">{{ val }}</option>
+							</select>
 						</div>
 					</div>
+
+				</div>
+
+				<hr />
+
+				<div class="row">
 
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="antt">ANTT</label>
-							<input type="text" class="form-control" id="antt" ng-model="veiculo.veiculo_antt">
+							<input type="text" class="form-control" id="antt" ng-model="veiculo.veiculo_antt" placeholder="ANTT">
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="valantt">Validade ANTT</label>
-							<input type="text" class="form-control" id="valantt" ng-model="veiculo.veiculo_validade_antt">
+							<input type="date" class="form-control" id="valantt" ng-model="veiculo.veiculo_validade_antt_obj" placeholder="Validade ANTT">
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="renavam">RENAVAM</label>
-							<input type="text" class="form-control" id="renavam" ng-model="veiculo.veiculo_renavam">
+							<input type="text" class="form-control" id="renavam" ng-model="veiculo.veiculo_renavam" placeholder="RENAVAM">
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="tipo-categoria">Tipo/Categoria</label>
-							<input type="text" class="form-control" id="tipo-categoria" ng-model="veiculo.veiculo_tipo">
+							<input type="text" class="form-control" id="tipo-categoria" ng-model="veiculo.veiculo_tipo_categoria" placeholder="Tipo / categoria">
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="venc-tacografo">Venc. tacógrafo</label>
-							<input type="text" class="form-control" id="venc-tacografo" ng-model="veiculo.veiculo_venc_tacografo">
+							<input type="date" class="form-control" id="venc-tacografo" ng-model="veiculo.veiculo_venc_tacografo_obj" placeholder="Vencimento tacógrafo">
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="codesp">CODESP</label>
-							<input type="text" class="form-control" id="codesp" ng-model="veiculo.veiculo_codesp">
+							<input type="text" class="form-control" id="codesp" ng-model="veiculo.veiculo_codesp" placeholder="CODESP">
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="seguro">Seguro</label>
-							<input type="text" class="form-control" id="seguro" ng-model="veiculo.veiculo_seguro">
+							<input type="text" class="form-control" id="seguro" ng-model="veiculo.veiculo_seguro" placeholder="Seguro">
 						</div>
 					</div>
+
+				</div>
+
+				<hr />
+
+				<div class="row">
 
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="st-financiamento">St. financiamento</label>
-							<input type="text" class="form-control" id="st-financiamento" ng-model="veiculo.veiculo_st_financiamento">
+							<select class="form-control" ng-model="veiculo.veiculo_st_financiamento">
+								<option value="0">Selecionar...</option>
+								<option value="quitado">Quitado</option>
+								<option value="financiado">Financiado</option>
+								<option value="bloqueado">Bloqueado</option>
+							</select>
 						</div>
 					</div>
 
-					<div class="col-md-6">
+					<div class="col-md-6" ng-if="veiculo.veiculo_st_financiamento == 'quitado'">
 						<div class="form-group">
 							<label for="data-quitacao">D. quitação</label>
-							<input type="text" class="form-control" id="data-quitacao" ng-model="veiculo.veiculo_data_quitacao">
+							<input type="date" class="form-control" id="data-quitacao" ng-model="veiculo.veiculo_data_quitacao_obj">
 						</div>
 					</div>
+					
 
+				</div>
+
+			</div>
+
+			<div class="col-md-6">
+
+				<div class="row">
+					<div class="col-md-6" ng-repeat="(key, val) in beneficios">
+						<input type="checkbox" ng-model="veiculo.veiculo_beneficios_checked[key]" value="{{ val }}"> {{ val }}
+					</div>					
+				</div>
+
+				<div class="row margin-top-30">
 					<div class="col-md-12">
 						<div class="form-group">
-							<label for="obs-cadastro">Observação do cadastro</label>
+							<label for="obs-cadastro">Observação</label>
 							<textarea class="form-control" ng-model="veiculo.veiculo_observacao"></textarea>
 						</div>
 					</div>
-
 				</div>
 
 			</div>
-			<div class="col-md-6">
-
-				<div class="row">
-
-					<div class="col-md-4" ng-repeat="(key, val) in beneficios">
-						<input type="checkbox" ng-model="veiculo.veiculo_beneficios_checked[key]" value="{{ val }}"> {{ val }}
-					</div>
-					
-				</div>
-
-				<div class="box-subtitle margin-top-30">
-					<h2>Status em viagem</h2>
-				</div>
-
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="data-saida">Data de saída</label>
-							<input type="text" class="form-control" id="data-saida" ng-model="veiculo.veiculo_st_data_saida">
-						</div>
-					</div>
-
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="motorista">Motorista</label>
-							<input type="text" class="form-control" id="motorista" ng-model="veiculo.veiculo_st_motorista">
-						</div>
-					</div>
-
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="rv">RV</label>
-							<input type="text" class="form-control" id="rv" ng-model="veiculo.veiculo_st_rv">
-						</div>
-					</div>
-
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="ctrc">CTRC</label>
-							<input type="text" class="form-control" id="ctrc" ng-model="veiculo.veiculo_st_ctrc">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="as">AS</label>
-							<input type="text" class="form-control" id="as" ng-model="veiculo.veiculo_st_as">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="cliente">Cliente</label>
-							<input type="text" class="form-control" id="cliente" ng-model="veiculo.veiculo_st_cliente">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="uf-desti">UF Dest.</label>
-							<input type="text" class="form-control" id="uf-desti" ng-model="veiculo.veiculo_st_uf_destino">
-						</div>
-					</div>
-
-				</div>
-
-
-
-			</div>
-		</div>
-
-		<div class="box-subtitle margin-top-30">
-			<h2>Histórico de viagens concluídas</h2>
-		</div>
-
-		<p>Em construção</p>
-
-		<!-- 
-
-		<div class="row">
-			<div class="col-md-2">
-				<div class="form-group">
-					<label for="id">Data de saída</label>
-					<input type="text" class="form-control" id="id">
-				</div>
-			</div>
-			<div class="col-md-2">
-				<div class="form-group">
-					<label for="id">Data de retorno</label>
-					<input type="text" class="form-control" id="id">
-				</div>
-			</div>
-			<div class="col-md-2">
-				<div class="form-group">
-					<label for="id">Motorista</label>
-					<input type="text" class="form-control" id="id">
-				</div>
-			</div>
-			<div class="col-md-2">
-				<div class="form-group">
-					<label for="id">AS</label>
-					<input type="text" class="form-control" id="id">
-				</div>
-			</div>
-			<div class="col-md-2">
-				<div class="form-group">
-					<label for="id">UF Origem</label>
-					<input type="text" class="form-control" id="id">
-				</div>
-			</div>
-			<div class="col-md-2">
-				<div class="form-group">
-					<label for="id">UF Destino</label>
-					<input type="text" class="form-control" id="id">
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-md-2">
-				<div class="form-group">
-					<label for="id">Data de saída</label>
-					<input type="text" class="form-control" id="id">
-				</div>
-			</div>
-			<div class="col-md-2">
-				<div class="form-group">
-					<label for="id">Data de retorno</label>
-					<input type="text" class="form-control" id="id">
-				</div>
-			</div>
-			<div class="col-md-2">
-				<div class="form-group">
-					<label for="id">Motorista</label>
-					<input type="text" class="form-control" id="id">
-				</div>
-			</div>
-			<div class="col-md-2">
-				<div class="form-group">
-					<label for="id">AS</label>
-					<input type="text" class="form-control" id="id">
-				</div>
-			</div>
-			<div class="col-md-2">
-				<div class="form-group">
-					<label for="id">UF Origem</label>
-					<input type="text" class="form-control" id="id">
-				</div>
-			</div>
-			<div class="col-md-2">
-				<div class="form-group">
-					<label for="id">UF Destino</label>
-					<input type="text" class="form-control" id="id">
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-md-2">
-				<div class="form-group">
-					<label for="id">Data de saída</label>
-					<input type="text" class="form-control" id="id">
-				</div>
-			</div>
-			<div class="col-md-2">
-				<div class="form-group">
-					<label for="id">Data de retorno</label>
-					<input type="text" class="form-control" id="id">
-				</div>
-			</div>
-			<div class="col-md-2">
-				<div class="form-group">
-					<label for="id">Motorista</label>
-					<input type="text" class="form-control" id="id">
-				</div>
-			</div>
-			<div class="col-md-2">
-				<div class="form-group">
-					<label for="id">AS</label>
-					<input type="text" class="form-control" id="id">
-				</div>
-			</div>
-			<div class="col-md-2">
-				<div class="form-group">
-					<label for="id">UF Origem</label>
-					<input type="text" class="form-control" id="id">
-				</div>
-			</div>
-			<div class="col-md-2">
-				<div class="form-group">
-					<label for="id">UF Destino</label>
-					<input type="text" class="form-control" id="id">
-				</div>
-			</div>
-		</div>
-
-		-->
-
-		<div class="row">
-			<div class="col-md-6">
-
-				<div class="box-subtitle margin-top-30">
-					<h2>Controle de manutenções preventivas</h2>
-				</div>
-
-				<table class="table">
-					
-					<tr>
-						<th></th>
-						<th>Data</th>
-						<th>Vencimento</th>
-					</tr>
-
-					<tr>
-						<td>Tr. Óleo motor</td>
-						<td><input type="text" class="form-control"></td>
-						<td><input type="text" class="form-control"></td>
-					</tr>
-
-					<tr>
-						<td>Tr. Óleo camb/dif</td>
-						<td><input type="text" class="form-control"></td>
-						<td><input type="text" class="form-control"></td>
-					</tr>
-
-					<tr>
-						<td>Tr. filtro de comb.</td>
-						<td><input type="text" class="form-control"></td>
-						<td><input type="text" class="form-control"></td>
-					</tr>
-
-					<tr>
-						<td>Tr. filtro de ar</td>
-						<td><input type="text" class="form-control"></td>
-						<td><input type="text" class="form-control"></td>
-					</tr>
-
-					<tr>
-						<td>Tr. correias</td>
-						<td><input type="text" class="form-control"></td>
-						<td><input type="text" class="form-control"></td>
-					</tr>
-
-					<tr>
-						<td>Tr. past. freios</td>
-						<td><input type="text" class="form-control"></td>
-						<td><input type="text" class="form-control"></td>
-					</tr>
-
-					<tr>
-						<td>Tr. bateria</td>
-						<td><input type="text" class="form-control"></td>
-						<td><input type="text" class="form-control"></td>
-					</tr>
-
-					<tr>
-						<td>Tr. transmissão</td>
-						<td><input type="text" class="form-control"></td>
-						<td><input type="text" class="form-control"></td>
-					</tr>
-
-					<tr>
-						<td>Rev. parte elétrica</td>
-						<td><input type="text" class="form-control"></td>
-						<td></td>
-					</tr>
-
-					<tr>
-						<td>Rev. suspensão</td>
-						<td><input type="text" class="form-control"></td>
-						<td></td>
-					</tr>
-
-					<tr>
-						<td>Rev. rodeio</td>
-						<td><input type="text" class="form-control"></td>
-						<td></td>
-					</tr>
-
-					<tr>
-						<td>Rev. acessórios</td>
-						<td><input type="text" class="form-control"></td>
-						<td></td>
-					</tr>
-
-				</table>
-
-				<div class="box-subtitle margin-top-30">
-					<h2>Registro de pneus (marca de fogo) em uso</h2>
-				</div>
-
-				<div class="row registro-pneus-box">
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">TD</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">P7</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">P17</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">TE</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">P8</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">P18</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">EST</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">P10</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">P20</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">P1</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">P11</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">P21</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">P2</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">P12</span>
-							</div>
-						</div>
-
-					</div>
-
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">P22</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">P3</span>
-							</div>
-						</div>
-
-					</div>
-
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">P13</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">P23</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">P4</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">P14</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">P24</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">P5</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">P15</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">P25</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">P6</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">P16</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="col-md-4">
-
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-							<div class="input-group-append">
-								<span class="input-group-text">P26</span>
-							</div>
-						</div>
-
-					</div>
-				</div>
-
-
-			</div>
-			<div class="col-md-6">
-
-				<div class="box-subtitle margin-top-30">
-					<h2>Histórico das últimas manutenções</h2>
-				</div>
-
-				<p>Em construção</p>
-
-				<!-- 
-
-				<table class="table">
-					<tr>
-						<th>Data</th>
-						<th>Ord. Serv.</th>
-						<th>Descrição</th>
-						<th>NF</th>
-						<th>Custo</th>
-					</tr>
-					<tr>
-						<td><input type="text" class="form-control" id="id"></td>
-						<td><input type="text" class="form-control" id="id"></td>
-						<td><input type="text" class="form-control" id="id"></td>
-						<td><input type="text" class="form-control" id="id"></td>
-						<td><input type="text" class="form-control" id="id"></td>
-					</tr>
-				</table>
-
-				-->
-
-				<div class="text-right">
-					<button class="btn btn-success">+</button>
-				</div>
-
-				<div class="row">
-
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="custo-total-pecas">Custo total em peças</label>
-							<input type="text" class="form-control" id="custo-total-pecas" ng-model="veiculo.veiculo_custo_total_pecas">
-						</div>
-					</div>
-
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="custo-mao-obra">Custo de mão de obra</label>
-							<input type="text" class="form-control" id="custa-mao-obra" ng-model="veiculo.veiculo_custo_serv_terceiros">
-						</div>
-					</div>
-
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="custo-terceiros">Custo serv. terceiros</label>
-							<input type="text" class="form-control" id="custo-terceiros" ng-model="veiculo.veiculo_custo_mao_obra">
-						</div>
-					</div>
-
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="custo-manutencoes">Custo total em manutenções</label>
-							<input type="text" class="form-control" id="custo-manutencoes" ng-model="veiculo.veiculo_custo_manutencoes">
-						</div>
-					</div>
-
-				</div>
-
-			</div>
-
 		</div>
 
 		<div class="cadastro-footer margin-top-25">
 			<a href="/veiculos" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
 			<button type="submit" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
 		</div>
-
 
 	</form>
 

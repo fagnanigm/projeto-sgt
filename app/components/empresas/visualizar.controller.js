@@ -3,18 +3,15 @@
 
     angular
         .module('app')
-        .controller('Locais.VisualizarController', Controller);
+        .controller('Empresas.VisualizarController', Controller);
 
     function Controller($rootScope,$scope,$http,$location,ngToast,$localStorage) {
         
         
-        function get_local(){
+        function get_empresa(){
 
-            $http.get('/api/public/locais/get/'+$rootScope.$stateParams.id_local+'?context='+$localStorage.currentEmpresaId).then(function (response) {
-                $scope.local = response.data.local;
-                
-                console.log(  $scope.local)
-
+            $http.get('/api/public/empresas/get/'+$rootScope.$stateParams.id_empresa).then(function (response) {
+                $scope.empresa = response.data.empresa;
             }, function(response) {
                 $rootScope.is_error = true;
                 $rootScope.is_error_text = "Erro: " + response.data.error;
@@ -24,7 +21,7 @@
 
         }
 
-        get_local();
+        get_empresa();
 
     }
 

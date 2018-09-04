@@ -11,26 +11,35 @@
 	</div>
 </div>
 
-
-
 <div class="box-content">
 
 	<div class="box-subtitle"><h2>Listagem dos clientes</h2></div>
 
-	<!--
-
 	<div class="row">
 		<div class="col-md-12">
 
-			<div class="form-group margin-bottom-0">
-				<label>Filtro</label>
-				<input type="text" class="form-control" placeholder="Busca de cliente" ng-model="search_field">
-			</div>
+			<form action="/clientes">
+
+				<div class="form-group margin-bottom-0">
+					<label>Filtro</label>
+					<div class="input-group mb-3">
+						<input type="text" class="form-control" placeholder="Razão social, nome fantasia, CNPJ ou e-mail" name="cliente_term" ng-model="get_filters.cliente_term">
+						<div class="input-group-append">
+							<button class="btn btn-primary" type="submit"><i class="icon-magnifier icons"></i> Buscar</button>
+						</div>
+					</div>
+
+					<div ng-if="clientes.config.is_search">
+						<small>Mostrando {{ clientes.config.total }} resultados para "{{ get_filters.cliente_term }}".</small>
+						<small><a href="/clientes" target="_self" class="text-danger">Limpar filtro</a></small>
+					</div>
+
+				</div>
+
+			</form>
 
 		</div>
 	</div>
-
-	-->
 
 	<table class="table margin-top-30">
 		<tr ng-repeat="(key, val) in clientes.results">

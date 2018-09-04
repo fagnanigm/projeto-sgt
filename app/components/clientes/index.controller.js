@@ -15,12 +15,20 @@
 
             $rootScope.is_loading = true;
 
-        	$http.get('/api/public/clientes/get?context='+$localStorage.currentEmpresaId+'&current_page='+$scope.currentPage).then(function (response) {
+            var rest_address = '/api/public/clientes/get';
 
+            // Pagination
+            rest_address = rest_address + '?current_page=' + $scope.currentPage;
+
+            // Filter
+            $.each($rootScope.get_filters, function(key, val){
+                rest_address += '&' + key + '=' + val;
+            });
+
+        	$http.get(rest_address).then(function (response) {
+                
                 $scope.clientes = response.data;
                 $scope.clientes.config.current_page = parseInt($scope.clientes.config.current_page);
-
-                console.log( $scope.clientes);
 
 			}, function(response) {
 				$rootScope.is_error = true;

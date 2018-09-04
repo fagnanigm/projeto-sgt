@@ -15,7 +15,7 @@
 
             $rootScope.is_loading = true;
 
-            $http.get('/api/public/motoristas/get?context='+$localStorage.currentEmpresaId+'&current_page='+$scope.currentPage).then(function (response) {
+            $http.get('/api/public/motoristas/get?current_page='+$scope.currentPage).then(function (response) {
 
                 $scope.motoristas = response.data;
                 $scope.motoristas.config.current_page = parseInt($scope.motoristas.config.current_page);
@@ -35,7 +35,7 @@
         $scope.get_motoristas();
 
     
-        $scope.delete_veiculo = function(id){
+        $scope.delete_motorista = function(id){
             if(confirm("Deseja excluir esse motorista?")){
                 $rootScope.is_loading = true;
                 $http.post('/api/public/motoristas/delete',{ id : id }).then(function (response) {

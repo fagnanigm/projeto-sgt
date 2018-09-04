@@ -125,33 +125,56 @@ class Clientes {
 	public function get($args = array()){
 
 		$response = array();
-
-		if(!isset($args['context'])){
-			$response = array(
-				'result' => false,
-				'error' => 'Contexto não definido'
-			);
-			return $response;
-		}
+		$is_search = false;
 
 		// Count total
-		$selectStatement = $this->db->select(array('COUNT(*) AS total'))->from('clientes')->whereMany(array('active' => 'Y', 'id_empresa' => $args['context']), '=' );
-		$stmt = $selectStatement->execute();
-		$total_data = $stmt->fetch();
+		$query_count = "SELECT COUNT(*) AS total FROM clientes WHERE active = 'Y'";
+
+		// Filtro
+		if(isset($args['cliente_term'])){
+			$query_count .= " AND (";
+				$query_count .= "cliente_nome LIKE '%".$args['cliente_term']."%' OR ";
+				$query_count .= "cliente_razao_social LIKE '%".$args['cliente_term']."%' OR ";
+				$query_count .= "cliente_email LIKE '%".$args['cliente_term']."%' OR ";
+				$query_count .= "cliente_cnpj LIKE '%".Utilities::unMask($args['cliente_term'])."%' ";
+			$query_count .= ") ";
+			$is_search = true;
+		}
+
+		$count = $this->db->query($query_count);
+		$total_data = $count->fetch();
 
 		$config = array(
 			'total' => $total_data['total'],
 			'item_per_page' => $this->item_per_page,
 			'total_pages' => ceil($total_data['total'] / $this->item_per_page),
-			'current_page' => (isset($args['current_page']) ? $args['current_page'] : 1 )
+			'current_page' => (isset($args['current_page']) ? $args['current_page'] : 1 ),
+			'is_search' => $is_search
 		);
 
 		$response['config'] = $config;
 
 		if($config['current_page'] <= $config['total_pages']){
 
+			// Offset
 			$offset = ($config['current_page'] == '1' ? 0 : ($config['current_page'] - 1) * $config['item_per_page'] );
-			$select = $this->db->query('SELECT * FROM clientes WHERE active = \'Y\' AND id_empresa = \''.$args['context'].'\' ORDER BY cliente_create_time OFFSET '.$offset.' ROWS FETCH NEXT '.$config['item_per_page'].' ROWS ONLY');
+
+			$query = "SELECT * FROM clientes WHERE active = 'Y' ";
+
+			// Filtro
+			if(isset($args['cliente_term'])){
+				$query .= " AND (";
+					$query .= "cliente_nome LIKE '%".$args['cliente_term']."%' OR ";
+					$query .= "cliente_razao_social LIKE '%".$args['cliente_term']."%' OR ";
+					$query .= "cliente_email LIKE '%".$args['cliente_term']."%' OR ";
+					$query .= "cliente_cnpj LIKE '%".Utilities::unMask($args['cliente_term'])."%' ";
+				$query .= ") ";
+			}
+
+			// Config
+			$query .= "ORDER BY cliente_create_time OFFSET ".$offset." ROWS FETCH NEXT ".$config['item_per_page']." ROWS ONLY";
+
+			$select = $this->db->query($query);
 			$response['results'] = $this->parser_fecth($select->fetchAll(\PDO::FETCH_ASSOC),'all');
 			$response['config']['page_items_total'] = count($response['results']);
 
@@ -282,77 +305,95 @@ class Clientes {
 
 		foreach ($results as $key => $cliente) {
 
-			$cidade = '';
+			// Verifica se existe a tag clientes
+			if(!empty($cliente->tags)){
 
-			if(isset($cliente->cidade)){
-				$cidade_pieces = explode(" ", $cliente->cidade);
-				$cidade = trim($cidade_pieces[0]);
-			}
+				$is_cliente = false;
 
-			$ddd = '';
-
-			if(isset($cliente->telefone1_ddd)){
-				
-				$ddd = trim($cliente->telefone1_ddd);
-
-				if(strlen($ddd) == 3){
-					$ddd = substr($cliente->telefone1_ddd, 1, 3);
+				foreach ($cliente->tags as $tg_key => $tg_val) {
+					if(trim($tg_val->tag) == 'Cliente'){
+						$is_cliente = true;
+						break;
+					}
 				}
 
-				if(strlen($ddd) == 1){
+				if($is_cliente){
+
+					$cidade = '';
+
+					if(isset($cliente->cidade)){
+						$cidade_pieces = explode(" ", $cliente->cidade);
+						$cidade = trim($cidade_pieces[0]);
+					}
+
 					$ddd = '';
-				}
 
-			}
+					if(isset($cliente->telefone1_ddd)){
+						
+						$ddd = trim($cliente->telefone1_ddd);
 
-			$param = array(
-				"id_author" => '8',
-				"id_empresa" => $args['context'],
-				"cliente_person" => ($cliente->pessoa_fisica == 'N' ? 'j' : 'f'),
-				"cliente_nome" => $cliente->nome_fantasia,
-				"cliente_razao_social" => ($cliente->pessoa_fisica == 'N' ? $cliente->razao_social : ''),
-				"cliente_email" => $cliente->email,
-				"cliente_cnpj" => ($cliente->pessoa_fisica == 'N' ? $cliente->cnpj_cpf : ''),
-				"cliente_cpf" => ($cliente->pessoa_fisica != 'N' ? $cliente->cnpj_cpf : ''),
-				"cliente_codigo_omie" => $cliente->codigo_cliente_omie,
-				"cliente_phone_01" => (isset($cliente->telefone1_numero) ? Utilities::unMask($cliente->telefone1_numero) : '' ),
-				"cliente_phone_01_ddd" => $ddd,
-				"cliente_cnae" => (isset($cliente->cnae) ? $cliente->cnae : '' ),
-				"cliente_ie" => (isset($cliente->inscricao_estadual) ? $cliente->inscricao_estadual : '' ),
-				"cliente_im" => (isset($cliente->inscricao_municipal) ? $cliente->inscricao_municipal : '' ),
-				"cliente_logradouro" => (isset($cliente->endereco) ? $cliente->endereco : '' ),
-				"cliente_numero" => (isset($cliente->endereco_numero) ? $cliente->endereco_numero : '' ),
-				"cliente_complemento" => (isset($cliente->complemento) ? $cliente->complemento : '' ),
-				"cliente_bairro" => (isset($cliente->bairro) ? $cliente->bairro : '' ),
-				"cliente_cidade" => $cidade,
-				"cliente_cidade_ibge" => (isset($cliente->cidade_ibge) ? $cliente->cidade_ibge : '' ),
-				"cliente_estado" => (isset($cliente->estado) ? $cliente->estado : '' ),
-				"cliente_estado_ibge" => '',
-				"cliente_pais" => 'Brasil',
-				"cliente_pais_ibge" => (isset($cliente->codigo_pais) ? $cliente->codigo_pais : '' ),
-				"cliente_cep" => (isset($cliente->cep) ? $cliente->cep : '' ),
-				"cliente_origem" => 'omie'
-			);
+						if(strlen($ddd) == 3){
+							$ddd = substr($cliente->telefone1_ddd, 1, 3);
+						}
 
-			if(!$this->check_isset_omie($param['cliente_codigo_omie'])){
-				$insert = $this->insert($param);
+						if(strlen($ddd) == 1){
+							$ddd = '';
+						}
 
-				if($insert['result']){
-					$count_insert++;
-				}else{
-					$count_error++;
-					$errors_data[] = array(
-						'param' => $param,
-						'response' => $insert
+					}
+
+					$param = array(
+						"id_author" => '8',
+						"id_empresa" => $args['context'],
+						"cliente_person" => ($cliente->pessoa_fisica == 'N' ? 'j' : 'f'),
+						"cliente_nome" => $cliente->nome_fantasia,
+						"cliente_razao_social" => ($cliente->pessoa_fisica == 'N' ? $cliente->razao_social : ''),
+						"cliente_email" => $cliente->email,
+						"cliente_cnpj" => ($cliente->pessoa_fisica == 'N' ? $cliente->cnpj_cpf : ''),
+						"cliente_cpf" => ($cliente->pessoa_fisica != 'N' ? $cliente->cnpj_cpf : ''),
+						"cliente_codigo_omie" => $cliente->codigo_cliente_omie,
+						"cliente_phone_01" => (isset($cliente->telefone1_numero) ? Utilities::unMask($cliente->telefone1_numero) : '' ),
+						"cliente_phone_01_ddd" => $ddd,
+						"cliente_cnae" => (isset($cliente->cnae) ? $cliente->cnae : '' ),
+						"cliente_ie" => (isset($cliente->inscricao_estadual) ? $cliente->inscricao_estadual : '' ),
+						"cliente_im" => (isset($cliente->inscricao_municipal) ? $cliente->inscricao_municipal : '' ),
+						"cliente_logradouro" => (isset($cliente->endereco) ? $cliente->endereco : '' ),
+						"cliente_numero" => (isset($cliente->endereco_numero) ? $cliente->endereco_numero : '' ),
+						"cliente_complemento" => (isset($cliente->complemento) ? $cliente->complemento : '' ),
+						"cliente_bairro" => (isset($cliente->bairro) ? $cliente->bairro : '' ),
+						"cliente_cidade" => $cidade,
+						"cliente_cidade_ibge" => (isset($cliente->cidade_ibge) ? $cliente->cidade_ibge : '' ),
+						"cliente_estado" => (isset($cliente->estado) ? $cliente->estado : '' ),
+						"cliente_estado_ibge" => '',
+						"cliente_pais" => 'Brasil',
+						"cliente_pais_ibge" => (isset($cliente->codigo_pais) ? $cliente->codigo_pais : '' ),
+						"cliente_cep" => (isset($cliente->cep) ? $cliente->cep : '' ),
+						"cliente_origem" => 'omie'
 					);
+
+					if(!$this->check_isset_omie($param['cliente_codigo_omie'])){
+						$insert = $this->insert($param);
+
+						if($insert['result']){
+							$count_insert++;
+						}else{
+							$count_error++;
+							$errors_data[] = array(
+								'param' => $param,
+								'response' => $insert
+							);
+						}
+
+					}else{
+						$count_repeats++;
+						$errors_data[] = array(
+							'param' => $param,
+							'response' => "Item já existente"
+						);
+					}
+
 				}
 
-			}else{
-				$count_repeats++;
-				$errors_data[] = array(
-					'param' => $param,
-					'response' => "Item já existente"
-				);
 			}
 
 		}
@@ -382,7 +423,7 @@ class Clientes {
 			CURLOPT_TIMEOUT => 30,
 			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 			CURLOPT_CUSTOMREQUEST => "POST",
-			CURLOPT_POSTFIELDS => "{\"call\":\"ListarClientes\",\"app_key\":\"7722651396\",\"app_secret\":\"dc643a3cf2fcde9c3b7c6e561bfb3b9f\",\"param\":[{\"pagina\":".$page.",\"registros_por_pagina\":300,\"apenas_importado_api\":\"N\"}]}",
+			CURLOPT_POSTFIELDS => "{\"call\":\"ListarClientes\",\"app_key\":\"3260290628\",\"app_secret\":\"b00c1acb1c6eca03142d020695c38e3b\",\"param\":[{\"pagina\":".$page.",\"registros_por_pagina\":300,\"apenas_importado_api\":\"N\"}]}",
 			CURLOPT_HTTPHEADER => array(
 				"Cache-Control: no-cache",
 				"Content-Type: application/json"

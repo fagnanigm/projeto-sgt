@@ -11,21 +11,13 @@
         $scope.motorista = {};
 
         $scope.beneficios = [
-            "IPVA",
-            "IPVA isento",
-            "Seguro de obrigatório",
-            "Licenciado",
-            "Permanente",
-            "Credenciado PRF",
-            "Cama / Leito",
-            "Aces. especial",
-            "Cintas / Lonas / Encerado",
-            "Cx. Ferramentas",
-            "CTF",
-            "Rastreador",
-            "Telemetria",
-            "Sem parar",
-            "Kit ambiental"
+            "NR10",
+            "NR35",
+            "CI - C. Indivis.",
+            "CODESP",
+            "Credenciado",
+            "Vale pedágio",
+            "CIOT"
         ];
 
 
@@ -37,16 +29,36 @@
 
                 $scope.motorista = {
                     id_author : $localStorage.currentUser.id,
-                    id_empresa : $localStorage.currentEmpresaId, 
-                    veiculo_person : 'proprio',
-                    veiculo_beneficios_checked : []
+                    id_filial : '0',
+                    motorista_status : '0',
+                    motorista_person : 'colaborador',
+                    motorista_cnh_categoria : '0'
                 }
 
             }else{
 
-                $http.get('/api/public/locais/get/' + $rootScope.$stateParams.id_local + '?context=' + $localStorage.currentEmpresaId).then(function (response) {
+                $http.get('/api/public/motoristas/get/' + $rootScope.$stateParams.id_motorista).then(function (response) {
                     $scope.motorista = response.data.motorista;
-                    $scope.motorista.context = $localStorage.currentEmpresaId;
+
+                    if($scope.motorista.motorista_data_nascimento.length > 0){
+                        $scope.motorista.motorista_data_nascimento_obj = new Date($scope.motorista.motorista_data_nascimento);
+                    }
+
+                    if($scope.motorista.motorista_cnh_validade.length > 0){
+                        $scope.motorista.motorista_cnh_validade_obj = new Date($scope.motorista.motorista_cnh_validade);
+                    }
+
+                    var beneficios = $.parseJSON($scope.motorista.motorista_beneficios);
+                    $scope.motorista.motorista_beneficios_checked = {};
+
+                    $.each(beneficios, function(key, val){
+                        $scope.motorista.motorista_beneficios_checked[val.key] = true;
+                    });
+
+
+                    console.log($scope.motorista);
+
+
                 }, function(response) {
                     $rootScope.is_error = true;
                     $rootScope.is_error_text = "Erro: " + response.data.error;
@@ -59,6 +71,7 @@
         }
 
         function initController() {
+            get_empresas();
         	get_motorista();
         }
 
@@ -66,12 +79,12 @@
         vm.setMotorista = function(){
 
             // Tratamento 
-            $scope.motorista.veiculo_beneficios = [];
+            $scope.motorista.motorista_beneficios = [];
 
-            $.each($scope.motorista.veiculo_beneficios_checked, function(key, val){
+            $.each($scope.motorista.motorista_beneficios_checked, function(key, val){
 
                 if(val){
-                    $scope.motorista.veiculo_beneficios.push({
+                    $scope.motorista.motorista_beneficios.push({
                         key : key,
                         beneficio : $scope.beneficios[key]
                     })
@@ -79,77 +92,117 @@
 
             });
 
-            $scope.motorista.veiculo_beneficios = JSON.stringify($scope.motorista.veiculo_beneficios);
+            $scope.motorista.motorista_beneficios = JSON.stringify($scope.motorista.motorista_beneficios);
 
-
-            var error = 0;
-            
-            // Validação 
-    
-            if(error == 0){
-
-                $rootScope.is_loading = true;
-
-                if($rootScope.$state.name == "insert-motorista"){
-
-                    $http.post('/api/public/veiculos/insert', $scope.motorista).then(function (response) {
-                        
-                        if(response.data.result){
-
-                            ngToast.create({
-                                className: 'success',
-                                content: "motorista cadastrado com sucesso!"
-                            });
-
-                            $location.path('/veiculos');
-
-                        }else{
-                            ngToast.create({
-                                className: 'danger',
-                                content: response.data.error
-                            });
-                        }
-
-                    }, function(response) {
-                        $rootScope.is_error = true;
-                        $rootScope.is_error_text = "Erro: " + response.data.message;
-                    }).finally(function() {
-                        $rootScope.is_loading = false;
-                    });
-
-                }else{
-
-                    $http.post('/api/public/locais/update', $scope.motorista ).then(function (response) {
-                        
-                        if(response.data.result){
-
-                            ngToast.create({
-                                className: 'success',
-                                content: "motorista editado com sucesso!"
-                            });
-
-                            $location.path('/locais');
-
-                        }else{
-                            ngToast.create({
-                                className: 'danger',
-                                content: response.data.error
-                            });
-                        }
-
-                    }, function(response) {
-                        $rootScope.is_error = true;
-                        $rootScope.is_error_text = "Erro: " + response.data.message;
-                    }).finally(function() {
-                        $rootScope.is_loading = false;
-                    });
-
-
-                }
-
+            if($scope.motorista.motorista_cnh_validade_obj == null){
+                delete $scope.motorista.motorista_cnh_validade_obj;
+            }else{
+                $scope.motorista.motorista_cnh_validade = Math.floor($scope.motorista.motorista_cnh_validade_obj.getTime() / 1000);
             }
 
+            if($scope.motorista.motorista_data_nascimento_obj == null){
+                ngToast.create({
+                    className: 'danger',
+                    content: "Escolha a data de nascimento deste motorista"
+                });
+                return; 
+            }else{
+                $scope.motorista.motorista_data_nascimento = Math.floor($scope.motorista.motorista_data_nascimento_obj.getTime() / 1000);
+            }
+
+            // Validação
+            if($scope.motorista.id_filial == '0'){
+                ngToast.create({
+                    className: 'danger',
+                    content: "Escolha uma filial para este motorista"
+                });
+                return;
+            }
+
+            if($scope.motorista.motorista_status == '0'){
+                ngToast.create({
+                    className: 'danger',
+                    content: "Escolha um status para este motorista"
+                });
+                return;
+            }
+
+
+            $rootScope.is_loading = true;
+
+            if($rootScope.$state.name == "insert-motorista"){
+
+                $http.post('/api/public/motoristas/insert', $scope.motorista).then(function (response) {
+
+                    console.log(response);
+                    
+                    if(response.data.result){
+
+                        ngToast.create({
+                            className: 'success',
+                            content: "Motorista cadastrado com sucesso!"
+                        });
+
+                        $location.path('/motoristas');
+
+                    }else{
+                        ngToast.create({
+                            className: 'danger',
+                            content: response.data.error
+                        });
+                    }
+
+                }, function(response) {
+                    $rootScope.is_error = true;
+                    $rootScope.is_error_text = "Erro: " + response.data.message;
+                }).finally(function() {
+                    $rootScope.is_loading = false;
+                });
+
+            }else{
+
+                $http.post('/api/public/motoristas/update', $scope.motorista ).then(function (response) {
+
+                    console.log(response);
+                    
+                    if(response.data.result){
+
+                        ngToast.create({
+                            className: 'success',
+                            content: "Motorista editado com sucesso!"
+                        });
+
+                        $location.path('/motoristas');
+
+                    }else{
+                        ngToast.create({
+                            className: 'danger',
+                            content: response.data.error
+                        });
+                    }
+
+                }, function(response) {
+                    $rootScope.is_error = true;
+                    $rootScope.is_error_text = "Erro: " + response.data.message;
+                }).finally(function() {
+                    $rootScope.is_loading = false;
+                });
+
+
+            }
             
+        }
+
+
+        function get_empresas(){
+
+            $http.get('/api/public/empresas/get?getall=1').then(function (response) {
+                $scope.empresas = response.data.results;
+                console.log($scope.empresas);
+            }).finally(function() {
+                $rootScope.is_loading = false;
+            });
+
         }
 
 

@@ -15,10 +15,10 @@
 
             $rootScope.is_loading = true;
 
-            $http.get('/api/public/veiculos/get?context='+$localStorage.currentEmpresaId+'&current_page='+$scope.currentPage).then(function (response) {
+            $http.get('/api/public/veiculos/get?current_page=' + $scope.currentPage).then(function (response) {
 
                 $scope.veiculos = response.data;
-                $scope.veiculos.config.current_page = parseInt($scope.veiculos.config.current_page);
+                // $scope.veiculos.config.current_page = parseInt($scope.veiculos.config.current_page);
 
                 console.log( $scope.veiculos);
 

@@ -220,6 +220,13 @@
                 controllerAs: 'vm'
             })
 
+            .state('update-veiculo', {
+                url: '/veiculos/gerencia/{id_veiculo}?queryString',
+                templateUrl: 'app/components/veiculos/gerencia.view.html',
+                controller: 'Veiculos.GerenciaController',
+                controllerAs: 'vm'
+            })
+
             .state('visualizar-veiculo', {
                 url: '/veiculos/visualizar/{id_veiculo}?queryString',
                 templateUrl: 'app/components/veiculos/visualizar.view.html',
@@ -243,8 +250,15 @@
                 controllerAs: 'vm'
             })
 
-            .state('visualizar-motoristas', {
-                url: '/motoristas/visualizar',
+            .state('update-motorista', {
+                url: '/motoristas/gerencia/{id_motorista}?queryString',
+                templateUrl: 'app/components/motoristas/gerencia.view.html',
+                controller: 'Motoristas.GerenciaController',
+                controllerAs: 'vm'
+            })
+
+            .state('visualizar-motorista', {
+                url: '/motoristas/visualizar/{id_motorista}?queryString',
                 templateUrl: 'app/components/motoristas/visualizar.view.html',
                 controller: 'Motoristas.VisualizarController',
                 controllerAs: 'vm'

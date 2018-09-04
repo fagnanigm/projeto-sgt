@@ -2,19 +2,258 @@
 
 <div class="box-content">
 
-	<form ng-submit="vm.setUser()">
+	<div class="box-subtitle">
+		<h2>Motorista #123</h2>
+	</div>
 
-		<div class="box-subtitle">
-			<h2>Motorista #123</h2>
+	<div class="row">
+		<div class="col-md-6">
+
+			<div class="row">
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="status">Status</label>
+						<p>{{ motorista.motorista_status }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="status">Classificação</label>
+						<p>{{ motorista.motorista_person }}</p>
+					</div>
+				</div>
+		
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="filial">Filial</label>
+						<p>{{ motorista.filial_text }}</p>
+					</div>
+				</div>
+				
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="nome">Nome</label>
+						<p>{{ motorista.motorista_nome }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="cpf">CPF</label>
+						<p>{{ motorista.motorista_cpf }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="rg">RG</label>
+						<p>{{ motorista.motorista_rg }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="data-nascimento">Data de nascimento</label>
+						<p>{{ motorista.motorista_data_nascimento }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="celular-1">Celular 1</label>
+						<p>{{ motorista.motorista_phone_01 }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="celular-2">Celular 2/Fixo</label>
+						<p>{{ motorista.motorista_phone_02 }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="nextel">Nextel (ID Rádio)</label>
+						<p>{{ motorista.motorista_nextel }}</p>
+					</div>
+				</div>
+
+			</div>
+
+			<hr />
+
+			<div class="row">
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="cnh">CNH</label>
+						<p>{{ motorista.motorista_cnh }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="categoria">Categoria</label>
+						<p>{{ motorista.motorista_cnh_categoria }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="validade">Validade</label>
+						<p>{{ motorista.motorista_cnh_validade }}</p>
+					</div>
+				</div>
+
+			</div>
+
+			<hr />
+
+			<div class="row">
+
+				
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="cartao-pancary">Nº Cartão pancary</label>
+						<p>{{ motorista.motorista_cartao_pancary }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="exame-tox">V. exame tox.</label>
+						<p>{{ motorista.motorista_exame_tox }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="exame-rh">V. exame RH</label>
+						<p>{{ motorista.motorista_exame_rh }}</p>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="box-subtitle margin-top-30">
+				<h2>Dados bancários (terceirizados)</h2>
+			</div>
+
+			<div class="row">
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="banco">Banco</label>
+						<p>{{ motorista.motorista_banco }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="agencia">Agência</label>
+						<p>{{ motorista.motorista_agencia }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="conta-corrente">C. Corrente</label>
+						<p>{{ motorista.motorista_cc }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="banco-cpf">CPF</label>
+						<p>{{ motorista.motorista_banco_cpf }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="nominal">Nominal</label>
+						<p>{{ motorista.motorista_nominal }}</p>
+					</div>
+				</div>
+
+			</div>
+
+
 		</div>
+		<div class="col-md-6">
 
-		<p>Em construção.</p>
+			<div class="row">
 
-		<div class="cadastro-footer margin-top-25">
-			<a href="/motoristas" class="btn btn-primary"><i class="icon-arrow-left icons"></i> Voltar</a>
+				<div class="col-md-6" ng-repeat="(key, val) in motorista.motorista_beneficios">
+					<i class="icon-check icons"></i> {{ val.beneficio }}
+				</div>
+
+			</div>
+
+			<hr />
+
+			<div class="row margin-top-20">
+
+				<div class="col-md-8">
+					<div class="form-group">
+						<label for="logradouro">Logradouro</label>
+						<p>{{ motorista.motorista_logradouro }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="numero">Número</label>
+						<p>{{ motorista.motorista_numero }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-8">
+					<div class="form-group">
+						<label for="bairro">Bairro</label>
+						<p>{{ motorista.motorista_bairro }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="complemento">Complemento</label>
+						<p>{{ motorista.motorista_complemento }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="cidade">Cidade</label>
+						<p>{{ motorista.motorista_cidade }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="estado">Estado</label>
+						<p>{{ motorista.motorista_estado }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="observacao">Observações do cadastro</label>
+						<p>{{ motorista.motorista_observacao }}</p>
+					</div>
+				</div>
+
+			</div>
+
 		</div>
+	</div>
 
-
-	</form>
+	<div class="cadastro-footer margin-top-25">
+		<a href="/motoristas" class="btn btn-primary"><i class="icon-arrow-left icons"></i> Voltar</a>
+	</div>
 
 </div>

@@ -36,10 +36,10 @@
 				<strong>{{ val.motorista_nome }}</strong><br />
 				<small>Código: #{{ val.id }}</small>
 			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
+			<td><small>Cadastrado em {{ val.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm' }}</small></td>
 			<td width="220">
 				<div class="buttons-capsule">
-					<a href="/motoristas/visualizar" class="btn btn-sm btn-primary">Visualizar</a><a href="/motoristas/gerencia" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger">Excluir</button>
+					<a href="/motoristas/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><a href="/motoristas/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">Editar</a><button ng-click="delete_motorista(val.id)" class="btn btn-sm btn-danger">Excluir</button>
 				</div>
 			</td>
 		</tr>

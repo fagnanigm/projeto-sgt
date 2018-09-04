@@ -10,10 +10,10 @@ class Veiculos {
 
 	public $schema = array(
 		"id_author",
-		"id_empresa",
+		"id_filial",
 		"veiculo_person",
 		"veiculo_frota",
-		"veiculo_filial",
+		"veiculo_tipo",
 		"veiculo_status",
 		"veiculo_placa",
 		"veiculo_fabricante",
@@ -23,27 +23,14 @@ class Veiculos {
 		"veiculo_antt",
 		"veiculo_validade_antt",
 		"veiculo_renavam",
-		"veiculo_tipo",
+		"veiculo_tipo_categoria",
 		"veiculo_venc_tacografo",
 		"veiculo_codesp",
 		"veiculo_seguro",
 		"veiculo_st_financiamento",
 		"veiculo_data_quitacao",
-		"veiculo_observacao",
 		"veiculo_beneficios",
-		"veiculo_st_data_saida",
-		"veiculo_st_motorista",
-		"veiculo_st_rv",
-		"veiculo_st_ctrc",
-		"veiculo_st_as",
-		"veiculo_st_cliente",
-		"veiculo_st_uf_destino",
-		"veiculo_manutencoes",
-		"veiculo_registro_pneus",
-		"veiculo_custo_total_pecas",
-		"veiculo_custo_serv_terceiros",
-		"veiculo_custo_mao_obra",
-		"veiculo_custo_manutencoes",
+		"veiculo_observacao",
 		"create_time",
 		"active"
 	);
@@ -85,8 +72,8 @@ class Veiculos {
 
 		}
 
-		if(!isset($args['id_empresa'])){
-			$response['error'] = 'O campo id_empresa é obrigatório.';
+		if(!isset($args['id_filial'])){
+			$response['error'] = 'O campo id_filial é obrigatório.';
 			return $response;
 		}
 
@@ -98,6 +85,21 @@ class Veiculos {
 		if(!isset($args['veiculo_modelo'])){
 			$response['error'] = 'O campo veiculo_modelo é obrigatório.';
 			return $response;
+		}
+
+		if(!isset($args['veiculo_frota'])){
+			$response['error'] = 'O campo veiculo_frota é obrigatório.';
+			return $response;
+		}
+
+		if(!isset($args['veiculo_tipo'])){
+			$response['error'] = 'O campo veiculo_tipo é obrigatório.';
+			return $response;
+		}	
+
+		if(!isset($args['veiculo_status'])){
+			$response['error'] = 'O campo veiculo_status é obrigatório.';
+			return $response;
 		}		 
 
 		// Init insert
@@ -108,6 +110,17 @@ class Veiculos {
 			
 			if(isset($args[$field])){
 				$val = $args[$field];
+
+				if(
+					$field == 'veiculo_validade_antt' || 
+					$field == 'veiculo_venc_tacografo' || 
+					$field == 'veiculo_data_quitacao' 
+				){
+					$dt = new \DateTime();
+					$dt->setTimestamp($val);
+					$val = $dt->format("Y-m-d\TH:i:s");
+				}
+
 				$data[$field] = $val;
 			}else{
 				unset($data[$field]);
@@ -140,18 +153,10 @@ class Veiculos {
 
 		$response = array();
 
-		if(!isset($args['context'])){
-			$response = array(
-				'result' => false,
-				'error' => 'Contexto não definido'
-			);
-			return $response;
-		}
-
 		$args['getall'] = (isset($args['getall']) ? $args['getall'] : false);
 
 		// Count total
-		$selectStatement = $this->db->select(array('COUNT(*) AS total'))->from('veiculos')->whereMany(array('active' => 'Y', 'id_empresa' => $args['context']),'=');
+		$selectStatement = $this->db->select(array('COUNT(*) AS total'))->from('veiculos')->whereMany(array('active' => 'Y'),'=');
 		$stmt = $selectStatement->execute();
 		$total_data = $stmt->fetch();
 
@@ -163,7 +168,7 @@ class Veiculos {
 
 			$response['config'] = $config;
 
-			$select = $this->db->query('SELECT * FROM veiculos WHERE id_empresa = \''.$args['context'].'\' AND active = \'Y\' ORDER BY create_time');
+			$select = $this->db->query('SELECT * FROM veiculos WHERE active = \'Y\' ORDER BY create_time');
 			$response['results'] = $this->parser_fecth($select->fetchAll(\PDO::FETCH_ASSOC),'all');
 
 		}else{
@@ -180,7 +185,7 @@ class Veiculos {
 			if($config['current_page'] <= $config['total_pages']){
 
 				$offset = ($config['current_page'] == '1' ? 0 : ($config['current_page'] - 1) * $config['item_per_page'] );
-				$select = $this->db->query('SELECT * FROM veiculos WHERE id_empresa = \''.$args['context'].'\' AND active = \'Y\' ORDER BY create_time OFFSET '.$offset.' ROWS FETCH NEXT '.$config['item_per_page'].' ROWS ONLY');
+				$select = $this->db->query('SELECT * FROM veiculos WHERE active = \'Y\' ORDER BY create_time OFFSET '.$offset.' ROWS FETCH NEXT '.$config['item_per_page'].' ROWS ONLY');
 				$response['results'] = $this->parser_fecth($select->fetchAll(\PDO::FETCH_ASSOC),'all');
 				$response['config']['page_items_total'] = count($response['results']);
 
@@ -207,14 +212,37 @@ class Veiculos {
 		return $result;
 	}
 
-	public function apply_filter_veiculo($local){
+	public function apply_filter_veiculo($veiculo){
 
-		foreach ($local as $key => $field) {
-			$local[$key] = trim($field);
+		foreach ($veiculo as $key => $field) {
+			$veiculo[$key] = trim($field);
+		}
+		
+		if(strlen($veiculo['veiculo_data_quitacao']) > 0){
+			$create_time = new \DateTime($veiculo['veiculo_data_quitacao']);
+			$veiculo['veiculo_data_quitacao_timestamp'] = $create_time->getTimestamp();
 		}
 
+		if(strlen($veiculo['veiculo_validade_antt']) > 0){
+			$create_time = new \DateTime($veiculo['veiculo_validade_antt']);
+			$veiculo['veiculo_validade_antt_timestamp'] = $create_time->getTimestamp();
+		}
+
+		if(strlen($veiculo['veiculo_venc_tacografo']) > 0){
+			$create_time = new \DateTime($veiculo['veiculo_venc_tacografo']);
+			$veiculo['veiculo_venc_tacografo_timestamp'] = $create_time->getTimestamp();
+		}
+
+		$create_time = new \DateTime($veiculo['create_time']);
+		$veiculo['create_timestamp'] = $create_time->getTimestamp();
+
 		
-		return $local;
+		$filial_st = $this->db->select(array('empresa_name'))->from('empresas')->whereMany( array('id' => $veiculo['id_filial']), '=');
+		$stmt = $filial_st->execute();
+		$filial = $stmt->fetch();
+		$veiculo['filial_text'] = $filial['empresa_name'];
+		
+		return $veiculo;
 	}
 
 	public function delete($args = array()){
@@ -251,17 +279,6 @@ class Veiculos {
 			'result' => false
 		);
 
-		if(!isset($args['context'])){
-			$response = array(
-				'result' => false,
-				'error' => 'Contexto não definido'
-			);
-			return $response;
-		}else{
-			$context = $args['context'];
-			unset($args['context']);
-		}
-
 		if(!isset($args['id'])){
 			$response['error'] = 'ID não informado.';
 			return $response;
@@ -270,7 +287,33 @@ class Veiculos {
 			unset($args['id']);
 		}
 
-		$updateStatement = $this->db->update()->set($args)->table('veiculos')->whereMany( array('id' => $id, 'id_empresa' => $context), '=');
+		// Init insert
+		$data = array_flip($this->schema);
+
+		// External params
+		foreach ($data as $field => $value) {
+			
+			if(isset($args[$field])){
+				$val = $args[$field];
+
+				if(
+					$field == 'veiculo_validade_antt' || 
+					$field == 'veiculo_venc_tacografo' || 
+					$field == 'veiculo_data_quitacao' 
+				){
+					$dt = new \DateTime();
+					$dt->setTimestamp($val);
+					$val = $dt->format("Y-m-d\TH:i:s");
+				}
+
+				$data[$field] = $val;
+			}else{
+				unset($data[$field]);
+			}
+
+		}
+		
+		$updateStatement = $this->db->update()->set($data)->table('veiculos')->whereMany( array('id' => $id), '=');
 
 		$affectedRows = $updateStatement->execute();
 
@@ -295,25 +338,17 @@ class Veiculos {
 			'result' => false
 		);
 
-		if(!isset($args['context'])){
-			$response = array(
-				'result' => false,
-				'error' => 'Contexto não definido'
-			);
-			return $response;
-		}
-
 		if(!$id){
 			$response['error'] = 'ID não informado.';
 		}
 
-		$selectStatement = $this->db->select()->from('veiculos')->whereMany(array('id' => $id, 'active' => 'Y', 'id_empresa' => $args['context'] ), '=');
+		$selectStatement = $this->db->select()->from('veiculos')->whereMany(array('id' => $id, 'active' => 'Y' ), '=');
 
 		$stmt = $selectStatement->execute();
 		$data = $stmt->fetch();
 
 		if($data){
-			$response['local'] = $this->parser_fecth($data);
+			$response['veiculo'] = $this->parser_fecth($data);
 			$response['result'] = true;
 		}else{
 			$response['error'] = 'Nenhum veículo encontrado para essa ID.';
