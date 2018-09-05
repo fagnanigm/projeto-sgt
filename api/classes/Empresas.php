@@ -218,6 +218,9 @@ class Empresas {
 			$empresa['empresa_cep'] = Utilities::mask($empresa['empresa_cep'],'#####-###');
 		}
 
+		$create_time = new \DateTime($empresa['create_time']);
+		$empresa['create_timestamp'] = $create_time->getTimestamp();
+
 		return $empresa;
 	}
 
@@ -276,6 +279,11 @@ class Empresas {
 		// Tratamento de CEP
 		if(isset($args['empresa_cep'])){
 			$args['empresa_cep'] = Utilities::unMask($args['empresa_cep']);
+		}
+
+		// Timestamp
+		if(isset($args['create_timestamp'])){
+			unset($args['create_timestamp']);
 		}
 
 		$updateStatement = $this->db->update()->set($args)->table('empresas')->where('id', '=', $id);

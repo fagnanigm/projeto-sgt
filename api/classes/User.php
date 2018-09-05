@@ -181,10 +181,18 @@ class User {
 			$user[$key] = trim($field);
 		}
 		if($user['person'] == 'f'){
-			$user['cpf'] = Utilities::mask($user['cpf'],'###.###.###-##');
+			if(strlen($user['cpf']) > 0){
+				$user['cpf'] = Utilities::mask($user['cpf'],'###.###.###-##');
+			}
 		}else{
-			$user['cnpj'] = Utilities::mask($user['cnpj'],'##.###.###/####-##');
+			if(strlen($user['cnpj']) > 0){
+				$user['cnpj'] = Utilities::mask($user['cnpj'],'##.###.###/####-##');
+			}
 		}
+
+		$create_time = new \DateTime($user['create_time']);
+		$user['create_timestamp'] = $create_time->getTimestamp();
+
 		return $user;
 	}
 
@@ -243,6 +251,11 @@ class User {
 		// Senha
 		if(isset($args['password'])){
 			unset($args['password']);
+		}
+
+		// Timestamp
+		if(isset($args['create_timestamp'])){
+			unset($args['create_timestamp']);
 		}
 
 		$updateStatement = $this->db->update()->set($args)->table('users')->where('id', '=', $id);

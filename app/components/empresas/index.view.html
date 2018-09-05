@@ -24,10 +24,7 @@
 				<span>CNPJ: {{ val.empresa_cnpj }}</span> <br /> 
 				{{ val.empresa_email }}
 			</td>
-			<td class="text-capitalize">
-				{{ user.permission }}
-			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
+			<td><small>Cadastrado em {{ val.create_timestamp * 1000 | date:"dd/MM/yyyy HH:mm" }}</small></td>
 			<td width="250">
 				<div class="buttons-capsule">
 					<a href="/empresas/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><a href="/empresas/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger" ng-click="delete_empresa(val.id)">Excluir</button>

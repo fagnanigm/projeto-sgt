@@ -37,7 +37,7 @@
                 $location.path('/');
             }else{  
                 $rootScope.is_loading = true;
-                $http.get("/api/public/users/get/"+$localStorage.currentUser.id ).then(function (response) {
+                $http.get("/api/public/users/persist/"+$localStorage.currentUser.id ).then(function (response) {
                     
                     if(!response.data.result){
                         AuthenticationService.Logout();

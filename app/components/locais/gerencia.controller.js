@@ -31,8 +31,8 @@
             }else{
 
                 $http.get('/api/public/locais/get/' + $rootScope.$stateParams.id_local).then(function (response) {
+
                     $scope.local = response.data.local;
-                    
                     $rootScope.ufChange($scope.local.local_estado);
 
                 }, function(response) {
@@ -49,9 +49,7 @@
         function initController() {
             $rootScope.get_ufs();
         	get_local();
-        }
-
-        
+        }    
 
         vm.setLocal = function(){
 

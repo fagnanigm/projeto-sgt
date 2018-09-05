@@ -50,7 +50,7 @@
 			<td>
 				{{ val.cliente_email }}
 			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
+			<td><small>Cadastrado em {{ val.create_timestamp * 1000 | date:"dd/MM/yyyy HH:mm" }}</small></td>
 			<td width="180">
 				<div class="buttons-capsule">
 					<a href="/clientes/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><button href="#" ng-click="delete_cliente(val.id)" class="btn btn-sm btn-danger">Excluir</button>

@@ -117,8 +117,6 @@
                     delete $scope.user.phone2;
 
                     $http.post('/api/public/users/update', $scope.user ).then(function (response) {
-
-
                         
                         if(response.data.result){
 
@@ -130,6 +128,7 @@
                             $location.path('/usuarios');
 
                         }else{
+
                             ngToast.create({
                                 className: 'danger',
                                 content: response.data.error

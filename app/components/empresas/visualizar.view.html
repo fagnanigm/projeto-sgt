@@ -12,7 +12,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="form-group">
-						<label for="nome">Nome da empresa*</label>
+						<label for="nome">Nome da empresa</label>
 						<p>{{ empresa.empresa_name }}</p>
 					</div>
 				</div>
@@ -43,12 +43,12 @@
 				<div class="col-md-6">
 					<div class="form-group">
 						<label for="telefone">Telefone</label>
-						<p>{{ empresa.phone1 }}</p>
+						<p>{{ empresa.empresa_phone_ddd + ' ' + empresa.empresa_phone }}</p>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
-						<label for="cnpj">CNPJ*</label>
+						<label for="cnpj">CNPJ</label>
 						<p>{{ empresa.empresa_cnpj }}</p>
 					</div>
 				</div>
@@ -121,6 +121,29 @@
 					</div>
 				</div>
 
+			</div>
+
+			<div class="box-subtitle margin-top-30">
+				<h2>Integração Omie</h2>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6">
+
+					<div class="form-group">
+						<label for="app-key">APP Key</label>
+						<p>{{ empresa.empresa_app_key }}</p>
+					</div>
+
+				</div>
+				<div class="col-md-6">
+
+					<div class="form-group">
+						<label for="app-secret">APP Secret</label>
+						<p>{{ empresa.empresa_app_secret }}</p>
+					</div>
+
+				</div>
 			</div>
 
 		</div>

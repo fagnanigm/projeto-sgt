@@ -158,4 +158,14 @@ $app->get('/users/get/{id}', function (Request $request, Response $response, arr
 	return $response->withJson($data);
 });
 
+
+// Seleção de usuário por ID
+$app->get('/users/persist/{id}', function (Request $request, Response $response, array $args) {
+
+	$user = new User($this->db);
+	$data = $user->get_by_id($args['id']);
+
+	return $response->withJson($data);
+});
+
 ?>

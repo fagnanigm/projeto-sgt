@@ -209,6 +209,10 @@ class Clientes {
 		}else{
 			$cliente['cliente_cnpj'] = (strlen($cliente['cliente_cnpj']) > 0 ? Utilities::mask($cliente['cliente_cnpj'],'##.###.###/####-##') : '');
 		}
+
+		$create_time = new \DateTime($cliente['cliente_create_time']);
+		$cliente['create_timestamp'] = $create_time->getTimestamp();
+
 		return $cliente;
 	}
 

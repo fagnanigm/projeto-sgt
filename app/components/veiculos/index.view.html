@@ -36,7 +36,7 @@
 				<strong>{{ val.veiculo_frota }} - {{ val.veiculo_modelo }}</strong><br />
 				<small>Código: #{{ val.id }}</small>
 			</td>
-			<td><small>Cadastrado em {{ val.create_timestamp * 1000 | date:'dd/MM/yyyy' }}</small></td>
+			<td><small>Cadastrado em {{ val.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm' }}</small></td>
 			<td width="220">
 				<div class="buttons-capsule">
 					<a href="/veiculos/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><a href="/veiculos/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">Editar</a><button ng-click="delete_veiculo(val.id)" class="btn btn-sm btn-danger">Excluir</button>

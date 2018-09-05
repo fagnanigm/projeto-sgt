@@ -35,15 +35,15 @@
 		<tr ng-repeat="(key, user) in users.results">
 			<td>
 				<strong>{{ user.username }}</strong> <br />
-				<span ng-if="user.person == 'j'">CNPJ: {{ user.cnpj }}</span> 
-				<span ng-if="user.person == 'f'">CPF: {{ user.cpf }}</span> 
-				<br /> 
+				<span ng-if="user.person == 'j' && user.cnpj.length > 0">CNPJ: {{ user.cnpj }}<br /></span> 
+				<span ng-if="user.person == 'f' && user.cpf.length > 0 ">CPF: {{ user.cpf }}<br /></span> 
+				
 				{{ user.email }}
 			</td>
 			<td class="text-capitalize">
 				{{ user.permission }}
 			</td>
-			<td><small>Cadastrado em 10/06/2018</small></td>
+			<td><small>Cadastrado em {{ user.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm' }}</small></td>
 			<td width="150">
 				<div class="buttons-capsule">
 					<a href="/usuarios/gerencia/{{ user.id }}" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger" ng-disabled="logged_user.id == user.id" ng-click="delete_user(user.id)">Excluir</button>
