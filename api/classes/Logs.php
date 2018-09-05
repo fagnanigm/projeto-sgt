@@ -10,6 +10,7 @@ class Logs {
 
 	public $schema = array(
 		"id_user",
+		"id_target",
 		"log_modulo",
 		"log_descricao",
 		"log_content",

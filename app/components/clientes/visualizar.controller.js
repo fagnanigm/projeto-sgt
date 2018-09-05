@@ -10,7 +10,7 @@
         
         function get_cliente(){
 
-                $http.get('/api/public/clientes/get/'+$rootScope.$stateParams.id_cliente+'?context='+$localStorage.currentEmpresaId).then(function (response) {
+                $http.get('/api/public/clientes/get/'+$rootScope.$stateParams.id_cliente).then(function (response) {
                     $scope.cliente = response.data.cliente;
                     
                     console.log(  $scope.cliente)

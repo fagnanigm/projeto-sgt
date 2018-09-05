@@ -32,10 +32,7 @@
 
                 $http.get('/api/public/locais/get/' + $rootScope.$stateParams.id_local).then(function (response) {
                     $scope.local = response.data.local;
-                    $scope.local.context = $localStorage.currentEmpresaId;
-
-                    console.log($scope.local)
-
+                    
                     $rootScope.ufChange($scope.local.local_estado);
 
                 }, function(response) {

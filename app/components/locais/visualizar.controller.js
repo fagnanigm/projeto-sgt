@@ -10,7 +10,7 @@
         
         function get_local(){
 
-            $http.get('/api/public/locais/get/'+$rootScope.$stateParams.id_local+'?context='+$localStorage.currentEmpresaId).then(function (response) {
+            $http.get('/api/public/locais/get/'+$rootScope.$stateParams.id_local).then(function (response) {
                 $scope.local = response.data.local;
                 
                 console.log(  $scope.local)

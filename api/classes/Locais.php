@@ -329,11 +329,6 @@ class Locais {
 
 		$response = array('result' => false);
 
-		if(!isset($args['context'])){
-			$response['error'] = 'Contexto não definido.';
-			return $response;
-		}
-
 		if(!isset($args['term'])){
 			$response['error'] = 'Termo não definido.';
 			return $response;
@@ -348,7 +343,7 @@ class Locais {
 		
 		$select = $this->db->query('SELECT * FROM locais 
 			WHERE active = \'Y\' 
-			AND id_empresa = \''.$args['context'].'\' AND (
+			AND (
 				local_apelido LIKE \'%'.$term.'%\' OR
 				local_logradouro = \''.$term.'\' OR
 				local_cnpj LIKE \'%'.Utilities::unMask($term).'%\'

@@ -109,7 +109,11 @@ class Localidades {
 
 			}
 
-		}		
+		}
+
+		if(count($response['failed']) == 0){
+			$response['result'] = true;
+		}
 
 		return $response;
 
@@ -176,9 +180,6 @@ class Localidades {
 		return $response;
 	}
 
-	
-
-
 	public function parser_fecth($result, $fetch = 'one'){
 		if($fetch == 'one'){
 			$result = $this->apply_filter_localidade($result);
@@ -223,86 +224,6 @@ class Localidades {
 
 		}else{
 			$response['error'] = 'Nenhum registro afetado.';
-		}
-
-		return $response;
-
-	}
-
-	public function update($args = array()){
-
-		$response = array(
-			'result' => false
-		);
-
-		if(!isset($args['context'])){
-			$response = array(
-				'result' => false,
-				'error' => 'Contexto não definido'
-			);
-			return $response;
-		}else{
-			$context = $args['context'];
-			unset($args['context']);
-		}
-
-		if(!isset($args['id'])){
-			$response['error'] = 'ID não informado.';
-			return $response;
-		}else{
-			$id = $args['id'];
-			unset($args['id']);
-		}
-
-		unset($args['create_timestamp']);
-
-		$updateStatement = $this->db->update()->set($args)->table('locais')->whereMany( array('id' => $id, 'id_empresa' => $context), '=');
-
-		$affectedRows = $updateStatement->execute();
-
-		if($affectedRows > 0){
-
-			$response['result'] = true;
-			$response['affectedRows'] = $affectedRows;
-			return $response;
-
-		}else{
-			$response['error'] = 'Nenhum registro afetado.';
-		}
-
-		return $response;
-
-	}
-
-
-	public function get_by_id($id = false, $args = false){
-
-		$response = array(
-			'result' => false
-		);
-
-		if(!isset($args['context'])){
-			$response = array(
-				'result' => false,
-				'error' => 'Contexto não definido'
-			);
-			return $response;
-		}
-
-		if(!$id){
-			$response['error'] = 'ID não informado.';
-		}
-
-		$selectStatement = $this->db->select()->from('locais')->whereMany(array('id' => $id, 'active' => 'Y', 'id_empresa' => $args['context'] ), '=');
-
-		$stmt = $selectStatement->execute();
-		$data = $stmt->fetch();
-
-		if($data){
-			$response['local'] = $this->parser_fecth($data);
-			$response['result'] = true;
-		}else{
-			$response['error'] = 'Nenhum local encontrada para essa ID.';
 		}
 
 		return $response;

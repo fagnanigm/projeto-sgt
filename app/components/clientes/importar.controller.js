@@ -15,7 +15,7 @@
 
                 $rootScope.is_loading = true;
 
-                $http.post('/api/public/clientes/importOmie', { context : $localStorage.currentEmpresaId }).then(function (response) {
+                $http.post('/api/public/clientes/importOmie').then(function (response) {
 
                     $scope.import = response.data;
                     console.log($scope.import);

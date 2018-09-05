@@ -56,15 +56,7 @@
                     $rootScope.is_loading = false;
                 });
             }
-        }
-
-        $scope.setEmpresaContext = function(key){
-            $localStorage.currentEmpresaId = $scope.empresas.results[key].id;
-            $rootScope.selectedEmpresa = $scope.empresas.results[key];
-            $location.path('/dashboard');
-        }
-
-    
+        }    
 
     }
 

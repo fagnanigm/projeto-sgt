@@ -95,7 +95,7 @@
                                 content: "Usuário cadastrado com sucesso!"
                             });
 
-                            setTimeout(function(){ $location.path('/usuarios'); },600);
+                            $location.path('/usuarios');
 
                         }else{
                             ngToast.create({
@@ -127,7 +127,7 @@
                                 content: "Usuário editado com sucesso!"
                             });
 
-                            setTimeout(function(){ $location.path('/usuarios'); },1000);
+                            $location.path('/usuarios');
 
                         }else{
                             ngToast.create({

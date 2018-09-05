@@ -246,20 +246,11 @@ class Clientes {
 			'result' => false
 		);
 
-		if(!isset($args['context'])){
-			$response = array(
-				'result' => false,
-				'error' => 'Contexto não definido'
-			);
-			return $response;
-		}
-
-
 		if(!$id){
 			$response['error'] = 'ID não informado.';
 		}
 
-		$selectStatement = $this->db->select()->from('clientes')->whereMany(array('id' => $id, 'id_empresa' => $args['context'], 'active' => 'Y'), '=' );
+		$selectStatement = $this->db->select()->from('clientes')->whereMany(array('id' => $id, 'active' => 'Y'), '=' );
 
 		$stmt = $selectStatement->execute();
 		$data = $stmt->fetch();
@@ -280,14 +271,6 @@ class Clientes {
 		$response = array(
 			'result' => true
 		);
-
-		if(!isset($args['context'])){
-			$response = array(
-				'result' => false,
-				'error' => 'Contexto não definido'
-			);
-			return $response;
-		}
 
 		$start_curl = $this->omieCurl(1);
 
@@ -344,7 +327,7 @@ class Clientes {
 
 					$param = array(
 						"id_author" => '8',
-						"id_empresa" => $args['context'],
+						"id_empresa" => '0',
 						"cliente_person" => ($cliente->pessoa_fisica == 'N' ? 'j' : 'f'),
 						"cliente_nome" => $cliente->nome_fantasia,
 						"cliente_razao_social" => ($cliente->pessoa_fisica == 'N' ? $cliente->razao_social : ''),
@@ -404,7 +387,7 @@ class Clientes {
 			'count_error' => $count_error,
 			'errors_data' => $errors_data,
 			'count_repeats' => $count_repeats,
-			'clientes' => $results
+			// 'clientes' => $results
 		);
 
 		return $response;
@@ -453,10 +436,6 @@ class Clientes {
 
 		$response = array('result' => false);
 
-		if(!isset($args['context'])){
-			$response['error'] = 'Contexto não definido.';
-			return $response;
-		}
 
 		if(!isset($args['term'])){
 			$response['error'] = 'Termo não definido.';
@@ -472,7 +451,7 @@ class Clientes {
 		
 		$select = $this->db->query('SELECT * FROM clientes 
 			WHERE active = \'Y\' 
-			AND id_empresa = \''.$args['context'].'\' AND (
+			AND (
 				cliente_nome LIKE \'%'.$term.'%\' OR
 				cliente_razao_social LIKE \'%'.$term.'%\' OR
 				cliente_email LIKE \'%'.$term.'%\' OR
