@@ -5,7 +5,6 @@
 			<h1>Usuários <small>({{ users.config.total }} registros)</small></h1>
 		</div>
 		<div class="col-md-4 text-right">
-			<!-- <a href="/usuarios/importar-do-omie" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Importar do OMIE</a> -->
 			<a href="/usuarios/gerencia" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Cadastrar</a>
 		</div>
 
@@ -18,20 +17,40 @@
 
 	<div class="box-subtitle"><h2>Usuários do sistema</h2></div>
 
-	<!-- 
 	<div class="row">
 		<div class="col-md-12">
 
-			<div class="form-group margin-bottom-0">
-				<label>Filtro</label>
-				<input type="text" class="form-control" placeholder="Busca de usuário" ng-model="search_field">
-			</div>
+			<form action="/usuarios">
+
+				<div class="form-group margin-bottom-0">
+					<label>Filtro</label>
+					<div class="input-group mb-3">
+						<input type="text" class="form-control" placeholder="Nome do usuário, CPF ou e-mail" name="user_term" ng-model="get_filters.user_term">
+						<div class="input-group-append">
+							<button class="btn btn-primary" type="submit"><i class="icon-magnifier icons"></i> Buscar</button>
+						</div>
+					</div>
+
+					<div ng-if="users.config.is_search">
+						<small>Mostrando {{ users.config.total }} resultados para "{{ get_filters.user_term }}".</small>
+						<small><a href="/usuarios" target="_self" class="text-danger">Limpar filtro</a></small>
+					</div>
+
+				</div>
+
+			</form>
 
 		</div>
 	</div>
-	-->
 
-	<table class="table margin-top-30">
+	<table class="table table-striped margin-top-30">
+		<tr>
+			<th>Usuário</th>
+			<th class="text-center">Permissão</th>
+			<th class="text-center">Cadastrado</th>
+			<th width="130"></th>
+			<th width="150"></th>
+		</tr>
 		<tr ng-repeat="(key, user) in users.results">
 			<td>
 				<strong>{{ user.username }}</strong> <br />
@@ -40,13 +59,16 @@
 				
 				{{ user.email }}
 			</td>
-			<td class="text-capitalize">
+			<td class="text-capitalize text-center">
 				{{ user.permission }}
 			</td>
-			<td><small>Cadastrado em {{ user.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm' }}</small></td>
-			<td width="150">
+			<td class="text-center">{{ user.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm' }}</td>
+			<td>
+				<a href="#" ng-click="open_change_password(user)" class="btn btn-sm"><i class="icon-lock icons"></i> Alterar senha</a>
+			</td>
+			<td>
 				<div class="buttons-capsule">
-					<a href="/usuarios/gerencia/{{ user.id }}" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger" ng-disabled="logged_user.id == user.id" ng-click="delete_user(user.id)">Excluir</button>
+					<a href="/usuarios/gerencia/{{ user.id }}" class="btn btn-sm btn-warning">Editar</a><button class="btn btn-sm btn-danger" ng-disabled="logged_user.id == user.id" ng-click="delete_user(user.id)">Excluir</button>
 				</div>
 			</td>
 		</tr>

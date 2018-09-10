@@ -134,7 +134,7 @@
             .state('alterar-senha-usuario', {
                 url: '/usuarios/alterar-senha',
                 templateUrl: 'app/components/usuarios/alterar-senha.view.html',
-                controller: 'Usuarios.GerenciaController',
+                controller: 'Usuarios.AlteraSenhaController',
                 controllerAs: 'vm'
             })
             .state('usuarios-paged', {
@@ -414,6 +414,35 @@
                 controller: 'Cotacoes.IndexController',
                 controllerAs: 'vm'
             })
+
+
+            // VENDEDORES 
+
+            .state('vendedores', {
+                url: '/vendedores',
+                templateUrl: 'app/components/vendedores/index.view.html',
+                controller: 'Vendedores.IndexController',
+                controllerAs: 'vm'
+            })
+            .state('visualizar-vendedor', {
+                url: '/vendedores/visualizar/{id_vendedor}?queryString',
+                templateUrl: 'app/components/vendedores/visualizar.view.html',
+                controller: 'Vendedores.VisualizarController',
+                controllerAs: 'vm'
+            })
+            .state('insert-vendedor', {
+                url: '/vendedores/gerencia',
+                templateUrl: 'app/components/vendedores/gerencia.view.html',
+                controller: 'Vendedores.GerenciaController',
+                controllerAs: 'vm'
+            })
+            .state('update-vendedor', {
+                url: '/vendedores/gerencia/{id_vendedor}?queryString',
+                templateUrl: 'app/components/vendedores/gerencia.view.html',
+                controller: 'Vendedores.GerenciaController',
+                controllerAs: 'vm'
+            })
+
             ;
     }
 

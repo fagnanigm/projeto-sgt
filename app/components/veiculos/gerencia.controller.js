@@ -65,8 +65,6 @@
                         $scope.veiculo.veiculo_validade_antt_obj = new Date($scope.veiculo.veiculo_validade_antt_timestamp * 1000);
                     }
 
-                    console.log($scope.veiculo)
-
                     var beneficios = $.parseJSON($scope.veiculo.veiculo_beneficios);
                     $scope.veiculo.veiculo_beneficios_checked = {};
 
@@ -156,8 +154,6 @@
         
             $rootScope.is_loading = true;
 
-            console.log($scope.veiculo);
-
             if($rootScope.$state.name == "insert-veiculo"){
 
                 $http.post('/api/public/veiculos/insert', $scope.veiculo).then(function (response) {
@@ -188,8 +184,6 @@
             }else{
 
                 $http.post('/api/public/veiculos/update', $scope.veiculo ).then(function (response) {
-
-                    console.log(response)
                     
                     if(response.data.result){
 
@@ -223,7 +217,6 @@
 
             $http.get('/api/public/empresas/get?getall=1').then(function (response) {
                 $scope.empresas = response.data.results;
-                console.log($scope.empresas);
             }).finally(function() {
                 $rootScope.is_loading = false;
             });

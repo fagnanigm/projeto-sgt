@@ -17,29 +17,46 @@
 		<h2>Locais do sistema</h2>
 	</div>
 
-	<!-- 
 	<div class="row">
 		<div class="col-md-12">
 
-			<div class="form-group margin-bottom-0">
-				<label>Filtro</label>
-				<input type="text" class="form-control" placeholder="Busca de local" ng-model="search_field">
-			</div>
+			<form action="/locais">
+
+				<div class="form-group margin-bottom-0">
+					<label>Filtro</label>
+					<div class="input-group mb-3">
+						<input type="text" class="form-control" placeholder="Nome ou apelido do local" name="local_term" ng-model="get_filters.local_term">
+						<div class="input-group-append">
+							<button class="btn btn-primary" type="submit"><i class="icon-magnifier icons"></i> Buscar</button>
+						</div>
+					</div>
+
+					<div ng-if="locais.config.is_search">
+						<small>Mostrando {{ locais.config.total }} resultados para "{{ get_filters.local_term }}".</small>
+						<small><a href="/locais" target="_self" class="text-danger">Limpar filtro</a></small>
+					</div>
+
+				</div>
+
+			</form>
 
 		</div>
 	</div>
-	--> 
 
-	<table class="table margin-top-30">
+	<table class="table table-striped margin-top-30">
+		<tr>
+			<th>Local</th>
+			<th class="text-center">Apelido</th>
+			<th class="text-center">Cadastrado</th>
+			<th></th>
+		</tr>
 		<tr ng-repeat="(key, val) in locais.results">
 			<td>
 				<strong>{{ val.local_nome }}</strong><br />
 				<small>Código: #{{ val.id }}</small>
 			</td>
-			<td>
-				<strong>{{ val.local_apelido }}</strong><br />
-			</td>
-			<td><small>Cadastrado em {{ val.create_timestamp * 1000 | date:"dd/MM/yyyy HH:mm" }}</small></td>
+			<td class="text-center">{{ val.local_apelido }}</td>
+			<td class="text-center">{{ val.create_timestamp * 1000 | date:"dd/MM/yyyy HH:mm" }}</td>
 			<td width="220">
 				<div class="buttons-capsule">
 					<a href="/locais/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><a href="/locais/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">Editar</a><button ng-click="delete_local(val.id)" class="btn btn-sm btn-danger">Excluir</button>

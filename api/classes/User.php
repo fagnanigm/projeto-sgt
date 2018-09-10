@@ -132,25 +132,54 @@ class User {
 	public function get($args = array()){
 
 		$response = array();
+		$is_search = false;
 
 		// Count total
-		$selectStatement = $this->db->select(array('COUNT(*) AS total'))->from('users')->where('active','=','Y');
-		$stmt = $selectStatement->execute();
-		$total_data = $stmt->fetch();
+		$query_count = "SELECT COUNT(*) AS total FROM users WHERE active = 'Y'";
+
+		// Filtro
+		if(isset($args['user_term'])){
+			$query_count .= " AND (";
+				$query_count .= "username LIKE '%".$args['user_term']."%' OR ";
+				$query_count .= "email LIKE '%".$args['user_term']."%' OR ";
+				$query_count .= "cpf LIKE '%".Utilities::unMask($args['user_term'])."%' ";
+			$query_count .= ") ";
+			$is_search = true;
+		}
+
+		$count = $this->db->query($query_count);
+		$total_data = $count->fetch();
 
 		$config = array(
 			'total' => $total_data['total'],
 			'item_per_page' => $this->item_per_page,
 			'total_pages' => ceil($total_data['total'] / $this->item_per_page),
-			'current_page' => (isset($args['current_page']) ? $args['current_page'] : 1 )
+			'current_page' => (isset($args['current_page']) ? $args['current_page'] : 1 ),
+			'is_search' => $is_search
 		);
 
 		$response['config'] = $config;
 
 		if($config['current_page'] <= $config['total_pages']){
 
+			// Offset
 			$offset = ($config['current_page'] == '1' ? 0 : ($config['current_page'] - 1) * $config['item_per_page'] );
-			$select = $this->db->query('SELECT * FROM users WHERE active = \'Y\' ORDER BY create_time OFFSET '.$offset.' ROWS FETCH NEXT '.$config['item_per_page'].' ROWS ONLY');
+
+			$query = "SELECT * FROM users WHERE active = 'Y' ";
+
+			// Filtro
+			if(isset($args['user_term'])){
+				$query .= " AND (";
+					$query .= "username LIKE '%".$args['user_term']."%' OR ";
+					$query .= "email LIKE '%".$args['user_term']."%' OR ";
+					$query .= "cpf LIKE '%".Utilities::unMask($args['user_term'])."%' ";
+				$query .= ") ";
+			}
+
+			// Config
+			$query .= "ORDER BY create_time OFFSET ".$offset." ROWS FETCH NEXT ".$config['item_per_page']." ROWS ONLY";
+
+			$select = $this->db->query($query);
 			$response['results'] = $this->parser_fecth($select->fetchAll(\PDO::FETCH_ASSOC),'all');
 			$response['config']['page_items_total'] = count($response['results']);
 
@@ -350,6 +379,106 @@ class User {
 		}
 
 		return $response;
+
+	}
+
+	public function change_pass($args = array()){
+
+		$response = array(
+			'result' => false
+		);
+
+		if(!isset($args['id'])){
+			$response['error'] = 'ID do usuário não informado';
+			return $response;
+		}else{
+
+			// checa se id do usuário existe
+			$userSt = $this->db->select()->from('users')->whereMany(array('id' => $args['id'], 'active' => 'Y'), '=');
+			$stmt = $userSt->execute();
+			$user_data = $stmt->fetch();
+
+			if(!$user_data){
+				$response['error'] = 'Usuário informado não existente.';
+				return $response;
+			}
+
+		}
+
+		if(!isset($args['pass'])){
+			$response['error'] = 'Senha não informada';
+			return $response;
+		}else{
+			$args['pass'] = Bcrypt::hash($args['pass']);
+		}
+
+		$updateStatement = $this->db->update()->set(array('password' => $args['pass']))->table('users')->where('id', '=', $args['id']);
+
+		$affectedRows = $updateStatement->execute();
+
+		if($affectedRows > 0){
+
+			$response['result'] = true;
+			$response['affectedRows'] = $affectedRows;
+			return $response;
+
+		}else{
+			$response['error'] = 'Nenhum registro afetado.';
+		}
+
+		return $response;
+
+	}
+
+	public function user_change_pass($args){
+
+		$response = array(
+			'result' => false
+		);
+
+		if(!isset($args['active_pass'])){
+			$response['error'] = 'Senha atual não informada';
+			return $response;
+		}
+
+		if(!isset($args['pass'])){
+			$response['error'] = 'Senha não informada';
+			return $response;
+		}
+
+		if(!isset($args['id'])){
+			$response['error'] = 'ID do usuário não informado';
+			return $response;
+		}else{
+
+			// checa se id do usuário existe
+			$userSt = $this->db->select()->from('users')->whereMany(array('id' => $args['id'], 'active' => 'Y'), '=');
+			$stmt = $userSt->execute();
+			$user_data = $stmt->fetch();
+
+			if(!$user_data){
+				$response['error'] = 'Usuário informado não existente.';
+				return $response;
+			}else{
+
+				if (Bcrypt::check($args['active_pass'], trim($user_data['password'])  )) {
+
+					$response = $this->change_pass(array(
+						'id' => $args['id'],
+						'pass' => $args['pass']
+					));
+
+					return $response;
+
+				}else{
+					$response['error'] = 'Senha atual incorreta.';
+					return $response;
+				}
+
+			}
+
+		}
+
 
 	}
 

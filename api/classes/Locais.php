@@ -162,10 +162,22 @@ class Locais {
 
 		$args['getall'] = (isset($args['getall']) ? $args['getall'] : false);
 
+		$is_search = false;
+
 		// Count total
-		$selectStatement = $this->db->select(array('COUNT(*) AS total'))->from('locais')->whereMany(array('active' => 'Y'),'=');
-		$stmt = $selectStatement->execute();
-		$total_data = $stmt->fetch();
+		$query_count = "SELECT COUNT(*) AS total FROM locais WHERE active = 'Y'";
+
+		// Filtro
+		if(isset($args['local_term'])){
+			$query_count .= " AND ( "; 
+				$query_count .= "local_nome LIKE '%".$args['local_term']."%' OR ";
+				$query_count .= "local_apelido LIKE '%".$args['local_term']."%' ";
+			$query_count .= " ) "; 
+			$is_search = true;
+		}
+
+		$count = $this->db->query($query_count);
+		$total_data = $count->fetch();
 
 		if($args['getall'] == '1'){
 
@@ -184,15 +196,31 @@ class Locais {
 				'total' => $total_data['total'],
 				'item_per_page' => $this->item_per_page,
 				'total_pages' => ceil($total_data['total'] / $this->item_per_page),
-				'current_page' => (isset($args['current_page']) ? $args['current_page'] : 1 )
+				'current_page' => (isset($args['current_page']) ? $args['current_page'] : 1 ),
+				'is_search' => $is_search
 			);
 
 			$response['config'] = $config;
 
 			if($config['current_page'] <= $config['total_pages']){
 
+				// Offset
 				$offset = ($config['current_page'] == '1' ? 0 : ($config['current_page'] - 1) * $config['item_per_page'] );
-				$select = $this->db->query('SELECT * FROM locais WHERE active = \'Y\' ORDER BY create_time OFFSET '.$offset.' ROWS FETCH NEXT '.$config['item_per_page'].' ROWS ONLY');
+
+				$query = "SELECT * FROM locais WHERE active = 'Y' ";
+
+				// Filtro
+				if(isset($args['local_term'])){
+					$query .= " AND ( "; 
+						$query .= "local_nome LIKE '%".$args['local_term']."%' OR ";
+						$query .= "local_apelido LIKE '%".$args['local_term']."%' ";
+					$query .= " ) ";
+				}
+
+				// Config
+				$query .= "ORDER BY create_time OFFSET ".$offset." ROWS FETCH NEXT ".$config['item_per_page']." ROWS ONLY";
+
+				$select = $this->db->query($query);
 				$response['results'] = $this->parser_fecth($select->fetchAll(\PDO::FETCH_ASSOC),'all');
 				$response['config']['page_items_total'] = count($response['results']);
 

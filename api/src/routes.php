@@ -52,3 +52,6 @@ require 'routes/cotacoes/cotacoes.php';
 
 // AUTORIZACAO SERVICO
 require 'routes/autorizacao-servico/autorizacao-servico.php';
+
+// VENDEDORES
+require 'routes/vendedores/vendedores.php';

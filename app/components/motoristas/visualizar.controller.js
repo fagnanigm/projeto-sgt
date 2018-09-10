@@ -18,8 +18,6 @@
                 $scope.motorista.motorista_status = get_motorista_status_text($scope.motorista.motorista_status);
                 $scope.motorista.motorista_person = get_motorista_person_text($scope.motorista.motorista_person);
 
-                console.log($scope.motorista);
-
             }, function(response) {
                 $rootScope.is_error = true;
                 $rootScope.is_error_text = "Erro: " + response.data.error;

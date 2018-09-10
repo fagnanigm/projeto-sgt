@@ -18,7 +18,6 @@
                 $http.post('/api/public/clientes/importOmie').then(function (response) {
 
                     $scope.import = response.data;
-                    console.log($scope.import);
 
                 }, function(response) {
                     $rootScope.is_error = true;

@@ -17,26 +17,44 @@
 		<h2>Veículos do sistema</h2>
 	</div>
 
-	<!-- 
 	<div class="row">
 		<div class="col-md-12">
 
-			<div class="form-group margin-bottom-0">
-				<label>Filtro</label>
-				<input type="text" class="form-control" placeholder="Busca de veículo" ng-model="search_field">
-			</div>
+			<form action="/veiculos">
+
+				<div class="form-group margin-bottom-0">
+					<label>Filtro</label>
+					<div class="input-group mb-3">
+						<input type="text" class="form-control" placeholder="Modelo do veículo ou frota" name="veiculo_term" ng-model="get_filters.veiculo_term">
+						<div class="input-group-append">
+							<button class="btn btn-primary" type="submit"><i class="icon-magnifier icons"></i> Buscar</button>
+						</div>
+					</div>
+
+					<div ng-if="veiculos.config.is_search">
+						<small>Mostrando {{ veiculos.config.total }} resultados para "{{ get_filters.veiculo_term }}".</small>
+						<small><a href="/veiculos" target="_self" class="text-danger">Limpar filtro</a></small>
+					</div>
+
+				</div>
+
+			</form>
 
 		</div>
 	</div>
-	-->
 
-	<table class="table margin-top-30">
+	<table class="table table-striped margin-top-30">
+		<tr>
+			<th>Veículo</th>
+			<th class="text-center" width="250">Cadastrado</th>
+			<th width="220"></th>
+		</tr>
 		<tr ng-repeat="(key,val) in veiculos.results">
 			<td>
 				<strong>{{ val.veiculo_frota }} - {{ val.veiculo_modelo }}</strong><br />
 				<small>Código: #{{ val.id }}</small>
 			</td>
-			<td><small>Cadastrado em {{ val.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm' }}</small></td>
+			<td class="text-center">{{ val.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm' }}</td>
 			<td width="220">
 				<div class="buttons-capsule">
 					<a href="/veiculos/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><a href="/veiculos/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">Editar</a><button ng-click="delete_veiculo(val.id)" class="btn btn-sm btn-danger">Excluir</button>

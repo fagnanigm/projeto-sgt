@@ -57,7 +57,6 @@
                     </div>
                 </div>
                 <div ng-if="vm.error" class="alert alert-danger margin-top-20">{{vm.error}}</div>
-                <div class="margin-top-20 forgot-password"><a href="/">Esqueci a minha senha</a></div>
                 <div class="form-group text-center margin-top-20">
                     <button class="btn btn-primary"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</button>
                 </div>
@@ -115,6 +114,7 @@
                     <li ng-class="{ active: $state.name == 'clientes' }"><a href="/clientes"><i class="icon-people icons"></i> Clientes</a></li>
                     <li ng-class="{ active: $state.name == 'categorias' }"><a href="/categorias"><i class="icon-layers icons"></i> Categorias</a></li>
                     <li ng-class="{ active: $state.name == 'locais' }"><a href="/locais"><i class="icon-location-pin icons"></i> Locais</a></li>
+                    <li ng-class="{ active: $state.name == 'vendedores' }"><a href="/vendedores"><i class="icon-badge icons"></i> Vendedores</a></li>
                     <li ng-class="{ active: $state.name == 'veiculos' }"><a href="/veiculos"><i class="icon-rocket icons"></i> Veículos</a></li>
                     <li ng-class="{ active: $state.name == 'motoristas' }"><a href="/motoristas"><i class="icon-user icons"></i> Motoristas</a></li>
                     <li class="heading">
@@ -197,6 +197,7 @@
     <script src="/app/components/usuarios/index.controller.js"></script>
     <script src="/app/components/usuarios/gerencia.controller.js"></script>
     <script src="/app/components/usuarios/visualizaController.js"></script>
+    <script src="/app/components/usuarios/altera-senha.controller.js"></script>
 
     <!-- clientes -->
     <script src="/app/components/clientes/index.controller.js"></script>
@@ -242,6 +243,11 @@
     <!-- as -->
     <script src="/app/components/autorizacao-de-servico/index.controller.js"></script>
     <script src="/app/components/autorizacao-de-servico/gerencia.controller.js"></script>
+
+    <!-- vendedores -->
+    <script src="/app/components/vendedores/index.controller.js"></script>
+    <script src="/app/components/vendedores/gerencia.controller.js"></script>
+    <script src="/app/components/vendedores/visualizar.controller.js"></script>
 
     <!-- scripts for fake backend -->
 

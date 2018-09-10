@@ -3,15 +3,15 @@
 
     angular
         .module('app')
-        .controller('Locais.VisualizarController', Controller);
+        .controller('Vendedores.VisualizarController', Controller);
 
     function Controller($rootScope,$scope,$http,$location,ngToast,$localStorage) {
         
         
-        function get_local(){
+        function get_vendedor(){
 
-            $http.get('/api/public/locais/get/'+$rootScope.$stateParams.id_local).then(function (response) {
-                $scope.local = response.data.local;
+            $http.get('/api/public/vendedores/get/'+$rootScope.$stateParams.id_vendedor).then(function (response) {
+                $scope.vendedor = response.data.vendedor;
             }, function(response) {
                 $rootScope.is_error = true;
                 $rootScope.is_error_text = "Erro: " + response.data.error;
@@ -21,7 +21,7 @@
 
         }
 
-        get_local();
+        get_vendedor();
 
     }
 

@@ -172,7 +172,7 @@ class Clientes {
 			}
 
 			// Config
-			$query .= "ORDER BY cliente_create_time OFFSET ".$offset." ROWS FETCH NEXT ".$config['item_per_page']." ROWS ONLY";
+			$query .= "ORDER BY cliente_nome OFFSET ".$offset." ROWS FETCH NEXT ".$config['item_per_page']." ROWS ONLY";
 
 			$select = $this->db->query($query);
 			$response['results'] = $this->parser_fecth($select->fetchAll(\PDO::FETCH_ASSOC),'all');

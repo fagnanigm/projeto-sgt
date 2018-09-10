@@ -20,8 +20,6 @@
                 $scope.projetos = response.data;
                 $scope.projetos.config.current_page = parseInt($scope.projetos.config.current_page);
 
-                console.log( $scope.projetos);
-
             }, function(response) {
                 $rootScope.is_error = true;
                 $rootScope.is_error_text = "Erro: " + response.data.error;

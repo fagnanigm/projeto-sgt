@@ -55,10 +55,6 @@
                         $scope.motorista.motorista_beneficios_checked[val.key] = true;
                     });
 
-
-                    console.log($scope.motorista);
-
-
                 }, function(response) {
                     $rootScope.is_error = true;
                     $rootScope.is_error_text = "Erro: " + response.data.error;
@@ -133,8 +129,6 @@
             if($rootScope.$state.name == "insert-motorista"){
 
                 $http.post('/api/public/motoristas/insert', $scope.motorista).then(function (response) {
-
-                    console.log(response);
                     
                     if(response.data.result){
 
@@ -163,8 +157,6 @@
 
                 $http.post('/api/public/motoristas/update', $scope.motorista ).then(function (response) {
 
-                    console.log(response);
-                    
                     if(response.data.result){
 
                         ngToast.create({
@@ -198,7 +190,6 @@
 
             $http.get('/api/public/empresas/get?getall=1').then(function (response) {
                 $scope.empresas = response.data.results;
-                console.log($scope.empresas);
             }).finally(function() {
                 $rootScope.is_loading = false;
             });

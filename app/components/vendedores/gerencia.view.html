@@ -1,0 +1,41 @@
+<h1 class="title-page">Gerencia vendedor</h1>
+
+<div class="box-content">
+
+	<form ng-submit="vm.setVendedor()">
+
+		<div class="box-subtitle">
+			<h2>Cadastro / edição de vendedor</h2>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+
+				<div class="form-group">
+					<label for="nome">Nome do vendedor</label>
+					<input type="text" class="form-control" id="nome" placeholder="Nome do vendedor" ng-model="vendedor.vendedor_nome" required>
+				</div>
+			
+				<div class="form-group">
+					<label for="email">E-mail</label>
+					<input type="email" class="form-control" id="email" placeholder="E-mail" ng-model="vendedor.vendedor_email">
+				</div>
+			
+				<div class="form-group">
+					<label for="telefone">Telefone</label>
+					<input type="text" class="form-control" id="telefone" placeholder="Telefone" ng-model="vendedor.vendedor_telefone" mask="(99) 9?9999-9999">
+				</div>
+					
+			</div>
+
+		</div>
+
+		<div class="cadastro-footer margin-top-25">
+			<a href="/vendedores" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
+			<button type="submit" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+		</div>
+
+
+	</form>
+
+</div>

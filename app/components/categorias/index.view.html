@@ -43,13 +43,18 @@
 		</div>
 	</div>
 
-	<table class="table margin-top-30">
+	<table class="table table-striped margin-top-30">
+		<tr>
+			<th>Categoria</th>
+			<th class="text-center">Cadastrado</th>
+			<th></th>
+		</tr>
 		<tr ng-repeat="(key, val) in categorias.results">
 			<td>
 				<strong>{{ val.cat_name }}</strong><br />
 				<small>Código: #{{ val.id }}</small>
 			</td>
-			<td><small>Cadastrado em {{ val.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm' }}</small></td>
+			<td class="text-center">{{ val.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm' }}</td>
 			<td width="220">
 				<div class="buttons-capsule">
 					<a href="/categorias/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><a href="/categorias/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger" ng-click="delete_categoria(val.id)">Excluir</button>

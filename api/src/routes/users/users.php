@@ -161,11 +161,61 @@ $app->get('/users/get/{id}', function (Request $request, Response $response, arr
 
 // Seleção de usuário por ID
 $app->get('/users/persist/{id}', function (Request $request, Response $response, array $args) {
-
 	$user = new User($this->db);
 	$data = $user->get_by_id($args['id']);
-
 	return $response->withJson($data);
 });
+
+// Força alteração de senha
+$app->post('/users/forcechangepass', function (Request $request, Response $response, array $args) {
+	$user = new User($this->db);
+	$data = $user->change_pass($request->getParams());
+
+	// Registro de log
+	$this->logs->insert(array(
+		'log_content' => array( 
+			'uri' => addslashes($request->getUri()),
+			'request' => $request->getParams(),
+			'response' => $data
+		),
+		'log_modulo' => 'users',
+		'log_descricao' => 'Força alteração de senha',
+		'log_ip' => $request->getServerParam('REMOTE_ADDR'),
+		'log_tool' => 'forcechangepass',
+		'log_result' => $data['result'],
+		'id_user' => $this->user_request['id'],
+		'id_target' => ($data['result'] ? $data['id'] : '0' )
+	));
+	
+	return $response->withJson($data);	
+});
+
+
+// Alteração de senha
+$app->post('/users/changepass', function (Request $request, Response $response, array $args) {
+	$user = new User($this->db);
+	$data = $user->user_change_pass($request->getParams());
+
+	// Registro de log
+	$this->logs->insert(array(
+		'log_content' => array( 
+			'uri' => addslashes($request->getUri()),
+			'request' => $request->getParams(),
+			'response' => $data
+		),
+		'log_modulo' => 'users',
+		'log_descricao' => 'Alteração de senha',
+		'log_ip' => $request->getServerParam('REMOTE_ADDR'),
+		'log_tool' => 'changepass',
+		'log_result' => $data['result'],
+		'id_user' => $this->user_request['id'],
+		'id_target' => ($data['result'] ? $data['id'] : '0' )
+	));
+	
+	return $response->withJson($data);	
+});
+
+
+
 
 ?>

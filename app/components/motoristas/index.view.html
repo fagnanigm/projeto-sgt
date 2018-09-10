@@ -17,27 +17,45 @@
 		<h2>Motoristas do sistema</h2>
 	</div>
 
-	<!--
 	<div class="row">
 		<div class="col-md-12">
 
-			<div class="form-group margin-bottom-0">
-				<label>Filtro</label>
-				<input type="text" class="form-control" placeholder="Busca de motorista" ng-model="search_field">
-			</div>
+			<form action="/motoristas">
+
+				<div class="form-group margin-bottom-0">
+					<label>Filtro</label>
+					<div class="input-group mb-3">
+						<input type="text" class="form-control" placeholder="Nome do motorista ou CPF" name="motorista_term" ng-model="get_filters.motorista_term">
+						<div class="input-group-append">
+							<button class="btn btn-primary" type="submit"><i class="icon-magnifier icons"></i> Buscar</button>
+						</div>
+					</div>
+
+					<div ng-if="motoristas.config.is_search">
+						<small>Mostrando {{ motoristas.config.total }} resultados para "{{ get_filters.motorista_term }}".</small>
+						<small><a href="/motoristas" target="_self" class="text-danger">Limpar filtro</a></small>
+					</div>
+
+				</div>
+
+			</form>
 
 		</div>
 	</div>
-	--> 
 
-	<table class="table margin-top-30">
+	<table class="table table-striped margin-top-30">
+		<tr>
+			<th>Motorista</th>
+			<th class="text-center">Cadastrado</th>
+			<th width="220"></th>
+		</tr>
 		<tr ng-repeat="(key, val) in motoristas.results">
 			<td>
 				<strong>{{ val.motorista_nome }}</strong><br />
 				<small>Código: #{{ val.id }}</small>
 			</td>
-			<td><small>Cadastrado em {{ val.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm' }}</small></td>
-			<td width="220">
+			<td class="text-center">{{ val.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm' }}</td>
+			<td>
 				<div class="buttons-capsule">
 					<a href="/motoristas/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><a href="/motoristas/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">Editar</a><button ng-click="delete_motorista(val.id)" class="btn btn-sm btn-danger">Excluir</button>
 				</div>

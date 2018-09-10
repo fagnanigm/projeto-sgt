@@ -15,12 +15,20 @@
 
             $rootScope.is_loading = true;
 
-            $http.get('/api/public/motoristas/get?current_page='+$scope.currentPage).then(function (response) {
+            var rest_address = '/api/public/motoristas/get';
+
+            // Pagination
+            rest_address = rest_address + '?current_page=' + $scope.currentPage;
+
+            // Filter
+            $.each($rootScope.get_filters, function(key, val){
+                rest_address += '&' + key + '=' + val;
+            });
+
+            $http.get(rest_address).then(function (response) {
 
                 $scope.motoristas = response.data;
                 $scope.motoristas.config.current_page = parseInt($scope.motoristas.config.current_page);
-
-                console.log( $scope.motoristas);
 
             }, function(response) {
                 $rootScope.is_error = true;

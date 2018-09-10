@@ -3,19 +3,19 @@
 
     angular
         .module('app')
-        .controller('Empresas.IndexController', Controller);
+        .controller('Vendedores.IndexController', Controller);
 
     function Controller($rootScope,$scope,$http,$location,ngToast,$localStorage) {
         
-        $scope.empresas = {};
+        $scope.vendedores = {};
 
-        $scope.currentPage = ($rootScope.$state.name == 'empresas-paged' ? $rootScope.$stateParams.page : '1' );
+        $scope.currentPage = ($rootScope.$state.name == 'vendedores-paged' ? $rootScope.$stateParams.page : '1' );
 
-        $scope.get_empresas = function(){
+        $scope.get_vendedores = function(){
 
             $rootScope.is_loading = true;
 
-            var rest_address = '/api/public/empresas/get';
+            var rest_address = '/api/public/vendedores/get';
 
             // Pagination
             rest_address = rest_address + '?current_page=' + $scope.currentPage;
@@ -27,8 +27,8 @@
 
         	$http.get(rest_address).then(function (response) {
 
-                $scope.empresas = response.data;
-                $scope.empresas.config.current_page = parseInt($scope.empresas.config.current_page);
+                $scope.vendedores = response.data;
+                $scope.vendedores.config.current_page = parseInt($scope.vendedores.config.current_page);
 
 			}, function(response) {
 				$rootScope.is_error = true;
@@ -40,23 +40,18 @@
 
 
         $rootScope.is_loading = true;
-        $scope.get_empresas();
+        $scope.get_vendedores();
 
     
-        $scope.delete_empresa = function(id){
-            if(confirm("Deseja excluir essa empresa?")){
-
-                if(id == $localStorage.currentEmpresaId){
-                    delete $localStorage.currentEmpresaId;
-                }
-
+        $scope.delete_vendedor = function(id){
+            if(confirm("Deseja excluir esse vendedor?")){
                 $rootScope.is_loading = true;
-                $http.post('/api/public/empresas/delete',{ id : id }).then(function (response) {
-                    $scope.get_empresas();
+                $http.post('/api/public/vendedores/delete',{ id : id }).then(function (response) {
+                    $scope.get_vendedores();
 
                     ngToast.create({
                         className: 'success',
-                        content: 'Empresa excluída com sucesso'
+                        content: 'Vendedor excluído com sucesso'
                     });
 
                 }, function(response) {
@@ -66,7 +61,9 @@
                     $rootScope.is_loading = false;
                 });
             }
-        }    
+        }
+
+    
 
     }
 

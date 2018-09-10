@@ -20,8 +20,6 @@
                 $scope.autorizacoes = response.data;
                 $scope.autorizacoes.config.current_page = parseInt($scope.autorizacoes.config.current_page);
 
-                console.log( $scope.autorizacoes);
-
             }, function(response) {
                 $rootScope.is_error = true;
                 $rootScope.is_error_text = "Erro: " + response.data.error;

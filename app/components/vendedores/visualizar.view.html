@@ -1,0 +1,36 @@
+<h1 class="title-page">Visualização de vendedor</h1>
+
+<div class="box-content">
+
+	<div class="box-subtitle">
+		<h2>Vendedor #{{ vendedor.id }}</h2>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6">
+
+			<div class="form-group">
+				<label for="nome">Nome do vendedor</label>
+				<p>{{ vendedor.vendedor_nome }}</p>
+			</div>
+
+			<div class="form-group">
+				<label for="email">E-mail</label>
+				<p>{{ vendedor.vendedor_email }}</p>
+			</div>
+
+			<div class="form-group">
+				<label for="telefone">Telefone</label>
+				<p>{{ vendedor.vendedor_telefone }}</p>
+			</div>
+				
+		</div>
+
+	</div>
+
+	<div class="cadastro-footer margin-top-25">
+		<a href="/vendedores" class="btn btn-primary"><i class="icon-arrow-left icons"></i> Voltar</a>
+	</div>
+
+
+</div>

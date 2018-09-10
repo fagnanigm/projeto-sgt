@@ -26,8 +26,6 @@
             });
 
         	$http.get(rest_address).then(function (response) {
-
-                console.log(response)
                 
                 $scope.clientes = response.data;
                 $scope.clientes.config.current_page = parseInt($scope.clientes.config.current_page);

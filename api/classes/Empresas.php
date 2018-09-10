@@ -11,6 +11,7 @@ class Empresas {
 	public $schema = array(
 		"id_author",
 		"empresa_name",
+		"empresa_prefixo",
 		"empresa_nome_fantasia",
 		"empresa_razao_social",
 		"empresa_name",
@@ -81,6 +82,11 @@ class Empresas {
 			return $response;
 		}
 
+		if(!isset($args['empresa_prefixo'])){
+			$response['error'] = 'O campo empresa_prefixo é obrigatório.';
+			return $response;
+		}
+
 		// Init insert
 
 		$data = array_flip($this->schema);
@@ -144,13 +150,25 @@ class Empresas {
 	public function get($args = array()){
 
 		$response = array();
+		$is_search = false;
 
 		$args['getall'] = (isset($args['getall']) ? $args['getall'] : false);
 
 		// Count total
-		$selectStatement = $this->db->select(array('COUNT(*) AS total'))->from('empresas')->where('active','=','Y');
-		$stmt = $selectStatement->execute();
-		$total_data = $stmt->fetch();
+		$query_count = "SELECT COUNT(*) AS total FROM empresas WHERE active = 'Y'";
+
+		// Filtro
+		if(isset($args['empresa_term'])){
+			$query_count .= " AND ( ";
+				$query_count .= "empresa_name LIKE '%".$args['empresa_term']."%' OR ";
+				$query_count .= "empresa_nome_fantasia LIKE '%".$args['empresa_term']."%' OR ";
+				$query_count .= "empresa_razao_social LIKE '%".$args['empresa_term']."%' ";
+			$query_count .= " ) ";
+			$is_search = true;
+		}
+
+		$count = $this->db->query($query_count);
+		$total_data = $count->fetch();
 
 		if($args['getall'] == '1'){
 
@@ -169,15 +187,32 @@ class Empresas {
 				'total' => $total_data['total'],
 				'item_per_page' => $this->item_per_page,
 				'total_pages' => ceil($total_data['total'] / $this->item_per_page),
-				'current_page' => (isset($args['current_page']) ? $args['current_page'] : 1 )
+				'current_page' => (isset($args['current_page']) ? $args['current_page'] : 1 ),
+				'is_search' => $is_search
 			);
 
 			$response['config'] = $config;
 
 			if($config['current_page'] <= $config['total_pages']){
 
+				// Offset
 				$offset = ($config['current_page'] == '1' ? 0 : ($config['current_page'] - 1) * $config['item_per_page'] );
-				$select = $this->db->query('SELECT * FROM empresas WHERE active = \'Y\' ORDER BY create_time OFFSET '.$offset.' ROWS FETCH NEXT '.$config['item_per_page'].' ROWS ONLY');
+
+				$query = "SELECT * FROM empresas WHERE active = 'Y' ";
+
+				// Filtro
+				if(isset($args['empresa_term'])){
+					$query .= " AND ( ";
+						$query .= "empresa_name LIKE '%".$args['empresa_term']."%' OR ";
+						$query .= "empresa_nome_fantasia LIKE '%".$args['empresa_term']."%' OR ";
+						$query .= "empresa_razao_social LIKE '%".$args['empresa_term']."%' ";
+					$query .= " ) ";
+				}
+
+				// Config
+				$query .= "ORDER BY create_time OFFSET ".$offset." ROWS FETCH NEXT ".$config['item_per_page']." ROWS ONLY";
+
+				$select = $this->db->query($query);
 				$response['results'] = $this->parser_fecth($select->fetchAll(\PDO::FETCH_ASSOC),'all');
 				$response['config']['page_items_total'] = count($response['results']);
 

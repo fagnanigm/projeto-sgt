@@ -20,8 +20,6 @@
                 $scope.cotacoes = response.data;
                 $scope.cotacoes.config.current_page = parseInt($scope.cotacoes.config.current_page);
 
-                console.log( $scope.cotacoes);
-
 			}, function(response) {
 				$rootScope.is_error = true;
 				$rootScope.is_error_text = "Erro: " + response.data.error;

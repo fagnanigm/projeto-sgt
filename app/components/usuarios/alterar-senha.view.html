@@ -2,7 +2,7 @@
 
 <div class="box-content">
 
-	<form ng-submit="vm.setUser()">
+	<form ng-submit="vm.user_change_password()">
 
 		<div class="box-subtitle">
 			<h2>Alteração de senha</h2>
@@ -13,20 +13,25 @@
 			<div class="col-md-6">
 
 				<div class="form-group">
-					<label for="password">Senha</label>
-					<input type="password" class="form-control" id="password" placeholder="Senha" ng-model="user.password" required>
+					<label for="password">Senha atual</label>
+					<input type="password" class="form-control" id="password" placeholder="Senha atual" ng-model="user.active_password" required>
 				</div>
 
 				<div class="form-group">
-					<label for="password2">Confirmação de senha</label>
-					<input type="password" class="form-control" id="password2" placeholder="Confirmação de senha" ng-model="user.password2" required>
+					<label for="password-2">Nova senha</label>
+					<input type="password" class="form-control" id="password-2" placeholder="Nova senha" ng-model="user.new_password" required>
+				</div>
+
+				<div class="form-group">
+					<label for="password-3">Confirmação de nova senha</label>
+					<input type="password" class="form-control" id="password-3" placeholder="Confirmação de nova senha" ng-model="user.new_password_2" required>
 				</div>
 
 			</div>
 		</div>
 
 		<div class="cadastro-footer margin-top-25">
-			<a href="/usuarios" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
+			<a href="/usuarios/visualizar-usuario" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
 			<button type="submit" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
 		</div>
 

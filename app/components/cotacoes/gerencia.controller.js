@@ -64,8 +64,6 @@
                 if($rootScope.$state.name == "insert-cotacao"){
 
                     $http.post('/api/public/cotacoes/insert', $scope.cotacao).then(function (response) {
-
-                        console.log(response);
                         
                         if(response.data.result){
 
@@ -92,12 +90,8 @@
 
                 }else{
 
-                    console.log($scope.cotacao);
-
                     $http.post('/api/public/cotacoes/update', $scope.cotacao ).then(function (response) {
 
-
-                        
                         if(response.data.result){
 
                             ngToast.create({

@@ -1,0 +1,37 @@
+<form ng-submit="change_user_password()">
+
+	<div class="modal-header">
+	    <h3 class="modal-title" id="modal-title">Alterar senha</h3>
+	</div>
+	<div class="modal-body" id="modal-body">
+
+		<div class="modal-loading ng-hide" ng-show="is_modal_loading">
+			<i class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></i>
+		</div>
+
+		<div ng-show="!is_modal_loading">
+
+			<div class="form-group">
+				<label for="new-password">Usuário</label>
+				<p>{{ current_user_password.username }}<br />{{ current_user_password.email }}</p>
+			</div>
+			
+			<div class="form-group">
+				<label for="new-password">Nova senha</label>
+				<input type="password" class="form-control" id="new-password" placeholder="Nova senha" ng-model="current_user_password.new_pass" required>
+			</div>
+
+			<div class="form-group">
+				<label for="new2-password">Repetir nova senha</label>
+				<input type="password" class="form-control" id="new2-password" placeholder="Repetir nova senha" ng-model="current_user_password.new_pass_repeat" required>
+			</div>
+
+		</div>
+
+	</div>
+	<div class="modal-footer" ng-show="!is_modal_loading">
+	    <button class="btn btn-danger" type="button" ng-click="$ctrl.close()"><i class="fa fa-times" aria-hidden="true"></i> Fechar</button>
+	    <button class="btn btn-success" type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+	</div>
+
+</form>

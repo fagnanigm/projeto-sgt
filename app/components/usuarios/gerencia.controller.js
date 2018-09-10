@@ -18,7 +18,7 @@
 
                 $scope.user = {
                     person : 'f',
-                    permission : 'operacional'
+                    permission : 'master'
                 }
 
             }else{

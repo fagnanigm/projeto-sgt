@@ -15,13 +15,21 @@
 
             $rootScope.is_loading = true;
 
-            $http.get('/api/public/veiculos/get?current_page=' + $scope.currentPage).then(function (response) {
+            var rest_address = '/api/public/veiculos/get';
+
+            // Pagination
+            rest_address = rest_address + '?current_page=' + $scope.currentPage;
+
+            // Filter
+            $.each($rootScope.get_filters, function(key, val){
+                rest_address += '&' + key + '=' + val;
+            });
+
+            $http.get(rest_address).then(function (response) {
 
                 $scope.veiculos = response.data;
-                // $scope.veiculos.config.current_page = parseInt($scope.veiculos.config.current_page);
-
-                console.log( $scope.veiculos);
-
+                $scope.veiculos.config.current_page = parseInt($scope.veiculos.config.current_page);
+                
             }, function(response) {
                 $rootScope.is_error = true;
                 $rootScope.is_error_text = "Erro: " + response.data.error;

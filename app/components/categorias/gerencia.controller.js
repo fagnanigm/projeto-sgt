@@ -80,8 +80,6 @@
 
                 }else{
 
-                    console.log($scope.categoria);
-
                     $http.post('/api/public/categorias/update', $scope.categoria ).then(function (response) {
                         
                         if(response.data.result){

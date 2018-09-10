@@ -15,7 +15,17 @@
 
             $rootScope.is_loading = true;
 
-            $http.get('/api/public/locais/get?current_page='+$scope.currentPage).then(function (response) {
+            var rest_address = '/api/public/locais/get';
+
+            // Pagination
+            rest_address = rest_address + '?current_page=' + $scope.currentPage;
+
+            // Filter
+            $.each($rootScope.get_filters, function(key, val){
+                rest_address += '&' + key + '=' + val;
+            });
+
+            $http.get(rest_address).then(function (response) {
 
                 $scope.locais = response.data;
                 $scope.locais.config.current_page = parseInt($scope.locais.config.current_page);
