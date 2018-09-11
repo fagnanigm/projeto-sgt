@@ -12,12 +12,6 @@
         $scope.veiculo = {};
 
         $scope.beneficios = [
-            "IPVA",
-            "IPVA isento",
-            "Seguro de obrigatório",
-            "Licenciado",
-            "Permanente",
-            "Credenciado PRF",
             "Cama / Leito",
             "Aces. especial",
             "Cintas / Lonas / Encerado",
@@ -65,6 +59,14 @@
                         $scope.veiculo.veiculo_validade_antt_obj = new Date($scope.veiculo.veiculo_validade_antt_timestamp * 1000);
                     }
 
+                    if($scope.veiculo.veiculo_vendido_data.length > 0){
+                        $scope.veiculo.veiculo_vendido_data_obj = new Date($scope.veiculo.veiculo_vendido_data_timestamp * 1000);
+                    }
+
+                    if($scope.veiculo.veiculo_sinistro_data.length > 0){
+                        $scope.veiculo.veiculo_sinistro_data_obj = new Date($scope.veiculo.veiculo_sinistro_data_timestamp * 1000);
+                    }
+
                     var beneficios = $.parseJSON($scope.veiculo.veiculo_beneficios);
                     $scope.veiculo.veiculo_beneficios_checked = {};
 
@@ -85,7 +87,7 @@
 
         function initController() {
             get_empresas();
-            get_anos();
+            get_tipos();
         	get_veiculo();
         }
 
@@ -150,6 +152,14 @@
 
             if($scope.veiculo.veiculo_data_quitacao_obj != null){
                 $scope.veiculo.veiculo_data_quitacao = Math.floor($scope.veiculo.veiculo_data_quitacao_obj.getTime() / 1000);
+            }
+
+            if($scope.veiculo.veiculo_vendido_data_obj != null){
+                $scope.veiculo.veiculo_vendido_data = Math.floor($scope.veiculo.veiculo_vendido_data_obj.getTime() / 1000);
+            }
+
+            if($scope.veiculo.veiculo_sinistro_data_obj != null){
+                $scope.veiculo.veiculo_sinistro_data = Math.floor($scope.veiculo.veiculo_sinistro_data_obj.getTime() / 1000);
             }
         
             $rootScope.is_loading = true;
@@ -223,15 +233,15 @@
 
         }
 
-        function get_anos(){
-            var anos = [];
-            var now = new Date();
-            for (var ano = 1990; ano <= now.getFullYear(); ano ++ ) {
-                anos.push(ano);
-            }
-            $scope.anos = anos;
-        }
+        function get_tipos(){
 
+            $http.get('/api/public/veiculos/tipos/get?getall=1').then(function (response) {
+                $scope.veiculos_tipos = response.data.results;
+            }).finally(function() {
+                $rootScope.is_loading = false;
+            });
+
+        }
 
         
     }

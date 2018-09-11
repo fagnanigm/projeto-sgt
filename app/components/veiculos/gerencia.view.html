@@ -38,32 +38,6 @@
 
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="filial">Tipo</label>
-							<select class="form-control" ng-model="veiculo.veiculo_tipo">
-								<option value="0">Selecionar...</option>
-								<option value="l">L</option>
-								<option value="ls">LS</option>
-								<option value="lt">LT</option>
-								<option value="lt4">LT4</option>
-								<option value="c-2-eixos">C 2 Eixos</option>
-								<option value="c-3-eixos">C 3 Eixos</option>
-								<option value="c-4-eixos">C 4 Eixos</option>
-							</select>
-						</div>
-					</div>
-
-					<div class="col-md-12">
-						<div class="form-group">
-							<label for="filial">Filial</label>
-							<select class="form-control" ng-model="veiculo.id_filial">
-								<option value="0">Selecionar...</option>
-								<option ng-repeat="(key, val) in empresas" value="{{ val.id }}">{{ val.empresa_name }}</option>
-							</select>
-						</div>
-					</div>
-
-					<div class="col-md-6">
-						<div class="form-group">
 							<label for="status">Status</label>
 							<select class="form-control" ng-model="veiculo.veiculo_status">
 								<option value="0">Selecionar...</option>
@@ -78,20 +52,91 @@
 						</div>
 					</div>
 
+					<div class="col-md-12" ng-if="veiculo.veiculo_status == 'em-viagem'">
+						<div class="form-group">
+							<label for="numero-as">Número da AS atual</label>
+							<input type="text" class="form-control" id="numero-as" ng-model="veiculo.veiculo_viagem_as" placeholder="Número da AS atual">
+						</div>
+					</div>
+
+					<div class="col-md-12" ng-if="veiculo.veiculo_status == 'em-manutencao'">
+						<div class="form-group">
+							<label for="numero-os">Número da OS</label>
+							<input type="text" class="form-control" id="numero-os" ng-model="veiculo.veiculo_manutencao_os" placeholder="Número da OS">
+						</div>
+					</div>
+
+					<div class="col-md-12" ng-if="veiculo.veiculo_status == 'emprestado'">
+						<div class="form-group">
+							<label for="emprestado-para">Emprestado para</label>
+							<input type="text" class="form-control" id="emprestado-para" ng-model="veiculo.veiculo_emprestado_destino" placeholder="Emprestado para...">
+						</div>
+					</div>
+
+					<div class="col-md-12" ng-if="veiculo.veiculo_status == 'vendido'">
+						<div class="form-group">
+							<label for="data-venda">Data de venda</label>
+							<input type="date" class="form-control" id="data-venda" ng-model="veiculo.veiculo_vendido_data_obj">
+						</div>
+					</div>
+
+					<div class="col-md-12" ng-if="veiculo.veiculo_status == 'sinistro'">
+						<div class="form-group">
+							<label for="data-sinistro">Data do sinistro</label>
+							<input type="date" class="form-control" id="data-sinistro" ng-model="veiculo.veiculo_sinistro_data_obj">
+						</div>
+					</div>
+
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="filial">Tipo</label>
+							<select class="form-control" ng-model="veiculo.veiculo_tipo">
+								<option value="0">Selecionar...</option>
+								<option ng-repeat="(key, val) in veiculos_tipos" value="{{ val.id }}">{{ val.tipo_nome }}</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="filial">Filial</label>
+							<select class="form-control" ng-model="veiculo.id_filial">
+								<option value="0">Selecionar...</option>
+								<option ng-repeat="(key, val) in empresas" value="{{ val.id }}">{{ val.empresa_name }}</option>
+							</select>
+						</div>
+					</div>
+
+					
+
 				</div>
 
 				<hr />
 
 				<div class="row">
 
-					<div class="col-md-6">
+					<div class="col-md-12">
 						<div class="form-group">
 							<label for="placa">Placa</label>
 							<input type="text" class="form-control" id="placa" ng-model="veiculo.veiculo_placa" mask="@@@-9999" placeholder="XXX-0000" required>
 						</div>
 					</div>
 
-					<div class="col-md-6">
+					<div class="col-md-7">
+						<div class="form-group">
+							<label for="cidade-emplacamento">Cidade emplacamento</label>
+							<input type="text" class="form-control" id="cidade-emplacamento" ng-model="veiculo.veiculo_cidade_emplacamento" placeholder="Cidade de emplacamento">
+						</div>
+					</div>
+
+					<div class="col-md-5">
+						<div class="form-group">
+							<label for="uf-emplacamento">UF emplacamento</label>
+							<input type="text" class="form-control" id="uf-emplacamento" ng-model="veiculo.veiculo_uf_emplacamento" placeholder="UF">
+						</div>
+					</div>
+
+					<div class="col-md-12">
 						<div class="form-group">
 							<label for="fabricante">Fabricante</label>
 							<input type="text" class="form-control" id="fabricante" ng-model="veiculo.veiculo_fabricante" placeholder="Fabricante" required>
@@ -108,20 +153,21 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="anofab">Ano fab.</label>
-							<select class="form-control" ng-model="veiculo.veiculo_ano_fab">
-								<option value="">Selecionar...</option>
-								<option ng-repeat="(key, val) in anos" value="{{ val }}">{{ val }}</option>
-							</select>
+							<input type="text" class="form-control" id="anofab" ng-model="veiculo.veiculo_ano_fab" placeholder="Ex: 2010" maxlength="4">
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="anomod">Ano mod.</label>
-							<select class="form-control" ng-model="veiculo.veiculo_ano_mod">
-								<option value="">Selecionar...</option>
-								<option ng-repeat="(key, val) in anos" value="{{ val }}">{{ val }}</option>
-							</select>
+							<input type="text" class="form-control" id="anomod" ng-model="veiculo.veiculo_ano_mod" placeholder="Ex: 2010" maxlength="4">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="km">Quilometragem</label>
+							<input type="text" class="form-control" id="km" ng-model="veiculo.veiculo_quilometragem" placeholder="Apenas números">
 						</div>
 					</div>
 
@@ -149,13 +195,6 @@
 						<div class="form-group">
 							<label for="renavam">RENAVAM</label>
 							<input type="text" class="form-control" id="renavam" ng-model="veiculo.veiculo_renavam" placeholder="RENAVAM">
-						</div>
-					</div>
-
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="tipo-categoria">Tipo/Categoria</label>
-							<input type="text" class="form-control" id="tipo-categoria" ng-model="veiculo.veiculo_tipo_categoria" placeholder="Tipo / categoria">
 						</div>
 					</div>
 
@@ -198,10 +237,39 @@
 						</div>
 					</div>
 
-					<div class="col-md-6" ng-if="veiculo.veiculo_st_financiamento == 'quitado'">
+					<div class="col-md-6" ng-if="veiculo.veiculo_st_financiamento == 'financiado'">
 						<div class="form-group">
 							<label for="data-quitacao">D. quitação</label>
 							<input type="date" class="form-control" id="data-quitacao" ng-model="veiculo.veiculo_data_quitacao_obj">
+						</div>
+					</div>
+
+					<div class="col-md-6" ng-if="veiculo.veiculo_st_financiamento == 'financiado'">
+						<div class="form-group">
+							<label for="num-contrato">Número de contrato</label>
+							<input type="text" class="form-control" id="num-contrato" ng-model="veiculo.veiculo_num_contrato_financiamento" placeholder="Número de contrato">
+						</div>
+					</div>
+
+					<div class="col-md-6" ng-if="veiculo.veiculo_st_financiamento == 'financiado'">
+						<div class="form-group">
+							<label for="banco-financiamento">Banco financiamento</label>
+							<input type="text" class="form-control" id="banco-financiamento" ng-model="veiculo.veiculo_banco_financiamento" placeholder="Banco financiamento">
+						</div>
+					</div>
+
+					<div class="col-md-12" ng-if="veiculo.veiculo_st_financiamento == 'financiado'">
+						<div class="form-group">
+							<label for="banco-financiamento">Tipo do financiamento</label>
+							<select class="form-control" ng-model="veiculo.veiculo_tipo_financiamento">
+								<option value="0">Selecionar...</option>
+								<option value="leasing">Leasing</option>
+								<option value="cdc">CDC</option>
+								<option value="finame">Finame</option>
+								<option value="consorcio">Consórcio</option>
+								<option value="cambio-internacional-dolar">Câmbio internacional dólar</option>
+								<option value="cambio-internacional-euro">Câmbio internacional euro</option>
+							</select>
 						</div>
 					</div>
 					
@@ -212,13 +280,94 @@
 
 			<div class="col-md-6">
 
+				
+
 				<div class="row">
-					<div class="col-md-6" ng-repeat="(key, val) in beneficios">
-						<input type="checkbox" ng-model="veiculo.veiculo_beneficios_checked[key]" value="{{ val }}"> {{ val }}
-					</div>					
+
+					<div class="col-md-12">
+
+						<div class="form-group">
+							<label for="ipva"><input type="checkbox" ng-model="veiculo.veiculo_ipva" ng-disabled="veiculo.veiculo_ipva_isento == true"> IPVA</label>
+							<label for="ipva-isento" class="margin-left-15"><input type="checkbox" ng-model="veiculo.veiculo_ipva_isento" value="Y">  IPVA isento</label>
+
+							<div class="input-group">
+								<input type="text" class="form-control" id="ipva" placeholder="Ex: 2018" maxlength="4" ng-model="veiculo.veiculo_ipva_ano" ng-disabled="veiculo.veiculo_ipva != true || veiculo.veiculo_ipva_isento == true">
+								<div class="input-group-append">
+									<span class="input-group-text">Ano</span>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+					<div class="col-md-6">
+
+						<div class="form-group">
+							<label for="seguro-obrigatorio"><input type="checkbox" ng-model="veiculo.veiculo_seguro_obrigatorio"> Seguro obrigatório</label>
+							<div class="input-group">
+								<input type="text" class="form-control" id="seguro-obrigatorio" placeholder="Ex: 2018" maxlength="4" ng-model="veiculo.veiculo_seguro_obrigatorio_ano" ng-disabled="veiculo.veiculo_seguro_obrigatorio != true">
+								<div class="input-group-append">
+									<span class="input-group-text">Ano</span>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-6">
+
+						<div class="form-group">
+							<label for="licenciado"><input type="checkbox" ng-model="veiculo.veiculo_licenciado"> Licenciado</label>
+							<div class="input-group">
+								<input type="text" class="form-control" id="licenciado" placeholder="Ex: 2018" maxlength="4" ng-model="veiculo.veiculo_licenciado_ano" ng-disabled="veiculo.veiculo_licenciado != true">
+								<div class="input-group-append">
+									<span class="input-group-text">Ano</span>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-6">
+
+						<div class="form-group">
+							<label for="permanente"><input type="checkbox" ng-model="veiculo.veiculo_permanente"> Permanente</label>
+							<div class="input-group">
+								<input type="text" class="form-control" id="permanente" placeholder="Ex: 2018" maxlength="4" ng-model="veiculo.veiculo_permanente_ano" ng-disabled="veiculo.veiculo_permanente != true">
+								<div class="input-group-append">
+									<span class="input-group-text">Ano</span>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-6">
+
+						<div class="form-group">
+							<label for="credenciado-prf"><input type="checkbox" ng-model="veiculo.veiculo_credenciado_prf"> Credenciado PRF</label>
+							<div class="input-group">
+								<input type="text" class="form-control" id="credenciado-prf" placeholder="Ex: 2018" maxlength="4" ng-model="veiculo.veiculo_credenciado_prf_ano" ng-disabled="veiculo.veiculo_credenciado_prf != true">
+								<div class="input-group-append">
+									<span class="input-group-text">Ano</span>
+								</div>
+							</div>
+						</div>
+
+					</div>
 				</div>
 
-				<div class="row margin-top-30">
+				<hr />
+
+				<div class="form-group">
+					<label for="obs-cadastro">Benefícios</label>
+					<div class="row">
+						<div class="col-md-6" ng-repeat="(key, val) in beneficios">
+							<input type="checkbox" ng-model="veiculo.veiculo_beneficios_checked[key]" value="{{ val }}"> {{ val }}
+						</div>					
+					</div>
+				</div>
+
+				<hr class="margin-top-20" />
+
+				<div class="row">
 					<div class="col-md-12">
 						<div class="form-group">
 							<label for="obs-cadastro">Observação</label>
@@ -226,6 +375,21 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- 
+
+				<hr class="margin-top-20" />
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="codigo-fipe">Código FIPE</label>
+							<input type="text" class="form-control" id="codigo-fipe" ng-model="veiculo.veiculo_codigo_fipe" placeholder="Código FIPE">
+						</div>
+					</div>
+				</div>
+
+				-->
 
 			</div>
 		</div>

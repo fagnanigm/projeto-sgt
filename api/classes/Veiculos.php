@@ -32,7 +32,29 @@ class Veiculos {
 		"veiculo_beneficios",
 		"veiculo_observacao",
 		"create_time",
-		"active"
+		"active",
+		"veiculo_cidade_emplacamento",
+		"veiculo_uf_emplacamento",
+		"veiculo_num_contrato_financiamento",
+		"veiculo_banco_financiamento",
+		"veiculo_tipo_financiamento",
+		"veiculo_quilometragem",
+		"veiculo_ipva",
+		"veiculo_ipva_isento",
+		"veiculo_ipva_ano",
+		"veiculo_seguro_obrigatorio",
+		"veiculo_seguro_obrigatorio_ano",
+		"veiculo_licenciado",
+		"veiculo_licenciado_ano",
+		"veiculo_permanente",
+		"veiculo_permanente_ano",
+		"veiculo_credenciado_prf",
+		"veiculo_credenciado_prf_ano",
+		"veiculo_emprestado_destino",
+		"veiculo_manutencao_os",
+		"veiculo_vendido_data",
+		"veiculo_sinistro_data",
+		"veiculo_viagem_as",
 	);
 
 	function __construct($db = false, $item_per_page = false){
@@ -114,11 +136,37 @@ class Veiculos {
 				if(
 					$field == 'veiculo_validade_antt' || 
 					$field == 'veiculo_venc_tacografo' || 
-					$field == 'veiculo_data_quitacao' 
+					$field == 'veiculo_data_quitacao' || 
+					$field == 'veiculo_vendido_data' || 
+					$field == 'veiculo_sinistro_data'
 				){
 					$dt = new \DateTime();
 					$dt->setTimestamp($val);
 					$val = $dt->format("Y-m-d\TH:i:s");
+				}
+
+				if($field == 'veiculo_ipva'){
+					$val = ($val ? 'Y' : 'N');
+				}
+
+				if($field == 'veiculo_ipva_isento'){
+					$val = ($val ? 'Y' : 'N');
+				}
+
+				if($field == 'veiculo_seguro_obrigatorio'){
+					$val = ($val ? 'Y' : 'N');
+				}
+
+				if($field == 'veiculo_licenciado'){
+					$val = ($val ? 'Y' : 'N');
+				}
+
+				if($field == 'veiculo_permanente'){
+					$val = ($val ? 'Y' : 'N');
+				}
+
+				if($field == 'veiculo_credenciado_prf'){
+					$val = ($val ? 'Y' : 'N');
 				}
 
 				$data[$field] = $val;
@@ -126,6 +174,11 @@ class Veiculos {
 				unset($data[$field]);
 			}
 
+		}
+
+		if($data['veiculo_ipva_isento'] == 'Y'){
+			$data['veiculo_ipva'] = 'N';
+			$data['veiculo_ipva_ano'] = '';
 		}
 
 		// Fixed params
@@ -260,10 +313,27 @@ class Veiculos {
 			$veiculo['veiculo_venc_tacografo_timestamp'] = $create_time->getTimestamp();
 		}
 
+		if(strlen($veiculo['veiculo_vendido_data']) > 0){
+			$create_time = new \DateTime($veiculo['veiculo_vendido_data']);
+			$veiculo['veiculo_vendido_data_timestamp'] = $create_time->getTimestamp();
+		}
+
+		if(strlen($veiculo['veiculo_sinistro_data']) > 0){
+			$create_time = new \DateTime($veiculo['veiculo_sinistro_data']);
+			$veiculo['veiculo_sinistro_data_timestamp'] = $create_time->getTimestamp();
+		}
+
 		$create_time = new \DateTime($veiculo['create_time']);
 		$veiculo['create_timestamp'] = $create_time->getTimestamp();
 
-		
+		// Recursos
+		$veiculo['veiculo_ipva'] = ($veiculo['veiculo_ipva'] == 'Y' ? true : false);
+		$veiculo['veiculo_ipva_isento'] = ($veiculo['veiculo_ipva_isento'] == 'Y' ? true : false);
+		$veiculo['veiculo_seguro_obrigatorio'] = ($veiculo['veiculo_seguro_obrigatorio'] == 'Y' ? true : false);
+		$veiculo['veiculo_licenciado'] = ($veiculo['veiculo_licenciado'] == 'Y' ? true : false);
+		$veiculo['veiculo_permanente'] = ($veiculo['veiculo_permanente'] == 'Y' ? true : false);
+		$veiculo['veiculo_credenciado_prf'] = ($veiculo['veiculo_credenciado_prf'] == 'Y' ? true : false);
+
 		$filial_st = $this->db->select(array('empresa_name'))->from('empresas')->whereMany( array('id' => $veiculo['id_filial']), '=');
 		$stmt = $filial_st->execute();
 		$filial = $stmt->fetch();
@@ -326,11 +396,37 @@ class Veiculos {
 				if(
 					$field == 'veiculo_validade_antt' || 
 					$field == 'veiculo_venc_tacografo' || 
-					$field == 'veiculo_data_quitacao' 
+					$field == 'veiculo_data_quitacao' || 
+					$field == 'veiculo_vendido_data' || 
+					$field == 'veiculo_sinistro_data'
 				){
 					$dt = new \DateTime();
 					$dt->setTimestamp($val);
 					$val = $dt->format("Y-m-d\TH:i:s");
+				}
+
+				if($field == 'veiculo_ipva'){
+					$val = ($val ? 'Y' : 'N');
+				}
+
+				if($field == 'veiculo_ipva_isento'){
+					$val = ($val ? 'Y' : 'N');
+				}
+
+				if($field == 'veiculo_seguro_obrigatorio'){
+					$val = ($val ? 'Y' : 'N');
+				}
+
+				if($field == 'veiculo_licenciado'){
+					$val = ($val ? 'Y' : 'N');
+				}
+
+				if($field == 'veiculo_permanente'){
+					$val = ($val ? 'Y' : 'N');
+				}
+
+				if($field == 'veiculo_credenciado_prf'){
+					$val = ($val ? 'Y' : 'N');
 				}
 
 				$data[$field] = $val;
@@ -338,6 +434,11 @@ class Veiculos {
 				unset($data[$field]);
 			}
 
+		}
+
+		if($data['veiculo_ipva_isento'] == 'Y'){
+			$data['veiculo_ipva'] = 'N';
+			$data['veiculo_ipva_ano'] = '';
 		}
 		
 		$updateStatement = $this->db->update()->set($data)->table('veiculos')->whereMany( array('id' => $id), '=');

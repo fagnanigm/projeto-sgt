@@ -37,6 +37,7 @@ require 'routes/locais/locais.php';
 
 // VEÍCULOS
 require 'routes/veiculos/veiculos.php';
+require 'routes/veiculos/tipos.php';
 
 // MOTORISTAS
 require 'routes/motoristas/motoristas.php';

@@ -2,14 +2,14 @@
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Classes\Veiculos;
+use Classes\VeiculosTipos;
 use Classes\Utilities;
 
-// Inserção de veiculo
-$app->post('/veiculos/insert', function (Request $request, Response $response, array $args) {
+// Inserção de tipo de veículo
+$app->post('/veiculos/tipo/insert', function (Request $request, Response $response, array $args) {
 
-	$veiculos = new Veiculos($this->db);
-	$data = $veiculos->insert($request->getParams());
+	$veiculosTipos = new VeiculosTipos($this->db);
+	$data = $veiculosTipos->insert($request->getParams());
 
 	// Registro de log
 	$this->logs->insert(array(
@@ -18,8 +18,8 @@ $app->post('/veiculos/insert', function (Request $request, Response $response, a
 			'request' => $request->getParams(),
 			'response' => $data
 		),
-		'log_modulo' => 'veiculos',
-		'log_descricao' => 'Inserção de veiculo',
+		'log_modulo' => 'veiculos/tipo',
+		'log_descricao' => 'Inserção de tipo de veículo',
 		'log_ip' => $request->getServerParam('REMOTE_ADDR'),
 		'log_tool' => 'insert',
 		'log_result' => $data['result'],
@@ -30,11 +30,12 @@ $app->post('/veiculos/insert', function (Request $request, Response $response, a
 	return $response->withJson($data);
 });
 
-// Seleção de todos os veiculos
-$app->get('/veiculos/get', function (Request $request, Response $response, array $args) {
 
-	$veiculos = new Veiculos($this->db);
-	$data = $veiculos->get($request->getParams());
+// Seleção de todos os tipos de veiculos
+$app->get('/veiculos/tipos/get', function (Request $request, Response $response, array $args) {
+
+	$veiculosTipos = new VeiculosTipos($this->db);
+	$data = $veiculosTipos->get($request->getParams());
 
 	// Registro de log
 	$this->logs->insert(array(
@@ -43,8 +44,8 @@ $app->get('/veiculos/get', function (Request $request, Response $response, array
 			'request' => $request->getParams(),
 			'response' => $data['config']
 		),
-		'log_modulo' => 'veiculos',
-		'log_descricao' => 'Seleção de todos os veiculos',
+		'log_modulo' => 'veiculos/tipo',
+		'log_descricao' => 'Seleção de todos os tipos de veiculos',
 		'log_ip' => $request->getServerParam('REMOTE_ADDR'),
 		'log_tool' => 'get',
 		'log_result' => true,
@@ -55,11 +56,12 @@ $app->get('/veiculos/get', function (Request $request, Response $response, array
 	return $response->withJson($data);
 });
 
-// Seleção de veículo por ID
-$app->get('/veiculos/get/{id}', function (Request $request, Response $response, array $args) {
 
-	$veiculos = new Veiculos($this->db);
-	$data = $veiculos->get_by_id($args['id'], $request->getParams());
+// Seleção de tipo de veículo por ID
+$app->get('/veiculos/tipos/get/{id}', function (Request $request, Response $response, array $args) {
+
+	$veiculosTipos = new VeiculosTipos($this->db);
+	$data = $veiculosTipos->get_by_id($args['id'], $request->getParams());
 
 	// Registro de log
 	$this->logs->insert(array(
@@ -68,8 +70,8 @@ $app->get('/veiculos/get/{id}', function (Request $request, Response $response, 
 			'request' => $args,
 			'response' => $data
 		),
-		'log_modulo' => 'veiculos',
-		'log_descricao' => 'Seleção de veículo por ID',
+		'log_modulo' => 'veiculos/tipo',
+		'log_descricao' => 'Seleção de tipo de veículo por ID',
 		'log_ip' => $request->getServerParam('REMOTE_ADDR'),
 		'log_tool' => 'get/id',
 		'log_result' => $data['result'],
@@ -80,13 +82,14 @@ $app->get('/veiculos/get/{id}', function (Request $request, Response $response, 
 	return $response->withJson($data);
 });
 
-// Remoção de veículo
-$app->post('/veiculos/delete', function (Request $request, Response $response, array $args) {
+
+// Remoção de tipo de veículo
+$app->post('/veiculos/tipos/delete', function (Request $request, Response $response, array $args) {
 
 	$params = $request->getParams();
 
-	$veiculos = new Veiculos($this->db);
-	$data = $veiculos->delete($params);
+	$veiculosTipos = new VeiculosTipos($this->db);
+	$data = $veiculosTipos->delete($params);
 
 	// Registro de log
 	$this->logs->insert(array(
@@ -95,8 +98,8 @@ $app->post('/veiculos/delete', function (Request $request, Response $response, a
 			'request' => $params,
 			'response' => $data
 		),
-		'log_modulo' => 'veiculos',
-		'log_descricao' => 'Remoção de veículo',
+		'log_modulo' => 'veiculos/tipo',
+		'log_descricao' => 'Remoção de tipo de veículo',
 		'log_ip' => $request->getServerParam('REMOTE_ADDR'),
 		'log_tool' => 'delete',
 		'log_result' => $data['result'],
@@ -107,13 +110,13 @@ $app->post('/veiculos/delete', function (Request $request, Response $response, a
 	return $response->withJson($data);
 });
 
-// Update de veículo
-$app->post('/veiculos/update', function (Request $request, Response $response, array $args) {
+// Update de tipo de veículo
+$app->post('/veiculos/tipos/update', function (Request $request, Response $response, array $args) {
 
 	$params = $request->getParams();
 
-	$veiculos = new Veiculos($this->db);
-	$data = $veiculos->update($params);
+	$veiculosTipos = new VeiculosTipos($this->db);
+	$data = $veiculosTipos->update($params);
 
 	// Registro de log
 	$this->logs->insert(array(
@@ -122,15 +125,15 @@ $app->post('/veiculos/update', function (Request $request, Response $response, a
 			'request' => $params,
 			'response' => $data
 		),
-		'log_modulo' => 'veiculos',
-		'log_descricao' => 'Update de veículo',
+		'log_modulo' => 'veiculos/tipo',
+		'log_descricao' => 'Update de tipo de veículo',
 		'log_ip' => $request->getServerParam('REMOTE_ADDR'),
 		'log_tool' => 'update',
 		'log_result' => $data['result'],
 		'id_user' => $this->user_request['id'],
 		'id_target' => (isset($params['id']) ? $params['id'] : '0' )
 	));
-	
+
 	return $response->withJson($data);
 });
 
