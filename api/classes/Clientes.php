@@ -244,6 +244,64 @@ class Clientes {
 
 	}
 
+	public function update($args = array()){
+
+		$response = array(
+			'result' => false
+		);
+
+		if(!isset($args['id'])){
+			$response['error'] = 'ID não informado.';
+			return $response;
+		}else{
+			$id = $args['id'];
+			unset($args['id']);
+		}
+
+		// Init insert
+		$data = array_flip($this->schema);
+
+		// External params
+		foreach ($data as $field => $value) {
+			
+			if(isset($args[$field])){
+				$val = $args[$field];
+
+				// Tratamento de CPF
+				if($field == 'cliente_cpf'){
+					$val = Utilities::unMask($val);
+				}
+
+				// Tratamento de CNPJ
+				if($field == 'cliente_cnpj'){
+					$val = Utilities::unMask($val);
+				}
+
+				$data[$field] = $val;
+			}else{
+				unset($data[$field]);
+			}
+
+		}
+		
+		$updateStatement = $this->db->update()->set($data)->table('clientes')->whereMany( array('id' => $id), '=');
+
+		$affectedRows = $updateStatement->execute();
+
+		if($affectedRows > 0){
+
+			$response['result'] = true;
+			$response['affectedRows'] = $affectedRows;
+			return $response;
+
+		}else{
+			$response['error'] = 'Nenhum registro afetado.';
+		}
+
+		return $response;
+
+	}
+
 	public function get_by_id($id = false, $args = false){
 
 		$response = array(
@@ -276,7 +334,7 @@ class Clientes {
 			'result' => true
 		);
 
-		$start_curl = $this->omieCurl(1);
+		$start_curl = $this->omieCurl(1,$args['app_key'],$args['app_secret']);
 
 		$results = $start_curl->clientes_cadastro;
 
@@ -284,9 +342,11 @@ class Clientes {
 		$count_error = 0;
 		$errors_data = array();
 		$count_repeats = 0;
+		$count_updates = 0;
+		$count_is_not_cliente = 0;
 
 		for ($page = 2; $page <= $start_curl->total_de_paginas; $page++) { 
-			$other_pages = $this->omieCurl($page);
+			$other_pages = $this->omieCurl($page,$args['app_key'],$args['app_secret']);
 			$results = array_merge($results, $other_pages->clientes_cadastro);
 		}
 
@@ -331,13 +391,13 @@ class Clientes {
 
 					$param = array(
 						"id_author" => '8',
-						"id_empresa" => '0',
+						"id_empresa" => $args['id_empresa'],
 						"cliente_person" => ($cliente->pessoa_fisica == 'N' ? 'j' : 'f'),
 						"cliente_nome" => $cliente->nome_fantasia,
 						"cliente_razao_social" => ($cliente->pessoa_fisica == 'N' ? $cliente->razao_social : ''),
 						"cliente_email" => $cliente->email,
-						"cliente_cnpj" => ($cliente->pessoa_fisica == 'N' ? $cliente->cnpj_cpf : ''),
-						"cliente_cpf" => ($cliente->pessoa_fisica != 'N' ? $cliente->cnpj_cpf : ''),
+						"cliente_cnpj" => ($cliente->pessoa_fisica == 'N' ? trim($cliente->cnpj_cpf) : ''),
+						"cliente_cpf" => ($cliente->pessoa_fisica != 'N' ? trim($cliente->cnpj_cpf) : ''),
 						"cliente_codigo_omie" => $cliente->codigo_cliente_omie,
 						"cliente_phone_01" => (isset($cliente->telefone1_numero) ? Utilities::unMask($cliente->telefone1_numero) : '' ),
 						"cliente_phone_01_ddd" => $ddd,
@@ -358,7 +418,18 @@ class Clientes {
 						"cliente_origem" => 'omie'
 					);
 
-					if(!$this->check_isset_omie($param['cliente_codigo_omie'])){
+					$param_isset = array( 
+						'cliente_codigo_omie' => $param['cliente_codigo_omie'],
+						'cliente_razao_social' => $param['cliente_razao_social']
+					);
+
+					if(strlen($param['cliente_cnpj']) > 0){
+						$param_isset['cliente_cnpj'] = Utilities::unMask($param['cliente_cnpj']);
+					}
+
+					$cliente_isset = $this->check_isset_omie($param_isset);
+
+					if(!$cliente_isset){
 						$insert = $this->insert($param);
 
 						if($insert['result']){
@@ -372,13 +443,29 @@ class Clientes {
 						}
 
 					}else{
+
 						$count_repeats++;
-						$errors_data[] = array(
-							'param' => $param,
-							'response' => "Item já existente"
-						);
+
+						$param['id'] = $cliente_isset['id'];
+						
+						// Atualiza os existentes
+						$update = $this->update($param);
+
+						if($update['result']){
+							$count_updates++;
+						}else{
+							$count_error++;
+							$errors_data[] = array(
+								'param' => $param,
+								'response' => $update
+							);
+						}
+
 					}
 
+
+				}else{
+					$count_is_not_cliente++;
 				}
 
 			}
@@ -391,14 +478,33 @@ class Clientes {
 			'count_error' => $count_error,
 			'errors_data' => $errors_data,
 			'count_repeats' => $count_repeats,
-			// 'clientes' => $results
+			'count_updates' => $count_updates,
+			'count_is_not_cliente' => $count_is_not_cliente
 		);
+
+		// Insere requisição no banco de dados
+
+		$date = new \DateTime();
+
+		$cliente_importacao = array(
+			"id_empresa" => $args['id_empresa'],
+			"total_data" => $response['config']['total_data'],
+			"count_insert" => $response['config']['count_insert'],
+			"count_error" => $response['config']['count_error'],
+			"count_repeats" => $response['config']['count_repeats'],
+			"count_updates" => $response['config']['count_updates'],
+			"count_is_not_cliente" => $response['config']['count_is_not_cliente'],
+			"create_time" => $date->format("Y-m-d\TH:i:s")
+		);
+
+		$insertStatement = $this->db->insert(array_keys($cliente_importacao))->into('clientes_importacoes')->values(array_values($cliente_importacao));
+		$insertStatement->execute();
 
 		return $response;
 
 	}
 
-	public function omieCurl($page = 1){
+	public function omieCurl($page = 1, $app_key, $app_secret){
 
 		$curl = \curl_init();
 
@@ -410,7 +516,7 @@ class Clientes {
 			CURLOPT_TIMEOUT => 30,
 			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 			CURLOPT_CUSTOMREQUEST => "POST",
-			CURLOPT_POSTFIELDS => "{\"call\":\"ListarClientes\",\"app_key\":\"3260290628\",\"app_secret\":\"b00c1acb1c6eca03142d020695c38e3b\",\"param\":[{\"pagina\":".$page.",\"registros_por_pagina\":300,\"apenas_importado_api\":\"N\"}]}",
+			CURLOPT_POSTFIELDS => "{\"call\":\"ListarClientes\",\"app_key\":\"".$app_key."\",\"app_secret\":\"".$app_secret."\",\"param\":[{\"pagina\":".$page.",\"registros_por_pagina\":300,\"apenas_importado_api\":\"N\"}]}",
 			CURLOPT_HTTPHEADER => array(
 				"Cache-Control: no-cache",
 				"Content-Type: application/json"
@@ -426,13 +532,20 @@ class Clientes {
 
 	}
 
-	public function check_isset_omie($code){
+	public function check_isset_omie($whereMany = array()){
 
-		$selectStatement = $this->db->select()->from('clientes')->where('cliente_codigo_omie', '=', $code);
-		$stmt = $selectStatement->execute();
-		$data = $stmt->fetch();
+		$query = "SELECT * FROM clientes WHERE ";
 
-		return (!$data ? false : true);
+		foreach ($whereMany as $key => $value) {
+			$query .= $key." = '".$value."' OR ";
+		}
+
+		$query = substr($query, 0, -3);
+
+		$select = $this->db->query($query);
+		$data = $select->fetch();
+
+		return (!$data ? false : $data);
 
 	}
 
@@ -468,6 +581,36 @@ class Clientes {
 
 		$response['result'] = true;
 
+		return $response;
+
+	}
+
+	public function getEmpresas(){
+
+		$response = array();
+
+		$select = $this->db->query('
+			SELECT 
+				e.id, 
+				e.empresa_name, 
+				e.empresa_app_key, 
+				e.empresa_app_secret,
+				(SELECT COUNT(*) FROM clientes c WHERE c.active = \'Y\' AND c.id_empresa = e.id ) AS clientes_ativos,
+				(SELECT COUNT(*) FROM clientes_importacoes ci WHERE ci.id_empresa = e.id ) AS qtd_importacoes, 
+				(SELECT MAX(ci.create_time) FROM clientes_importacoes ci WHERE ci.id_empresa = e.id ) AS last_importacao
+			FROM empresas e
+			WHERE 
+				e.active = \'Y\'
+			ORDER BY e.empresa_name');
+			
+		$results = $select->fetchAll(\PDO::FETCH_ASSOC);
+
+		foreach ($results as $key => $value) {
+			$create_time = new \DateTime($value['last_importacao']);
+			$results[$key]['last_importacao'] = $create_time->getTimestamp();
+		}
+
+		$response['results'] = $results;
 		return $response;
 
 	}

@@ -132,6 +132,16 @@ $app->post('/clientes/importOmie', function (Request $request, Response $respons
 	return $response->withJson($data);
 });
 
+// 
+$app->get('/clientes/import/getempresas', function (Request $request, Response $response, array $args) {
+
+	$clientes = new Clientes($this->db);
+	$data = $clientes->getEmpresas();
+
+	return $response->withJson($data);
+});
+
+
 // Procura de clientes
 $app->get('/clientes/search', function (Request $request, Response $response, array $args) {
 

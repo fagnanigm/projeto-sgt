@@ -6,10 +6,37 @@
 		<h2>Importar clientes do Omie</h2>
 	</div>
 
+	<table class="table table-striped">
+		<tr>
+			<th>Empresa</th>
+			<th class="text-center">Cl. Ativos</th>
+			<th class="text-center">Qtd.</th>
+			<th class="text-center">Última Import.</th>
+			<th></th>
+			<th width="120"></th>
+		</tr>
+		<tr ng-repeat="(key, val) in empresas">
+			<td>{{ val.empresa_name }}</td>
+			<td class="text-center">{{ val.clientes_ativos }}</td>
+			<td class="text-center">{{ val.qtd_importacoes }}</td>
+			<td class="text-center">{{ val.last_importacao * 1000 | date:"dd/MM/yyyy HH:mm" }}</td>
+			<td class="text-center"><a href="" class="btn btn-sm">Ver histórico</a></td>
+			<td class="text-center"><button type="button" ng-click="importar(val)" class="btn btn-sm btn-success"><i class="icon-arrow-down-circle icons"></i> Importar</button></td>
+		</tr>
+		<tr>
+			<th></th>
+			<th class="text-center">{{ geral_cliente_ativos }}</th>
+			<th class="text-center">{{ geral_qtd }}</th>
+			<th></th>
+			<th></th>
+			<th></th>
+		</tr>
+	</table>
+
+	<!-- 
+
 	<div class="row">
 		<div class="col-md-6">
-
-			<button type="button" ng-click="importar()" class="btn btn-success">Iniciar importação</button>
 
 			<div class="card margin-top-30" ng-if="import">
 				<div class="card-header">
@@ -25,6 +52,8 @@
 
 		</div>
 	</div>
+
+	-->
 
 	<div class="cadastro-footer margin-top-25">
 		<a href="/clientes" class="btn btn-primary"><i class="icon-arrow-left icons"></i> Voltar</a>

@@ -32,12 +32,13 @@
 								<option value="em-viagem">Em Viagem</option>
 								<option value="na-empresa">Na Empresa</option>
 								<option value="disposicao">Casa / A disposição</option>
-								<option value="descansando">Casa / Descansando</option>
+								<option value="indisponivel">Não está na empresa</option>
 								<option value="ferias">Férias</option>
 								<option value="afastado-saude">Afastado - Saúde</option>
 								<option value="suspenso">Suspenso / Advertido</option>
 								<option value="desligado">Desligado</option>
 								<option value="servico-externo">Serviço Externo</option>
+								<option value="carteira-vencida-cacada">Carteira vencida / caçada</option>
 								<option value="outros">Outros</option>
 							</select>
 						</div>
@@ -84,7 +85,7 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="celular-1">Celular 1</label>
-							<input type="text" class="form-control" id="celular-1" placeholder="(DD) + número" ng-model="motorista.motorista_phone_01" mask="(99) 99999-9999">
+							<input type="text" class="form-control" id="celular-1" placeholder="(DD) + número" ng-model="motorista.motorista_phone_01" mask="(99) 99999-9999" required>
 						</div>
 					</div>
 
@@ -111,7 +112,7 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="cnh">CNH</label>
-							<input type="text" class="form-control" id="cnh" placeholder="CNH" ng-model="motorista.motorista_cnh">
+							<input type="text" class="form-control" id="cnh" placeholder="CNH" ng-model="motorista.motorista_cnh" required>
 						</div>
 					</div>
 
@@ -134,7 +135,7 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="validade">Validade</label>
-							<input type="date" class="form-control" id="validade" ng-model="motorista.motorista_cnh_validade_obj">
+							<input type="date" class="form-control" id="validade" ng-model="motorista.motorista_cnh_validade_obj" required>
 						</div>
 					</div>
 
@@ -149,7 +150,7 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="cartao-pancary">Nº Cartão pancary</label>
-							<input type="text" class="form-control" id="cartao-pancary" placeholder="Cartão pancary" ng-model="motorista.motorista_cartao_pancary">
+							<input type="text" class="form-control" id="cartao-pancary" placeholder="Cartão pancary" ng-model="motorista.motorista_cartao_pancary" required>
 						</div>
 					</div>
 
@@ -231,21 +232,21 @@
 					<div class="col-md-8">
 						<div class="form-group">
 							<label for="logradouro">Logradouro</label>
-							<input type="text" class="form-control" id="logradouro" placeholder="Logradouro" ng-model="motorista.motorista_logradouro">
+							<input type="text" class="form-control" id="logradouro" placeholder="Logradouro" ng-model="motorista.motorista_logradouro" required>
 						</div>
 					</div>
 
 					<div class="col-md-4">
 						<div class="form-group">
 							<label for="numero">Número</label>
-							<input type="text" class="form-control" id="numero" placeholder="Número" ng-model="motorista.motorista_numero">
+							<input type="text" class="form-control" id="numero" placeholder="Número" ng-model="motorista.motorista_numero" required>
 						</div>
 					</div>
 
 					<div class="col-md-8">
 						<div class="form-group">
 							<label for="bairro">Bairro</label>
-							<input type="text" class="form-control" id="bairro" placeholder="Bairro" ng-model="motorista.motorista_bairro">
+							<input type="text" class="form-control" id="bairro" placeholder="Bairro" ng-model="motorista.motorista_bairro" required>
 						</div>
 					</div>
 
@@ -259,14 +260,14 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="cidade">Cidade</label>
-							<input type="text" class="form-control" id="cidade" placeholder="Cidade" ng-model="motorista.motorista_cidade">
+							<input type="text" class="form-control" id="cidade" placeholder="Cidade" ng-model="motorista.motorista_cidade" required>
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="estado">Estado</label>
-							<input type="text" class="form-control" id="estado" placeholder="Estado" ng-model="motorista.motorista_estado">
+							<input type="text" class="form-control" id="estado" placeholder="Estado" ng-model="motorista.motorista_estado" required>
 						</div>
 					</div>
 
