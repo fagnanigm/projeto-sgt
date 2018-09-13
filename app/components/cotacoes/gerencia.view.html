@@ -15,130 +15,446 @@
 
 					<div class="col-md-12">
 						<div class="form-group">
-							<label for="item-cotacao">Item da cotação</label>
-							<input type="text" class="form-control" id="item-cotacao" placeholder="Item da cotação" ng-model="cotacao.cotacao_item" required>
+							<label for="filial">Filial</label>
+							<select class="form-control" ng-model="cotacao.id_empresa">
+								<option value="0">Selecionar...</option>
+								<option ng-repeat="(key, val) in empresas" value="{{ val.id }}">{{ val.empresa_name }}</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="col-md-8">
+						<div class="form-group">
+							<label for="codigo">Código</label>
+							<input type="text" class="form-control" id="codigo" placeholder="Código" ng-model="cotacao.cotacao_code" required>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="revisao">Revisão</label>
+							<input type="text" class="form-control" id="revisao" placeholder="Revisão" ng-model="cotacao.cotacao_revisao">
+						</div>
+					</div>
+
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="cliente">Cliente</label>
+							<div class="input-group">
+								<input type="text" class="form-control" id="cliente" placeholder="Selecione um cliente..." ng-model="cotacao.cotacao_cliente_nome">
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="button" ng-click="open_choose_cliente('main_cliente')"><i class="icon-magnifier icons"></i></button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="contato">Contato</label>
+							<input type="text" class="form-control" id="contato" placeholder="Contato" ng-model="cotacao.cotacao_contato">
+						</div>
+					</div>
+
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="email">E-mail</label>
+							<input type="text" class="form-control" id="email" placeholder="E-mail" ng-model="cotacao.cotacao_email">
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="qtd">Quantidade</label>
-							<input type="text" class="form-control" id="qtd" placeholder="Quantidade" ng-model="cotacao.cotacao_qtd"required>
+							<label for="celular-1">Celular 1</label>
+							<input type="text" class="form-control" id="celular-1" placeholder="Celular 1" ng-model="cotacao.cotacao_phone_01">
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="equipamento">Equipamento</label>
-							<input type="text" class="form-control" id="equipamento" placeholder="Equipamento" ng-model="cotacao.cotacao_equipamento">
+							<label for="celular-2">Celular 2</label>
+							<input type="text" class="form-control" id="celular-2" placeholder="Celular 2" ng-model="cotacao.cotacao_phone_02">
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="origem">Origem</label>
-							<input type="text" class="form-control" id="origem" placeholder="Origem" ng-model="cotacao.cotacao_origem">
+							<label for="telefone">Telefone</label>
+							<input type="text" class="form-control" id="telefone" placeholder="Telefone" ng-model="cotacao.cotacao_phone_03">
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="destino">Destino</label>
-							<input type="text" class="form-control" id="destino" placeholder="Destino" ng-model="cotacao.cotacao_destino">
+							<label for="ramal">Ramal</label>
+							<input type="text" class="form-control" id="ramal" placeholder="Ramal" ng-model="cotacao.cotacao_ramal">
 						</div>
 					</div>
 
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="km">Km</label>
-							<input type="text" class="form-control" id="km" placeholder="Km" ng-model="cotacao.cotacao_km">
-						</div>
-					</div>
-
-				</div>
-
-				<hr />
-
-				<div class="row">
-
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="comprimento">Comprimento (m)</label>
-							<input type="text" class="form-control" id="comprimento" placeholder="Comprimento" ng-model="cotacao.cotacao_comp" mask="9?9?9?9?9?9?9?9?9.99">
-						</div>
-					</div>
-
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="largura">Largura (m)</label>
-							<input type="text" class="form-control" id="largura" placeholder="Largura" ng-model="cotacao.cotacao_larg" mask="9?9?9?9?9?9?9?9?9.99">
-						</div>
-					</div>
-
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="altura">Altura (m)</label>
-							<input type="text" class="form-control" id="altura" placeholder="Altura" ng-model="cotacao.cotacao_alt" mask="9?9?9?9?9?9?9?9?9.99">
-						</div>
-					</div>
-
-				</div>				
+				</div>		
 
 			</div>
 			<div class="col-md-6">
 
 				<div class="row">
 
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="status">Status</label>
+							<select class="form-control" ng-model="cotacao.cotacao_status">
+								<option value="0">Selecionar...</option>
+								<option value="">Em aberto</option>
+								<option value="">Aprovado</option>
+								<option value="">Aguardando preço</option>
+								<option value="">Cancelado</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="data-cadastro">Data de cadastro</label>
+							<input type="date" class="form-control" id="data-cadastro" ng-model="cotacao.cotacao_cadastro_data">
+						</div>
+					</div>
+
 					<div class="col-md-12">
 						<div class="form-group">
-							<label for="descricao">Descrição</label>
-							<textarea class="form-control" ng-model="cotacao.cotacao_descricao"></textarea>
+							<label for="vendedor">Vendedor</label>
+							<select class="form-control" ng-model="cotacao.id_vendedor">
+								<option value="0">Selecionar...</option>
+								<option ng-repeat="(key, val) in vendedores" value="{{ val.id }}">{{ val.vendedor_nome }}</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="vendedor">Categoria</label>
+							<select class="form-control" ng-model="cotacao.id_categoria">
+								<option value="0">Selecionar...</option>
+								<option ng-repeat="(key, val) in categorias" value="{{ val.id }}">{{ val.cat_name }}</option>
+							</select>
 						</div>
 					</div>
 
 				</div>
 
 				<hr />
+					
+				<div class="form-group">
+					<label for="nome-projeto">Nome do projeto</label>
+					<input type="text" class="form-control" id="nome-projeto" placeholder="Nome do projeto" ng-model="cotacao.cotacao_projeto_nome">
+				</div>
 
-				<div class="row">
+				<div class="form-group">
+					<label for="descricao-projeto">Descrição do projeto</label>
+					<textarea class="form-control" id="descricao-projeto" ng-model="cotacao.cotacao_projeto_descricao"></textarea>
+				</div>
 
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="valor-unitario">Valor unitário</label>
-							<input type="text" class="form-control" id="valor-unitario" placeholder="Apenas números" ng-model="cotacao.cotacao_valor_un" mask="9?9?9?9?9?9?9?9?9.99">
+				<div class="form-group">
+					<label for="descricao">Cotação com valores inclusos</label>
+					<div class="row">
+						<div class="col-md-6">
+							<input type="checkbox" name="imposto-icms" ng-model="cotacao.cotacao_vi_imposto_icms"> Imposto - ICMS
+						</div>
+						<div class="col-md-6">
+							<input type="checkbox" name="imposto-inss" ng-model="cotacao.cotacao_vi_imposto_inss"> Imposto - INSS
+						</div>
+						<div class="col-md-6">
+							<input type="checkbox" name="imposto-ir" ng-model="cotacao.cotacao_vi_imposto_ir"> Imposto - IR
+						</div>
+						<div class="col-md-6">
+							<input type="checkbox" name="taxa-licencas" ng-model="cotacao.cotacao_vi_taxas"> Taxas/Licenças
+						</div>
+						<div class="col-md-6">
+							<input type="checkbox" name="imposto-iss" ng-model="cotacao.cotacao_vi_iss"> Imposto ISS
+						</div>
+						<div class="col-md-6">
+							<input type="checkbox" name="escolta" ng-model="cotacao.cotacao_vi_escolta"> Escolta
+						</div>
+						<div class="col-md-6">
+							<input type="checkbox" name="imposto-pis-cofins-csll" ng-model="cotacao.cotacao_vi_imposto_pis_cofins"> Imposto - PIS/COFINS/CSLL
+						</div>
+						
+						<div class="col-md-6">
+							<input type="checkbox" name="seguro-sob-merc" ng-model="cotacao.cotacao_vi_seguro"> Seguro % sob merc.
+							<div class="input-group input-group-sm margin-top-5">
+								<input type="text" class="form-control" placeholder="Porcentagem" ng-model="cotacao.cotacao_vi_seguro_percent">
+								<div class="input-group-append">
+									<span class="input-group-text">%</span>
+								</div>
+							</div>
 						</div>
 					</div>
-
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="valor-total">Valor total</label>
-							<input type="text" class="form-control" id="valor-total" placeholder="Apenas números" ng-model="cotacao.cotacao_valor_total" mask="9?9?9?9?9?9?9?9?9.99">
-						</div>
-					</div>
-
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="peso-unitario">Peso unitário (Kg)</label>
-							<input type="text" class="form-control" id="peso-unitario" placeholder="Apenas números" ng-model="cotacao.cotacao_peso_un" mask="9?9?9?9?9?9?9?9?9.99">
-						</div>
-					</div>
-
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="peso-total">Peso total (Kg)</label>
-							<input type="text" class="form-control" id="peso-total" placeholder="Apenas números" ng-model="cotacao.cotacao_peso_total" mask="9?9?9?9?9?9?9?9?9.99">
-						</div>
-					</div>
-
 				</div>
 
 			</div>
 
 		</div>
 
+		<div class="box-subtitle margin-top-30">
+			<h2>Objeto da operação</h2>
+		</div>
+
+		<div class="row">
+			<div class="col-md-8">
+
+				<div class="form-group">
+					<label for="descricao">Descrição do objeto de operação</label>
+					<textarea class="form-control" ng-model="cotacao.cotacao_objeto_operacao"></textarea>
+				</div>
+				
+			</div>
+		</div>
+
+		<div class="box-subtitle margin-top-30">
+			<h2>Característica Manual</h2>
+		</div>		
+
+		<table class="table table-striped margin-top-20">
+			<tr>
+				<th class="text-center">Item</th>
+				<th>Descrição</th>
+				<th>Origem / Destino</th>
+				<th class="text-center">Distância<br />(km)</th>
+				<th class="text-center">Dimensão<br />(CxLxA)</th>
+				<th class="text-center">Peso<br />(kg)</th>
+				<th class="text-center">Equipamento</th>
+				<th class="text-center">Valor</th>
+				<th></th>
+			</tr>
+			<tr ng-repeat="(key, val) in cotacao.cotacao_caracteristica_objetos track by key">
+				<td class="text-center">
+					{{ val.objeto_item }}
+				</td>
+				<td>
+					<strong>{{ val.objeto_descricao }}</strong><br />
+					<small>Qtd: {{ val.objeto_quantidade }}</small>
+				</td>
+				<td>
+					<span>{{ val.objeto_origem }}</span><br />
+					<span>{{ val.objeto_destino }}</span>
+				</td>
+				<td class="text-center">
+					{{ val.objeto_quilometragem }}
+				</td>
+				<td class="text-center">
+					{{ val.objeto_comprimento }} <br />
+				 	{{ val.objeto_largura }} <br />
+				 	{{ val.objeto_altura }}
+				 </td>
+				 <td class="text-center">
+					<small>Unit:</small> {{ val.objeto_peso_unit }}<br />
+				 	<small>Total:</small> {{ val.objeto_peso_total }}
+				 </td>
+				 <td class="text-center">
+					{{ val.objeto_equipamento }}
+				 </td>
+				 <td class="text-center">
+					<small>Unit:</small> {{ val.objeto_valor_unit }}<br />
+				 	<small>Total:</small> {{ val.objeto_valor_total }}
+				 </td>
+				 <td>
+					<button class="btn btn-sm btn-warning"><i class="icon-pencil icons"></i></button>
+					<button class="btn btn-sm btn-danger"><i class="icon-trash icons"></i></button>
+				 </td>
+			</tr>
+			<tr ng-if="cotacao.cotacao_caracteristica_objetos.length == 0">
+				<td colspan="9" class="text-center"><strong>Nenhum objeto cadastrado</strong></td>
+			</tr>
+			<tr>
+				<th colspan="8"></th>
+				<th>Total: </th>
+			</tr>
+		</table>
+
+		<button type="button" class="btn btn-sm btn-primary" ng-click="open_objeto_form()"><i class="fa fa-plus" aria-hidden="true"></i> Adicionar</button>
+
+		<hr class="margin-top-40" />
+
+		<div class="box-subtitle margin-top-30">
+			<h2>Característica Anexo</h2>
+		</div>	
+
+		<table class="table table-striped margin-top-20">
+			<tr>
+				<th>Arquivo</th>
+				<th>Data</th>
+			</tr>
+			<tr>
+				<td>File.xls</td>
+				<td>12/09/2018</td>
+			</tr>
+			<tr>
+				<td>File.xls</td>
+				<td>12/09/2018</td>
+			</tr>
+		</table>
+
+		<button class="btn btn-sm btn-primary"><i class="fa fa-upload" aria-hidden="true"></i> Carregar arquivo</button>
+
+		<div class="box-subtitle margin-top-30">
+			<h2>Condições comerciais</h2>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+
+				<div class="form-group">
+					<label for="seguro">Seguro</label>
+					<input type="text" class="form-control" id="seguro" placeholder="Seguro" ng-model="cotacao.cotacao_seguro">
+				</div>
+
+				<div class="form-group">
+					<label for="impostos">Impostos</label>
+					<input type="text" class="form-control" id="impostos" placeholder="Impostos" ng-model="cotacao.cotacao_impostos">
+				</div>
+
+				<div class="form-group">
+					<label for="condicoes-pagamento">Condições de pagamento</label>
+					<input type="text" class="form-control" id="condicoes-pagamento" placeholder="Condições de pagamento" ng-model="cotacao.cotacao_condicoes_pagamento">
+				</div>
+
+				<div class="form-group">
+					<label for="validade-proposta">Validade da proposta</label>
+					<input type="text" class="form-control" id="validade-proposta" placeholder="Validade da proposta" ng-model="cotacao.cotacao_validade_proposta">
+				</div>
+
+			</div>
+			<div class="col-md-6">
+
+				<div class="form-group">
+					<label for="forma-pagamento">Forma de pagamento</label>
+					<select class="form-control" ng-model="cotacao.id_forma_pagamento">
+						<option value="0">Selecione...</option>
+						<option ng-repeat="(key, val) in formas_pagamento" value="{{ val.id }}">{{ val.forma_nome }}</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="status-cadastro">Status de cadastro</label>
+					<input type="text" class="form-control" id="status-cadastro" placeholder="Status de cadastro" ng-model="cotacao.cotacao_status_cadastro">
+				</div>
+
+			</div>
+		</div>
+
+		<div class="box-subtitle margin-top-30">
+			<h2>Carga / Descarga</h2>
+		</div>
+
+		<div class="row">
+			<div class="col-md-8">
+
+				<div class="form-group">
+					<label for="carga-descarga">Descrição de carga e descarga</label>
+					<textarea class="form-control" id="carga-descarga" ng-model="cotacao.cotacao_carga_descarga"></textarea>
+				</div>
+				
+			</div>
+		</div>
+
+		<div class="box-subtitle margin-top-30">
+			<h2>Equipamentos transportadores</h2>
+		</div>
+
+		<div class="row">
+			<div class="col-md-8">
+
+				<div class="form-group">
+					<label for="equipamentos">Observações de equipamentos a ser utilizado</label>
+					<textarea class="form-control" id="equipamentos" ng-model="cotacao.cotacao_equipamentos"></textarea>
+				</div>
+				
+			</div>
+		</div>
+
+		<div class="box-subtitle margin-top-30">
+			<h2>Carência / Estadia</h2>
+		</div>
+
+		<div class="row">
+			<div class="col-md-8">
+
+				<div class="form-group">
+					<label for="carencia-estadia">Observações sobre carência e estadia</label>
+					<textarea class="form-control" id="carencia-estadia" ng-model="cotacao.cotacao_carencia"></textarea>
+				</div>
+				
+			</div>
+		</div>
+
+		<div class="box-subtitle margin-top-30">
+			<h2>Prazo de execução</h2>
+		</div>
+
+		<div class="row">
+			<div class="col-md-8">
+
+				<div class="form-group">
+					<label for="prazo-execucao">Observações sobre prazo de execução</label>
+					<textarea class="form-control" id="prazo-execucao" ng-model="cotacao.cotacao_prazo_execucao"></textarea>
+				</div>
+				
+			</div>
+		</div>
+
+		<div class="box-subtitle margin-top-30">
+			<h2>Considerações gerais</h2>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+
+				<div class="form-group">
+					<label for="observacoes-finais">Observações finais</label>
+					<textarea class="form-control" id="observacoes-finais" ng-model="cotacao.cotacao_observacoes_finais"></textarea>
+				</div>
+				
+			</div>
+			<div class="col-md-6">
+
+				<div class="form-group">
+					<label for="observacoes-internas">Observações internas / Comercial</label>
+					<textarea class="form-control" ng-model="cotacao.cotacao_observacoes_internas"></textarea>
+				</div>
+				
+			</div>
+		</div>
+
 		<div class="cadastro-footer margin-top-25">
-			<a href="/cotacoes" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
-			<button type="submit" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+				
+			<!-- Botão duplicar -->
+			<button type="button" class="btn btn-primary">
+				<i class="fa fa-clone" aria-hidden="true"></i> Duplicar
+			</button>
+
+			<!-- Botão Imprimir // Emite documento em PDF -->
+			<button type="button" class="btn btn-primary">
+				<i class="fa fa-print" aria-hidden="true"></i> Imprimir
+			</button>
+
+			<!-- Botão aprovar // Bloqueia a cotação de alteração e cria um projeto -->
+			<button type="button" class="btn btn-success">
+				<i class="fa fa-check" aria-hidden="true"></i> Aprovar
+			</button>
+
+			<!-- Cancelar -->
+			<a href="/cotacoes" class="btn btn-danger">
+				<i class="fa fa-times" aria-hidden="true"></i> Cancelar
+			</a>
+
+			<!-- Botão salvar // Só aparece quando estiver inserindo -->
+			<button type="submit" class="btn btn-success" ng-if="$state.name == 'insert-cotacao'">
+				<i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar
+			</button>
+
+			<!-- Botão alterar // Só aparece quando estiver alterando -->
+			<button type="submit" class="btn btn-warning" ng-if="$state.name != 'insert-cotacao'">
+				<i class="fa fa-pencil" aria-hidden="true"></i> Alterar
+			</button>
+
 		</div>
 
 

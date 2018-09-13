@@ -15,7 +15,9 @@
 
             $rootScope.is_loading = true;
 
-        	$http.get('/api/public/cotacoes/get?context='+$localStorage.currentEmpresaId+'&current_page='+$scope.currentPage).then(function (response) {
+        	$http.get('/api/public/cotacoes/get?current_page='+$scope.currentPage).then(function (response) {
+
+                console.log(response)
 
                 $scope.cotacoes = response.data;
                 $scope.cotacoes.config.current_page = parseInt($scope.cotacoes.config.current_page);

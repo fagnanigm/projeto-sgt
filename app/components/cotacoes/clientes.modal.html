@@ -1,0 +1,58 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Selecionar cliente</h3>
+</div>
+<div class="modal-body" id="modal-body">
+
+	<div class="modal-loading ng-hide" ng-show="is_modal_loading">
+		<i class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></i>
+	</div>
+
+	<div ng-show="!is_modal_loading">
+
+		<form ng-submit="search_modal_cliente()">
+			<div class="row">
+				<div class="col-md-12">
+
+					<div class="form-group">
+						<label for="nome">Procurar cliente</label>
+
+						<div class="input-group">
+	  						<input type="text" class="form-control" id="nome" placeholder="Nome, razão social, e-mail ou CNPJ" ng-model="cliente_search_filter.free_term">
+
+							<div class="input-group-append">
+								<button class="btn btn-primary" type="submit" id="button-addon2"><i class="icon-magnifier icons"></i></button>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+		</form>
+
+		<div ng-show="cliente_is_search">
+
+			<p class="text-uppercase"><strong>Foram encontrados {{ clientes.length }} resultados para "{{ cliente_search_filter.free_term }}".</strong></p>
+		   
+			<div class="modal-results-box">
+
+				<table class="table table-striped">
+					<tr ng-repeat="(key, val) in clientes">
+						<td>
+							<strong>{{ val.cliente_person == 'f' ? val.cliente_nome : val.cliente_razao_social }}</strong><br />
+							{{ val.cliente_person == 'f' ? 'CPF: ' + val.cliente_cpf : 'CNPJ: ' + val.cliente_cnpj }}
+						</td>
+						<td class="text-right" width="60"><button class="btn btn-sm btn-success" ng-click="choose_cliente(val)"><i class="fa fa-check" aria-hidden="true"></i></button></td>
+					</tr>
+				</table>
+
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-danger" type="button" ng-click="$ctrl.close()"><i class="fa fa-times" aria-hidden="true"></i> Fechar</button>
+</div>

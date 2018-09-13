@@ -47,7 +47,8 @@ $app->add(new TokenAuthentication([
     	'/clientes',
     	'/categorias',
     	'/as',
-        '/vendedores'
+        '/vendedores',
+        '/formas-pagamento'
     ),
     'passthrough' => array( // Permitidos
     	'/users/login'

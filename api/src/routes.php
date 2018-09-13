@@ -56,3 +56,6 @@ require 'routes/autorizacao-servico/autorizacao-servico.php';
 
 // VENDEDORES
 require 'routes/vendedores/vendedores.php';
+
+// FORMAS PAGAMENTO
+require 'routes/formas-pagamento/formas-pagamento.php';

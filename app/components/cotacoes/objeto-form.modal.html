@@ -1,0 +1,135 @@
+<form ng-submit="save_cotacao_objeto()">
+
+	<div class="modal-header">
+	    <h3 class="modal-title" id="modal-title">Adicionar objeto</h3>
+	</div>
+
+	<div class="modal-body" id="modal-body">
+
+		<div class="modal-loading ng-hide" ng-show="is_modal_loading">
+			<i class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></i>
+		</div>
+
+		<div ng-show="!is_modal_loading">
+
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="item">Item</label>
+						<input type="text" class="form-control" id="item" placeholder="Item" ng-model="objeto.objeto_item" required>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="quantidade">Quantidade</label>
+						<input type="text" class="form-control" id="quantidade" placeholder="Quantidade" ng-model="objeto.objeto_quantidade" required>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="descricao">Descrição</label>
+						<input type="text" class="form-control" id="descricao" placeholder="Descrição" ng-model="objeto.objeto_descricao" required>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="origem">Origem</label>
+						<input type="text" class="form-control" id="origem" placeholder="Origem" ng-model="objeto.objeto_origem" required>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="destino">Destino</label>
+						<input type="text" class="form-control" id="destino" placeholder="Destino" ng-model="objeto.objeto_destino" required>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="quilometragem">Quilometragem</label>
+						<input type="text" class="form-control" id="quilometragem" placeholder="Quilometragem" ng-model="objeto.objeto_quilometragem">
+					</div>
+				</div>
+
+			</div>
+
+			<hr /> 
+
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="comprimento">Comp. (mm)</label>
+						<input type="text" class="form-control" id="comprimento" placeholder="Comp." ng-model="objeto.objeto_comprimento">
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="largura">Larg. (mm)</label>
+						<input type="text" class="form-control" id="largura" placeholder="Larg." ng-model="objeto.objeto_largura">
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="altura">Alt. (mm)</label>
+						<input type="text" class="form-control" id="altura" placeholder="Alt." ng-model="objeto.objeto_altura">
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="peso-unit">Peso unit. (kg)</label>
+						<input type="text" class="form-control" id="peso-unit" placeholder="Peso unit." ng-model="objeto.objeto_peso_unit" required>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="peso-total">Peso bruto total (kg)</label>
+						<input type="text" class="form-control" id="peso-total" placeholder="Peso total" ng-model="objeto.objeto_peso_total">
+					</div>
+				</div>
+
+			</div>
+
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="tipo-valor-unit">Tipo</label>
+						<select class="form-control" ng-model="objeto.objeto_tipo_valor_unit">
+							<option value="reais">Reais</option>
+							<option value="dolar">Dólar</option>
+							<option value="euro">Euro</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-md-8">
+					<div class="form-group">
+						<label for="valor-unit">Valor unit.</label>
+						<input type="text" class="form-control" id="valor-unit" placeholder="Valor unit." ng-model="objeto.objeto_valor_unit" required>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="tipo-valor-total">Tipo</label>
+						<select class="form-control" ng-model="objeto.objeto_tipo_valor_total">
+							<option value="reais">Reais</option>
+							<option value="dolar">Dólar</option>
+							<option value="euro">Euro</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-md-8">
+					<div class="form-group">
+						<label for="valor-total">Valor total</label>
+						<input type="text" class="form-control" id="valor-total" placeholder="Valor total" ng-model="objeto.objeto_valor_total">
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="modal-footer">
+	    <button class="btn btn-danger" type="button" ng-click="$ctrl.close()"><i class="fa fa-times" aria-hidden="true"></i> Fechar</button>
+	    <button class="btn btn-success" type="submit"><i class="fa fa-times" aria-hidden="true"></i> Cadastrar</button>
+	</div>
+
+</form>

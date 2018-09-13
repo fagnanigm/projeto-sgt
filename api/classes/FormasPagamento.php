@@ -2,19 +2,18 @@
 
 namespace Classes;
 
-class Categorias {
+class FormasPagamento {
 
 	private $db;
 
-	public $schema = array( 
+	public $item_per_page = 5;
+
+	public $schema = array(
 		"id_author",
-		"cat_name",
-		"cat_descricao",
+		"forma_nome",
 		"create_time",
 		"active"
 	);
-
-	public $item_per_page = 5;
 
 	function __construct($db = false, $item_per_page = false){
 		if(!$db){
@@ -37,28 +36,36 @@ class Categorias {
 		// Block if required fields isn't informed
 
 		if(!isset($args['id_author'])){
-			$response['error'] = 'O campo id_author é obrigatório.';
+			$response['error'] = 'O ID do autor é obrigatório.';
 			return $response;
+		}else{
+
+			// checa se id do usuário existe
+			$userSt = $this->db->select()->from('users')->whereMany(array('id' => $args['id_author'], 'active' => 'Y'), '=');
+			$stmt = $userSt->execute();
+			$user_data = $stmt->fetch();
+
+			if(!$user_data){
+				$response['error'] = 'Autor informado não existente.';
+				return $response;
+			}
+
 		}
 
-		if(!isset($args['cat_name'])){
-			$response['error'] = 'O campo cat_name é obrigatório.';
+		if(!isset($args['forma_nome'])){
+			$response['error'] = 'O campo forma_nome é obrigatório.';
 			return $response;
-		}
+		} 
 
 		// Init insert
-
 		$data = array_flip($this->schema);
 
 		// External params
 		foreach ($data as $field => $value) {
 			
 			if(isset($args[$field])){
-
 				$val = $args[$field];
-
 				$data[$field] = $val;
-
 			}else{
 				unset($data[$field]);
 			}
@@ -73,7 +80,8 @@ class Categorias {
 
 		$response['data'] = $data;
 
-		$insertStatement = $this->db->insert(array_keys($data))->into('categorias')->values(array_values($data));
+		$insertStatement = $this->db->insert(array_keys($data))->into('formas_pagamento')->values(array_values($data));
+
 		$response['id'] = $insertStatement->execute();
 
 		if(strlen($response['id']) > 0){
@@ -84,6 +92,7 @@ class Categorias {
 
 	}
 
+
 	public function get($args = array()){
 
 		$response = array();
@@ -92,11 +101,11 @@ class Categorias {
 		$args['getall'] = (isset($args['getall']) ? $args['getall'] : false);
 
 		// Count total
-		$query_count = "SELECT COUNT(*) AS total FROM categorias WHERE active = 'Y'";
+		$query_count = "SELECT COUNT(*) AS total FROM formas_pagamento WHERE active = 'Y'";
 
 		// Filtro
-		if(isset($args['cat_name'])){
-			$query_count .= " AND cat_name LIKE '%".$args['cat_name']."%' ";
+		if(isset($args['forma_term'])){
+			$query_count .= " AND forma_nome LIKE '%".$args['forma_term']."%'";
 			$is_search = true;
 		}
 
@@ -111,7 +120,7 @@ class Categorias {
 
 			$response['config'] = $config;
 
-			$select = $this->db->query('SELECT * FROM categorias WHERE active = \'Y\' ORDER BY cat_name');
+			$select = $this->db->query('SELECT * FROM formas_pagamento WHERE active = \'Y\' ORDER BY forma_nome');
 			$response['results'] = $this->parser_fecth($select->fetchAll(\PDO::FETCH_ASSOC),'all');
 
 		}else{
@@ -131,15 +140,15 @@ class Categorias {
 				// Offset
 				$offset = ($config['current_page'] == '1' ? 0 : ($config['current_page'] - 1) * $config['item_per_page'] );
 
-				$query = "SELECT * FROM categorias WHERE active = 'Y' ";
+				$query = "SELECT * FROM formas_pagamento WHERE active = 'Y' ";
 
 				// Filtro
-				if(isset($args['cat_name'])){
-					$query .= " AND cat_name LIKE '%".$args['cat_name']."%' ";
+				if(isset($args['forma_term'])){
+					$query .= " AND forma_nome LIKE '%".$args['forma_term']."%' ";
 				}
 
 				// Config
-				$query .= "ORDER BY create_time OFFSET ".$offset." ROWS FETCH NEXT ".$config['item_per_page']." ROWS ONLY";
+				$query .= "ORDER BY forma_nome OFFSET ".$offset." ROWS FETCH NEXT ".$config['item_per_page']." ROWS ONLY";
 
 				$select = $this->db->query($query);
 				$response['results'] = $this->parser_fecth($select->fetchAll(\PDO::FETCH_ASSOC),'all');
@@ -157,27 +166,27 @@ class Categorias {
 
 	public function parser_fecth($result, $fetch = 'one'){
 		if($fetch == 'one'){
-			$result = $this->apply_filter_categoria($result);
+			$result = $this->apply_filter_forma($result);
 		}else{
 			if($fetch == 'all'){
 				foreach ($result as $key => $value) {
-					$result[$key] = $this->apply_filter_categoria($value);
+					$result[$key] = $this->apply_filter_forma($value);
 				}
 			}
 		}
 		return $result;
 	}
 
-	public function apply_filter_categoria($cat){
-		
-		foreach ($cat as $key => $field) {
-			$cat[$key] = trim($field);
+	public function apply_filter_forma($forma){
+
+		foreach ($forma as $key => $field) {
+			$forma[$key] = trim($field);
 		}
 		
-		$create_time = new \DateTime($cat['create_time']);
-		$cat['create_timestamp'] = $create_time->getTimestamp();
-
-		return $cat;
+		$create_time = new \DateTime($forma['create_time']);
+		$forma['create_timestamp'] = $create_time->getTimestamp();
+		
+		return $forma;
 	}
 
 	public function delete($args = array()){
@@ -187,11 +196,11 @@ class Categorias {
 		);
 
 		if(!isset($args['id'])){
-			$response['error'] = 'ID da categoria não especificada.';
+			$response['error'] = 'ID da forma de pagamento não especificado';
 			return $response;
 		}
 
-		$updateStatement = $this->db->update(array('active' => 'N'))->table('categorias')->where('id', '=', $args['id']);
+		$updateStatement = $this->db->update(array('active' => 'N'))->table('formas_pagamento')->where('id', '=', $args['id']);
 		$affectedRows = $updateStatement->execute();
 
 		if($affectedRows > 0){
@@ -222,9 +231,23 @@ class Categorias {
 			unset($args['id']);
 		}
 
-		unset($args['create_timestamp']);
+		// Init insert
+		$data = array_flip($this->schema);
 
-		$updateStatement = $this->db->update()->set($args)->table('categorias')->whereMany( array('id' => $id, 'active' => 'Y'), '=');
+		// External params
+		foreach ($data as $field => $value) {
+			
+			if(isset($args[$field])){
+				$val = $args[$field];
+
+				$data[$field] = $val;
+			}else{
+				unset($data[$field]);
+			}
+
+		}
+
+		$updateStatement = $this->db->update()->set($data)->table('formas_pagamento')->whereMany( array('id' => $id), '=');
 
 		$affectedRows = $updateStatement->execute();
 
@@ -242,6 +265,7 @@ class Categorias {
 
 	}
 
+
 	public function get_by_id($id = false, $args = false){
 
 		$response = array(
@@ -252,16 +276,16 @@ class Categorias {
 			$response['error'] = 'ID não informado.';
 		}
 
-		$selectStatement = $this->db->select()->from('categorias')->whereMany(array('id' => $id, 'active' => 'Y'), '=' );
+		$selectStatement = $this->db->select()->from('formas_pagamento')->whereMany(array('id' => $id, 'active' => 'Y' ), '=');
 
 		$stmt = $selectStatement->execute();
 		$data = $stmt->fetch();
 
 		if($data){
-			$response['categoria'] = $this->parser_fecth($data);
+			$response['data'] = $this->parser_fecth($data);
 			$response['result'] = true;
 		}else{
-			$response['error'] = 'Nenhuma categoria encontrada.';
+			$response['error'] = 'Nenhuma forma de pagamento encontrada para essa ID.';
 		}
 
 		return $response;

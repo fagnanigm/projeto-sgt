@@ -144,8 +144,8 @@ class VeiculosTipos {
 				$query = "SELECT * FROM veiculos_tipos WHERE active = 'Y' ";
 
 				// Filtro
-				if(isset($args['veiculo_term'])){
-					$query .= " AND tipo_nome LIKE '%".$args['veiculo_term']."%' ";
+				if(isset($args['tipo_term'])){
+					$query .= " AND tipo_nome LIKE '%".$args['tipo_term']."%' ";
 				}
 
 				// Config
@@ -167,33 +167,27 @@ class VeiculosTipos {
 
 	public function parser_fecth($result, $fetch = 'one'){
 		if($fetch == 'one'){
-			$result = $this->apply_filter_veiculo($result);
+			$result = $this->apply_filter_tipo($result);
 		}else{
 			if($fetch == 'all'){
 				foreach ($result as $key => $value) {
-					$result[$key] = $this->apply_filter_veiculo($value);
+					$result[$key] = $this->apply_filter_tipo($value);
 				}
 			}
 		}
 		return $result;
 	}
 
-	public function apply_filter_veiculo($veiculo){
+	public function apply_filter_tipo($tipo){
 
-		foreach ($veiculo as $key => $field) {
-			$veiculo[$key] = trim($field);
+		foreach ($tipo as $key => $field) {
+			$tipo[$key] = trim($field);
 		}
 		
-		$create_time = new \DateTime($veiculo['create_time']);
-		$veiculo['create_timestamp'] = $create_time->getTimestamp();
-
+		$create_time = new \DateTime($tipo['create_time']);
+		$tipo['create_timestamp'] = $create_time->getTimestamp();
 		
-		$filial_st = $this->db->select(array('empresa_name'))->from('empresas')->whereMany( array('id' => $veiculo['id_filial']), '=');
-		$stmt = $filial_st->execute();
-		$filial = $stmt->fetch();
-		$veiculo['filial_text'] = $filial['empresa_name'];
-		
-		return $veiculo;
+		return $tipo;
 	}
 
 	public function delete($args = array()){

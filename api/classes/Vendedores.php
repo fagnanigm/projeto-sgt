@@ -90,6 +90,8 @@ class Vendedores {
 		$response = array();
 		$is_search = false;
 
+		$args['getall'] = (isset($args['getall']) ? $args['getall'] : false);
+
 		// Count total
 		$query_count = "SELECT COUNT(*) AS total FROM vendedores WHERE active = 'Y'";
 
@@ -105,40 +107,55 @@ class Vendedores {
 		$count = $this->db->query($query_count);
 		$total_data = $count->fetch();
 
-		$config = array(
-			'total' => $total_data['total'],
-			'item_per_page' => $this->item_per_page,
-			'total_pages' => ceil($total_data['total'] / $this->item_per_page),
-			'current_page' => (isset($args['current_page']) ? $args['current_page'] : 1 ),
-			'is_search' => $is_search
-		);
+		if($args['getall'] == '1'){
 
-		$response['config'] = $config;
+			$config = array(
+				'total' => $total_data['total'],
+			);
 
-		if($config['current_page'] <= $config['total_pages']){
+			$response['config'] = $config;
 
-			// Offset
-			$offset = ($config['current_page'] == '1' ? 0 : ($config['current_page'] - 1) * $config['item_per_page'] );
-
-			$query = "SELECT * FROM vendedores WHERE active = 'Y' ";
-
-			// Filtro
-			if(isset($args['vendedor_term'])){
-				$query .= " AND ( ";
-					$query .= "vendedor_nome LIKE '%".$args['vendedor_term']."%' OR ";
-					$query .= "vendedor_email LIKE '%".$args['vendedor_term']."%' ";
-				$query .= " ) ";
-			}
-
-			// Config
-			$query .= "ORDER BY create_time OFFSET ".$offset." ROWS FETCH NEXT ".$config['item_per_page']." ROWS ONLY";
-
-			$select = $this->db->query($query);
+			$select = $this->db->query('SELECT * FROM vendedores WHERE active = \'Y\' ORDER BY vendedor_nome');
 			$response['results'] = $this->parser_fecth($select->fetchAll(\PDO::FETCH_ASSOC),'all');
-			$response['config']['page_items_total'] = count($response['results']);
 
 		}else{
-			$response['results'] = [];
+
+			$config = array(
+				'total' => $total_data['total'],
+				'item_per_page' => $this->item_per_page,
+				'total_pages' => ceil($total_data['total'] / $this->item_per_page),
+				'current_page' => (isset($args['current_page']) ? $args['current_page'] : 1 ),
+				'is_search' => $is_search
+			);
+
+			$response['config'] = $config;
+
+			if($config['current_page'] <= $config['total_pages']){
+
+				// Offset
+				$offset = ($config['current_page'] == '1' ? 0 : ($config['current_page'] - 1) * $config['item_per_page'] );
+
+				$query = "SELECT * FROM vendedores WHERE active = 'Y' ";
+
+				// Filtro
+				if(isset($args['vendedor_term'])){
+					$query .= " AND ( ";
+						$query .= "vendedor_nome LIKE '%".$args['vendedor_term']."%' OR ";
+						$query .= "vendedor_email LIKE '%".$args['vendedor_term']."%' ";
+					$query .= " ) ";
+				}
+
+				// Config
+				$query .= "ORDER BY create_time OFFSET ".$offset." ROWS FETCH NEXT ".$config['item_per_page']." ROWS ONLY";
+
+				$select = $this->db->query($query);
+				$response['results'] = $this->parser_fecth($select->fetchAll(\PDO::FETCH_ASSOC),'all');
+				$response['config']['page_items_total'] = count($response['results']);
+
+			}else{
+				$response['results'] = [];
+			}
+
 		}
 
 		return $response;
