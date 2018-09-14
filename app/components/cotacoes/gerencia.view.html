@@ -16,9 +16,9 @@
 					<div class="col-md-12">
 						<div class="form-group">
 							<label for="filial">Filial</label>
-							<select class="form-control" ng-model="cotacao.id_empresa">
+							<select class="form-control" name="id_empresa" ng-model="cotacao.id_empresa" ng-change="empresa_change()">
 								<option value="0">Selecionar...</option>
-								<option ng-repeat="(key, val) in empresas" value="{{ val.id }}">{{ val.empresa_name }}</option>
+								<option ng-repeat="(key, val) in empresas" value="{{ val.id }}" data-prefixo="{{ val.empresa_prefixo }}">{{ val.empresa_name }}</option>
 							</select>
 						</div>
 					</div>
@@ -26,14 +26,14 @@
 					<div class="col-md-8">
 						<div class="form-group">
 							<label for="codigo">Código</label>
-							<input type="text" class="form-control" id="codigo" placeholder="Código" ng-model="cotacao.cotacao_code" required>
+							<input type="text" class="form-control" id="codigo" placeholder="Código" ng-model="cotacao.cotacao_code" ng-readonly="cotacao.id_empresa == '0' || $state.name == 'update-cotacao'" required>
 						</div>
 					</div>
 
 					<div class="col-md-4">
 						<div class="form-group">
 							<label for="revisao">Revisão</label>
-							<input type="text" class="form-control" id="revisao" placeholder="Revisão" ng-model="cotacao.cotacao_revisao">
+							<input type="text" class="form-control" id="revisao" placeholder="Revisão" ng-model="cotacao.cotacao_revisao" readonly>
 						</div>
 					</div>
 
@@ -41,7 +41,7 @@
 						<div class="form-group">
 							<label for="cliente">Cliente</label>
 							<div class="input-group">
-								<input type="text" class="form-control" id="cliente" placeholder="Selecione um cliente..." ng-model="cotacao.cotacao_cliente_nome">
+								<input type="text" class="form-control" id="cliente" placeholder="Selecione um cliente..." ng-model="cotacao.cotacao_cliente_nome" readonly>
 								<div class="input-group-append">
 									<button class="btn btn-primary" type="button" ng-click="open_choose_cliente('main_cliente')"><i class="icon-magnifier icons"></i></button>
 								</div>
@@ -103,10 +103,10 @@
 							<label for="status">Status</label>
 							<select class="form-control" ng-model="cotacao.cotacao_status">
 								<option value="0">Selecionar...</option>
-								<option value="">Em aberto</option>
-								<option value="">Aprovado</option>
-								<option value="">Aguardando preço</option>
-								<option value="">Cancelado</option>
+								<option value="em-aberto">Em aberto</option>
+								<option value="aprovado">Aprovado</option>
+								<option value="aguardando-preco">Aguardando preço</option>
+								<option value="cancelado">Cancelado</option>
 							</select>
 						</div>
 					</div>
@@ -114,7 +114,7 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="data-cadastro">Data de cadastro</label>
-							<input type="date" class="form-control" id="data-cadastro" ng-model="cotacao.cotacao_cadastro_data">
+							<input type="date" class="form-control" id="data-cadastro" ng-model="cotacao.cotacao_cadastro_data_obj">
 						</div>
 					</div>
 
@@ -144,7 +144,7 @@
 					
 				<div class="form-group">
 					<label for="nome-projeto">Nome do projeto</label>
-					<input type="text" class="form-control" id="nome-projeto" placeholder="Nome do projeto" ng-model="cotacao.cotacao_projeto_nome">
+					<input type="text" class="form-control" id="nome-projeto" placeholder="Nome do projeto" ng-model="cotacao.cotacao_projeto_nome" required>
 				</div>
 
 				<div class="form-group">
@@ -281,14 +281,6 @@
 			<tr>
 				<th>Arquivo</th>
 				<th>Data</th>
-			</tr>
-			<tr>
-				<td>File.xls</td>
-				<td>12/09/2018</td>
-			</tr>
-			<tr>
-				<td>File.xls</td>
-				<td>12/09/2018</td>
 			</tr>
 		</table>
 

@@ -22,16 +22,25 @@
                     id_vendedor : '0',
                     id_categoria : '0',
                     id_forma_pagamento : '0',
-                    cotacao_caracteristica : 'M',
-                    cotacao_caracteristica_objetos : []
+                    id_cliente : '0',
+                    cotacao_revisao : '0',
+                    cotacao_status : '0',
+                    cotacao_caracteristica_objetos : [],
+                    cotacao_cadastro_data_obj : new Date()
                 }
 
             }else{
 
-                $http.get('/api/public/cotacoes/get/' + $rootScope.$stateParams.id_cotacao + '?context=' + $localStorage.currentEmpresaId).then(function (response) {
-                    
+                $http.get('/api/public/cotacoes/get/' + $rootScope.$stateParams.id_cotacao ).then(function (response) {
+
                     $scope.cotacao = response.data.cotacao;
-                    $scope.cotacao.context = $localStorage.currentEmpresaId;
+                    $scope.cotacao.cotacao_revisao =  parseInt($scope.cotacao.cotacao_revisao) + 1;
+                    $scope.cotacao.id_revisao = ($scope.cotacao.cotacao_revisao == 1 ? $scope.cotacao.id : $scope.cotacao.id_revisao );
+                    $scope.cotacao.cotacao_cadastro_data_obj = new Date($scope.cotacao.cotacao_cadastro_data * 1000);
+
+                    get_cotacao_code();
+
+                    console.log($scope.cotacao)
 
                 }, function(response) {
                     $rootScope.is_error = true;
@@ -65,67 +74,84 @@
                 error++;
                 return;
             }
-    
+
+            if($scope.cotacao.id_cliente == '0'){
+                ngToast.create({
+                    className: 'danger',
+                    content: "Selecione um cliente"
+                });
+                error++;
+                return;
+            }
+
+            if($scope.cotacao.id_empresa == '0'){
+                ngToast.create({
+                    className: 'danger',
+                    content: "Selecione uma filial"
+                });
+                error++;
+                return;
+            }
+
+            if($scope.cotacao.id_vendedor == '0'){
+                ngToast.create({
+                    className: 'danger',
+                    content: "Selecione um vendedor"
+                });
+                error++;
+                return;
+            }
+
+            if($scope.cotacao.id_categoria == '0'){
+                ngToast.create({
+                    className: 'danger',
+                    content: "Selecione uma categoria"
+                });
+                error++;
+                return;
+            }
+
+            if($scope.cotacao.cotacao_status == '0'){
+                ngToast.create({
+                    className: 'danger',
+                    content: "Selecione um status"
+                });
+                error++;
+                return;
+            }
+
             if(error == 0){
 
                 $rootScope.is_loading = true;
 
-                if($rootScope.$state.name == "insert-cotacao"){
+                $scope.cotacao.cotacao_cadastro_data = Math.floor($scope.cotacao.cotacao_cadastro_data_obj.getTime() / 1000);
 
-                    $http.post('/api/public/cotacoes/insert', $scope.cotacao).then(function (response) {
-                        
-                        if(response.data.result){
+                $http.post('/api/public/cotacoes/insert', $scope.cotacao).then(function (response) {
+                    
+                    if(response.data.result){
 
-                            ngToast.create({
-                                className: 'success',
-                                content: "Cotação cadastrado com sucesso!"
-                            });
+                        ngToast.create({
+                            className: 'success',
+                            content: "Cotação cadastrado com sucesso!"
+                        });
 
-                            $location.path('/cotacoes');
+                        $location.path('/cotacoes');
 
-                        }else{
-                            ngToast.create({
-                                className: 'danger',
-                                content: response.data.error
-                            });
-                        }
+                    }else{
+                        ngToast.create({
+                            className: 'danger',
+                            content: response.data.error
+                        });
+                    }
 
-                    }, function(response) {
-                        $rootScope.is_error = true;
-                        $rootScope.is_error_text = "Erro: " + response.data.message;
-                    }).finally(function() {
-                        $rootScope.is_loading = false;
-                    });
+                }, function(response) {
+                    $rootScope.is_error = true;
+                    $rootScope.is_error_text = "Erro: " + response.data.message;
+                }).finally(function() {
+                    $rootScope.is_loading = false;
+                });
 
-                }else{
-
-                    $http.post('/api/public/cotacoes/update', $scope.cotacao ).then(function (response) {
-
-                        if(response.data.result){
-
-                            ngToast.create({
-                                className: 'success',
-                                content: "Cotações editado com sucesso!"
-                            });
-
-                            $location.path('/cotacoes');
-
-                        }else{
-                            ngToast.create({
-                                className: 'danger',
-                                content: response.data.error
-                            });
-                        }
-
-                    }, function(response) {
-                        $rootScope.is_error = true;
-                        $rootScope.is_error_text = "Erro: " + response.data.message;
-                    }).finally(function() {
-                        $rootScope.is_loading = false;
-                    });
-
-
-                }
+                
 
             }
 
@@ -212,7 +238,8 @@
         }
 
         $scope.main_cliente = function(cliente){
-            $scope.cotacao.cliente_nome = cliente.cliente_nome;
+            $scope.cotacao.cotacao_cliente_nome = cliente.cliente_nome;
+            $scope.cotacao.id_cliente = cliente.id;
         }
 
         /// Salva objeto na cotação
@@ -232,6 +259,54 @@
             });
 
         } 
+
+
+        // Obtem código automaticamente
+        $scope.empresa_change = function(){
+
+            if($scope.cotacao.id_empresa != '0'){ 
+
+                get_cotacao_code();
+
+            }
+
+        }
+
+        function get_cotacao_code(){
+
+            $rootScope.is_loading = true;
+
+            var param = {
+                id_empresa : $scope.cotacao.id_empresa,
+                revisao : $scope.cotacao.cotacao_revisao
+            }
+
+            if($rootScope.$state.name == "update-cotacao"){
+                param.cotacao_code_sequencial = $scope.cotacao.cotacao_code_sequencial;
+            }
+
+            $http.post('/api/public/cotacoes/getnextcode', param).then(function (response) {
+            
+                if(response.data.result){
+
+                    $scope.cotacao.cotacao_code = response.data.cotacao_code;
+                    $scope.cotacao.cotacao_code_sequencial = response.data.cotacao_code_sequencial;
+                    
+                }else{
+                    ngToast.create({
+                        className: 'danger',
+                        content: response.data.error
+                    });
+                }
+
+            }, function(response) {
+                $rootScope.is_error = true;
+                $rootScope.is_error_text = "Erro: " + response.data.message;
+            }).finally(function() {
+                $rootScope.is_loading = false;
+            });
+
+        }
 
 
         

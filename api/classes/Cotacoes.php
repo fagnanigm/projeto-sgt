@@ -9,22 +9,48 @@ class Cotacoes {
 	public $item_per_page = 5;
 
 	public $schema = array(
+		"id_revisao",
 		"id_author",
 		"id_empresa",
-		"cotacao_item",
-		"cotacao_qtd",
-		"cotacao_descricao",
-		"cotacao_origem",
-		"cotacao_destino",
-		"cotacao_km",
-		"cotacao_comp",
-		"cotacao_larg",
-		"cotacao_alt",
-		"cotacao_equipamento",
-		"cotacao_valor_un",
-		"cotacao_valor_total",
-		"cotacao_peso_un",
-		"cotacao_peso_total",
+		"id_cliente",
+		"id_vendedor",
+		"id_forma_pagamento",
+		"id_categoria",
+		"cotacao_code_sequencial",
+		"cotacao_code",
+		"cotacao_revisao",
+		"cotacao_cliente_nome",
+		"cotacao_contato",
+		"cotacao_email",
+		"cotacao_phone_01",
+		"cotacao_phone_02",
+		"cotacao_phone_03",
+		"cotacao_ramal",
+		"cotacao_status",
+		"cotacao_cadastro_data",
+		"cotacao_projeto_nome",
+		"cotacao_projeto_descricao",
+		"cotacao_vi_imposto_icms",
+		"cotacao_vi_imposto_inss",
+		"cotacao_vi_imposto_ir",
+		"cotacao_vi_taxas",
+		"cotacao_vi_iss",
+		"cotacao_vi_escolta",
+		"cotacao_vi_imposto_pis_cofins",
+		"cotacao_vi_seguro",
+		"cotacao_vi_seguro_percent",
+		"cotacao_objeto_operacao",
+		"cotacao_seguro",
+		"cotacao_impostos",
+		"cotacao_condicoes_pagamento",
+		"cotacao_validade_proposta",
+		"cotacao_status_cadastro",
+		"cotacao_carga_descarga",
+		"cotacao_equipamentos",
+		"cotacao_carencia",
+		"cotacao_prazo_execucao",
+		"cotacao_observacoes_finais",
+		"cotacao_observacoes_internas",
 		"create_time",
 		"active"
 	);
@@ -66,58 +92,85 @@ class Cotacoes {
 
 		}
 
+		if(!isset($args['id_revisao'])){
+			$args['id_revisao'] = '0';
+		}
+
 		if(!isset($args['id_empresa'])){
 			$response['error'] = 'O campo id_empresa é obrigatório.';
 			return $response;
 		}
 
-		if(!isset($args['cotacao_item'])){
-			$response['error'] = 'O campo cotacao_item é obrigatório.';
+		if(!isset($args['id_cliente'])){
+			$response['error'] = 'O campo id_cliente é obrigatório.';
 			return $response;
 		}
 
-		// Tratamento
-
-		if(isset($args['cotacao_comp'])){
-			if(strlen(trim($args['cotacao_comp'])) == 0){
-				unset($args['cotacao_comp']);
-			}
+		if(!isset($args['id_vendedor'])){
+			$response['error'] = 'O campo id_vendedor é obrigatório.';
+			return $response;
 		}
 
-		if(isset($args['cotacao_larg'])){
-			if(strlen(trim($args['cotacao_larg'])) == 0){
-				unset($args['cotacao_larg']);
-			}
+		if(!isset($args['id_forma_pagamento'])){
+			$response['error'] = 'O campo id_forma_pagamento é obrigatório.';
+			return $response;
 		}
 
-		if(isset($args['cotacao_alt'])){
-			if(strlen(trim($args['cotacao_alt'])) == 0){
-				unset($args['cotacao_alt']);
-			}
+		if(!isset($args['id_categoria'])){
+			$response['error'] = 'O campo id_categoria é obrigatório.';
+			return $response;
 		}
 
-		if(isset($args['cotacao_valor_un'])){
-			if(strlen(trim($args['cotacao_valor_un'])) == 0){
-				unset($args['cotacao_valor_un']);
-			}
+		if(!isset($args['cotacao_code'])){
+			$response['error'] = 'O campo cotacao_code é obrigatório.';
+			return $response;
 		}
 
-		if(isset($args['cotacao_valor_total'])){
-			if(strlen(trim($args['cotacao_valor_total'])) == 0){
-				unset($args['cotacao_valor_total']);
-			}
+		if(!isset($args['cotacao_code_sequencial'])){
+			$response['error'] = 'O campo cotacao_code_sequencial é obrigatório.';
+			return $response;
 		}
 
-		if(isset($args['cotacao_peso_un'])){
-			if(strlen(trim($args['cotacao_peso_un'])) == 0){
-				unset($args['cotacao_peso_un']);
-			}
+		if(!isset($args['cotacao_cadastro_data'])){
+			$response['error'] = 'O campo cotacao_cadastro_data é obrigatório.';
+			return $response;
 		}
 
-		if(isset($args['cotacao_peso_total'])){
-			if(strlen(trim($args['cotacao_peso_total'])) == 0){
-				unset($args['cotacao_peso_total']);
-			}
+		if(!isset($args['cotacao_projeto_nome'])){
+			$response['error'] = 'O campo cotacao_projeto_nome é obrigatório.';
+			return $response;
+		}
+
+		if(!isset($args['cotacao_vi_imposto_icms'])){
+			$args['cotacao_vi_imposto_icms'] = false;
+		}
+
+		if(!isset($args['cotacao_vi_imposto_inss'])){
+			$args['cotacao_vi_imposto_inss'] = false;
+		}
+
+		if(!isset($args['cotacao_vi_imposto_ir'])){
+			$args['cotacao_vi_imposto_ir'] = false;
+		}
+
+		if(!isset($args['cotacao_vi_taxas'])){
+			$args['cotacao_vi_taxas'] = false;
+		}
+
+		if(!isset($args['cotacao_vi_iss'])){
+			$args['cotacao_vi_iss'] = false;
+		}
+
+		if(!isset($args['cotacao_vi_escolta'])){
+			$args['cotacao_vi_escolta'] = false;
+		}
+
+		if(!isset($args['cotacao_vi_imposto_pis_cofins'])){
+			$args['cotacao_vi_imposto_pis_cofins'] = false;
+		}
+
+		if(!isset($args['cotacao_vi_seguro'])){
+			$args['cotacao_vi_seguro'] = false;
 		}
 
 		// Init insert
@@ -130,10 +183,40 @@ class Cotacoes {
 
 				$val = $args[$field];
 
+				
 				// Tratamento de id
-				if($field == 'id_author'){
+				if(
+					$field == 'id_revisao' || 
+					$field == 'id_author' || 
+					$field == 'id_empresa' || 
+					$field == 'id_cliente' || 
+					$field == 'id_vendedor' || 
+					$field == 'id_forma_pagamento' || 
+					$field == 'id_categoria'
+				){
 					$val = intval($val);
 				}
+
+				if($field == 'cotacao_cadastro_data'){
+					$date = new \DateTime();
+					$date->setTimestamp($val);
+					$val = $date->format("Y-m-d\TH:i:s");
+				}
+
+				// Checkboxes
+				if(
+					$field == 'cotacao_vi_imposto_icms' || 
+					$field == 'cotacao_vi_imposto_inss' || 
+					$field == 'cotacao_vi_imposto_ir' || 
+					$field == 'cotacao_vi_taxas' || 
+					$field == 'cotacao_vi_iss' || 
+					$field == 'cotacao_vi_escolta' || 
+					$field == 'cotacao_vi_imposto_pis_cofins' || 
+					$field == 'cotacao_vi_seguro'
+				){
+					$val = ($val ? 'Y' : 'N');
+				}
+
 
 				$data[$field] = $val;
 
@@ -141,6 +224,13 @@ class Cotacoes {
 				unset($data[$field]);
 			}
 
+		}
+
+		$data['cotacao_code_sequencial'] = $this->get_sequencial_from_code($data['cotacao_code']);
+
+		if(!$data['cotacao_code_sequencial']){
+			$response['error'] = 'Formato do código de cotação incorreto';
+			return $response;
 		}
 
 		// Fixed params
@@ -157,6 +247,15 @@ class Cotacoes {
 
 		if(strlen($response['id']) > 0){
 			$response['result'] = true;
+
+			// Atualiza ID da revisão da cotação principal se 
+			if($args['id_revisao'] == '0'){
+
+				$updateStatement = $this->db->query("UPDATE cotacoes SET id_revisao = '".$response['id']."' WHERE id = '".$response['id']."';");
+				$updateStatement->execute();
+
+			}
+
 		}
 
 		return $response;
@@ -233,8 +332,21 @@ class Cotacoes {
 			$cotacao[$key] = trim($field);
 		}
 
+		$cadastro_data = new \DateTime($cotacao['cotacao_cadastro_data']);
+		$cotacao['cotacao_cadastro_data'] = $cadastro_data->getTimestamp();
+
 		$create_time = new \DateTime($cotacao['create_time']);
 		$cotacao['create_timestamp'] = $create_time->getTimestamp();
+
+		// Checkboxes
+		$cotacao['cotacao_vi_imposto_icms'] = ($cotacao['cotacao_vi_imposto_icms'] == 'Y' ? true : false);
+		$cotacao['cotacao_vi_imposto_inss'] = ($cotacao['cotacao_vi_imposto_inss'] == 'Y' ? true : false);
+		$cotacao['cotacao_vi_imposto_ir'] = ($cotacao['cotacao_vi_imposto_ir'] == 'Y' ? true : false);
+		$cotacao['cotacao_vi_taxas'] = ($cotacao['cotacao_vi_taxas'] == 'Y' ? true : false);
+		$cotacao['cotacao_vi_iss'] = ($cotacao['cotacao_vi_iss'] == 'Y' ? true : false);
+		$cotacao['cotacao_vi_escolta'] = ($cotacao['cotacao_vi_escolta'] == 'Y' ? true : false);
+		$cotacao['cotacao_vi_imposto_pis_cofins'] = ($cotacao['cotacao_vi_imposto_pis_cofins'] == 'Y' ? true : false);
+		$cotacao['cotacao_vi_seguro'] = ($cotacao['cotacao_vi_seguro'] == 'Y' ? true : false);
 
 		return $cotacao;
 	}
@@ -338,7 +450,7 @@ class Cotacoes {
 			}
 		}
 
-		$updateStatement = $this->db->update()->set($args)->table('cotacoes')->whereMany( array('id' => $id, 'id_empresa' => $context), '=');
+		$updateStatement = $this->db->update()->set($args)->table('cotacoes')->whereMany( array('id' => $id), '=');
 
 		$affectedRows = $updateStatement->execute();
 
@@ -363,19 +475,11 @@ class Cotacoes {
 			'result' => false
 		);
 
-		if(!isset($args['context'])){
-			$response = array(
-				'result' => false,
-				'error' => 'Contexto não definido'
-			);
-			return $response;
-		}
-
 		if(!$id){
 			$response['error'] = 'ID não informado.';
 		}
 
-		$selectStatement = $this->db->select()->from('cotacoes')->whereMany(array('id' => $id, 'active' => 'Y', 'id_empresa' => $args['context'] ), '=');
+		$selectStatement = $this->db->select()->from('cotacoes')->whereMany(array('id' => $id, 'active' => 'Y'), '=');
 
 		$stmt = $selectStatement->execute();
 		$data = $stmt->fetch();
@@ -388,6 +492,71 @@ class Cotacoes {
 		}
 
 		return $response;
+
+	}
+
+	public function getnextcode($args){
+
+		$response = array(
+			'result' => false
+		);
+
+		if(!isset($args['id_empresa'])){
+			$response['error'] = 'O campo id_empresa é obrigatório';
+			return $response;
+		}else{
+
+			$select = $this->db->select()->from('empresas')->whereMany(array('active' => 'Y', 'id' => $args['id_empresa']), '=');
+			$stmt = $select->execute();
+			$empresa = $stmt->fetch();
+
+			if(!$empresa){
+				$response['error'] = 'Empresa não encontrada';
+				return $response;
+			}
+
+		}
+
+		if(!isset($args['revisao'])){
+			$response['error'] = 'O campo revisao é obrigatório';
+			return $response;
+		}else{
+			$args['revisao'] = str_pad(abs($args['revisao']), 2, '0', STR_PAD_LEFT);
+		}
+
+		if(isset($args['cotacao_code_sequencial'])){
+			$sequencial = $args['cotacao_code_sequencial'];
+		}else{
+			$select = $this->db->query('SELECT max(cotacao_code_sequencial) AS code FROM cotacoes;');
+			$max_code_sequencial = $select->fetch(\PDO::FETCH_ASSOC);
+			$sequencial = str_pad(($max_code_sequencial['code'] + 1), 5, '0', STR_PAD_LEFT);
+		}
+
+		$response['cotacao_code'] = 
+			$empresa['empresa_prefixo'] . '-' .
+			date('m') . '-' .
+			$sequencial . '/' .
+			date('y') . '-' .
+			'rev.' . $args['revisao'];
+
+		$response['cotacao_code_sequencial'] = $sequencial;
+
+		$response['result'] = true;
+
+		return $response;
+
+	}
+
+	public function get_sequencial_from_code($code){
+
+		$code = explode("-", $code);
+
+		if(isset($code[2])){
+			$piece = explode('/', $code[2]);
+			return $piece[0];
+		}else{
+			return false;
+		}
 
 	}
 

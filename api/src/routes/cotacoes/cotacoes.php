@@ -36,4 +36,10 @@ $app->post('/cotacoes/update', function (Request $request, Response $response, a
 	return $response->withJson($data);
 });
 
+$app->post('/cotacoes/getnextcode', function (Request $request, Response $response, array $args) {
+	$cotacoes = new Cotacoes($this->db);
+	$data = $cotacoes->getnextcode($request->getParams());
+	return $response->withJson($data);
+});
+
 ?>
