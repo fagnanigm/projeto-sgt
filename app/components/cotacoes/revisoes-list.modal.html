@@ -1,0 +1,65 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Visualizar revisões de cotação</h3>
+</div>
+
+<div class="modal-body" id="modal-body">
+
+	<div class="modal-loading ng-hide" ng-show="is_modal_loading">
+		<i class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></i>
+	</div>
+
+	<div ng-show="!is_modal_loading">
+
+		<h3>Informação da versão atual</h3>
+
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group margin-bottom-0">
+					<label>Código</label>
+					<p>{{ cotacao_revisao.cotacao.cotacao_code }}</p>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group margin-bottom-0">
+					<label>Revisão</label>
+					<p>{{ cotacao_revisao.cotacao.cotacao_revisao }}</p>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group margin-bottom-0">
+					<label>Data</label>
+					<p>{{ cotacao_revisao.cotacao.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm' }}</p>
+				</div>
+			</div>
+		</div>
+
+		<hr />
+
+		<h3>Listagem das revisões</h3>
+
+		<div class="">
+			<table class="table table-striped">
+				<tr>
+					<th>Código</th>
+					<th class="text-center">Revisão</th>
+					<th class="text-center">Data</th>
+					<th width="75"></th>
+				</tr>
+				<tr ng-repeat="(key, val) in cotacao_revisao.revisoes">
+
+					<td>{{ val.cotacao_code }}</td>
+					<td class="text-center">{{ val.cotacao_revisao }}</td>
+					<td class="text-center">{{ val.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm' }}</td>
+					<td class="text-center"><a href="/cotacoes/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a></td>
+				</tr>
+			</table>
+		</div>
+		
+
+	</div>
+
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-danger" type="button" ng-click="$ctrl.close()"><i class="fa fa-times" aria-hidden="true"></i> Fechar</button>
+</div>

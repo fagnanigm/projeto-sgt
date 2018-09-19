@@ -1,9 +1,9 @@
-<h1 class="title-page">Visualização de local</h1>
+<h1 class="title-page">Visualização de cotação</h1>
 
 <div class="box-content">
 
 	<div class="box-subtitle">
-		<h2>Local #{{ cotacao.id }}</h2>
+		<h2>Cotação {{ cotacao.cotacao_code }}</h2>
 	</div>
 
 	<div class="row">
@@ -13,125 +13,354 @@
 
 				<div class="col-md-12">
 					<div class="form-group">
-						<label for="item-cotacao">Item da cotação</label>
-						<p>{{ cotacao.cotacao_item }}</p>
+						<label for="filial">Filial</label>
+						<p>{{ cotacao.empresa_name }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-8">
+					<div class="form-group">
+						<label for="codigo">Código</label>
+						<p>{{ cotacao.cotacao_code }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="revisao">Revisão</label>
+						<p>{{ cotacao.cotacao_revisao }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="cliente">Cliente</label>
+						<p>{{ cotacao.cotacao_cliente_nome }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="contato">Contato</label>
+						<p>{{ cotacao.cotacao_contato }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="email">E-mail</label>
+						<p>{{ cotacao.cotacao_email }}</p>
 					</div>
 				</div>
 
 				<div class="col-md-6">
 					<div class="form-group">
-						<label for="qtd">Quantidade</label>
-						<p>{{ cotacao.cotacao_qtd }}</p>
+						<label for="celular-1">Celular 1</label>
+						<p>{{ cotacao.cotacao_phone_01 }}</p>
 					</div>
 				</div>
 
 				<div class="col-md-6">
 					<div class="form-group">
-						<label for="equipamento">Equipamento</label>
-						<p>{{ cotacao.cotacao_equipamento }}</p>
+						<label for="celular-2">Celular 2</label>
+						<p>{{ cotacao.cotacao_phone_02 }}</p>
 					</div>
 				</div>
 
 				<div class="col-md-6">
 					<div class="form-group">
-						<label for="origem">Origem</label>
-						<p>{{ cotacao.cotacao_origem }}</p>
+						<label for="telefone">Telefone</label>
+						<p>{{ cotacao.cotacao_phone_03 }}</p>
 					</div>
 				</div>
 
 				<div class="col-md-6">
 					<div class="form-group">
-						<label for="destino">Destino</label>
-						<p>{{ cotacao.cotacao_destino }}</p>
+						<label for="ramal">Ramal</label>
+						<p>{{ cotacao.cotacao_ramal }}</p>
 					</div>
 				</div>
 
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="km">Km</label>
-						<p>{{ cotacao.cotacao_km }}</p>
-					</div>
-				</div>
-
-			</div>
-
-			<hr />
-
-			<div class="row">
-
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="comprimento">Comprimento (m)</label>
-						<p>{{ cotacao.cotacao_comp }}</p>
-					</div>
-				</div>
-
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="largura">Largura (m)</label>
-						<p>{{ cotacao.cotacao_larg }}</p>
-					</div>
-				</div>
-
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="altura">Altura (m)</label>
-						<p>{{ cotacao.cotacao_alt }}</p>
-					</div>
-				</div>
-
-			</div>				
+			</div>		
 
 		</div>
 		<div class="col-md-6">
 
 			<div class="row">
 
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="status">Status</label>
+						<p>{{ cotacao.cotacao_status_text }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="data-cadastro">Data de cadastro</label>
+						<p>{{ cotacao.cotacao_cadastro_data * 1000 | date:'dd/MM/yyyy HH:mm' }}</p>
+					</div>
+				</div>
+
 				<div class="col-md-12">
 					<div class="form-group">
-						<label for="descricao">Descrição</label>
-						<p>{{ cotacao.cotacao_descricao }}</p>
+						<label for="vendedor">Vendedor</label>
+						<p>{{ cotacao.vendedor_nome }}</p>
+					</div>
+				</div>
+
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="vendedor">Categoria</label>
+						<p>{{ cotacao.cat_name }}</p>
 					</div>
 				</div>
 
 			</div>
 
 			<hr />
+				
+			<div class="form-group">
+				<label for="nome-projeto">Nome do projeto</label>
+				<p>{{ cotacao.cotacao_projeto_nome }}</p>
+			</div>
 
-			<div class="row">
+			<div class="form-group">
+				<label for="descricao-projeto">Descrição do projeto</label>
+				<p>{{ cotacao.cotacao_projeto_descricao }}</p>
+			</div>
 
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="valor-unitario">Valor unitário</label>
-						<p>{{ cotacao.cotacao_valor_un }}</p>
-					</div>
+			<div class="form-group">
+				<label for="descricao">Cotação com valores inclusos</label>
+				<div class="row">
+					<div class="col-md-6" ng-if="cotacao.cotacao_vi_imposto_icms">Imposto - ICMS</div>
+					<div class="col-md-6" ng-if="cotacao.cotacao_vi_imposto_inss">Imposto - INSS</div>
+					<div class="col-md-6" ng-if="cotacao.cotacao_vi_imposto_ir">Imposto - IR</div>
+					<div class="col-md-6" ng-if="cotacao.cotacao_vi_taxas">Taxas/Licenças</div>
+					<div class="col-md-6" ng-if="cotacao.cotacao_vi_iss">Imposto ISS</div>
+					<div class="col-md-6" ng-if="cotacao.cotacao_vi_escolta">Escolta</div>
+					<div class="col-md-6" ng-if="cotacao.cotacao_vi_imposto_pis_cofins">Imposto - PIS/COFINS/CSLL</div>	
+					<div class="col-md-6" ng-if="cotacao.cotacao_vi_seguro">Seguro {{ cotacao.cotacao_vi_seguro_percent }}% sob merc.</div>
 				</div>
-
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="valor-total">Valor total</label>
-						<p>{{ cotacao.cotacao_valor_total }}</p>
-					</div>
-				</div>
-
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="peso-unitario">Peso unitário (Kg)</label>
-						<p>{{ cotacao.cotacao_peso_un }}</p>
-					</div>
-				</div>
-
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="peso-total">Peso total (Kg)</label>
-						<p>{{ cotacao.cotacao_peso_total }}</p>
-					</div>
-				</div>
-
 			</div>
 
 		</div>
 
+	</div>
+
+	<div class="box-subtitle margin-top-30">
+		<h2>Objeto da operação</h2>
+	</div>
+
+	<div class="row">
+		<div class="col-md-8">
+
+			<div class="form-group">
+				<label for="descricao">Descrição do objeto de operação</label>
+				<p>{{ cotacao.cotacao_objeto_operacao }}</p>
+			</div>
+			
+		</div>
+	</div>
+
+	<div class="box-subtitle margin-top-30">
+		<h2>Característica Manual</h2>
+	</div>		
+
+	<table class="table table-striped margin-top-20">
+		<tr>
+			<th class="text-center">Item</th>
+			<th>Descrição</th>
+			<th>Origem / Destino</th>
+			<th class="text-center">Distância<br />(km)</th>
+			<th class="text-center">Dimensão<br />(CxLxA)</th>
+			<th class="text-center">Peso<br />(kg)</th>
+			<th class="text-center">Equipamento</th>
+			<th class="text-center">Valor</th>
+			<th></th>
+		</tr>
+		<tr ng-repeat="(key, val) in cotacao.cotacao_caracteristica_objetos track by key">
+			<td class="text-center">
+				{{ val.objeto_item }}
+			</td>
+			<td>
+				<strong>{{ val.objeto_descricao }}</strong><br />
+				<small>Qtd: {{ val.objeto_quantidade }}</small>
+			</td>
+			<td>
+				<span>{{ val.objeto_origem }}</span><br />
+				<span>{{ val.objeto_destino }}</span>
+			</td>
+			<td class="text-center">
+				{{ val.objeto_quilometragem }}
+			</td>
+			<td class="text-center">
+				{{ val.objeto_comprimento }} <br />
+			 	{{ val.objeto_largura }} <br />
+			 	{{ val.objeto_altura }}
+			 </td>
+			 <td class="text-center">
+				<small>Unit:</small> {{ val.objeto_peso_unit }}<br />
+			 	<small>Total:</small> {{ val.objeto_peso_total }}
+			 </td>
+			 <td class="text-center">
+				{{ val.objeto_equipamento }}
+			 </td>
+			 <td class="text-center">
+				<small>Unit:</small> {{ val.objeto_valor_unit }}<br />
+			 	<small>Total:</small> {{ val.objeto_valor_total }}
+			 </td>
+			 <td>
+				<button class="btn btn-sm btn-warning"><i class="icon-pencil icons"></i></button>
+				<button class="btn btn-sm btn-danger"><i class="icon-trash icons"></i></button>
+			 </td>
+		</tr>
+		<tr ng-if="cotacao.cotacao_caracteristica_objetos.length == 0">
+			<td colspan="9" class="text-center"><strong>Nenhum objeto cadastrado</strong></td>
+		</tr>
+		<tr>
+			<th colspan="8"></th>
+			<th>Total: </th>
+		</tr>
+	</table>
+
+	<hr class="margin-top-40" />
+
+	<div class="box-subtitle margin-top-30">
+		<h2>Característica Anexo</h2>
+	</div>	
+
+	<table class="table table-striped margin-top-20">
+		<tr>
+			<th>Arquivo</th>
+			<th>Data</th>
+		</tr>
+	</table>
+
+	<div class="box-subtitle margin-top-30">
+		<h2>Condições comerciais</h2>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6">
+
+			<div class="form-group">
+				<label for="seguro">Seguro</label>
+				<p>{{ cotacao.cotacao_seguro }}</p>
+			</div>
+
+			<div class="form-group">
+				<label for="impostos">Impostos</label>
+				<p>{{ cotacao.cotacao_impostos }}</p>
+			</div>
+
+			<div class="form-group">
+				<label for="condicoes-pagamento">Condições de pagamento</label>
+				<p>{{ cotacao.cotacao_condicoes_pagamento }}</p>
+			</div>
+
+			<div class="form-group">
+				<label for="validade-proposta">Validade da proposta</label>
+				<p>{{ cotacao.cotacao_validade_proposta }}</p>
+			</div>
+
+		</div>
+		<div class="col-md-6">
+
+			<div class="form-group">
+				<label for="forma-pagamento">Forma de pagamento</label>
+				<p>{{ cotacao.forma_nome }}</p>
+			</div>
+
+			<div class="form-group">
+				<label for="status-cadastro">Status de cadastro</label>
+				<p>{{ cotacao.cotacao_status_cadastro }}</p>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="box-subtitle margin-top-30">
+		<h2>Carga / Descarga</h2>
+	</div>
+
+	<div class="row">
+		<div class="col-md-8">
+
+			<div class="form-group">
+				<label for="carga-descarga">Descrição de carga e descarga</label>
+				<p>{{ cotacao.cotacao_carga_descarga }}</p>
+			</div>
+			
+		</div>
+	</div>
+
+	<div class="box-subtitle margin-top-30">
+		<h2>Equipamentos transportadores</h2>
+	</div>
+
+	<div class="row">
+		<div class="col-md-8">
+
+			<div class="form-group">
+				<label for="equipamentos">Observações de equipamentos a ser utilizado</label>
+				<p>{{ cotacao.cotacao_equipamentos }}</p>
+			</div>
+			
+		</div>
+	</div>
+
+	<div class="box-subtitle margin-top-30">
+		<h2>Carência / Estadia</h2>
+	</div>
+
+	<div class="row">
+		<div class="col-md-8">
+
+			<div class="form-group">
+				<label for="carencia-estadia">Observações sobre carência e estadia</label>
+				<p>{{ cotacao.cotacao_carencia }}</p>
+			</div>
+			
+		</div>
+	</div>
+
+	<div class="box-subtitle margin-top-30">
+		<h2>Prazo de execução</h2>
+	</div>
+
+	<div class="row">
+		<div class="col-md-8">
+
+			<div class="form-group">
+				<label for="prazo-execucao">Observações sobre prazo de execução</label>
+				<p>{{ cotacao.cotacao_prazo_execucao }}</p>
+			</div>
+			
+		</div>
+	</div>
+
+	<div class="box-subtitle margin-top-30">
+		<h2>Considerações gerais</h2>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6">
+
+			<div class="form-group">
+				<label for="observacoes-finais">Observações finais</label>
+				<p>{{ cotacao.cotacao_observacoes_finais }}</p>
+			</div>
+			
+		</div>
+		<div class="col-md-6">
+
+			<div class="form-group">
+				<label for="observacoes-internas">Observações internas / Comercial</label>
+				<p>{{ cotacao.cotacao_observacoes_internas }}</p>
+			</div>
+			
+		</div>
 	</div>
 
 	<div class="cadastro-footer margin-top-25">

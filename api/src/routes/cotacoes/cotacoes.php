@@ -42,4 +42,10 @@ $app->post('/cotacoes/getnextcode', function (Request $request, Response $respon
 	return $response->withJson($data);
 });
 
+$app->get('/cotacoes/revisoes/get/{id}', function (Request $request, Response $response, array $args) {
+	$revisoes = new Cotacoes($this->db);
+	$data = $revisoes->get_revisoes($args['id']);
+	return $response->withJson($data);
+});
+
 ?>

@@ -15,9 +15,17 @@
 
             $rootScope.is_loading = true;
 
-        	$http.get('/api/public/cotacoes/get?current_page='+$scope.currentPage).then(function (response) {
+            var rest_address = '/api/public/cotacoes/get';
 
-                console.log(response)
+            // Pagination
+            rest_address = rest_address + '?current_page=' + $scope.currentPage;
+
+            // Filter
+            $.each($rootScope.get_filters, function(key, val){
+                rest_address += '&' + key + '=' + val;
+            });
+
+        	$http.get(rest_address).then(function (response) {
 
                 $scope.cotacoes = response.data;
                 $scope.cotacoes.config.current_page = parseInt($scope.cotacoes.config.current_page);
@@ -34,27 +42,31 @@
         $rootScope.is_loading = true;
         $scope.get_cotacoes();
 
-    
-        $scope.delete_cotacao = function(id){
-            if(confirm("Deseja excluir essa cotação?")){
-                $rootScope.is_loading = true;
-                $http.post('/api/public/cotacoes/delete',{ id : id }).then(function (response) {
-                    $scope.get_cotacoes();
+        // Abrir todas as revisões
+        $scope.open_revisoes = function($id){
 
-                    ngToast.create({
-                        className: 'success',
-                        content: 'Cotação excluída com sucesso'
-                    });
+            $scope.is_modal_loading = true;
+            
+            $rootScope.openModal("/app/components/cotacoes/revisoes-list.modal.html",false,$scope);
 
-                }, function(response) {
-                    $rootScope.is_error = true;
-                    $rootScope.is_error_text = "Erro: " + response.data.message;
-                }).finally(function() {
-                    $rootScope.is_loading = false;
-                });
-            }
+            $http.get('/api/public/cotacoes/revisoes/get/' + $id).then(function (response) {
+
+                $scope.cotacao_revisao = response.data;
+
+                console.log($scope.cotacao_revisao);
+
+                $scope.is_modal_loading = false;
+
+            }, function(response) {
+                $rootScope.is_error = true;
+                $rootScope.is_error_text = "Erro: " + response.data.error;
+            }).finally(function() {
+                $scope.is_modal_loading = false;
+            });
+
+           
+
         }
-
     
 
     }

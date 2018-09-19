@@ -17,20 +17,42 @@
 
 	<div class="box-subtitle"><h2>Listagem das cotações</h2></div>
 
-	<!--
+	<form action="/cotacoes">
 
-	<div class="row">
-		<div class="col-md-12">
-
-			<div class="form-group margin-bottom-0">
-				<label>Filtro</label>
-				<input type="text" class="form-control" placeholder="Busca de cliente" ng-model="search_field">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="form-group margin-bottom-0">
+					<label>Número</label>
+					<input type="text" class="form-control" placeholder="Número sequencial da cotação" name="cotacao_num" ng-model="get_filters.cotacao_num">
+				</div>
 			</div>
-
+			<div class="col-md-4">
+				<div class="form-group margin-bottom-0">
+					<label>Cliente</label>
+					<input type="text" class="form-control" placeholder="Cliente" name="cotacao_cliente" ng-model="get_filters.cotacao_cliente">
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group margin-bottom-0">
+					<label>Projeto</label>
+					<input type="text" class="form-control" placeholder="Apelido do projeto" name="cotacao_projeto" ng-model="get_filters.cotacao_projeto">
+				</div>
+			</div>
 		</div>
-	</div>
 
-	-->
+		<div class="row margin-top-10">
+			<div class="col-md-6">
+				<div ng-if="cotacoes.config.is_search">
+					<small>Mostrando {{ cotacoes.config.total }} resultados.</small>
+					<small><a href="/cotacoes" target="_self" class="text-danger">Limpar filtro</a></small>
+				</div>
+			</div>
+			<div class="col-md-6 text-right">
+				<button type="submit" class="btn btn-primary"><i class="icon-magnifier icons"></i> Buscar</button>
+			</div>
+		</div>
+
+	</form>
 
 	<table class="table table-striped margin-top-30">
 		<tr>
@@ -38,15 +60,14 @@
 			<th>Data</th>
 			<th>Cliente</th>
 			<th>Projeto</th>
-			<th>Origem / Destino</th>
 			<th>Vendedor</th>
-			<th>Status</th>
+			<th width="140">Status</th>
 			<th></th>
 		</tr>
 		<tr ng-repeat="(key, val) in cotacoes.results">
 			<td>
-				<a href="" class="text-dark">{{ val.cotacao_code }}</a><br />
-				<a href="">Ver revisões</a>
+				<a href="/cotacoes/visualizar/{{ val.id }}" class="text-dark">{{ val.cotacao_code }}</a><br />
+				<a href="#" ng-click="open_revisoes(val.id)">Ver revisões</a>
 			</td>
 			<td>
 				{{ val.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm' }}
@@ -58,17 +79,14 @@
 				{{ val.cotacao_projeto_nome }}
 			</td>
 			<td>
-				
+				{{ val.vendedor_nome }}
 			</td>
 			<td>
-				
-			</td>
-			<td>
-				{{ val.cotacao_status }}
+				{{ val.cotacao_status_text }}
 			</td>
 			<td width="150">
 				<div class="buttons-capsule">
-					<a href="/cotacoes/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">Editar</a><button href="#" ng-click="delete_cotacao(val.id)" class="btn btn-sm btn-danger">Excluir</button>
+					<a href="/cotacoes/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><a href="/cotacoes/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">Editar</a>
 				</div>
 			</td>
 		</tr>

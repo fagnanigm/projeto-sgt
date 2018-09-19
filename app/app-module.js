@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app', ['ui.router', 'ngMessages', 'ngStorage', 'ngAnimate','ngToast','ngMask','ui.bootstrap'])
+        .module('app', ['ui.router', 'ngMessages', 'ngStorage', 'ngAnimate','ngToast','ngMask','ui.bootstrap','rw.moneymask'])
         .run(run)
         .animation('.yAnimate',animation)
         .factory('PagerService', PagerService)
@@ -43,7 +43,6 @@
                         AuthenticationService.Logout();
                         $location.path('/');
                     }else{
-                        $rootScope.is_loading = false;
                         $rootScope.logged_user = response.data.user;
                         $rootScope.is_logged = true;
 

@@ -126,6 +126,10 @@
 
                 $scope.cotacao.cotacao_cadastro_data = Math.floor($scope.cotacao.cotacao_cadastro_data_obj.getTime() / 1000);
 
+                console.log($scope.cotacao)
+
+                /*
+
                 $http.post('/api/public/cotacoes/insert', $scope.cotacao).then(function (response) {
                     
                     if(response.data.result){
@@ -151,8 +155,8 @@
                     $rootScope.is_loading = false;
                 });
 
+                */
                 
-
             }
 
             
@@ -244,7 +248,9 @@
 
         /// Salva objeto na cotação
         $scope.open_objeto_form = function(){
-            $scope.objeto = {};
+            $scope.objeto = {
+                objeto_tipo_valor : 'reais'
+            };
             $rootScope.openModal("/app/components/cotacoes/objeto-form.modal.html",false,$scope);
         }
 

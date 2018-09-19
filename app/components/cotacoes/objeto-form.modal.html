@@ -91,34 +91,27 @@
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group">
-						<label for="tipo-valor-unit">Tipo</label>
-						<select class="form-control" ng-model="objeto.objeto_tipo_valor_unit">
+						<label for="tipo-valor-unit">Moeda</label>
+						<select class="form-control" ng-model="objeto.objeto_tipo_valor">
 							<option value="reais">Reais</option>
 							<option value="dolar">Dólar</option>
 							<option value="euro">Euro</option>
 						</select>
 					</div>
 				</div>
-				<div class="col-md-8">
+			</div>
+
+			<div class="row">
+				<div class="col-md-6">
 					<div class="form-group">
 						<label for="valor-unit">Valor unit.</label>
-						<input type="text" class="form-control" id="valor-unit" placeholder="Valor unit." ng-model="objeto.objeto_valor_unit" required>
+						<input type="text" class="form-control" id="valor-unit" placeholder="Valor unit." ng-model="objeto.objeto_valor_unit" money-mask required>
 					</div>
 				</div>
-				<div class="col-md-4">
-					<div class="form-group">
-						<label for="tipo-valor-total">Tipo</label>
-						<select class="form-control" ng-model="objeto.objeto_tipo_valor_total">
-							<option value="reais">Reais</option>
-							<option value="dolar">Dólar</option>
-							<option value="euro">Euro</option>
-						</select>
-					</div>
-				</div>
-				<div class="col-md-8">
+				<div class="col-md-6">
 					<div class="form-group">
 						<label for="valor-total">Valor total</label>
-						<input type="text" class="form-control" id="valor-total" placeholder="Valor total" ng-model="objeto.objeto_valor_total">
+						<input type="text" class="form-control" id="valor-total" placeholder="Valor total" ng-model="objeto.objeto_valor_total" money-mask required>
 					</div>
 				</div>
 			</div>

@@ -55,6 +55,13 @@ class Cotacoes {
 		"active"
 	);
 
+	public $cotacao_status_array = array(
+		'em-aberto' => 'Em aberto',
+		'aprovado' => 'Aprovado',
+		'aguardando-preco' => 'Aguardando preço',
+		'cancelado' => 'Cancelado'
+	);
+
 	function __construct($db = false, $item_per_page = false){
 		if(!$db){
 			die();
@@ -266,54 +273,103 @@ class Cotacoes {
 	public function get($args = array()){
 
 		$response = array();
-
-		$args['getall'] = (isset($args['getall']) ? $args['getall'] : false);
+		$is_search = false;
 
 		// Count total
-		$selectStatement = $this->db->select(array('COUNT(*) AS total'))->from('cotacoes')->whereMany(array('active' => 'Y'),'=');
-		$stmt = $selectStatement->execute();
-		$total_data = $stmt->fetch();
+		$query_count = "
+			SELECT COUNT(*) AS total
+				FROM cotacoes cm 
+					INNER JOIN (SELECT MAX(c.id) as id FROM cotacoes c GROUP BY c.id_revisao) c 
+					ON c.id = cm.id 
+				WHERE cm.active = 'Y' 
+		";
 
-		if($args['getall'] == '1'){
+		// Filtro
+		if(isset($args['cotacao_num'])){
+			if(strlen(trim($args['cotacao_num'])) > 0){
+				$query_count .= "AND cm.cotacao_code_sequencial LIKE '%".$args['cotacao_num']."%' ";
+				$is_search = true;
+			}
+		}
 
-			$config = array(
-				'total' => $total_data['total'],
-			);
+		if(isset($args['cotacao_cliente'])){
+			if(strlen(trim($args['cotacao_cliente'])) > 0){
+				$query_count .= "AND cm.cotacao_cliente_nome LIKE '%".$args['cotacao_cliente']."%' ";
+				$is_search = true;
+			}
+		}
 
-			$response['config'] = $config;
+		if(isset($args['cotacao_projeto'])){
+			if(strlen(trim($args['cotacao_projeto'])) > 0){
+				$query_count .= "AND cm.cotacao_projeto_nome LIKE '%".$args['cotacao_projeto']."%' ";
+				$is_search = true;
+			}
+		}
 
-			$select = $this->db->query('SELECT * FROM cotacoes WHERE active = \'Y\' ORDER BY create_time');
-			$response['results'] = $this->parser_fecth($select->fetchAll(\PDO::FETCH_ASSOC),'all');
+		$count = $this->db->query($query_count);
+		$total_data = $count->fetch();
 
-		}else{
 
-			$config = array(
-				'total' => $total_data['total'],
-				'item_per_page' => $this->item_per_page,
-				'total_pages' => ceil($total_data['total'] / $this->item_per_page),
-				'current_page' => (isset($args['current_page']) ? $args['current_page'] : 1 )
-			);
+		$config = array(
+			'total' => $total_data['total'],
+			'item_per_page' => $this->item_per_page,
+			'total_pages' => ceil($total_data['total'] / $this->item_per_page),
+			'current_page' => (isset($args['current_page']) ? $args['current_page'] : 1 ),
+			'is_search' => $is_search
+		);
 
-			$response['config'] = $config;
+		$response['config'] = $config;
 
-			if($config['current_page'] <= $config['total_pages']){
+		if($config['current_page'] <= $config['total_pages']){
 
-				$offset = ($config['current_page'] == '1' ? 0 : ($config['current_page'] - 1) * $config['item_per_page'] );
-				$select = $this->db->query('SELECT * FROM cotacoes WHERE active = \'Y\' ORDER BY create_time OFFSET '.$offset.' ROWS FETCH NEXT '.$config['item_per_page'].' ROWS ONLY');
-				$response['results'] = $this->parser_fecth($select->fetchAll(\PDO::FETCH_ASSOC),'all');
-				$response['config']['page_items_total'] = count($response['results']);
+			// Offset
+			$offset = ($config['current_page'] == '1' ? 0 : ($config['current_page'] - 1) * $config['item_per_page'] );
 
-			}else{
-				$response['results'] = [];
+			$query = "
+				SELECT cm.*, v.vendedor_nome
+					FROM cotacoes cm 
+						INNER JOIN (SELECT MAX(c.id) as id FROM cotacoes c GROUP BY c.id_revisao) c 
+						ON c.id = cm.id
+						INNER JOIN vendedores v 
+						ON v.id = cm.id_vendedor
+					WHERE cm.active = 'Y' 
+			";
+
+			// Filtro
+			if(isset($args['cotacao_num'])){
+				if(strlen(trim($args['cotacao_num'])) > 0){
+					$query .= "AND cm.cotacao_code_sequencial LIKE '%".$args['cotacao_num']."%' "; 
+				}
 			}
 
+			if(isset($args['cotacao_cliente'])){
+				if(strlen(trim($args['cotacao_cliente'])) > 0){
+					$query .= "AND cm.cotacao_cliente_nome LIKE '%".$args['cotacao_cliente']."%' "; 
+				}
+			}
+
+			if(isset($args['cotacao_projeto'])){
+				if(strlen(trim($args['cotacao_projeto'])) > 0){
+					$query .= "AND cm.cotacao_projeto_nome LIKE '%".$args['cotacao_projeto']."%' "; 
+				}
+			}
+
+			// Config
+			$query .= "ORDER BY create_time OFFSET ".$offset." ROWS FETCH NEXT ".$config['item_per_page']." ROWS ONLY";
+			
+			$select = $this->db->query($query);
+			$response['results'] = $this->parser_fetch($select->fetchAll(\PDO::FETCH_ASSOC),'all');
+			$response['config']['page_items_total'] = count($response['results']);
+
+		}else{
+			$response['results'] = [];
 		}
 
 		return $response;
 
 	}
 
-	public function parser_fecth($result, $fetch = 'one'){
+	public function parser_fetch($result, $fetch = 'one'){
 		if($fetch == 'one'){
 			$result = $this->apply_filter_cotacao($result);
 		}else{
@@ -347,6 +403,10 @@ class Cotacoes {
 		$cotacao['cotacao_vi_escolta'] = ($cotacao['cotacao_vi_escolta'] == 'Y' ? true : false);
 		$cotacao['cotacao_vi_imposto_pis_cofins'] = ($cotacao['cotacao_vi_imposto_pis_cofins'] == 'Y' ? true : false);
 		$cotacao['cotacao_vi_seguro'] = ($cotacao['cotacao_vi_seguro'] == 'Y' ? true : false);
+
+		$cotacao['cotacao_status_text'] = $this->cotacao_status_array[$cotacao['cotacao_status']];
+
+		$cotacao['cotacao_caracteristica_objetos'] = array();
 
 		return $cotacao;
 	}
@@ -479,13 +539,29 @@ class Cotacoes {
 			$response['error'] = 'ID não informado.';
 		}
 
-		$selectStatement = $this->db->select()->from('cotacoes')->whereMany(array('id' => $id, 'active' => 'Y'), '=');
+		$selectStatement = $this->db->query("
+			SELECT c.*, e.empresa_name, v.vendedor_nome, cat.cat_name, fg.forma_nome
+				FROM cotacoes c 
 
-		$stmt = $selectStatement->execute();
-		$data = $stmt->fetch();
+					INNER JOIN empresas e 
+					ON c.id_empresa = e.id
+
+					INNER JOIN vendedores v 
+					ON c.id_vendedor = v.id
+
+					INNER JOIN categorias cat 
+					ON c.id_categoria = cat.id
+
+					INNER JOIN formas_pagamento fg 
+					ON c.id_forma_pagamento = fg.id
+
+				WHERE c.id = '".$id."' AND c.active = 'Y'
+		");
+
+		$data = $selectStatement->fetch();
 
 		if($data){
-			$response['cotacao'] = $this->parser_fecth($data);
+			$response['cotacao'] = $this->parser_fetch($data);
 			$response['result'] = true;
 		}else{
 			$response['error'] = 'Nenhuma cotação encontrada para essa ID.';
@@ -557,6 +633,41 @@ class Cotacoes {
 		}else{
 			return false;
 		}
+
+	}
+
+	public function get_revisoes($id_cotacao = false){
+
+		$response = array(
+			'result' => false
+		);
+
+		if(!$id_cotacao){
+			$response['error'] = 'ID da cotação não informado';
+			return $response;
+		}else{
+
+			$cotacao = $this->get_by_id($id_cotacao);
+
+			if(!$cotacao['result']){
+				$response['error'] = $cotacao['error'];
+				return $response;
+			}else{
+				$cotacao = $cotacao['cotacao'];
+			}
+
+		}
+
+		$select = $this->db->query("SELECT * FROM cotacoes WHERE id_revisao = '".$cotacao['id_revisao']."' AND id != '".$cotacao['id']."' AND active = 'Y' ORDER BY create_time");
+		$revisoes = $this->parser_fetch($select->fetchAll(\PDO::FETCH_ASSOC),'all');
+
+		// ------------------------------
+
+		$response['revisoes'] = $revisoes;
+		$response['cotacao'] = $cotacao;
+		$response['result'] = true;
+
+		return $response;
 
 	}
 
