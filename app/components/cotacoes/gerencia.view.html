@@ -220,7 +220,6 @@
 				<th class="text-center">Distância<br />(km)</th>
 				<th class="text-center">Dimensão<br />(CxLxA)</th>
 				<th class="text-center">Peso<br />(kg)</th>
-				<th class="text-center">Equipamento</th>
 				<th class="text-center">Valor</th>
 				<th></th>
 			</tr>
@@ -249,23 +248,21 @@
 				 	<small>Total:</small> {{ val.objeto_peso_total }}
 				 </td>
 				 <td class="text-center">
-					{{ val.objeto_equipamento }}
-				 </td>
-				 <td class="text-center">
-					<small>Unit:</small> {{ val.objeto_valor_unit }}<br />
-				 	<small>Total:</small> {{ val.objeto_valor_total }}
+					<small>Unit:</small> {{ val.objeto_valor_unit | currency }}<br />
+				 	<small>Total:</small> {{ val.objeto_valor_total | currency }}
 				 </td>
 				 <td>
-					<button class="btn btn-sm btn-warning"><i class="icon-pencil icons"></i></button>
-					<button class="btn btn-sm btn-danger"><i class="icon-trash icons"></i></button>
+					<button type="button" ng-click="edit_objeto(key)" class="btn btn-sm btn-warning"><i class="icon-pencil icons"></i></button>
+					<button type="button" ng-click="remove_objeto(key)" class="btn btn-sm btn-danger"><i class="icon-trash icons"></i></button>
 				 </td>
 			</tr>
 			<tr ng-if="cotacao.cotacao_caracteristica_objetos.length == 0">
 				<td colspan="9" class="text-center"><strong>Nenhum objeto cadastrado</strong></td>
 			</tr>
 			<tr>
-				<th colspan="8"></th>
-				<th>Total: </th>
+				<th colspan="6"></th>
+				<th class="text-center">Total: {{ total_cotacao_objetos | currency }}</th>
+				<th></th>
 			</tr>
 		</table>
 
@@ -279,8 +276,8 @@
 
 		<table class="table table-striped margin-top-20">
 			<tr>
-				<th>Arquivo</th>
-				<th>Data</th>
+				<th width="75%">Arquivo</th>
+				<th width="25%">Data</th>
 			</tr>
 		</table>
 

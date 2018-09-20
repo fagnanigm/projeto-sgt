@@ -263,6 +263,27 @@ class Cotacoes {
 
 			}
 
+			// Insere objetos
+			if(is_array($args['cotacao_caracteristica_objetos'])){
+
+				$cotacaoObjetos = new CotacoesObjetos($this->db);
+
+				foreach ($args['cotacao_caracteristica_objetos'] as $chave => $objeto) {
+
+					$objeto['id_cotacao'] = $response['id'];
+					
+					$obj_response = $cotacaoObjetos->insert($objeto);
+
+					if(!$obj_response['result']){
+						$response['result'] = false;
+						$response['error'] = $obj_response['error'];
+						return $response;
+					}
+
+				}
+
+			}
+
 		}
 
 		return $response;
@@ -406,7 +427,11 @@ class Cotacoes {
 
 		$cotacao['cotacao_status_text'] = $this->cotacao_status_array[$cotacao['cotacao_status']];
 
-		$cotacao['cotacao_caracteristica_objetos'] = array();
+		// Puxa os objetos
+		$cotacaoObjetos = new CotacoesObjetos($this->db);
+		$cotacao_caracteristica_objetos = $cotacaoObjetos->get(array( 'id_cotacao' => $cotacao['id'] ));
+
+		$cotacao['cotacao_caracteristica_objetos'] = $cotacao_caracteristica_objetos['results'];
 
 		return $cotacao;
 	}
@@ -552,7 +577,7 @@ class Cotacoes {
 					INNER JOIN categorias cat 
 					ON c.id_categoria = cat.id
 
-					INNER JOIN formas_pagamento fg 
+					LEFT OUTER JOIN formas_pagamento fg 
 					ON c.id_forma_pagamento = fg.id
 
 				WHERE c.id = '".$id."' AND c.active = 'Y'

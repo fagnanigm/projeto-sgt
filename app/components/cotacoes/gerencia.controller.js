@@ -29,6 +29,10 @@
                     cotacao_cadastro_data_obj : new Date()
                 }
 
+                setTimeout(function(){
+                    $rootScope.is_loading = false;
+                },2000);
+
             }else{
 
                 $http.get('/api/public/cotacoes/get/' + $rootScope.$stateParams.id_cotacao ).then(function (response) {
@@ -38,9 +42,9 @@
                     $scope.cotacao.id_revisao = ($scope.cotacao.cotacao_revisao == 1 ? $scope.cotacao.id : $scope.cotacao.id_revisao );
                     $scope.cotacao.cotacao_cadastro_data_obj = new Date($scope.cotacao.cotacao_cadastro_data * 1000);
 
-                    get_cotacao_code();
+                    calc_total_cotacao_objeto();
 
-                    console.log($scope.cotacao)
+                    get_cotacao_code();
 
                 }, function(response) {
                     $rootScope.is_error = true;
@@ -126,10 +130,6 @@
 
                 $scope.cotacao.cotacao_cadastro_data = Math.floor($scope.cotacao.cotacao_cadastro_data_obj.getTime() / 1000);
 
-                console.log($scope.cotacao)
-
-                /*
-
                 $http.post('/api/public/cotacoes/insert', $scope.cotacao).then(function (response) {
                     
                     if(response.data.result){
@@ -155,7 +155,6 @@
                     $rootScope.is_loading = false;
                 });
 
-                */
                 
             }
 
@@ -166,8 +165,6 @@
 
             $http.get('/api/public/empresas/get?getall=1').then(function (response) {
                 $scope.empresas = response.data.results;
-            }).finally(function() {
-                $rootScope.is_loading = false;
             });
 
         }
@@ -176,8 +173,6 @@
 
             $http.get('/api/public/vendedores/get?getall=1').then(function (response) {
                 $scope.vendedores = response.data.results;
-            }).finally(function() {
-                $rootScope.is_loading = false;
             });
 
         }
@@ -186,8 +181,6 @@
 
             $http.get('/api/public/categorias/get?getall=1').then(function (response) {
                 $scope.categorias = response.data.results;
-            }).finally(function() {
-                $rootScope.is_loading = false;
             });
 
         }
@@ -196,8 +189,6 @@
 
             $http.get('/api/public/formas-pagamento/get?getall=1').then(function (response) {
                 $scope.formas_pagamento = response.data.results;
-            }).finally(function() {
-                $rootScope.is_loading = false;
             });
 
         }
@@ -249,15 +240,23 @@
         /// Salva objeto na cotação
         $scope.open_objeto_form = function(){
             $scope.objeto = {
-                objeto_tipo_valor : 'reais'
+                objeto_tipo_valor : 'reais',
+                is_edit : false
             };
             $rootScope.openModal("/app/components/cotacoes/objeto-form.modal.html",false,$scope);
         }
 
         $scope.save_cotacao_objeto = function(){
-            $scope.cotacao.cotacao_caracteristica_objetos.push($scope.objeto);
+
+            if(!$scope.objeto.is_edit){
+                $scope.cotacao.cotacao_caracteristica_objetos.push($scope.objeto);
+            }else{
+                $scope.cotacao.cotacao_caracteristica_objetos[$scope.objeto.key] = $scope.objeto;
+            }
+            
             $scope.objeto = {};
             $rootScope.closeModal();
+            calc_total_cotacao_objeto();
 
             ngToast.create({
                 className: 'success',
@@ -265,6 +264,29 @@
             });
 
         } 
+
+        $scope.edit_objeto = function(key){
+            $scope.objeto = $scope.cotacao.cotacao_caracteristica_objetos[key];
+            $scope.objeto.is_edit = true;
+            $scope.objeto.key = key;
+            $rootScope.openModal("/app/components/cotacoes/objeto-form.modal.html",false,$scope);
+        }
+
+        $scope.remove_objeto = function(key){
+            if(confirm("Deseja remover esse objeto?")){
+                $scope.cotacao.cotacao_caracteristica_objetos.splice(key, 1);
+                calc_total_cotacao_objeto();
+            }
+        }
+
+        function calc_total_cotacao_objeto(){
+
+            $scope.total_cotacao_objetos = 0;
+            $.each($scope.cotacao.cotacao_caracteristica_objetos, function(key, val){
+                $scope.total_cotacao_objetos += parseFloat(val.objeto_valor_total);
+            });
+
+        }
 
 
         // Obtem código automaticamente
@@ -313,7 +335,6 @@
             });
 
         }
-
 
         
     }
