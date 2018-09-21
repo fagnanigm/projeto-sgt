@@ -1156,3 +1156,11 @@ textarea.form-control {
 .modal-results-box .table td, .modal-results-box .table th {
     border: 0px;
 }
+
+.drag-drop-box {
+    text-align: center;
+    border:2px dashed #dee2e6;
+    padding: 40px 0px;
+    text-transform: uppercase;
+    font-size: 12px;
+}

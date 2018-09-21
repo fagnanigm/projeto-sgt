@@ -1,0 +1,14 @@
+- Revisão de todos os links
+- Fixar menu superior
+- "Ler mais" para "Saiba mais"
+- Na parte quem somos da home, linkar boxes para página
+- Alterar endereço
+- Captcha no formulário de contato
+- Atualizar clientes
+	- Sage
+	- Garbuio
+	- Cruz de Malta
+	- D QUEIROZ
+	- SPRING WIRELESS
+- Trocar a importação de dados por integração de dados
+

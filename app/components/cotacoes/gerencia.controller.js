@@ -336,6 +336,14 @@
 
         }
 
+        // Files 
+
+        $scope.save_to_cotacao = function(args){
+
+            args = $.parseJSON(args);
+            console.log(args);
+        }
+
         
     }
 

@@ -274,14 +274,30 @@
 			<h2>Característica Anexo</h2>
 		</div>	
 
-		<table class="table table-striped margin-top-20">
-			<tr>
-				<th width="75%">Arquivo</th>
-				<th width="25%">Data</th>
-			</tr>
-		</table>
+		<div flow-init="{target: '/api/public/upload', testChunks: false, chunkSize: 1024*1024*1024}"
+			flow-files-submitted="$flow.upload()"
+			flow-file-success="$file.msg = $message; save_to_cotacao($message)">			
 
-		<button class="btn btn-sm btn-primary"><i class="fa fa-upload" aria-hidden="true"></i> Carregar arquivo</button>
+			<table class="table table-striped margin-top-20">
+				<tr>
+					<th width="75%">Arquivo</th>
+					<th width="25%">Data</th>
+				</tr>
+				<tr ng-repeat="file in $flow.files">
+					<td>{{file.name}}</td>
+					<td>{{file.msg}}</td>
+				</tr>
+			</table>
+
+			<div class="drag-drop-box" flow-drop>
+			    Arraste os seus arquivos aqui
+			</div>
+
+			<button type="button" class="btn btn-sm btn-primary margin-top-20" flow-btn><i class="fa fa-upload" aria-hidden="true"></i> Carregar arquivo</button>
+
+		</div>
+
+		
 
 		<div class="box-subtitle margin-top-30">
 			<h2>Condições comerciais</h2>

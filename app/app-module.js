@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app', ['ui.router', 'ngMessages', 'ngStorage', 'ngAnimate','ngToast','ngMask','ui.bootstrap','rw.moneymask'])
+        .module('app', ['ui.router', 'ngMessages', 'ngStorage', 'ngAnimate','ngToast','ngMask','ui.bootstrap','rw.moneymask','flow'])
         .run(run)
         .animation('.yAnimate',animation)
         .factory('PagerService', PagerService)

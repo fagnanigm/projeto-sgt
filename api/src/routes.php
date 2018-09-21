@@ -59,3 +59,6 @@ require 'routes/vendedores/vendedores.php';
 
 // FORMAS PAGAMENTO
 require 'routes/formas-pagamento/formas-pagamento.php';
+
+// UPLOAD
+require 'routes/upload/upload.php';

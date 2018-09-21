@@ -9,6 +9,8 @@ if (PHP_SAPI == 'cli-server') {
     }
 }
 
+define("UPLOAD_PATH", $_SERVER['DOCUMENT_ROOT'].'/api/public');
+
 require __DIR__ . '/../vendor/autoload.php';
 
 session_start();
@@ -27,6 +29,8 @@ require __DIR__ . '/../src/middleware.php';
 
 // Register routes
 require __DIR__ . '/../src/routes.php';
+
+
 
 // Run app
 $app->run();
