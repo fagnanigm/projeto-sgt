@@ -33,3 +33,5 @@ sudo su
 sudo su
 sudo su -
 sudo su
+htop
+sudo su

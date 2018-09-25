@@ -284,6 +284,25 @@ class Cotacoes {
 
 			}
 
+			// Salva anexos
+			if(is_array($args['cotacao_anexos_objetos'])){
+
+				foreach ($args['cotacao_anexos_objetos'] as $key => $anexo) {
+
+					$data = array(
+						'id_cotacao' => $response['id'],
+						'id_arquivo' => $anexo['id'],
+						'create_time' => $date->format("Y-m-d\TH:i:s")
+					);
+					
+					$insertStatement = $this->db->insert(array_keys($data))->into('cotacoes_arquivos')->values(array_values($data));
+					$insertStatement->execute();
+
+				}
+
+			}
+
+
 		}
 
 		return $response;
@@ -433,6 +452,26 @@ class Cotacoes {
 
 		$cotacao['cotacao_caracteristica_objetos'] = $cotacao_caracteristica_objetos['results'];
 
+		$select = $this->db->query("
+			SELECT a.* FROM cotacoes_arquivos ca
+				LEFT JOIN arquivos a 
+				ON ca.id_arquivo = a.id
+			WHERE ca.id_cotacao = '".$cotacao['id']."';
+		");
+
+		$cotacao_anexos_objetos = $select->fetchAll(\PDO::FETCH_ASSOC);
+
+		if(is_array($cotacao_anexos_objetos)){
+			foreach ($cotacao_anexos_objetos as $key => $value) {	
+				$create_time = new \DateTime($value['create_time']);
+				$cotacao_anexos_objetos[$key]['create_timestamp'] = $create_time->getTimestamp();
+			}
+		}else{
+			$cotacao_anexos_objetos = array();
+		}
+
+		$cotacao['cotacao_anexos_objetos'] = $cotacao_anexos_objetos;
+		
 		return $cotacao;
 	}
 

@@ -12,132 +12,148 @@
 			<div class="col-md-6">
 
 				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="codigo">Código</label>
-							<input type="text" class="form-control" id="codigo" ng-model="projeto.projeto_codigo" required>
-						</div>
-					</div>
-				</div>
 
-				<div class="row">
 					<div class="col-md-12">
-						<div class="form-group">
-							<label for="cliente">Cliente (n. fantasia)</label>
-							<input type="text" class="form-control" id="cliente" ng-model="projeto.projeto_cliente">
-						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="form-group">
-							<label for="contato">Contato</label>
-							<input type="text" class="form-control" id="contato" ng-model="projeto.projeto_contato">
-						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="form-group">
-							<label for="email">E-mail</label>
-							<input type="text" class="form-control" id="email" ng-model="projeto.projeto_email">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="celular1">Celular 1 / WhatsApp</label>
-							<input type="text" class="form-control" id="celular1" ng-model="projeto.projeto_phone1" mask="(99) 9?9999-9999">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="celular2">Celular 2</label>
-							<input type="text" class="form-control" id="celular2" ng-model="projeto.projeto_phone2" mask="(99) 9?9999-9999">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="telefonefixo">Telefone Fixo</label>
-							<input type="text" class="form-control" id="telefonefixo" ng-model="projeto.projeto_phone3" mask="(99) 9?9999-9999">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="ramal">Ramal</label>
-							<input type="text" class="form-control" id="ramal" ng-model="projeto.projeto_ramal">
-						</div>
-					</div>
-				</div>
-
-			</div>
-			<div class="col-md-6">
-
-				<div class="row">
-					<div class="col-md-6">
 						<div class="form-group">
 							<label for="filial">Filial</label>
-							<input type="text" class="form-control" id="filial" ng-model="projeto.projeto_filial">
-						</div>
-					</div>
-
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="status">Status</label>
-							<select class="form-control" ng-model="projeto.projeto_status">
-								<option value="em-aberto">Em aberto</option>
-								<option value="finalizado">Finalizado</option>
-								<option value="suspenso">Suspenso</option>
-								<option value="em-viagem">Em viagem</option>
+							<select class="form-control" name="id_empresa" ng-model="cotacao.id_empresa" ng-change="empresa_change()">
+								<option value="0">Selecionar...</option>
+								<option ng-repeat="(key, val) in empresas" value="{{ val.id }}" data-prefixo="{{ val.empresa_prefixo }}">{{ val.empresa_name }}</option>
 							</select>
 						</div>
 					</div>
 
-					<!-- 
-
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="data-cadastro">Data de cadastro</label>
-							<input type="date" class="form-control" id="data-cadastro" ng-model="projeto.projeto_data_cadastro">
-						</div>
-					</div>
-
-					-->
-
-					<div class="col-md-12">
-						<div class="form-group">
-							<label for="vendedor">Vendedor</label>
-							<input type="text" class="form-control" id="vendedor" ng-model="projeto.projeto_vendedor">
-						</div>
-					</div>
-
-				</div>
-
-				<div class="row margin-top-55">
-
 					<div class="col-md-8">
 						<div class="form-group">
-							<label for="apelido">Projeto (Apelido)</label>
-							<input type="text" class="form-control" id="apelido" ng-model="projeto.projeto_apelido" required>
+							<label for="codigo">Código</label>
+							<input type="text" class="form-control" id="codigo" placeholder="Código" ng-model="cotacao.cotacao_code" ng-readonly="cotacao.id_empresa == '0' || $state.name == 'update-cotacao'" required>
 						</div>
 					</div>
 
 					<div class="col-md-4">
 						<div class="form-group">
-							<label for="cotacao-cod">Cód. Cotação</label>
-							<input type="text" class="form-control" id="cotacao-cod" ng-model="projeto.projeto_cod_cotacao">
+							<label for="revisao">Revisão</label>
+							<input type="text" class="form-control" id="revisao" placeholder="Revisão" ng-model="cotacao.cotacao_revisao" readonly>
 						</div>
 					</div>
 
-					
 					<div class="col-md-12">
 						<div class="form-group">
-							<label for="resumo-projeto">Resumo do projeto</label>
-							<textarea class="form-control" ng-model="projeto.projeto_resumo"></textarea>
+							<label for="cliente">Cliente</label>
+							<div class="input-group">
+								<input type="text" class="form-control" id="cliente" placeholder="Selecione um cliente..." ng-model="cotacao.cotacao_cliente_nome" readonly>
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="button" ng-click="open_choose_cliente('main_cliente')"><i class="icon-magnifier icons"></i></button>
+								</div>
+							</div>
 						</div>
 					</div>
 
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="contato">Contato</label>
+							<input type="text" class="form-control" id="contato" placeholder="Contato" ng-model="cotacao.cotacao_contato">
+						</div>
+					</div>
+
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="email">E-mail</label>
+							<input type="text" class="form-control" id="email" placeholder="E-mail" ng-model="cotacao.cotacao_email">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="celular-1">Celular 1</label>
+							<input type="text" class="form-control" id="celular-1" placeholder="Celular 1" ng-model="cotacao.cotacao_phone_01">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="celular-2">Celular 2</label>
+							<input type="text" class="form-control" id="celular-2" placeholder="Celular 2" ng-model="cotacao.cotacao_phone_02">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="telefone">Telefone</label>
+							<input type="text" class="form-control" id="telefone" placeholder="Telefone" ng-model="cotacao.cotacao_phone_03">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="ramal">Ramal</label>
+							<input type="text" class="form-control" id="ramal" placeholder="Ramal" ng-model="cotacao.cotacao_ramal">
+						</div>
+					</div>
+
+				</div>		
+
+			</div>
+			<div class="col-md-6">
+
+				<div class="row">
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="status">Status</label>
+							<select class="form-control" ng-model="cotacao.cotacao_status">
+								<option value="0">Selecionar...</option>
+								<option value="em-aberto">Em aberto</option>
+								<option value="aprovado">Aprovado</option>
+								<option value="aguardando-preco">Aguardando preço</option>
+								<option value="cancelado">Cancelado</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="data-cadastro">Data de cadastro</label>
+							<input type="date" class="form-control" id="data-cadastro" ng-model="cotacao.cotacao_cadastro_data_obj">
+						</div>
+					</div>
+
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="vendedor">Vendedor</label>
+							<select class="form-control" ng-model="cotacao.id_vendedor">
+								<option value="0">Selecionar...</option>
+								<option ng-repeat="(key, val) in vendedores" value="{{ val.id }}">{{ val.vendedor_nome }}</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="vendedor">Categoria</label>
+							<select class="form-control" ng-model="cotacao.id_categoria">
+								<option value="0">Selecionar...</option>
+								<option ng-repeat="(key, val) in categorias" value="{{ val.id }}">{{ val.cat_name }}</option>
+							</select>
+						</div>
+					</div>
 
 				</div>
 
-				
+				<hr />
+					
+				<div class="form-group">
+					<label for="nome-projeto">Nome do projeto</label>
+					<input type="text" class="form-control" id="nome-projeto" placeholder="Nome do projeto" ng-model="cotacao.cotacao_projeto_nome" required>
+				</div>
 
+				<div class="form-group">
+					<label for="descricao-projeto">Descrição do projeto</label>
+					<textarea class="form-control" id="descricao-projeto" ng-model="cotacao.cotacao_projeto_descricao"></textarea>
+				</div>
+				
 			</div>
+
 		</div>
 
 		<div class="box-subtitle">

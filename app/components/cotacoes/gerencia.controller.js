@@ -26,7 +26,8 @@
                     cotacao_revisao : '0',
                     cotacao_status : '0',
                     cotacao_caracteristica_objetos : [],
-                    cotacao_cadastro_data_obj : new Date()
+                    cotacao_cadastro_data_obj : new Date(),
+                    cotacao_anexos_objetos : []
                 }
 
                 setTimeout(function(){
@@ -41,7 +42,7 @@
                     $scope.cotacao.cotacao_revisao =  parseInt($scope.cotacao.cotacao_revisao) + 1;
                     $scope.cotacao.id_revisao = ($scope.cotacao.cotacao_revisao == 1 ? $scope.cotacao.id : $scope.cotacao.id_revisao );
                     $scope.cotacao.cotacao_cadastro_data_obj = new Date($scope.cotacao.cotacao_cadastro_data * 1000);
-
+                    
                     calc_total_cotacao_objeto();
 
                     get_cotacao_code();
@@ -341,7 +342,11 @@
         $scope.save_to_cotacao = function(args){
 
             args = $.parseJSON(args);
-            console.log(args);
+
+            if(args.result){
+                $scope.cotacao.cotacao_anexos_objetos.push(args.data);
+            }
+
         }
 
         

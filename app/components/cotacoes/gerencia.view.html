@@ -276,16 +276,16 @@
 
 		<div flow-init="{target: '/api/public/upload', testChunks: false, chunkSize: 1024*1024*1024}"
 			flow-files-submitted="$flow.upload()"
-			flow-file-success="$file.msg = $message; save_to_cotacao($message)">			
+			flow-file-success="$file.nome = $message; save_to_cotacao($message)">			
 
 			<table class="table table-striped margin-top-20">
 				<tr>
 					<th width="75%">Arquivo</th>
 					<th width="25%">Data</th>
 				</tr>
-				<tr ng-repeat="file in $flow.files">
-					<td>{{file.name}}</td>
-					<td>{{file.msg}}</td>
+				<tr ng-repeat="(key, val) in cotacao.cotacao_anexos_objetos">
+					<td><a href="/api/public{{ val.file_path }}" target="_blank">{{ val.file_name }}</a></td>
+					<td>{{ val.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm' }}</td>
 				</tr>
 			</table>
 

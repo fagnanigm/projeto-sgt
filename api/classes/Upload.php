@@ -60,6 +60,17 @@ class Upload {
 	    $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
 	    $basename = $this->file_name_format($uploadedFile->getClientFilename());
 	    $filename = sprintf('%s.%0.8s', $basename, $extension);
+
+	    $num = 1;
+
+	    while(file_exists($directory['path'] . $filename)){
+
+	    	$basename = $this->file_name_format($uploadedFile->getClientFilename()) . '-' . $num;
+	    	$filename = sprintf('%s.%0.8s', $basename, $extension);
+	    	$num++;
+
+	    }
+	    
 	    $uploadedFile->moveTo($directory['path'] . $filename);
 
 	    $date = new \DateTime();	
@@ -67,13 +78,16 @@ class Upload {
 	    $data = array(
 	    	'file_name' => $filename,
 	    	'file_path' => $directory['uri'] . $filename,
-	    	'create_time' => $date->format("Y-m-d\TH:i:s"),
+	    	'create_time' => $date->format("Y-m-d\TH:i:s")
 	    );
 
 	    $insertStatement = $this->db->insert(array_keys($data))->into('arquivos')->values(array_values($data));
 		$data['id'] = $insertStatement->execute();
 
 		if(strlen($data['id']) > 0){
+
+			$data['create_timestamp'] = $date->getTimestamp();
+
 			$response['result'] = true;
 			$response['data'] = $data;
 		}
