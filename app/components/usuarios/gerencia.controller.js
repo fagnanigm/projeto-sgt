@@ -21,6 +21,8 @@
                     permission : 'master'
                 }
 
+                $rootScope.is_loading = false;
+
             }else{
 
                 $http.get('/api/public/users/get/' + $rootScope.$stateParams.id_user).then(function (response) {

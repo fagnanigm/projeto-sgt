@@ -8,1620 +8,1340 @@
 			<h2>Cadastro / edição de autorização de serviço</h2>
 		</div>
 
-		<div class="row">
-			<div class="col-md-6">
+		<ul class="nav nav-tabs" id="tabs-gerencia-as" role="tablist">
 
+			<li class="nav-item">
+				<a class="nav-link active" id="dados-do-projeto-tab" data-toggle="tab" href="#dados-do-projeto" role="tab">
+					<i class="fa fa-file-text-o" aria-hidden="true"></i> Dados do projeto
+				</a>
+			</li>
+
+			<li class="nav-item">
+				<a class="nav-link" id="as-tab" data-toggle="tab" href="#as" role="tab">
+					<i class="fa fa-briefcase" aria-hidden="true"></i> AS
+				</a>
+			</li>
+
+			<li class="nav-item">
+				<a class="nav-link" id="operacional-tab" data-toggle="tab" href="#operacional" role="tab">
+					<i class="fa fa-cog" aria-hidden="true"></i> Operacional
+				</a>
+			</li>
+
+			<li class="nav-item">
+				<a class="nav-link" id="faturamento-tab" data-toggle="tab" href="#faturamento" role="tab">
+					<i class="fa fa-calculator" aria-hidden="true"></i> Faturamento
+				</a>
+			</li>
+
+			<li class="nav-item">
+				<a class="nav-link" id="financeiro-tab" data-toggle="tab" href="#financeiro" role="tab">
+					<i class="fa fa-dollar" aria-hidden="true"></i> Financeiro
+				</a>
+			</li>
+
+		</ul>
+
+
+		<div class="tab-content margin-top-40">
+
+			<!-- Dados do projeto -->
+			<div class="tab-pane fade show active" id="dados-do-projeto" role="tabpanel">
+				
 				<div class="row">
 					<div class="col-md-6">
-						<div class="form-group">
-							<label for="codigo">Código</label>
-							<input type="text" class="form-control" id="codigo" placeholder="Código" ng-model="as.as_codigo" mask="999999/9-9">
-						</div>
+
+						<div class="row">
+
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="filial">Filial</label>
+									<select class="form-control" name="id_empresa" ng-model="cotacao.id_empresa" ng-change="empresa_change()">
+										<option value="0">Selecionar...</option>
+										<option ng-repeat="(key, val) in empresas" value="{{ val.id }}" data-prefixo="{{ val.empresa_prefixo }}">{{ val.empresa_name }}</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="col-md-8">
+								<div class="form-group">
+									<label for="codigo">Código</label>
+									<input type="text" class="form-control" id="codigo" placeholder="Código" ng-model="cotacao.cotacao_code" ng-readonly="cotacao.id_empresa == '0' || $state.name == 'update-cotacao'" required>
+								</div>
+							</div>
+
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="revisao">Revisão</label>
+									<input type="text" class="form-control" id="revisao" placeholder="Revisão" ng-model="cotacao.cotacao_revisao" readonly>
+								</div>
+							</div>
+
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="cliente">Cliente</label>
+									<div class="input-group">
+										<input type="text" class="form-control" id="cliente" placeholder="Selecione um cliente..." ng-model="cotacao.cotacao_cliente_nome" readonly>
+										<div class="input-group-append">
+											<button class="btn btn-primary" type="button" ng-click="open_choose_cliente('main_cliente')"><i class="icon-magnifier icons"></i></button>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="contato">Contato</label>
+									<input type="text" class="form-control" id="contato" placeholder="Contato" ng-model="cotacao.cotacao_contato">
+								</div>
+							</div>
+
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="email">E-mail</label>
+									<input type="text" class="form-control" id="email" placeholder="E-mail" ng-model="cotacao.cotacao_email">
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="celular-1">Celular 1</label>
+									<input type="text" class="form-control" id="celular-1" placeholder="Celular 1" ng-model="cotacao.cotacao_phone_01" mask="(99) 9?9999-9999">
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="celular-2">Celular 2</label>
+									<input type="text" class="form-control" id="celular-2" placeholder="Celular 2" ng-model="cotacao.cotacao_phone_02" mask="(99) 9?9999-9999">
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="telefone">Telefone</label>
+									<input type="text" class="form-control" id="telefone" placeholder="Telefone" ng-model="cotacao.cotacao_phone_03" mask="(99) 9?9999-9999">
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="ramal">Ramal</label>
+									<input type="text" class="form-control" id="ramal" placeholder="Ramal" ng-model="cotacao.cotacao_ramal">
+								</div>
+							</div>
+
+						</div>		
+
 					</div>
 					<div class="col-md-6">
-						<div class="form-group">
-							<label for="revisao">Revisão</label>
-							<input type="text" class="form-control" id="revisao" placeholder="Revisão" ng-model="as.as_revisao">
-						</div>
-					</div>
-				</div>
 
-				<div class="row">
-					<div class="col-md-12">
-						<div class="form-group">
-							<label for="cliente-nome-fantasia">Cliente (n. fantasia)</label>
-						
-							<div class="input-group">
-		  						<input type="text" class="form-control" placeholder="Selecionar cliente" id="cliente-nome-fantasia" ng-model="as.as_cliente_fantasia">
-								<div class="input-group-append">
-									<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_cliente('main_cliente')"><i class="icon-magnifier icons"></i></button>
+						<div class="row">
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="status">Status</label>
+									<select class="form-control" ng-model="cotacao.cotacao_status">
+										<option value="0">Selecionar...</option>
+										<option value="em-aberto">Em aberto</option>
+										<option value="aprovado">Aprovado</option>
+										<option value="aguardando-preco">Aguardando preço</option>
+										<option value="cancelado">Cancelado</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="data-cadastro">Data de cadastro</label>
+									<input type="date" class="form-control" id="data-cadastro" ng-model="cotacao.cotacao_cadastro_data_obj">
+								</div>
+							</div>
+
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="vendedor">Vendedor</label>
+									<select class="form-control" ng-model="cotacao.id_vendedor">
+										<option value="0">Selecionar...</option>
+										<option ng-repeat="(key, val) in vendedores" value="{{ val.id }}">{{ val.vendedor_nome }}</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="vendedor">Categoria</label>
+									<select class="form-control" ng-model="cotacao.id_categoria">
+										<option value="0">Selecionar...</option>
+										<option ng-repeat="(key, val) in categorias" value="{{ val.id }}">{{ val.cat_name }}</option>
+									</select>
 								</div>
 							</div>
 
 						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="form-group">
-							<label for="contato-responsavel">Contato / Responsável</label>
-							<input type="text" class="form-control" id="contato-responsavel" placeholder="Contato responsável" ng-model="as.as_cliente_responsavel">
-						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="form-group">
-							<label for="email">E-mail</label>
-							<input type="email" class="form-control" id="email" placeholder="E-mail" ng-model="as.as_cliente_email">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="celular1">Celular 1 / WhatsApp</label>
-							<input type="text" class="form-control" id="celular1" ng-model="as.as_cliente_phone1" mask="(99) 9?9999-9999" placeholder="Celular 1 / WhatsApp">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="celular2">Celular 2</label>
-							<input type="text" class="form-control" id="celular2" ng-model="as.as_cliente_phone2" mask="(99) 9?9999-9999" placeholder="Celular 2">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="telefone-fixo">Telefone Fixo</label>
-							<input type="text" class="form-control" id="telefone-fixo" ng-model="as.as_cliente_phone3" mask="(99) 9?9999-9999" placeholder="Telefone fixo">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="ramal">Ramal</label>
-							<input type="text" class="form-control" id="ramal" ng-model="as.as_cliente_ramal" placeholder="Ramal">
-						</div>
-					</div>
-				</div>
 
-			</div>
-			<div class="col-md-6">
-
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="filial">Filial</label>
-							<select class="form-control" ng-model="as.as_filial">
-								<option value="0">Selecionar...</option>
-								<option value="1">TCM - Vila Maria</option>
-								<option value="2">TCM - Bonsucesso</option>
-								<option value="3">CM - Bonsucesso</option>
-								<option value="4">CM - Caucaia</option>
-								<option value="5">CM - Sorocaba</option>
-								<option value="6">CM - Itú</option>
-							</select>
-						</div>
-					</div>
-
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="status">Status</label>
-							<select class="form-control" ng-model="as.as_status">
-								<option value="status1">Status 1</option>
-								<option value="status2">Status 2</option>
-								<option value="status3">Status 3</option>
-								<option value="status4">Status 4</option>
-							</select>
-						</div>
-					</div>
-
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="data-cadastro">Data de cadastro</label>
-							<input type="date" class="form-control" ng-model="as.as_data_cadastro_obj" id="data-cadastro" placeholder="Data de cadastro">
-						</div>
-					</div>
-
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="vendedor">Vendedor</label>
-							<input type="text" class="form-control" ng-model="as.as_vendedor" id="vendedor" placeholder="Vendedor">
-						</div>
-					</div>
-
-				</div>
-
-				<div class="row margin-top-55">
-
-					<div class="col-md-7">
-						<div class="form-group">
-							<label for="nome-cotacao">Nome Cotação</label>
-							<input type="text" class="form-control" ng-model="as.as_cotacao_nome" id="nome-cotacao" placeholder="Nome cotação">
-						</div>
-					</div>
-
-					<div class="col-md-5">
-						<div class="form-group">
-							<label for="cod-cotacao">Cód. Cotação</label>
-							<input type="text" class="form-control" ng-model="as.as_cotacao_cod" id="cod-cotacao" placeholder="Cód. cotação">
-						</div>
-					</div>
-
-					<div class="col-md-7">
+						<hr />
+							
 						<div class="form-group">
 							<label for="nome-projeto">Nome do projeto</label>
-							
+							<input type="text" class="form-control" id="nome-projeto" placeholder="Nome do projeto" ng-model="cotacao.cotacao_projeto_nome" required>
+						</div>
 
-							<div class="input-group">
-		  						<input type="text" class="form-control" ng-model="as.as_projeto_nome" id="nome-projeto" placeholder="Selecionar projeto">
-								<div class="input-group-append">
-									<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_projeto('main_projeto')"><i class="icon-magnifier icons"></i></button>
+						<div class="form-group">
+							<label for="descricao-projeto">Descrição do projeto</label>
+							<textarea class="form-control" id="descricao-projeto" ng-model="cotacao.cotacao_projeto_descricao"></textarea>
+						</div>
+
+					</div>
+
+				</div>			
+
+			</div>
+
+			<!-- AS -->
+			<div class="tab-pane fade" id="as" role="tabpanel">
+
+
+				<div class="row">
+
+					<div class="col-md-3">
+				
+						<div class="form-group">
+							<label for="id">Cliente Tomador do Serviço</label>
+							<div class="row mt-2">
+								<div class="col-md-12">
+									<input type="radio" name="as_cliente_tomador_type" ng-model="as.as_cliente_tomador_type" value="consignatario"> Consignatário / faturamento
+								</div>
+								<div class="col-md-12">
+									<input type="radio" name="as_cliente_tomador_type" ng-model="as.as_cliente_tomador_type" value="remetente"> Remetente
+								</div>
+								<div class="col-md-12">
+									<input type="radio" name="as_cliente_tomador_type" ng-model="as.as_cliente_tomador_type" value="destinatario"> Destinatário
 								</div>
 							</div>
-
 						</div>
+
 					</div>
 
 					<div class="col-md-5">
+
 						<div class="form-group">
-							<label for="cod-projeto">Cód. Projeto</label>
-							<input type="text" class="form-control" ng-model="as.as_projeto_cod" id="cod-projeto" placeholder="Nome do projeto">
+							<label for="id">Cliente Consignatário / faturamento:</label>
+							
+							<div class="input-group">
+		  						<input type="text" class="form-control" placeholder="Selecionar cliente consignatário" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="cliente_consig_data.cliente_nome">
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_cliente('cliente_consignatario')"><i class="icon-magnifier icons"></i></button>
+								</div>
+							</div>
+
 						</div>
+
+
+						<div id="cliente-consignatario-details">
+							<table class="table">
+								<tr>
+									<th width="120">CNPJ:</th>
+									<td>{{ cliente_consig_data.cliente_cnpj }}</td>
+								</tr>
+								<tr>
+									<th>Ins. Estadual:</th>
+									<td>{{ cliente_consig_data.cliente_ie }}</td>
+								</tr>
+								<tr>
+									<th>Endereço</th>
+									<td>{{ cliente_consig_data.cliente_logradouro }}</td>
+								</tr>
+								<tr>
+									<th>Nome:</th>
+									<td><input type="text" class="form-control" name=""></td>
+								</tr>
+								<tr>
+									<th>Telefone:</th>
+									<td><input type="text" class="form-control" name=""></td>
+								</tr>
+								<tr>
+									<th>Celular:</th>
+									<td><input type="text" class="form-control" name=""></td>
+								</tr>
+								<tr>
+									<th>E-mail:</th>
+									<td><input type="text" class="form-control" name=""></td>
+								</tr>
+							</table>
+						</div>
+						
 					</div>
 
-					
-					<div class="col-md-12">
+					<div class="col-md-4">
+
+						<div class="form-group mt-3">
+							<label for="forma-faturamento">Forma de Faturamento</label>
+
+							<div class="row">
+								<div class="col-md-4">
+									<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="cte"> CT-e
+								</div>
+								<div class="col-md-4">
+									<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="nfe"> NFE
+								</div>
+								<div class="col-md-4">
+									<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="fatura"> Fatura
+								</div>
+								<div class="col-md-4">
+									<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="nfs"> NFS
+								</div>
+								<div class="col-md-4">
+									<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="nd"> ND
+								</div>
+								<div class="col-md-4">
+									<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="outros"> Outros
+								</div>
+							</div>
+
+						</div>
+
 						<div class="form-group">
-							<label for="resumo-projeto">Resumo do projeto</label>
-							<textarea class="form-control" ng-model="as.as_projeto_resumo" placeholder="Resumo do projeto"></textarea>
+							<label for="forma-pagamento">Forma de Pagamento</label>
+						
+							<div class="row">
+								<div class="col-md-12">
+									<input type="radio" name="as_faturamento_forma_pg" ng-model="as.as_faturamento_forma_pg" value="boleto"> Boleto
+								</div>
+								<div class="col-md-12">
+									<input type="radio" name="as_faturamento_forma_pg" ng-model="as.as_faturamento_forma_pg" value="deposito"> Depósito
+								</div>
+								<div class="col-md-12">
+									<input type="radio" name="as_faturamento_forma_pg" ng-model="as.as_faturamento_forma_pg" value="compensacao"> Compensação
+								</div>
+							</div>
+
 						</div>
-					</div>
 
-
-				</div>
-
-				
-
-			</div>
-		</div>
-
-		<hr class="margin-top-40 margin-bottom-40"/>
-
-		<div class="form-group">
-			<label for="id">Cliente Tomador do Serviço</label>
-			<div class="row mt-3">
-				<div class="col-md-3">
-					<input type="radio" name="as_cliente_tomador_type" ng-model="as.as_cliente_tomador_type" value="consignatario"> Consignatário / faturamento
-				</div>
-				<div class="col-md-3">
-					<input type="radio" name="as_cliente_tomador_type" ng-model="as.as_cliente_tomador_type" value="remetente"> Remetente
-				</div>
-				<div class="col-md-3">
-					<input type="radio" name="as_cliente_tomador_type" ng-model="as.as_cliente_tomador_type" value="destinatario"> Destinatário
-				</div>
-			</div>
-		</div>
-
-
-
-		<hr class="margin-top-40 margin-bottom-40"/>
-
-		<div class="row">
-
-			<div class="col-md-4">
-
-				<div class="form-group">
-					<label for="id">Cliente Consignatário / faturamento:</label>
-					
-					<div class="input-group my-3">
-  						<input type="text" class="form-control" placeholder="Selecionar cliente consignatário" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="cliente_consig_data.cliente_nome">
-						<div class="input-group-append">
-							<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_cliente('cliente_consignatario')"><i class="icon-magnifier icons"></i></button>
+						<div class="form-group">
+							<label for="id">Prazo de pagamento</label>
+							<input type="date" class="form-control" id="id">
 						</div>
-					</div>
 
-				</div>
-
-				<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#cliente-consignatario-details" aria-expanded="false" aria-controls="cliente-consignatario-details" ng-show="cliente_consig_data">Ver detalhes</button>
-
-				<div class="collapse mt-3" id="cliente-consignatario-details">
-					<table class="table">
-						<tr>
-							<th width="120">CNPJ:</th>
-							<td>{{ cliente_consig_data.cliente_cnpj }}</td>
-						</tr>
-						<tr>
-							<th>Ins. Estadual:</th>
-							<td>{{ cliente_consig_data.cliente_ie }}</td>
-						</tr>
-						<tr>
-							<th>Endereço</th>
-							<td>{{ cliente_consig_data.cliente_logradouro }}</td>
-						</tr>
-						<tr>
-							<th>Contato:</th>
-							<td>{{ cliente_consig_data.cliente_nome }}</td>
-						</tr>
-					</table>
-				</div>
-				
-			</div>
-
-			<div class="col-md-4">
-
-				<div class="form-group">
-					<label for="id">Cliente remetente:</label>
-
-					<div class="input-group my-3">
-  						<input type="text" class="form-control" placeholder="Selecionar cliente remetente" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="cliente_remetente_data.cliente_nome">
-						<div class="input-group-append">
-							<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_cliente('cliente_remetente')"><i class="icon-magnifier icons"></i></button>
-						</div>
-					</div>
-
-				</div>
-
-				<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#cliente-remetente-details" aria-expanded="false" aria-controls="cliente-remetente-details" ng-show="cliente_remetente_data">Ver detalhes</button>
-
-				<div class="collapse mt-3" id="cliente-remetente-details">
-					<table class="table">
-						<tr>
-							<th width="120">CNPJ:</th>
-							<td>{{ cliente_remetente_data.cliente_cnpj }}</td>
-						</tr>
-						<tr>
-							<th>Ins. Estadual:</th>
-							<td>{{ cliente_remetente_data.cliente_ie }}</td>
-						</tr>
-						<tr>
-							<th>Endereço</th>
-							<td>{{ cliente_remetente_data.cliente_logradouro }}</td>
-						</tr>
-						<tr>
-							<th>Contato:</th>
-							<td>{{ cliente_remetente_data.cliente_nome }}</td>
-						</tr>
-					</table>
-				</div>
-				
-			</div>
-
-			<div class="col-md-4">
-
-				<div class="form-group">
-					<label for="id">Cliente destinatário:</label>
-					
-					<div class="input-group my-3">
-  						<input type="text" class="form-control" placeholder="Selecionar cliente destinatário" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="cliente_destinatario_data.cliente_nome">
-						<div class="input-group-append">
-							<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_cliente('cliente_destinatario')"><i class="icon-magnifier icons"></i></button>
-						</div>
-					</div>
-
-				</div>
-
-				<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#cliente-destinatario-details" aria-expanded="false" aria-controls="cliente-destinatario-details" ng-show="cliente_destinatario_data">Ver detalhes</button>
-
-				<div class="collapse mt-3" id="cliente-destinatario-details">
-
-					<table class="table">
-						<tr>
-							<th width="120">CNPJ:</th>
-							<td>{{ cliente_destinatario_data.cliente_cnpj }}</td>
-						</tr>
-						<tr>
-							<th>Ins. Estadual:</th>
-							<td>{{ cliente_destinatario_data.cliente_ie }}</td>
-						</tr>
-						<tr>
-							<th>Endereço</th>
-							<td>{{ cliente_destinatario_data.cliente_logradouro }}</td>
-						</tr>
-						<tr>
-							<th>Contato:</th>
-							<td>{{ cliente_destinatario_data.cliente_nome }}</td>
-						</tr>
-					</table>
-					
-				</div>
-				
-			</div>
-
-			
-
-		</div>
-
-		<hr class="margin-top-40 margin-bottom-40"/>
-
-		<div class="row">
-			<div class="col-md-4">
-
-				<div class="form-group">
-					<div class="row">
-						<div class="col-md-6">
-							<label for="id">Local de coleta:</label>
-						</div>
-						<div class="col-md-6 text-right">
-							<input type="checkbox" name=""> Exterior
-						</div>
-					</div>
-					
-					<div class="input-group my-3">
-  						<input type="text" class="form-control" placeholder="Selecionar local de coleta" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="local_coleta_data.local_apelido">
-						<div class="input-group-append">
-							<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_local('local_coleta')"><i class="icon-magnifier icons"></i></button>
-						</div>
 					</div>
 
 				</div>
 
 				<div class="form-group">
-					<label for="id">Procurar por:</label>
-					<input type="text" class="form-control" id="id">
-				</div>
-
-				<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#local-coleta-details" aria-expanded="false" aria-controls="cliente-destinatario-details" ng-show="local_coleta_data">Ver detalhes</button>
-
-				<div class="collapse mt-3" id="local-coleta-details">
-					<table class="table">
-						<tr>
-							<th>Apelido</th>
-							<td>{{ local_coleta_data.local_apelido }}</td>
-						</tr>
-						<tr>
-							<th width="120">CNPJ:</th>
-							<td>{{ local_coleta_data.local_cnpj }}</td>
-						</tr>
-						<tr>
-							<th>Endereço</th>
-							<td>{{ local_coleta_data.local_logradouro }}</td>
-						</tr>
-					</table>
-				</div>
-
-			</div>
-			<div class="col-md-4">
-
-				<div class="form-group">
-					<div class="row">
-						<div class="col-md-6">
-							<label for="id">Local da entrega:</label>
-						</div>
-						<div class="col-md-6 text-right">
-							<input type="checkbox" name=""> Exterior
-						</div>
-					</div>
-					
-					<div class="input-group my-3">
-  						<input type="text" class="form-control" placeholder="Selecionar local de entrega" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="local_entrega_data.local_apelido">
-						<div class="input-group-append">
-							<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_local('local_entrega')"><i class="icon-magnifier icons"></i></button>
-						</div>
-					</div>
-
-				</div>
-
-				<div class="form-group">
-					<label for="id">Procurar por:</label>
-					<input type="text" class="form-control" id="id">
-				</div>
-
-				<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#local-entrega-details" aria-expanded="false" aria-controls="cliente-destinatario-details" ng-show="local_entrega_data">Ver detalhes</button>
-
-				<div class="collapse mt-3" id="local-entrega-details">
-					<table class="table">
-						<tr>
-							<th>Apelido</th>
-							<td>{{ local_entrega_data.local_apelido }}</td>
-						</tr>
-						<tr>
-							<th width="120">CNPJ:</th>
-							<td>{{ local_entrega_data.local_cnpj }}</td>
-						</tr>
-						<tr>
-							<th>Endereço</th>
-							<td>{{ local_entrega_data.local_logradouro }}</td>
-						</tr>
-					</table>
-				</div>
-
-			</div>
-			<div class="col-md-4">
-
-				<div class="form-group">
-					<label for="id">Observações para o Operacional</label>
+					<label for="id">Condições Comerciais Adicionais</label>
 					<textarea class="form-control"></textarea>
 				</div>
 
-			</div>
-		</div>
-
-		<hr class="margin-top-40 margin-bottom-40"/>
-
-		<div class="row">
-			<div class="col-md-4">
-
-				<div class="form-group">
-					<label for="id">Data de carregamento:</label>
-					<div class="input-group my-3">
-  						<input type="date" class="form-control" placeholder="Data de carregamento" aria-label="Recipient's username" aria-describedby="button-addon2">
-						<div class="input-group-append">
-							<button class="btn btn-primary" type="button" id="button-addon2">Carregado</button>
-						</div>
-					</div>
+				<div class="box-subtitle">
+					<h2>Objeto de carregamento</h2>
 				</div>
 
-				<div class="form-group">
-					<label for="id">Previsão de Entrega:</label>
-					<input type="date" class="form-control" id="id">
-				</div>
-
-			</div>
-			<div class="col-md-4">
-
-				<div class="form-group">
-					<label for="id">Equipamento a ser utilizado</label>
-					<textarea class="form-control"></textarea>
-				</div>
-
-			</div>
-			<div class="col-md-4">
-
-				<div class="form-group">
-					<label for="id">Emitido</label>
-					<div class="row">
-						<div class="col-md-6">
-							<input type="checkbox" name=""> Licença
-						</div>
-						<div class="col-md-6">
-							<input type="checkbox" name=""> Viabilização
-						</div>
-						<div class="col-md-6">
-							<input type="checkbox" name=""> Ser. Rigging
-						</div>
-						<div class="col-md-6">
-							<input type="checkbox" name=""> Taxas
-						</div>
-						<div class="col-md-6">
-							<input type="checkbox" name=""> Instrumentação
-						</div>
-						<div class="col-md-6">
-							<input type="checkbox" name=""> Ser. escolta
-						</div>
-					</div>
-				</div>
-
-			</div>
-		</div>
-
-		<div class="row my-3">
-			<div class="col-md-12 text-right">
-
-				<button class="btn btn-sm btn-secondary">Emitir OCC</button>
-
-				<button class="btn btn-sm btn-secondary">Emitir CTE</button>
-
-				<button class="btn btn-sm btn-secondary">Emitir a fatura</button>
-
-				<button class="btn btn-sm btn-secondary">Emitir NF de serviço</button>
-
-				<button class="btn btn-sm btn-secondary">Emitir NF-e</button>
-
-				<button class="btn btn-sm btn-secondary">Emitir nota de débito</button>
-
-				<button class="btn btn-sm btn-secondary">Prov. de taxas e licenças</button>
-
-			</div>
-		</div>
-
-		<hr class="margin-top-40 margin-bottom-40"/>
-
-		<div class="box-subtitle">
-			<h2>Objeto de carregamento</h2>
-		</div>
-
-		<table class="table table-striped">
-			<tr>
-				<th>Item</th>
-				<th>Qtd.</th>
-				<th>Descrição</th>
-				<th>Comp. (m)</th>
-				<th>Larg. (m)</th>
-				<th>Alt. (m)</th>
-				<th>Peso. (kg)</th>
-				<th>Equipamento (tipo)</th>
-				<th>V. Un.</th>
-				<th>V. Total</th>
-				<th>Peso Un.</th>
-				<th>Peso Total</th>
-			</tr>
-			<tr>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-			</tr>
-
-			<tr>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-			</tr>
-
-			<tr>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-			</tr>
-
-			<tr>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-				<td>Exemplo</td>
-			</tr>
-
-			<tr>
-				<th></th>
-				<th>Total: </th>
-				<th></th>
-				<th></th>
-				<th></th>
-				<th></th>
-				<th>Total: </th>
-				<th></th>
-				<th>Total: </th>
-				<th>Total: </th>
-				<th>Total: </th>
-				<th>Total: </th>
-			</tr>
-
-		</table>
-
-		<button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Adicionar</button>
-
-		<hr class="margin-top-40 margin-bottom-40" />
-
-		<div class="row">
-			<div class="col-md-4">
-
-				<div class="form-group">
-					<label for="id">Faturamento</label>
-					
-					<div class="input-group my-3">
-  						<input type="text" class="form-control" placeholder="Sel. cliente faturamento" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="cliente_faturamento_data.cliente_nome">
-						<div class="input-group-append">
-							<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_cliente('cliente_faturamento')"><i class="icon-magnifier icons"></i></button>
-						</div>
-					</div>
-
-				</div>
-
-				<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#faturamento-details" aria-expanded="false" aria-controls="faturamento-details" ng-show="cliente_faturamento_data">Ver detalhes</button>
-
-				<div class="collapse mt-3" id="faturamento-details">
-					<table class="table">
-						<tr>
-							<th width="120">CNPJ:</th>
-							<td>{{ cliente_faturamento_data.cliente_cnpj }}</td>
-						</tr>
-						<tr>
-							<th>Ins. Estadual:</th>
-							<td>{{ cliente_faturamento_data.cliente_ie }}</td>
-						</tr>
-						<tr>
-							<th>Endereço</th>
-							<td>{{ cliente_faturamento_data.cliente_logradouro }}</td>
-						</tr>
-						<tr>
-							<th>Contato:</th>
-							<td>{{ cliente_faturamento_data.cliente_nome }}</td>
-						</tr>
-					</table>
-				</div>
-
-				<div class="form-group mt-3">
-					<label for="forma-faturamento">Forma de Faturamento</label>
-
-					<div class="row">
-						<div class="col-md-4">
-							<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="cte"> CT-e
-						</div>
-						<div class="col-md-4">
-							<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="nfe"> NFE
-						</div>
-						<div class="col-md-4">
-							<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="fatura"> Fatura
-						</div>
-						<div class="col-md-4">
-							<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="nfs"> NFS
-						</div>
-						<div class="col-md-4">
-							<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="nd"> ND
-						</div>
-						<div class="col-md-4">
-							<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="outros"> Outros
-						</div>
-					</div>
-
-				</div>
-
-				<div class="form-group">
-					<label for="id">No. Pedido de Compra</label>
-					<input type="text" class="form-control" id="id">
-				</div>
-
-				<div class="form-group">
-					<label for="forma-pagamento">Forma de Pagamento</label>
-				
-					<div class="row">
-						<div class="col-md-12">
-							<input type="radio" name="as_faturamento_forma_pg" ng-model="as.as_faturamento_forma_pg" value="boleto"> Boleto
-						</div>
-						<div class="col-md-12">
-							<input type="radio" name="as_faturamento_forma_pg" ng-model="as.as_faturamento_forma_pg" value="deposito"> Depósito
-						</div>
-						<div class="col-md-12">
-							<input type="radio" name="as_faturamento_forma_pg" ng-model="as.as_faturamento_forma_pg" value="compensacao"> Compensação
-						</div>
-					</div>
-
-				</div>
-
-				<div class="form-group">
-					<label for="id">Prazo de pagamento</label>
-					<input type="date" class="form-control" id="id">
-				</div>
-
-				<div class="form-group">
-					<label for="id">Valor total da A.S.</label>
-					<input type="text" class="form-control" id="id">
-				</div>
-
-			</div>
-			<div class="col-md-4">
-
-				<div class="form-group">
-					<label for="id">Observações para o Faturamento</label>
-					<textarea class="form-control"></textarea>
-				</div>
-
-				<div class="form-group">
-					<label for="id">Data do Faturamento:</label>
-					<input type="date" class="form-control" id="id">
-				</div>
-
-				<div class="form-group">
-					<label for="id">Data do envio:</label>
-					<input type="date" class="form-control" id="id">
-				</div>
-
-
-				
-			</div>
-			<div class="col-md-4">
-				
-				<div class="form-group">
-					<label for="id">Cobrança</label>
-					
-					<div class="input-group my-3">
-  						<input type="text" class="form-control" placeholder="Sel. cliente de cobrança" aria-label="Recipient's username" aria-describedby="button-addon2">
-						<div class="input-group-append">
-							<button class="btn btn-primary" type="button" id="button-addon2"><i class="icon-magnifier icons"></i></button>
-						</div>
-					</div>
-
-				</div>
-
-				<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#cobranca-details" aria-expanded="false" aria-controls="cobranca-details">Ver detalhes</button>
-
-				<div class="collapse mt-3" id="cobranca-details">
-					<table class="table">
-						<tr>
-							<th width="120">CNPJ:</th>
-							<td>00.000.000/000-00</td>
-						</tr>
-						<tr>
-							<th>Ins. Estadual:</th>
-							<td>000.000.000.000</td>
-						</tr>
-						<tr>
-							<th>Endereço</th>
-							<td>Rua / Avenida / etc...	Bairro	Cidade - UF	CEP</td>
-						</tr>
-						<tr>
-							<th>Contato:</th>
-							<td>Responsável - Faturamento	
-							Depto.	
-							Telefone 1	
-							Telefone 2	
-							Celular 1 	
-							Celular 2	
-							Email	
-							</td>
-						</tr>
-					</table>
-				</div>
-
-				<div class="form-group mt-3">
-					<label for="id">Observações para o Financeiro</label>
-					<textarea class="form-control"></textarea>
-				</div>
-
-			</div>
-		</div>
-
-		<hr class="margin-top-40 margin-bottom-20" />
-
-		<div class="row">
-			<div class="col-md-12">
-				<div class="form-group">
-					<label for="id">Titulos em aberto</label>
-					
-					<table class="table">
-						<tr>
-							<th>Título</th>
-							<th>AS</th>
-							<th>Venc.</th>
-							<th>Valor</th>
-							<th>ST</th>
-						</tr>
-						<tr>
-							<td>Exemplo</td>
-							<td>Exemplo</td>
-							<td>Exemplo</td>
-							<td>Exemplo</td>
-							<td>Exemplo</td>
-						</tr>
-
-						<tr>
-							<td>Exemplo</td>
-							<td>Exemplo</td>
-							<td>Exemplo</td>
-							<td>Exemplo</td>
-							<td>Exemplo</td>
-						</tr>
-
-						<tr>
-							<td>Exemplo</td>
-							<td>Exemplo</td>
-							<td>Exemplo</td>
-							<td>Exemplo</td>
-							<td>Exemplo</td>
-						</tr>
-						<tr>
-							<td>Exemplo</td>
-							<td>Exemplo</td>
-							<td>Exemplo</td>
-							<td>Exemplo</td>
-							<td>Exemplo</td>
-						</tr>
-					</table>
-
-
-				</div>
-			</div>
-		</div>
-
-		<hr class="margin-top-40 margin-bottom-20" />
-
-		<div class="form-group">
-			<label for="id">Inclusos no Preço</label>
-		</div>
-
-		<div class="row">
-			<div class="col-md-6">
-
-				<div class="form-group">
-
-					<div class="row">
-						<div class="col-md-4">
-							<input type="checkbox" name=""> ICMS
-						</div>
-						<div class="col-md-4">
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">%</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">R$</span>
-								</div>
-							</div>
-
-						</div>
-					</div>
-
-					<div class="row margin-top-5">
-						<div class="col-md-4">
-							<input type="checkbox" name=""> ISS
-						</div>
-						<div class="col-md-4">
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">%</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">R$</span>
-								</div>
-							</div>
-
-						</div>
-					</div>
-
-					<div class="row margin-top-5">
-						<div class="col-md-4">
-							<input type="checkbox" name=""> INSS
-						</div>
-						<div class="col-md-4">
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">%</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">R$</span>
-								</div>
-							</div>
-
-						</div>
-					</div>
-
-					<div class="row margin-top-5">
-						<div class="col-md-4">
-							<input type="checkbox" name=""> IR
-						</div>
-						<div class="col-md-4">
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">%</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">R$</span>
-								</div>
-							</div>
-
-						</div>
-					</div>
-
-					<div class="row margin-top-5">
-						<div class="col-md-4">
-							<input type="checkbox" name=""> PIS
-						</div>
-						<div class="col-md-4">
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">%</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">R$</span>
-								</div>
-							</div>
-
-						</div>
-					</div>
-
-					<div class="row margin-top-5">
-						<div class="col-md-4">
-							<input type="checkbox" name=""> COFINS
-						</div>
-						<div class="col-md-4">
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">%</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">R$</span>
-								</div>
-							</div>
-
-						</div>
-					</div>
-
-					<div class="row margin-top-5">
-						<div class="col-md-4">
-							<input type="checkbox" name=""> CSLL
-						</div>
-						<div class="col-md-4">
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">%</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">R$</span>
-								</div>
-							</div>
-
-						</div>
-					</div>
-
-					<div class="row margin-top-5">
-						<div class="col-md-4">
-							<input type="checkbox" name=""> CP
-						</div>
-						<div class="col-md-4">
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">%</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">R$</span>
-								</div>
-							</div>
-
-						</div>
-					</div>
-
-					<div class="row margin-top-5">
-						<div class="col-md-4">
-							<input type="checkbox" name=""> Seguro
-						</div>
-						<div class="col-md-4">
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">%</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">R$</span>
-								</div>
-							</div>
-
-						</div>
-					</div>
-
-				</div>
-			</div>
-
-			<div class="col-md-6">
-
-				<div class="form-group">
-
-					<div class="row margin-top-5">
-						<div class="col-md-4">
-							<input type="checkbox" name=""> RCFDC
-						</div>
-						<div class="col-md-4">
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">%</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">R$</span>
-								</div>
-							</div>
-
-						</div>
-					</div>
-
-					<div class="row margin-top-5">
-						<div class="col-md-4">
-							<input type="checkbox" name=""> RCTRC Sec/Ca
-						</div>
-						<div class="col-md-4">
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">%</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">R$</span>
-								</div>
-							</div>
-
-						</div>
-					</div>
-
-					<div class="row margin-top-5">
-						<div class="col-md-4">
-							<input type="checkbox" name=""> Despacho
-						</div>
-						<div class="col-md-4">
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">%</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">R$</span>
-								</div>
-							</div>
-
-						</div>
-					</div>
-
-					<div class="row margin-top-5">
-						<div class="col-md-4">
-							<input type="checkbox" name=""> Carga
-						</div>
-						<div class="col-md-4">
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">%</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">R$</span>
-								</div>
-							</div>
-
-						</div>
-					</div>
-
-					<div class="row margin-top-5">
-						<div class="col-md-4">
-							<input type="checkbox" name=""> Descarga
-						</div>
-						<div class="col-md-4">
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">%</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">R$</span>
-								</div>
-							</div>
-
-						</div>
-					</div>
-
-					<div class="row margin-top-5">
-						<div class="col-md-4">
-							<input type="checkbox" name=""> Estadia
-						</div>
-						<div class="col-md-4">
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">%</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">R$</span>
-								</div>
-							</div>
-
-						</div>
-					</div>
-
-					<div class="row margin-top-5">
-						<div class="col-md-4">
-							<input type="checkbox" name=""> Pernoite
-						</div>
-						<div class="col-md-4">
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">%</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">R$</span>
-								</div>
-							</div>
-
-						</div>
-					</div>
-
-					<div class="row margin-top-5">
-						<div class="col-md-4">
-							<input type="checkbox" name=""> Armazengem
-						</div>
-						<div class="col-md-4">
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">%</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">R$</span>
-								</div>
-							</div>
-
-						</div>
-					</div>
-
-					<div class="row margin-top-5">
-						<div class="col-md-4">
-							<input type="checkbox" name=""> Ad valorem
-						</div>
-						<div class="col-md-4">
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">%</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							
-							<div class="input-group">
-								<input type="text" class="form-control">
-								<div class="input-group-append">
-									<span class="input-group-text">R$</span>
-								</div>
-							</div>
-
-						</div>
-					</div>
-
-				</div>
-
-			</div>
-		</div>
-
-		<div class="row my-3">
-			<div class="col-md-12 text-right">
-
-				<button class="btn btn-sm btn-secondary" type="button">Faturar</button>
-
-			</div>
-		</div>
-
-		<hr class="margin-top-40 margin-bottom-20" />
-
-		<div class="form-group">
-			<label for="id">Condições Comerciais Adicionais</label>
-			<textarea class="form-control"></textarea>
-		</div>
-
-		<!--
-
-		<hr class="margin-top-40 margin-bottom-40" />
-
-		<div class="box-subtitle">
-			<h2>Controles internos</h2>
-		</div>		
-
-		<div class="row">
-			<div class="col-md-6">
-
-				<div class="card">
-					<div class="card-body">
-
-						<h3>RV´s EMITIDAS - CUSTO</h3>
-
-						<table class="table table-striped">
-							<tr>
-								<th>RV</th>
-								<th>Colaborador</th>
-								<th>Data</th>
-								<th>Total</th>
-							</tr>
-							<tr>
-								<td>12345</td>
-								<td>Guilherme</td>
-								<td>16/06/2018</td>
-								<td>5467</td>
-							</tr>
-							<tr>
-								<td>12345</td>
-								<td>Guilherme</td>
-								<td>16/06/2018</td>
-								<td>5467</td>
-							</tr>
-							<tr>
-								<td>12345</td>
-								<td>Guilherme</td>
-								<td>16/06/2018</td>
-								<td>5467</td>
-							</tr>
-							<tr>
-								<th></th>
-								<th></th>
-								<th></th>
-								<th>12345</th>
-							</tr>
-						</table>
-
-					</div>
-				</div>
-
-			</div>
-			<div class="col-md-6">
+				<table class="table table-striped">
+					<tr>
+						<th>Item</th>
+						<th>Qtd.</th>
+						<th>Descrição</th>
+						<th>Comp. (m)</th>
+						<th>Larg. (m)</th>
+						<th>Alt. (m)</th>
+						<th>Peso. (kg)</th>
+						<th>Equipamento (tipo)</th>
+						<th>V. Un.</th>
+						<th>V. Total</th>
+						<th>Peso Un.</th>
+						<th>Peso Total</th>
+					</tr>
+					<tr>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+					</tr>
+
+					<tr>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+					</tr>
+
+					<tr>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+					</tr>
+
+					<tr>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+						<td>Exemplo</td>
+					</tr>
+
+					<tr>
+						<th></th>
+						<th>Total: </th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th>Total: </th>
+						<th></th>
+						<th>Total: </th>
+						<th>Total: </th>
+						<th>Total: </th>
+						<th>Total: </th>
+					</tr>
+
+				</table>
+
+				<button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Adicionar</button>
+
+				<hr class="margin-top-40 margin-bottom-40" />
 
 				<div class="row">
-					<div class="col-md-4 text-right">
-						<strong>Total faturado:</strong>
+					<div class="col-md-6">
+
+						<div class="form-group">
+							<label for="id">Inclusos no Preço Comercial</label>
+						</div>
+
+
+						<div class="form-group">
+
+							<div class="row margin-top-5">
+								<div class="col-md-4">
+									<input type="checkbox" name=""> RCFDC
+								</div>
+								<div class="col-md-4">
+									
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">R$</span>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="row margin-top-5">
+								<div class="col-md-4">
+									<input type="checkbox" name=""> RCTRC Sec/Ca
+								</div>
+								<div class="col-md-4">
+									
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">R$</span>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="row margin-top-5">
+								<div class="col-md-4">
+									<input type="checkbox" name=""> Despacho
+								</div>
+								<div class="col-md-4">
+									
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">R$</span>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="row margin-top-5">
+								<div class="col-md-4">
+									<input type="checkbox" name=""> Carga
+								</div>
+								<div class="col-md-4">
+									
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">R$</span>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="row margin-top-5">
+								<div class="col-md-4">
+									<input type="checkbox" name=""> Descarga
+								</div>
+								<div class="col-md-4">
+									
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">R$</span>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="row margin-top-5">
+								<div class="col-md-4">
+									<input type="checkbox" name=""> Estadia
+								</div>
+								<div class="col-md-4">
+									
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">R$</span>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="row margin-top-5">
+								<div class="col-md-4">
+									<input type="checkbox" name=""> Pernoite
+								</div>
+								<div class="col-md-4">
+									
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">R$</span>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="row margin-top-5">
+								<div class="col-md-4">
+									<input type="checkbox" name=""> Armazengem
+								</div>
+								<div class="col-md-4">
+									
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">R$</span>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="row margin-top-5">
+								<div class="col-md-4">
+									<input type="checkbox" name=""> Ad valorem
+								</div>
+								<div class="col-md-4">
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">%</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4">
+									
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">R$</span>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+
+							<div class="row margin-top-5">
+								<div class="col-md-4">
+									<input type="checkbox" name=""> Seguro
+								</div>
+								<div class="col-md-4">
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">%</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4">
+									
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">R$</span>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+						</div>
+
+
+
+
+						
 					</div>
-					<div class="col-md-4">
-						<input type="text" class="form-control" id="id">
-					</div>
-					<div class="col-md-4">
-						<input type="text" class="form-control" id="id">
+
+					<div class="col-md-6">
+
+						<div class="form-group">
+							<label for="id">Inclusos no Preço Contábil</label>
+						</div>
+
+						<div class="form-group">
+
+							<div class="row">
+								<div class="col-md-4">
+									<input type="checkbox" name=""> ICMS
+								</div>
+								<div class="col-md-4">
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">%</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4">
+									
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">R$</span>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="row margin-top-5">
+								<div class="col-md-4">
+									<input type="checkbox" name=""> ISS
+								</div>
+								<div class="col-md-4">
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">%</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4">
+									
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">R$</span>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="row margin-top-5">
+								<div class="col-md-4">
+									<input type="checkbox" name=""> INSS
+								</div>
+								<div class="col-md-4">
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">%</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4">
+									
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">R$</span>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="row margin-top-5">
+								<div class="col-md-4">
+									<input type="checkbox" name=""> IR
+								</div>
+								<div class="col-md-4">
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">%</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4">
+									
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">R$</span>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="row margin-top-5">
+								<div class="col-md-4">
+									<input type="checkbox" name=""> PIS
+								</div>
+								<div class="col-md-4">
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">%</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4">
+									
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">R$</span>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="row margin-top-5">
+								<div class="col-md-4">
+									<input type="checkbox" name=""> COFINS
+								</div>
+								<div class="col-md-4">
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">%</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4">
+									
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">R$</span>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="row margin-top-5">
+								<div class="col-md-4">
+									<input type="checkbox" name=""> CSLL
+								</div>
+								<div class="col-md-4">
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">%</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4">
+									
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">R$</span>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="row margin-top-5">
+								<div class="col-md-4">
+									<input type="checkbox" name=""> CP
+								</div>
+								<div class="col-md-4">
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">%</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4">
+									
+									<div class="input-group">
+										<input type="text" class="form-control">
+										<div class="input-group-append">
+											<span class="input-group-text">R$</span>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+						</div>
+
 					</div>
 				</div>
 
-				<div class="row margin-top-5">
-					<div class="col-md-4 text-right">
-						<strong>Impostos:</strong>
-					</div>
-					<div class="col-md-4">
-						<input type="text" class="form-control" id="id">
-					</div>
-					<div class="col-md-4">
-						<input type="text" class="form-control" id="id">
-					</div>
-				</div>
+				<div class="row my-3">
+					<div class="col-md-12 text-right">
 
-				<div class="row margin-top-5">
-					<div class="col-md-4 text-right">
-						<strong>Seguro:</strong>
-					</div>
-					<div class="col-md-4">
-						<input type="text" class="form-control" id="id">
-					</div>
-					<div class="col-md-4">
-						<input type="text" class="form-control" id="id">
-					</div>
-				</div>
+						<button class="btn btn-sm btn-secondary" type="button">Faturar</button>
 
-				<div class="row margin-top-5">
-					<div class="col-md-4 text-right">
-						<strong>Custos:</strong>
 					</div>
-					<div class="col-md-4">
-						<input type="text" class="form-control" id="id">
-					</div>
-					<div class="col-md-4">
-						<input type="text" class="form-control" id="id">
-					</div>
-				</div>
-
-				<div class="row margin-top-5">
-					<div class="col-md-4 text-right">
-						<strong>Despesas:</strong>
-					</div>
-					<div class="col-md-4">
-						<input type="text" class="form-control" id="id">
-					</div>
-					<div class="col-md-4">
-						<input type="text" class="form-control" id="id">
-					</div>
-				</div>
-
-				<div class="row margin-top-5">
-					<div class="col-md-4 text-right">
-						<strong>Comissão:</strong>
-					</div>
-					<div class="col-md-4">
-						<input type="text" class="form-control" id="id">
-					</div>
-					<div class="col-md-4">
-						<input type="text" class="form-control" id="id">
-					</div>
-				</div>
-
-				<div class="row margin-top-25">
-					<div class="col-md-4 text-right">
-						<strong>Resultado:</strong>
-					</div>
-					<div class="col-md-4">
-						<input type="text" class="form-control" id="id">
-					</div>
-					<div class="col-md-4">
-						<input type="text" class="form-control" id="id">
-					</div>
-				</div>
-
+				</div>				
 
 			</div>
+
+			<!-- Operacional -->
+			<div class="tab-pane fade" id="operacional" role="tabpanel">
+				
+				<div class="row">
+
+					<div class="col-md-4">
+
+						<div class="form-group">
+							<label for="id">Cliente remetente:</label>
+
+							<div class="input-group my-3">
+		  						<input type="text" class="form-control" placeholder="Selecionar cliente remetente" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="cliente_remetente_data.cliente_nome">
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_cliente('cliente_remetente')"><i class="icon-magnifier icons"></i></button>
+								</div>
+							</div>
+
+						</div>
+
+						<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#cliente-remetente-details" aria-expanded="false" aria-controls="cliente-remetente-details" ng-show="cliente_remetente_data">Ver detalhes</button>
+
+						<div class="collapse mt-3" id="cliente-remetente-details">
+							<table class="table">
+								<tr>
+									<th width="120">CNPJ:</th>
+									<td>{{ cliente_remetente_data.cliente_cnpj }}</td>
+								</tr>
+								<tr>
+									<th>Ins. Estadual:</th>
+									<td>{{ cliente_remetente_data.cliente_ie }}</td>
+								</tr>
+								<tr>
+									<th>Endereço</th>
+									<td>{{ cliente_remetente_data.cliente_logradouro }}</td>
+								</tr>
+								<tr>
+									<th>Contato:</th>
+									<td>{{ cliente_remetente_data.cliente_nome }}</td>
+								</tr>
+							</table>
+						</div>
+						
+					</div>
+
+					<div class="col-md-4">
+
+						<div class="form-group">
+							<label for="id">Cliente destinatário:</label>
+							
+							<div class="input-group my-3">
+		  						<input type="text" class="form-control" placeholder="Selecionar cliente destinatário" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="cliente_destinatario_data.cliente_nome">
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_cliente('cliente_destinatario')"><i class="icon-magnifier icons"></i></button>
+								</div>
+							</div>
+
+						</div>
+
+						<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#cliente-destinatario-details" aria-expanded="false" aria-controls="cliente-destinatario-details" ng-show="cliente_destinatario_data">Ver detalhes</button>
+
+						<div class="collapse mt-3" id="cliente-destinatario-details">
+
+							<table class="table">
+								<tr>
+									<th width="120">CNPJ:</th>
+									<td>{{ cliente_destinatario_data.cliente_cnpj }}</td>
+								</tr>
+								<tr>
+									<th>Ins. Estadual:</th>
+									<td>{{ cliente_destinatario_data.cliente_ie }}</td>
+								</tr>
+								<tr>
+									<th>Endereço</th>
+									<td>{{ cliente_destinatario_data.cliente_logradouro }}</td>
+								</tr>
+								<tr>
+									<th>Contato:</th>
+									<td>{{ cliente_destinatario_data.cliente_nome }}</td>
+								</tr>
+							</table>
+							
+						</div>
+						
+					</div>
+
+				</div>
+
+				<div class="row">
+					<div class="col-md-4">
+
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-6">
+									<label for="id">Local de coleta:</label>
+								</div>
+								<div class="col-md-6 text-right">
+									<input type="checkbox" name=""> Exterior
+								</div>
+							</div>
+							
+							<div class="input-group my-3">
+		  						<input type="text" class="form-control" placeholder="Selecionar local de coleta" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="local_coleta_data.local_apelido">
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_local('local_coleta')"><i class="icon-magnifier icons"></i></button>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="form-group">
+							<label for="id">Procurar por:</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+
+						<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#local-coleta-details" aria-expanded="false" aria-controls="cliente-destinatario-details" ng-show="local_coleta_data">Ver detalhes</button>
+
+						<div class="collapse mt-3" id="local-coleta-details">
+							<table class="table">
+								<tr>
+									<th>Apelido</th>
+									<td>{{ local_coleta_data.local_apelido }}</td>
+								</tr>
+								<tr>
+									<th width="120">CNPJ:</th>
+									<td>{{ local_coleta_data.local_cnpj }}</td>
+								</tr>
+								<tr>
+									<th>Endereço</th>
+									<td>{{ local_coleta_data.local_logradouro }}</td>
+								</tr>
+							</table>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-6">
+									<label for="id">Local da entrega:</label>
+								</div>
+								<div class="col-md-6 text-right">
+									<input type="checkbox" name=""> Exterior
+								</div>
+							</div>
+							
+							<div class="input-group my-3">
+		  						<input type="text" class="form-control" placeholder="Selecionar local de entrega" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="local_entrega_data.local_apelido">
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_local('local_entrega')"><i class="icon-magnifier icons"></i></button>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="form-group">
+							<label for="id">Procurar por:</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+
+						<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#local-entrega-details" aria-expanded="false" aria-controls="cliente-destinatario-details" ng-show="local_entrega_data">Ver detalhes</button>
+
+						<div class="collapse mt-3" id="local-entrega-details">
+							<table class="table">
+								<tr>
+									<th>Apelido</th>
+									<td>{{ local_entrega_data.local_apelido }}</td>
+								</tr>
+								<tr>
+									<th width="120">CNPJ:</th>
+									<td>{{ local_entrega_data.local_cnpj }}</td>
+								</tr>
+								<tr>
+									<th>Endereço</th>
+									<td>{{ local_entrega_data.local_logradouro }}</td>
+								</tr>
+							</table>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="form-group">
+							<label for="id">Observações para o Operacional</label>
+							<textarea class="form-control"></textarea>
+						</div>
+
+					</div>
+				</div>
+
+				<hr class="margin-top-40 margin-bottom-40"/>
+
+				<div class="row">
+					<div class="col-md-4">
+
+						<div class="form-group">
+							<label for="id">Data de carregamento:</label>
+							<div class="input-group my-3">
+		  						<input type="date" class="form-control" placeholder="Data de carregamento" aria-label="Recipient's username" aria-describedby="button-addon2">
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="button" id="button-addon2">Carregado</button>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="id">Previsão de Entrega:</label>
+							<input type="date" class="form-control" id="id">
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="form-group">
+							<label for="id">Equipamento a ser utilizado</label>
+							<textarea class="form-control"></textarea>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="form-group">
+							<label for="id">Emitido</label>
+							<div class="row">
+								<div class="col-md-6">
+									<input type="checkbox" name=""> Licença
+								</div>
+								<div class="col-md-6">
+									<input type="checkbox" name=""> Viabilização
+								</div>
+								<div class="col-md-6">
+									<input type="checkbox" name=""> Ser. Rigging
+								</div>
+								<div class="col-md-6">
+									<input type="checkbox" name=""> Taxas
+								</div>
+								<div class="col-md-6">
+									<input type="checkbox" name=""> Instrumentação
+								</div>
+								<div class="col-md-6">
+									<input type="checkbox" name=""> Ser. escolta
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="row my-3">
+					<div class="col-md-12 text-right">
+
+						<button class="btn btn-sm btn-secondary">Emitir OCC</button>
+
+						<button class="btn btn-sm btn-secondary">Emitir CTE</button>
+
+						<button class="btn btn-sm btn-secondary">Emitir a fatura</button>
+
+						<button class="btn btn-sm btn-secondary">Emitir NF de serviço</button>
+
+						<button class="btn btn-sm btn-secondary">Emitir NF-e</button>
+
+						<button class="btn btn-sm btn-secondary">Emitir nota de débito</button>
+
+						<button class="btn btn-sm btn-secondary">Prov. de taxas e licenças</button>
+
+					</div>
+				</div>
+
+			</div>
+
+			<!-- Operacional -->
+			<div class="tab-pane fade" id="faturamento" role="tabpanel">
+				
+				<div class="row">
+					<div class="col-md-4">
+
+						<div class="form-group">
+							<label for="id">Faturamento</label>
+							
+							<div class="input-group my-3">
+		  						<input type="text" class="form-control" placeholder="Sel. cliente faturamento" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="cliente_faturamento_data.cliente_nome">
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_cliente('cliente_faturamento')"><i class="icon-magnifier icons"></i></button>
+								</div>
+							</div>
+
+						</div>
+
+						<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#faturamento-details" aria-expanded="false" aria-controls="faturamento-details" ng-show="cliente_faturamento_data">Ver detalhes</button>
+
+						<div class="collapse mt-3" id="faturamento-details">
+							<table class="table">
+								<tr>
+									<th width="120">CNPJ:</th>
+									<td>{{ cliente_faturamento_data.cliente_cnpj }}</td>
+								</tr>
+								<tr>
+									<th>Ins. Estadual:</th>
+									<td>{{ cliente_faturamento_data.cliente_ie }}</td>
+								</tr>
+								<tr>
+									<th>Endereço</th>
+									<td>{{ cliente_faturamento_data.cliente_logradouro }}</td>
+								</tr>
+								<tr>
+									<th>Contato:</th>
+									<td>{{ cliente_faturamento_data.cliente_nome }}</td>
+								</tr>
+							</table>
+						</div>
+
+						<div class="form-group mt-3">
+							<label for="forma-faturamento">Forma de Faturamento</label>
+
+							<div class="row">
+								<div class="col-md-4">
+									<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="cte"> CT-e
+								</div>
+								<div class="col-md-4">
+									<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="nfe"> NFE
+								</div>
+								<div class="col-md-4">
+									<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="fatura"> Fatura
+								</div>
+								<div class="col-md-4">
+									<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="nfs"> NFS
+								</div>
+								<div class="col-md-4">
+									<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="nd"> ND
+								</div>
+								<div class="col-md-4">
+									<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="outros"> Outros
+								</div>
+							</div>
+
+						</div>
+
+						<div class="form-group">
+							<label for="id">No. Pedido de Compra</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+
+						<div class="form-group">
+							<label for="forma-pagamento">Forma de Pagamento</label>
+						
+							<div class="row">
+								<div class="col-md-12">
+									<input type="radio" name="as_faturamento_forma_pg" ng-model="as.as_faturamento_forma_pg" value="boleto"> Boleto
+								</div>
+								<div class="col-md-12">
+									<input type="radio" name="as_faturamento_forma_pg" ng-model="as.as_faturamento_forma_pg" value="deposito"> Depósito
+								</div>
+								<div class="col-md-12">
+									<input type="radio" name="as_faturamento_forma_pg" ng-model="as.as_faturamento_forma_pg" value="compensacao"> Compensação
+								</div>
+							</div>
+
+						</div>
+
+						<div class="form-group">
+							<label for="id">Prazo de pagamento</label>
+							<input type="date" class="form-control" id="id">
+						</div>
+
+						<div class="form-group">
+							<label for="id">Valor total da A.S.</label>
+							<input type="text" class="form-control" id="id">
+						</div>
+
+					</div>
+					<div class="col-md-4">
+
+						<div class="form-group">
+							<label for="id">Observações para o Faturamento</label>
+							<textarea class="form-control"></textarea>
+						</div>
+
+						<div class="form-group">
+							<label for="id">Data do Faturamento:</label>
+							<input type="date" class="form-control" id="id">
+						</div>
+
+						<div class="form-group">
+							<label for="id">Data do envio:</label>
+							<input type="date" class="form-control" id="id">
+						</div>
+
+
+						
+					</div>
+					<div class="col-md-4">
+						
+						<div class="form-group">
+							<label for="id">Cobrança</label>
+							
+							<div class="input-group my-3">
+		  						<input type="text" class="form-control" placeholder="Sel. cliente de cobrança" aria-label="Recipient's username" aria-describedby="button-addon2">
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="button" id="button-addon2"><i class="icon-magnifier icons"></i></button>
+								</div>
+							</div>
+
+						</div>
+
+						<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#cobranca-details" aria-expanded="false" aria-controls="cobranca-details">Ver detalhes</button>
+
+						<div class="collapse mt-3" id="cobranca-details">
+							<table class="table">
+								<tr>
+									<th width="120">CNPJ:</th>
+									<td>00.000.000/000-00</td>
+								</tr>
+								<tr>
+									<th>Ins. Estadual:</th>
+									<td>000.000.000.000</td>
+								</tr>
+								<tr>
+									<th>Endereço</th>
+									<td>Rua / Avenida / etc...	Bairro	Cidade - UF	CEP</td>
+								</tr>
+								<tr>
+									<th>Contato:</th>
+									<td>Responsável - Faturamento	
+									Depto.	
+									Telefone 1	
+									Telefone 2	
+									Celular 1 	
+									Celular 2	
+									Email	
+									</td>
+								</tr>
+							</table>
+						</div>
+
+						<div class="form-group mt-3">
+							<label for="id">Observações para o Financeiro</label>
+							<textarea class="form-control"></textarea>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+
+			<!-- Financeiro -->
+			<div class="tab-pane fade" id="financeiro" role="tabpanel">
+				
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="id">Titulos em aberto</label>
+							
+							<table class="table">
+								<tr>
+									<th>Título</th>
+									<th>AS</th>
+									<th>Venc.</th>
+									<th>Valor</th>
+									<th>ST</th>
+								</tr>
+								<tr>
+									<td>Exemplo</td>
+									<td>Exemplo</td>
+									<td>Exemplo</td>
+									<td>Exemplo</td>
+									<td>Exemplo</td>
+								</tr>
+
+								<tr>
+									<td>Exemplo</td>
+									<td>Exemplo</td>
+									<td>Exemplo</td>
+									<td>Exemplo</td>
+									<td>Exemplo</td>
+								</tr>
+
+								<tr>
+									<td>Exemplo</td>
+									<td>Exemplo</td>
+									<td>Exemplo</td>
+									<td>Exemplo</td>
+									<td>Exemplo</td>
+								</tr>
+								<tr>
+									<td>Exemplo</td>
+									<td>Exemplo</td>
+									<td>Exemplo</td>
+									<td>Exemplo</td>
+									<td>Exemplo</td>
+								</tr>
+							</table>
+
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+
 		</div>
-
-		<div class="row margin-top-40">
-			<div class="col-md-6">
-
-				<div class="card">
-					<div class="card-body">
-
-						<h3>RV´s EMITIDAS - COMBUSTÍVEL & PEDÁGIO - CUSTO</h3>
-
-						<table class="table table-striped">
-							<tr>
-								<th>RV</th>
-								<th>Frota</th>
-								<th>Colaborador</th>
-								<th>Data</th>
-								<th>Total</th>
-							</tr>
-							<tr>
-								<td>12345</td>
-								<td>Frota</td>
-								<td>Guilherme</td>
-								<td>16/06/2018</td>
-								<td>5467</td>
-							</tr>
-							<tr>
-								<td>12345</td>
-								<td>Frota</td>
-								<td>Guilherme</td>
-								<td>16/06/2018</td>
-								<td>5467</td>
-							</tr>
-							<tr>
-								<td>12345</td>
-								<td>Frota</td>
-								<td>Guilherme</td>
-								<td>16/06/2018</td>
-								<td>5467</td>
-							</tr>
-							<tr>
-								<th></th>
-								<th></th>
-								<th></th>
-								<th></th>
-								<th>12345</th>
-							</tr>
-						</table>
-
-					</div>
-				</div>
-
-			</div>
-			<div class="col-md-6">
-
-				<div class="card">
-					<div class="card-body">
-
-						<h3>TAXAS / LICENÇAS / ESCOLTAS - CUSTO OPERACIONAL</h3>
-
-						<table class="table table-striped">
-							<tr>
-								<th>AET</th>
-								<th>Fornecedor</th>
-								<th>Data</th>
-								<th>Total</th>
-							</tr>
-							<tr>
-								<td>12345</td>
-								<td>Guilherme</td>
-								<td>16/06/2018</td>
-								<td>5467</td>
-							</tr>
-							<tr>
-								<td>12345</td>
-								<td>Guilherme</td>
-								<td>16/06/2018</td>
-								<td>5467</td>
-							</tr>
-							<tr>
-								<td>12345</td>
-								<td>Guilherme</td>
-								<td>16/06/2018</td>
-								<td>5467</td>
-							</tr>
-							<tr>
-								<th></th>
-								<th></th>
-								<th></th>
-								<th>12345</th>
-							</tr>
-						</table>
-
-					</div>
-				</div>
-
-			</div>
-		</div>
-
-		<div class="row margin-top-40">
-			<div class="col-md-6">
-
-				<div class="card">
-					<div class="card-body">
-
-						<h3>FINANCEIRO - DESPESAS</h3>
-
-						<table class="table table-striped">
-							<tr>
-								<th>NFS</th>
-								<th>Fornecedor</th>
-								<th>Data</th>
-								<th>Total</th>
-							</tr>
-							<tr>
-								<td>12345</td>
-								<td>Guilherme</td>
-								<td>16/06/2018</td>
-								<td>5467</td>
-							</tr>
-							<tr>
-								<td>12345</td>
-								<td>Guilherme</td>
-								<td>16/06/2018</td>
-								<td>5467</td>
-							</tr>
-							<tr>
-								<td>12345</td>
-								<td>Guilherme</td>
-								<td>16/06/2018</td>
-								<td>5467</td>
-							</tr>
-							<tr>
-								<th></th>
-								<th></th>
-								<th></th>
-								<th>12345</th>
-							</tr>
-						</table>
-
-					</div>
-				</div>
-
-			</div>
-			<div class="col-md-6">
-
-				<div class="card">
-					<div class="card-body">
-
-						<h3>OBSERVAÇÕES INTERNAS</h3>
-
-						<table class="table table-striped">
-							<tr>
-								<th>Data</th>
-								<th>Responsável</th>
-								<th>Observação</th>
-							</tr>
-							<tr>
-								<td>12345</td>
-								<td>Guilherme</td>
-								<td>16/06/2018</td>
-							</tr>
-							<tr>
-								<td>12345</td>
-								<td>Guilherme</td>
-								<td>16/06/2018</td>
-							</tr>
-							<tr>
-								<td>12345</td>
-								<td>Guilherme</td>
-								<td>16/06/2018</td>
-							</tr>
-						</table>
-
-					</div>
-				</div>
-
-			</div>
-		</div>
-
-		-->
 
 		<div class="cadastro-footer margin-top-25">
 			<a href="/autorizacao-de-servico" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>

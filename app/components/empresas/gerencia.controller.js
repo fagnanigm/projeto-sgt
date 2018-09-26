@@ -21,6 +21,8 @@
                     empresa_estado : '0'
                 }
 
+                $rootScope.is_loading = false;
+
             }else{
 
                 $http.get('/api/public/empresas/get/' + $rootScope.$stateParams.id_empresa).then(function (response) {

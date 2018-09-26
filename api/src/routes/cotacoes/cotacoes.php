@@ -48,4 +48,10 @@ $app->get('/cotacoes/revisoes/get/{id}', function (Request $request, Response $r
 	return $response->withJson($data);
 });
 
+$app->post('/cotacoes/approve', function (Request $request, Response $response, array $args) {
+	$cotacoes = new Cotacoes($this->db);
+	$data = $cotacoes->cotacao_approve($request->getParams());
+	return $response->withJson($data);
+});
+
 ?>

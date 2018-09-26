@@ -274,20 +274,6 @@
                 controllerAs: 'vm'
             })
 
-            .state('insert-projeto', {
-                url: '/projetos/gerencia',
-                templateUrl: 'app/components/projetos/gerencia.view.html',
-                controller: 'Projetos.GerenciaController',
-                controllerAs: 'vm'
-            })
-
-            .state('update-projeto', {
-                url: '/projetos/gerencia/{id_projeto}?queryString',
-                templateUrl: 'app/components/projetos/gerencia.view.html',
-                controller: 'Projetos.GerenciaController',
-                controllerAs: 'vm'
-            })
-
             .state('visualizar-projeto', {
                 url: '/projetos/visualizar/{id_projeto}?queryString',
                 templateUrl: 'app/components/projetos/visualizar.view.html',

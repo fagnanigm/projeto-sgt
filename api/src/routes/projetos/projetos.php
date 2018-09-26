@@ -41,5 +41,11 @@ $app->get('/projetos/search', function (Request $request, Response $response, ar
 	return $response->withJson($data);
 });
 
+$app->post('/projetos/changestatus', function (Request $request, Response $response, array $args) {
+	$projetos = new Projetos($this->db);
+	$data = $projetos->change_status($request->getParams());
+	return $response->withJson($data);
+});
+
 
 ?>

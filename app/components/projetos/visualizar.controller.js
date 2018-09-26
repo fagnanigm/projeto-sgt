@@ -10,8 +10,10 @@
         
         function get_projeto(){
 
-            $http.get('/api/public/projetos/get/'+$rootScope.$stateParams.id_projeto+'?context='+$localStorage.currentEmpresaId).then(function (response) {
+            $http.get('/api/public/projetos/get/'+$rootScope.$stateParams.id_projeto).then(function (response) {
+
                 $scope.projeto = response.data.projeto;
+                $scope.projeto.list_as = [];
 
             }, function(response) {
                 $rootScope.is_error = true;
@@ -24,6 +26,41 @@
 
         get_projeto();
 
+        $scope.change_status = function($status){
+
+            if(confirm("Deseja alterar o status desse projeto?")){
+
+                var param = {
+                    id : $scope.projeto.id,
+                    status : $status
+                }
+
+                $rootScope.is_loading = true;
+
+                $http.post('/api/public/projetos/changestatus', param ).then(function (response) {
+
+                    if(response.data.result){
+                        location.reload();
+                    }else{
+
+                        ngToast.create({
+                            className: 'danger',
+                            content: response.data.error
+                        });
+
+                    }
+
+                }, function(response) {
+                    $rootScope.is_error = true;
+                    $rootScope.is_error_text = "Erro: " + response.data.error;
+                });
+
+            }
+
+        }
+
     }
+
+
 
 })();

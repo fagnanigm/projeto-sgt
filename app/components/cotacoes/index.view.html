@@ -48,7 +48,7 @@
 				</div>
 			</div>
 			<div class="col-md-6 text-right">
-				<button type="submit" class="btn btn-primary"><i class="icon-magnifier icons"></i> Buscar</button>
+				<button type="submit" class="btn btn-sm btn-primary"><i class="icon-magnifier icons"></i> Buscar</button>
 			</div>
 		</div>
 
@@ -61,7 +61,7 @@
 			<th>Cliente</th>
 			<th>Projeto</th>
 			<th>Vendedor</th>
-			<th width="140">Status</th>
+			<th width="140" class="text-center">Status</th>
 			<th></th>
 		</tr>
 		<tr ng-repeat="(key, val) in cotacoes.results">
@@ -81,12 +81,12 @@
 			<td>
 				{{ val.vendedor_nome }}
 			</td>
-			<td>
+			<td class="text-center">
 				{{ val.cotacao_status_text }}
 			</td>
-			<td width="150">
+			<td width="180">
 				<div class="buttons-capsule">
-					<a href="/cotacoes/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><a href="/cotacoes/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">Editar</a>
+					<a href="/cotacoes/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><a href="/cotacoes/gerencia/{{ val.id }}" class="btn btn-sm btn-warning" ng-if="val.cotacao_status != 'aprovado'">Editar</a><a href="/cotacoes/gerencia?copy={{ val.id }}" class="btn btn-sm btn-warning" ng-if="val.cotacao_status == 'aprovado'">Duplicar</a>
 				</div>
 			</td>
 		</tr>

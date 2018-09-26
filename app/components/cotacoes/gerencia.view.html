@@ -66,21 +66,21 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="celular-1">Celular 1</label>
-							<input type="text" class="form-control" id="celular-1" placeholder="Celular 1" ng-model="cotacao.cotacao_phone_01">
+							<input type="text" class="form-control" id="celular-1" placeholder="Celular 1" ng-model="cotacao.cotacao_phone_01" mask="(99) 9?9999-9999">
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="celular-2">Celular 2</label>
-							<input type="text" class="form-control" id="celular-2" placeholder="Celular 2" ng-model="cotacao.cotacao_phone_02">
+							<input type="text" class="form-control" id="celular-2" placeholder="Celular 2" ng-model="cotacao.cotacao_phone_02" mask="(99) 9?9999-9999">
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="telefone">Telefone</label>
-							<input type="text" class="form-control" id="telefone" placeholder="Telefone" ng-model="cotacao.cotacao_phone_03">
+							<input type="text" class="form-control" id="telefone" placeholder="Telefone" ng-model="cotacao.cotacao_phone_03" mask="(99) 9?9999-9999">
 						</div>
 					</div>
 
@@ -431,17 +431,17 @@
 		<div class="cadastro-footer margin-top-25">
 				
 			<!-- Botão duplicar -->
-			<button type="button" class="btn btn-primary">
+			<a class="btn btn-primary" ng-if="$state.name == 'update-cotacao'" href="/cotacoes/gerencia?copy={{ cotacao.id }}">
 				<i class="fa fa-clone" aria-hidden="true"></i> Duplicar
-			</button>
+			</a>
 
 			<!-- Botão Imprimir // Emite documento em PDF -->
-			<button type="button" class="btn btn-primary">
+			<button type="button" class="btn btn-primary" ng-if="$state.name == 'update-cotacao'">
 				<i class="fa fa-print" aria-hidden="true"></i> Imprimir
 			</button>
 
 			<!-- Botão aprovar // Bloqueia a cotação de alteração e cria um projeto -->
-			<button type="button" class="btn btn-success">
+			<button type="button" class="btn btn-success" ng-if="$state.name == 'update-cotacao' && cotacao.cotacao_status != 'aprovado'" ng-click="approve_cotacao()">
 				<i class="fa fa-check" aria-hidden="true"></i> Aprovar
 			</button>
 
@@ -456,7 +456,7 @@
 			</button>
 
 			<!-- Botão alterar // Só aparece quando estiver alterando -->
-			<button type="submit" class="btn btn-warning" ng-if="$state.name != 'insert-cotacao'">
+			<button type="submit" class="btn btn-warning" ng-if="$state.name != 'insert-cotacao' && cotacao.cotacao_status != 'aprovado'">
 				<i class="fa fa-pencil" aria-hidden="true"></i> Alterar
 			</button>
 

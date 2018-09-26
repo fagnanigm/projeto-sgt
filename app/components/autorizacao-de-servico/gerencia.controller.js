@@ -28,6 +28,7 @@
 
 
                 // Busca código
+                /*
                 $http.get('/api/public/as/getnextcode' + '?context=' + $localStorage.currentEmpresaId).then(function (response) {
                     $scope.as.as_codigo_seq = response.data.code;
                     $scope.as.as_codigo = $scope.as.as_codigo_seq + '/' + $scope.as.as_filial + '-' + $scope.as.as_revisao;
@@ -35,7 +36,10 @@
 
                 $scope.$watchGroup(['as.as_revisao', 'as.as_filial'], function() { 
                     $scope.as.as_codigo = $scope.as.as_codigo_seq + '/' + $scope.as.as_filial + '-' + $scope.as.as_revisao;
-                });            
+                });    
+                */        
+
+                $rootScope.is_loading = false;
 
             }else{
 
@@ -314,6 +318,12 @@
             $scope.as.as_id_local_entrega = local.id;
             $scope.local_entrega_data = local;
         }
+
+        // Tabs
+        $('#tabs-gerencia-as a').on('click', function (e) {
+            e.preventDefault()
+            $(this).tab('show')
+        });
 
         
     }

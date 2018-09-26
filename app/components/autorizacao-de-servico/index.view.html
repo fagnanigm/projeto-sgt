@@ -1,11 +1,8 @@
 <div class="title-page">
 	<div class="row">
 
-		<div class="col-md-8">
+		<div class="col-md-12">
 			<h1>Autorização de serviço <small>({{ autorizacoes.config.total }} registros)</small></h1>
-		</div>
-		<div class="col-md-4 text-right">
-			<a href="/autorizacao-de-servico/gerencia" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Cadastrar</a>
 		</div>
 
 	</div>
@@ -17,72 +14,67 @@
 		<h2>AS's do sistema</h2>
 	</div>
 
-	<!-- 
+	<form action="/autorizacao-de-servico">
 
-	<div class="card">
-		<div class="card-body">
-
-			<h3>Pesquisar</h3>
-
-			<div class="row">
-				<div class="col-md-4">
-					<div class="form-group margin-bottom-0">
-						<label>Data inicial</label>
-						<input type="date" class="form-control" ng-model="search_field">
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group margin-bottom-0">
-						<label>Data final</label>
-						<input type="date" class="form-control" ng-model="search_field">
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group margin-bottom-0">
-						<label>Cód. da AS</label>
-						<input type="text" class="form-control" ng-model="search_field">
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group margin-bottom-0">
-						<label>Cliente</label>
-						<input type="text" class="form-control" ng-model="search_field">
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group margin-bottom-0">
-						<label>Apelido do projeto</label>
-						<input type="text" class="form-control" ng-model="search_field">
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group margin-bottom-0">
-						<label>Status</label>
-						<select class="form-control">
-							<option>Todos</option>
-							<option>Em aberto</option>
-							<option>Em viagem</option>
-							<option>Finalizado</option>
-							<option>Suspenso</option>
-						</select>
-					</div>
+		<div class="row">
+			<div class="col-md-4">
+				<div class="form-group margin-bottom-0">
+					<label>Número AS</label>
+					<input type="text" class="form-control" placeholder="Número sequencial da cotação" name="cotacao_num" ng-model="get_filters.cotacao_num">
 				</div>
 			</div>
-
-			<div class="text-right margin-top-15">
-				<button class="btn btn-sm btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Limpar</button>
-				<button class="btn btn-sm btn-primary"><i class="fa fa-search" aria-hidden="true"></i> Pesquisar</button>
+			<div class="col-md-4">
+				<div class="form-group margin-bottom-0">
+					<label>Conhecimento</label>
+					<input type="text" class="form-control" placeholder="Cliente" name="cotacao_cliente" ng-model="get_filters.cotacao_cliente">
+				</div>
 			</div>
-
+			<div class="col-md-4">
+				<div class="form-group margin-bottom-0">
+					<label>Nota fiscal</label>
+					<input type="text" class="form-control" placeholder="Apelido do projeto" name="cotacao_projeto" ng-model="get_filters.cotacao_projeto">
+				</div>
+			</div>
 		</div>
-	</div>
+		<div class="row margin-top-10">
+			<div class="col-md-4">
+				<div class="form-group margin-bottom-0">
+					<label>Cliente</label>
+					<input type="text" class="form-control" placeholder="Número sequencial da cotação" name="cotacao_num" ng-model="get_filters.cotacao_num">
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group margin-bottom-0">
+					<label>Projeto</label>
+					<input type="text" class="form-control" placeholder="Cliente" name="cotacao_cliente" ng-model="get_filters.cotacao_cliente">
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group margin-bottom-0">
+					<label>Vendedor</label>
+					<input type="text" class="form-control" placeholder="Apelido do projeto" name="cotacao_projeto" ng-model="get_filters.cotacao_projeto">
+				</div>
+			</div>
+		</div>
 
-	-->
+		<div class="row margin-top-10">
+			<div class="col-md-6">
+				<div ng-if="cotacoes.config.is_search">
+					<small>Mostrando {{ cotacoes.config.total }} resultados.</small>
+					<small><a href="/autorizacao-de-servico" target="_self" class="text-danger">Limpar filtro</a></small>
+				</div>
+			</div>
+			<div class="col-md-6 text-right">
+				<button type="submit" class="btn btn-sm btn-primary"><i class="icon-magnifier icons"></i> Buscar</button>
+			</div>
+		</div>
+
+	</form>
 
 	<table class="table table-striped margin-top-30 margin-bottom-80">
 		<tr>
 			<th>Código AS</th>
-			<th>OCC</th>
+			
 			<th>CT-e</th>
 			<th>NFS/FAT</th>
 			<th>Data</th>
@@ -91,14 +83,16 @@
 			<th>UF/Origem</th>
 			<th>UF/Destino</th>
 			<th>Vendedor</th>
+			<th>Categoria</th>
 			<th>Status</th>
 			<th></th>
 		</tr>
 
-		<tr ng-repeat="(key, val) in autorizacoes.results" class="text-success">
+		<!-- <tr ng-repeat="(key, val) in autorizacoes.results" class="text-success"> -->
+		<tr>
 			<td><a href="/autorizacao-de-servico/visualizar">{{ val.as_codigo }}</a></td>
 			<td>-</td>
-			<td>-</td>
+			
 			<td>-</td>
 			<td>{{ val.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm'}}</td>
 			<td>{{ val.as_cliente_fantasia }}</td>
@@ -106,22 +100,12 @@
 			<td>-</td>
 			<td>-</td>
 			<td>{{ val.as_vendedor }}</td>
+			<td>-</td>
 			<td><a href="/autorizacao-de-servico/visualizar">{{ val.as_status }}</a></td>
-			<td width="150" class="text-right">
-				<div class="dropdown">
-					<button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Opções
-					</button>
-					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-						<a class="dropdown-item" href="/gerar-ordem-de-coleta">Ordem de coleta</a>
-						<a class="dropdown-item" href="/gerar-ordem-de-servico">Ordem de serviço</a>
-						<a class="dropdown-item" href="/emitir-nota-fiscal">Nota fiscal de serviço</a>
-						<a class="dropdown-item" href="/emitir-cte">CT-e</a>
-					</div>
-
-					<a href="/autorizacao-de-servico/gerencia" class="btn btn-sm btn-warning">Editar</a>
-
-				</div>				
+			<td width="180" class="text-right">
+				<div class="buttons-capsule">
+					<a href="/cotacoes/gerencia?copy={{ val.id }}" class="btn btn-sm btn-warning">Imprimir</a><a href="/cotacoes/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a>
+				</div>			
 			</td>
 		</tr>
 		

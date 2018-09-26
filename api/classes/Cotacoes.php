@@ -395,7 +395,7 @@ class Cotacoes {
 			}
 
 			// Config
-			$query .= "ORDER BY create_time OFFSET ".$offset." ROWS FETCH NEXT ".$config['item_per_page']." ROWS ONLY";
+			$query .= "ORDER BY create_time DESC OFFSET ".$offset." ROWS FETCH NEXT ".$config['item_per_page']." ROWS ONLY";
 			
 			$select = $this->db->query($query);
 			$response['results'] = $this->parser_fetch($select->fetchAll(\PDO::FETCH_ASSOC),'all');
@@ -730,6 +730,78 @@ class Cotacoes {
 		$response['revisoes'] = $revisoes;
 		$response['cotacao'] = $cotacao;
 		$response['result'] = true;
+
+		return $response;
+
+	}
+
+	public function cotacao_approve($args){
+
+		$response = array(
+			'result' => false
+		);
+
+		if(!isset($args['id'])){
+			$response['error'] = 'O campo id é obrigatório.';
+			return $response;
+		}else{
+
+			$cotacao = $this->get_by_id($args['id']);
+
+			if(!$cotacao['result']){
+				$response['error'] = 'Cotação não encontrada.';
+				return $response;
+			}else{
+				$cotacao = $cotacao['cotacao'];
+			}
+
+		}
+
+		$update_params = array(
+			'cotacao_status' => 'aprovado'
+		);
+
+		$updateStatement = $this->db->update()->set($update_params)->table('cotacoes')->whereMany( array('id' => $args['id']), '=');
+		$affectedRows = $updateStatement->execute();
+
+		if($affectedRows > 0){
+
+			$date = new \DateTime();
+
+			$projeto = new Projetos($this->db);
+
+			$response = $projeto->insert(array(		
+				'id_cotacao' => $cotacao['id'],
+				"id_author" => $cotacao['id_author'],
+				"id_empresa" => $cotacao['id_empresa'],
+				"id_cliente" => $cotacao['id_cliente'],
+				"id_vendedor" => $cotacao['id_vendedor'],
+				"id_forma_pagamento" => $cotacao['id_forma_pagamento'],
+				"id_categoria" => $cotacao['id_categoria'],
+				"projeto_code_sequencial" => $cotacao['cotacao_code_sequencial'],
+				"projeto_code" => $cotacao['cotacao_code'],
+				"projeto_revisao" => $cotacao['cotacao_revisao'],
+				"projeto_cliente_nome" => $cotacao['cotacao_cliente_nome'],
+				"projeto_contato" => $cotacao['cotacao_contato'],
+				"projeto_email" => $cotacao['cotacao_email'],
+				"projeto_phone_01" => $cotacao['cotacao_phone_01'],
+				"projeto_phone_02" => $cotacao['cotacao_phone_02'],
+				"projeto_phone_03" => $cotacao['cotacao_phone_03'],
+				"projeto_ramal" => $cotacao['cotacao_ramal'],
+				"projeto_status" => 'aprovado',
+				"projeto_cadastro_data" => $date->format("Y-m-d\TH:i:s"),
+				"projeto_nome" => $cotacao['cotacao_projeto_nome'],
+				"projeto_descricao" => $cotacao['cotacao_projeto_descricao']
+			));
+
+			return $response;
+
+		}else{
+			$response['error'] = 'Nenhum registro afetado.';
+			return $response;
+		}
+
+		$response['cotacao'] = $cotacao;
 
 		return $response;
 

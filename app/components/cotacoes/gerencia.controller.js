@@ -30,15 +30,53 @@
                     cotacao_anexos_objetos : []
                 }
 
-                setTimeout(function(){
-                    $rootScope.is_loading = false;
-                },2000);
+                var copy = $location.search().copy;
+
+                if(copy){
+
+                    $http.get('/api/public/cotacoes/get/' + copy ).then(function (response) {
+
+                        $scope.cotacao = response.data.cotacao;
+
+                        delete $scope.cotacao.id;
+                        delete $scope.cotacao.id_revisao;
+
+                        $scope.cotacao.cotacao_status = '0';
+                        $scope.cotacao.cotacao_revisao = '0';
+                        $scope.cotacao.cotacao_cadastro_data_obj = new Date($scope.cotacao.cotacao_cadastro_data * 1000);
+                        
+                        calc_total_cotacao_objeto();
+
+                        get_cotacao_code();
+
+                    }, function(response) {
+                        $rootScope.is_error = true;
+                        $rootScope.is_error_text = "Erro: " + response.data.error;
+                    }).finally(function() {
+                        $rootScope.is_loading = false;
+                    });
+
+                }
 
             }else{
 
                 $http.get('/api/public/cotacoes/get/' + $rootScope.$stateParams.id_cotacao ).then(function (response) {
 
                     $scope.cotacao = response.data.cotacao;
+
+                    if($scope.cotacao.cotacao_status == 'aprovado'){
+
+                        ngToast.create({
+                            className: 'danger',
+                            content: "Operação não permitida, cotação já aprovada."
+                        });
+
+                        setTimeout(function(){
+                            location.href = '/cotacoes';
+                        },2000)
+                        
+                    }
+
                     $scope.cotacao.cotacao_revisao =  parseInt($scope.cotacao.cotacao_revisao) + 1;
                     $scope.cotacao.id_revisao = ($scope.cotacao.cotacao_revisao == 1 ? $scope.cotacao.id : $scope.cotacao.id_revisao );
                     $scope.cotacao.cotacao_cadastro_data_obj = new Date($scope.cotacao.cotacao_cadastro_data * 1000);
@@ -166,6 +204,10 @@
 
             $http.get('/api/public/empresas/get?getall=1').then(function (response) {
                 $scope.empresas = response.data.results;
+
+                if($rootScope.$state.name == "insert-cotacao"){
+                    $rootScope.is_loading = false;
+                }
             });
 
         }
@@ -346,6 +388,44 @@
             if(args.result){
                 $scope.cotacao.cotacao_anexos_objetos.push(args.data);
             }
+
+        }
+
+        // Aprovação
+
+        $scope.approve_cotacao = function(){
+
+            if(confirm("Deseja aprovar essa cotação?")){
+
+                $rootScope.is_loading = true;
+
+                $http.post('/api/public/cotacoes/approve', { id : $scope.cotacao.id }).then(function (response) {
+                
+                    if(response.data.result){
+
+                        ngToast.create({
+                            className: 'success',
+                            content: 'Cotação aprovada com sucesso! Redirecionando...'
+                        });
+
+                        location.href = '/projetos/visualizar/' + response.data.id;
+                        
+                    }else{
+                        ngToast.create({
+                            className: 'danger',
+                            content: response.data.error
+                        });
+                    }
+
+                }, function(response) {
+                    $rootScope.is_error = true;
+                    $rootScope.is_error_text = "Erro: " + response.data.message;
+                }).finally(function() {
+                    $rootScope.is_loading = false;
+                });
+
+            }
+
 
         }
 

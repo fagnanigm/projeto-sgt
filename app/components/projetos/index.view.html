@@ -14,101 +14,71 @@
 		<h2>Listagem dos projetos</h2>
 	</div>
 
-	<!-- 
+	<form action="/projetos">
 
-	<div class="card">
-		<div class="card-body">
-
-			<h3>Pesquisar</h3>
-
-			<div class="row">
-				<div class="col-md-4">
-					<div class="form-group margin-bottom-0">
-						<label>Data inicial</label>
-						<input type="date" class="form-control" ng-model="search_field">
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group margin-bottom-0">
-						<label>Data final</label>
-						<input type="date" class="form-control" ng-model="search_field">
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group margin-bottom-0">
-						<label>Cód. da Proposta</label>
-						<input type="text" class="form-control" ng-model="search_field">
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group margin-bottom-0">
-						<label>Cliente</label>
-						<input type="text" class="form-control" ng-model="search_field">
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group margin-bottom-0">
-						<label>Apelido do projeto</label>
-						<input type="text" class="form-control" ng-model="search_field">
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group margin-bottom-0">
-						<label>Status</label>
-						<select class="form-control">
-							<option>Todos</option>
-							<option>Em aberto</option>
-							<option>Em viagem</option>
-							<option>Finalizado</option>
-							<option>Suspenso</option>
-						</select>
-					</div>
+		<div class="row">
+			<div class="col-md-4">
+				<div class="form-group margin-bottom-0">
+					<label>Número</label>
+					<input type="text" class="form-control" placeholder="Número sequencial do projeto" name="projeto_num" ng-model="get_filters.projeto_num">
 				</div>
 			</div>
-
-			<div class="text-right margin-top-15">
-				<button class="btn btn-sm btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Limpar</button>
-				<button class="btn btn-sm btn-primary"><i class="fa fa-search" aria-hidden="true"></i> Pesquisar</button>
+			<div class="col-md-4">
+				<div class="form-group margin-bottom-0">
+					<label>Cliente</label>
+					<input type="text" class="form-control" placeholder="Cliente" name="projeto_cliente" ng-model="get_filters.projeto_cliente">
+				</div>
 			</div>
-
+			<div class="col-md-4">
+				<div class="form-group margin-bottom-0">
+					<label>Projeto</label>
+					<input type="text" class="form-control" placeholder="Apelido do projeto" name="projeto_nome" ng-model="get_filters.projeto_nome">
+				</div>
+			</div>
 		</div>
-	</div>
 
-	-->
+		<div class="row margin-top-10">
+			<div class="col-md-6">
+				<div ng-if="projetos.config.is_search">
+					<small>Mostrando {{ projetos.config.total }} resultados.</small>
+					<small><a href="/projetos" target="_self" class="text-danger">Limpar filtro</a></small>
+				</div>
+			</div>
+			<div class="col-md-6 text-right">
+				<button type="submit" class="btn btn-sm btn-primary"><i class="icon-magnifier icons"></i> Buscar</button>
+			</div>
+		</div>
 
+	</form>
 
 	<table class="table table-striped margin-top-30">
 
 		<tr>
-			<th>Código</th>
+			<th width="200">Código</th>
 			<th>Data</th>
 			<th>Cliente</th>
 			<th>Projeto</th>
-			<th>UF / Origem</th>
-			<th>UF / Destino</th>
 			<th>Vendedor</th>
-			<th>Status</th>
+			<th class="text-center">Status</th>
 			<th></th>
 		</tr>
 
-		<tr ng-repeat="(key, val) in projetos.results" ng-class="{ 
-			'text-success' : val.projeto_status == 'em-aberto', 
-			'text-primary' : val.projeto_status == 'finalizado',
-			'text-danger' : val.projeto_status == 'suspenso',
-			'text-warning' : val.projeto_status == 'em-viagem'
-		}">
-			<td><a href="/projetos/visualizar/{{ val.id }}">{{ val.projeto_codigo }}</a></td>
-			<td>06/06/2018</td>
-			<td>{{ val.projeto_cliente }}</td>
-			<td>{{ val.projeto_codigo }} - {{ val.projeto_apelido }}</td>
-			<td>--</td>
-			<td>--</td>
-			<td>--</td>
-			<td><a href="/projetos/visualizar/{{ val.id }}">{{ val.projeto_status }}</a></td>
-			<td width="220">
-				<div class="buttons-capsule">
-					<a href="/projetos/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><a href="/projetos/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">Editar</a><button ng-click="delete_projeto(val.id)" class="btn btn-sm btn-danger">Excluir</button>
-				</div>
+		<tr ng-repeat="(key, val) in projetos.results">
+			<td><a href="/projetos/visualizar/{{ val.id }}">{{ val.projeto_code }}</a></td>
+			<td>{{ val.projeto_cadastro_data * 1000 | date:'dd/MM/yyyy HH:mm' }}</td>
+			<td>{{ val.projeto_cliente_nome }}</td>
+			<td>{{ val.projeto_nome }}</td>
+			<td>{{ val.vendedor_nome }}</td>
+			<td class="text-center">
+				<a href="/projetos/visualizar/{{ val.id }}" ng-class="{ 
+					'text-success' : val.projeto_status == 'aprovado', 
+					'text-primary' : val.projeto_status == 'finalizado',
+					'text-danger' : val.projeto_status == 'suspenso',
+					'text-warning' : val.projeto_status == 'em-viagem'
+				}">{{ val.projeto_status_text }}</a>
+			</td>
+			<td width="100" class="text-center">
+				<a href="/projetos/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a>
 			</td>
 		</tr>
 		

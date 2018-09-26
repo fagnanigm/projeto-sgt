@@ -9,29 +9,36 @@ class Projetos {
 	public $item_per_page = 5;
 
 	public $schema = array(
+		"id_cotacao",
 		"id_author",
 		"id_empresa",
 		"id_cliente",
-		"projeto_codigo",
-		"projeto_cliente",
+		"id_vendedor",
+		"id_forma_pagamento",
+		"id_categoria",
+		"projeto_code_sequencial",
+		"projeto_code",
+		"projeto_revisao",
+		"projeto_cliente_nome",
 		"projeto_contato",
 		"projeto_email",
-		"projeto_phone_01_ddd",
 		"projeto_phone_01",
-		"projeto_phone_02_ddd",
 		"projeto_phone_02",
-		"projeto_phone_03_ddd",
 		"projeto_phone_03",
 		"projeto_ramal",
-		"projeto_filial",
 		"projeto_status",
-		"projeto_data_cadastro",
-		"projeto_vendedor",
-		"projeto_apelido",
-		"projeto_cod_cotacao",
-		"projeto_resumo",
+		"projeto_cadastro_data",
+		"projeto_nome",
+		"projeto_descricao",
 		"create_time",
 		"active"
+	);
+
+	public $projeto_status_array = array(
+		'aprovado' => 'Aprovado',
+		'suspenso' => 'Suspenso',
+		'cancelado' => 'Cancelado',
+		'finalizado' => 'Finalizado',
 	);
 
 	function __construct($db = false, $item_per_page = false){
@@ -71,20 +78,67 @@ class Projetos {
 
 		}
 
+		if(!isset($args['id_cotacao'])){
+			$response['error'] = 'O campo id_cotacao é obrigatório.';
+			return $response;
+		}else{
+
+			// checa se projeto existe
+			$cotacaoSt = $this->db->select()->from('projetos')->whereMany(array('id_cotacao' => $args['id_cotacao'], 'active' => 'Y'), '=');
+			$stmt = $cotacaoSt->execute();
+			$cotacao_data = $stmt->fetch();
+
+			if($cotacao_data){
+				$response['error'] = 'Já existe um projeto para essa cotação.';
+				return $response;
+			}
+
+		}
+
 		if(!isset($args['id_empresa'])){
 			$response['error'] = 'O campo id_empresa é obrigatório.';
 			return $response;
 		}
 
-		if(!isset($args['projeto_codigo'])){
-			$response['error'] = 'O campo projeto_codigo é obrigatório.';
+		if(!isset($args['id_cliente'])){
+			$response['error'] = 'O campo id_cliente é obrigatório.';
 			return $response;
 		}
 
-		if(!isset($args['projeto_apelido'])){
-			$response['error'] = 'O campo projeto_apelido é obrigatório.';
+		if(!isset($args['id_vendedor'])){
+			$response['error'] = 'O campo id_vendedor é obrigatório.';
 			return $response;
-		}		 
+		}
+
+		if(!isset($args['id_forma_pagamento'])){
+			$response['error'] = 'O campo id_forma_pagamento é obrigatório.';
+			return $response;
+		}
+
+		if(!isset($args['id_categoria'])){
+			$response['error'] = 'O campo id_categoria é obrigatório.';
+			return $response;
+		}
+
+		if(!isset($args['projeto_code'])){
+			$response['error'] = 'O campo projeto_code é obrigatório.';
+			return $response;
+		}
+
+		if(!isset($args['projeto_code_sequencial'])){
+			$response['error'] = 'O campo projeto_code_sequencial é obrigatório.';
+			return $response;
+		}
+
+		if(!isset($args['projeto_cadastro_data'])){
+			$response['error'] = 'O campo projeto_cadastro_data é obrigatório.';
+			return $response;
+		}
+
+		if(!isset($args['projeto_nome'])){
+			$response['error'] = 'O campo projeto_nome é obrigatório.';
+			return $response;
+		}	 
 
 		// Init insert
 		$data = array_flip($this->schema);
@@ -125,62 +179,95 @@ class Projetos {
 	public function get($args = array()){
 
 		$response = array();
+		$is_search = false;
+		
+		// Count total
+		$query_count = "SELECT COUNT(*) AS total FROM projetos p WHERE p.active = 'Y' ";
 
-		if(!isset($args['context'])){
-			$response = array(
-				'result' => false,
-				'error' => 'Contexto não definido'
-			);
-			return $response;
+		// Filtro
+		if(isset($args['projeto_num'])){
+			if(strlen(trim($args['projeto_num'])) > 0){
+				$query_count .= "AND p.projeto_code_sequencial LIKE '%".$args['projeto_num']."%' ";
+				$is_search = true;
+			}
 		}
 
-		$args['getall'] = (isset($args['getall']) ? $args['getall'] : false);
+		if(isset($args['projeto_cliente'])){
+			if(strlen(trim($args['projeto_cliente'])) > 0){
+				$query_count .= "AND p.projeto_cliente_nome LIKE '%".$args['projeto_cliente']."%' ";
+				$is_search = true;
+			}
+		}
 
-		// Count total
-		$selectStatement = $this->db->select(array('COUNT(*) AS total'))->from('projetos')->whereMany(array('active' => 'Y', 'id_empresa' => $args['context']),'=');
-		$stmt = $selectStatement->execute();
-		$total_data = $stmt->fetch();
+		if(isset($args['projeto_nome'])){
+			if(strlen(trim($args['projeto_nome'])) > 0){
+				$query_count .= "AND p.projeto_nome LIKE '%".$args['projeto_nome']."%' ";
+				$is_search = true;
+			}
+		}
 
-		if($args['getall'] == '1'){
+		$count = $this->db->query($query_count);
+		$total_data = $count->fetch();
 
-			$config = array(
-				'total' => $total_data['total'],
-			);
+		$config = array(
+			'total' => $total_data['total'],
+			'item_per_page' => $this->item_per_page,
+			'total_pages' => ceil($total_data['total'] / $this->item_per_page),
+			'current_page' => (isset($args['current_page']) ? $args['current_page'] : 1 ),
+			'is_search' => $is_search
+		);
 
-			$response['config'] = $config;
+		$response['config'] = $config;
 
-			$select = $this->db->query('SELECT * FROM projetos WHERE id_empresa = \''.$args['context'].'\' AND active = \'Y\' ORDER BY create_time');
-			$response['results'] = $this->parser_fecth($select->fetchAll(\PDO::FETCH_ASSOC),'all');
+		if($config['current_page'] <= $config['total_pages']){
 
-		}else{
+			// Offset
+			$offset = ($config['current_page'] == '1' ? 0 : ($config['current_page'] - 1) * $config['item_per_page'] );
 
-			$config = array(
-				'total' => $total_data['total'],
-				'item_per_page' => $this->item_per_page,
-				'total_pages' => ceil($total_data['total'] / $this->item_per_page),
-				'current_page' => (isset($args['current_page']) ? $args['current_page'] : 1 )
-			);
+			$query = "
+				SELECT p.*, v.vendedor_nome
+					FROM projetos p 
+						INNER JOIN vendedores v 
+						ON v.id = p.id_vendedor
+					WHERE p.active = 'Y' 
+			";
 
-			$response['config'] = $config;
-
-			if($config['current_page'] <= $config['total_pages']){
-
-				$offset = ($config['current_page'] == '1' ? 0 : ($config['current_page'] - 1) * $config['item_per_page'] );
-				$select = $this->db->query('SELECT * FROM projetos WHERE id_empresa = \''.$args['context'].'\' AND active = \'Y\' ORDER BY create_time OFFSET '.$offset.' ROWS FETCH NEXT '.$config['item_per_page'].' ROWS ONLY');
-				$response['results'] = $this->parser_fecth($select->fetchAll(\PDO::FETCH_ASSOC),'all');
-				$response['config']['page_items_total'] = count($response['results']);
-
-			}else{
-				$response['results'] = [];
+			// Filtro
+			if(isset($args['projeto_num'])){
+				if(strlen(trim($args['projeto_num'])) > 0){
+					$query .= "AND p.projeto_code_sequencial LIKE '%".$args['projeto_num']."%' "; 
+				}
 			}
 
+			if(isset($args['projeto_cliente'])){
+				if(strlen(trim($args['projeto_cliente'])) > 0){
+					$query .= "AND p.projeto_cliente_nome LIKE '%".$args['projeto_cliente']."%' "; 
+				}
+			}
+
+			if(isset($args['projeto_nome'])){
+				if(strlen(trim($args['projeto_nome'])) > 0){
+					$query .= "AND p.projeto_nome LIKE '%".$args['projeto_nome']."%' "; 
+				}
+			}
+
+			// Config
+			$query .= "ORDER BY p.create_time DESC OFFSET ".$offset." ROWS FETCH NEXT ".$config['item_per_page']." ROWS ONLY";
+			
+			$select = $this->db->query($query);
+
+			$response['results'] = $this->parser_fetch($select->fetchAll(\PDO::FETCH_ASSOC),'all');
+			$response['config']['page_items_total'] = count($response['results']);
+
+		}else{
+			$response['results'] = [];
 		}
 
 		return $response;
 
 	}
 
-	public function parser_fecth($result, $fetch = 'one'){
+	public function parser_fetch($result, $fetch = 'one'){
 		if($fetch == 'one'){
 			$result = $this->apply_filter_projeto($result);
 		}else{
@@ -193,14 +280,18 @@ class Projetos {
 		return $result;
 	}
 
-	public function apply_filter_projeto($local){
+	public function apply_filter_projeto($projeto){
 
-		foreach ($local as $key => $field) {
-			$local[$key] = trim($field);
+		foreach ($projeto as $key => $field) {
+			$projeto[$key] = trim($field);
 		}
 
-		
-		return $local;
+		$cadastro_data = new \DateTime($projeto['projeto_cadastro_data']);
+		$projeto['projeto_cadastro_data'] = $cadastro_data->getTimestamp();
+
+		$projeto['projeto_status_text'] = $this->projeto_status_array[$projeto['projeto_status']];
+
+		return $projeto;
 	}
 
 	public function delete($args = array()){
@@ -281,25 +372,33 @@ class Projetos {
 			'result' => false
 		);
 
-		if(!isset($args['context'])){
-			$response = array(
-				'result' => false,
-				'error' => 'Contexto não definido'
-			);
-			return $response;
-		}
-
 		if(!$id){
 			$response['error'] = 'ID não informado.';
 		}
 
-		$selectStatement = $this->db->select()->from('projetos')->whereMany(array('id' => $id, 'active' => 'Y', 'id_empresa' => $args['context'] ), '=');
+		$selectStatement = $this->db->query("
+			SELECT p.*, e.empresa_name, v.vendedor_nome, cat.cat_name, fg.forma_nome
+				FROM projetos p 
 
-		$stmt = $selectStatement->execute();
-		$data = $stmt->fetch();
+					INNER JOIN empresas e 
+					ON p.id_empresa = e.id
+
+					INNER JOIN vendedores v 
+					ON p.id_vendedor = v.id
+
+					INNER JOIN categorias cat 
+					ON p.id_categoria = cat.id
+
+					LEFT OUTER JOIN formas_pagamento fg 
+					ON p.id_forma_pagamento = fg.id
+
+				WHERE p.id = '".$id."' AND p.active = 'Y'
+		");
+
+		$data = $selectStatement->fetch();
 
 		if($data){
-			$response['projeto'] = $this->parser_fecth($data);
+			$response['projeto'] = $this->parser_fetch($data);
 			$response['result'] = true;
 		}else{
 			$response['error'] = 'Nenhum projeto encontrado para essa ID.';
@@ -339,11 +438,53 @@ class Projetos {
 			)
 			ORDER BY projeto_apelido');
 			
-		$response['results'] = $this->parser_fecth($select->fetchAll(\PDO::FETCH_ASSOC),'all');
+		$response['results'] = $this->parser_fetch($select->fetchAll(\PDO::FETCH_ASSOC),'all');
 
 		$response['result'] = true;
 
 		return $response;
+
+	}
+
+	public function change_status($args){
+
+		$response = array(
+			'result' => false
+		);
+
+		if(!isset($args['id'])){
+			$response['error'] = 'ID não definido';
+			return $response;
+		}
+
+		if(!isset($args['status'])){
+			$response['error'] = 'Status não definido';
+			return $response;
+		}else{
+
+			if(!array_key_exists($args['status'], $this->projeto_status_array)){
+				$response['error'] = 'Status incorreto';
+				return $response;
+			}
+
+		}
+
+		$updateStatement = $this->db->update()->set(array('projeto_status' => $args['status']))->table('projetos')->whereMany( array('id' => $args['id']), '=');
+
+		$affectedRows = $updateStatement->execute();
+
+		if($affectedRows > 0){
+
+			$response['result'] = true;
+			$response['affectedRows'] = $affectedRows;
+			return $response;
+
+		}else{
+			$response['error'] = 'Nenhum registro afetado.';
+		}
+
+		return $response;
+
 
 	}
 
