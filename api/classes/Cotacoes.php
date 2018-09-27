@@ -673,7 +673,7 @@ class Cotacoes {
 		}
 
 		$response['cotacao_code'] = 
-			$empresa['empresa_prefixo'] . '-' .
+			strtoupper($empresa['empresa_prefixo']) . '-' .
 			date('m') . '-' .
 			$sequencial . '/' .
 			date('y') . '-' .

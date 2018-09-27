@@ -11,7 +11,7 @@ $app->post('/as/insert', function (Request $request, Response $response, array $
 	return $response->withJson($data);
 });
 
-$app->get('/as/getnextcode', function (Request $request, Response $response, array $args) {
+$app->post('/as/getnextcode', function (Request $request, Response $response, array $args) {
 	$as = new AutorizacaoServico($this->db);
 	$data = $as->getnextcode($request->getParams());
 	return $response->withJson($data);
@@ -23,16 +23,18 @@ $app->get('/as/get', function (Request $request, Response $response, array $args
 	return $response->withJson($data);
 });
 
+$app->get('/as/get/{id}', function (Request $request, Response $response, array $args) {
+	$as = new AutorizacaoServico($this->db);
+	$data = $as->get_by_id($args['id'], $request->getParams());
+	return $response->withJson($data);
+});
+
 /*
 
 
 
 
-$app->get('/AutorizacaoServico/get/{id}', function (Request $request, Response $response, array $args) {
-	$AutorizacaoServico = new AutorizacaoServico($this->db);
-	$data = $AutorizacaoServico->get_by_id($args['id'], $request->getParams());
-	return $response->withJson($data);
-});
+
 
 $app->post('/AutorizacaoServico/delete', function (Request $request, Response $response, array $args) {
 	$AutorizacaoServico = new AutorizacaoServico($this->db);

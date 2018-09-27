@@ -297,10 +297,24 @@
                 controllerAs: 'vm'
             })
 
+            .state('update-autorizacao-de-servico', {
+                url: '/autorizacao-de-servico/gerencia/{id_as}?queryString',
+                templateUrl: 'app/components/autorizacao-de-servico/gerencia.view.html',
+                controller: 'As.GerenciaController',
+                controllerAs: 'vm'
+            })
+
             .state('visualizar-autorizacao-de-servico', {
                 url: '/autorizacao-de-servico/visualizar',
                 templateUrl: 'app/components/autorizacao-de-servico/visualizar.view.html',
                 controller: 'Produtos.IndexController',
+                controllerAs: 'vm'
+            })
+
+            .state('autorizacao-de-servico-paged', {
+                url: '/autorizacao-de-servico/{page}?queryString',
+                templateUrl: 'app/components/autorizacao-de-servico/index.view.html',
+                controller: 'As.IndexController',
                 controllerAs: 'vm'
             })
 

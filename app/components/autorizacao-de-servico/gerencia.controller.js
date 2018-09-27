@@ -17,36 +17,67 @@
             if($rootScope.$state.name == "insert-autorizacao-de-servico"){
 
                 $scope.as = {
-                    id_author : $localStorage.currentUser.id,
-                    id_empresa : $localStorage.currentEmpresaId,
-                    as_revisao : '0',
-                    as_filial : '0',
-                    as_status : 'status1',
-                    as_data_cadastro_obj : new Date(),
-                    as_cliente_tomador_type : 'consignatario'
+                   id_empresa : '0',
+                   as_projeto_status : '0',
+                   id_vendedor : '0',
+                   id_categoria : '0',
+                   as_projeto_revisao : '0',
+                   as_projeto_cadastro_data_obj : new Date(),
+                   as_projeto_status : 'em-aberto',
+                   id_author : $localStorage.currentUser.id
                 }
 
+                var id_projeto = $location.search().projeto; 
 
-                // Busca código
-                /*
-                $http.get('/api/public/as/getnextcode' + '?context=' + $localStorage.currentEmpresaId).then(function (response) {
-                    $scope.as.as_codigo_seq = response.data.code;
-                    $scope.as.as_codigo = $scope.as.as_codigo_seq + '/' + $scope.as.as_filial + '-' + $scope.as.as_revisao;
-                });
+                if(id_projeto){
 
-                $scope.$watchGroup(['as.as_revisao', 'as.as_filial'], function() { 
-                    $scope.as.as_codigo = $scope.as.as_codigo_seq + '/' + $scope.as.as_filial + '-' + $scope.as.as_revisao;
-                });    
-                */        
+                    $http.get('/api/public/projetos/get/' + id_projeto).then(function (response) {
 
-                $rootScope.is_loading = false;
+                        var projeto = response.data.projeto;
+
+                        $scope.as.id_cotacao = projeto.id_cotacao;
+                        $scope.as.id_projeto = projeto.id;
+                        $scope.as.id_empresa = projeto.id_empresa;
+                        $scope.as.id_vendedor = projeto.id_vendedor;
+                        $scope.as.id_categoria = projeto.id_categoria;
+                        $scope.as.id_cliente = projeto.id_cliente;
+                        $scope.as.as_projeto_cliente_nome = projeto.projeto_cliente_nome;
+                        $scope.as.as_projeto_contato = projeto.projeto_contato;
+                        $scope.as.as_projeto_email = projeto.projeto_email;
+                        $scope.as.as_projeto_phone_01 = projeto.projeto_phone_01;
+                        $scope.as.as_projeto_phone_02 = projeto.projeto_phone_02;
+                        $scope.as.as_projeto_phone_03 = projeto.projeto_phone_03;
+                        $scope.as.as_projeto_ramal = projeto.projeto_ramal;
+                        $scope.as.as_projeto_nome = projeto.projeto_nome;
+                        $scope.as.as_projeto_descricao = projeto.projeto_descricao;
+
+                        get_as_code();
+
+                    }, function(response) {
+                        $rootScope.is_error = true;
+                        $rootScope.is_error_text = "Erro: " + response.data.error;
+                    }).finally(function() {
+                        $rootScope.is_loading = false;
+                    });
+
+                }else{
+
+                    $rootScope.is_loading = false;
+                }
 
             }else{
 
-                $http.get('/api/public/locais/get/' + $rootScope.$stateParams.id_as + '?context=' + $localStorage.currentEmpresaId).then(function (response) {
+                $http.get('/api/public/as/get/' + $rootScope.$stateParams.id_as).then(function (response) {
                     
-                    $scope.as = response.data.as;
-                    $scope.as.context = $localStorage.currentEmpresaId;
+                    $scope.as = response.data.as;                    
+
+                    $scope.as.as_projeto_revisao =  parseInt($scope.as.as_projeto_revisao) + 1;
+                    $scope.as.id_revisao = ($scope.as.as_projeto_revisao == 1 ? $scope.as.id : $scope.as.id_revisao );
+                    // $scope.as.as_projeto_cadastro_data_obj = new Date($scope.as.as_projeto_cadastro_data * 1000);
+
+                    delete $scope.as.id;
+                    
+                    get_as_code();
 
                 }, function(response) {
                     $rootScope.is_error = true;
@@ -60,7 +91,9 @@
         }        
 
         function initController() {
-
+            get_empresas();
+            get_vendedores();
+            get_categorias();
         	get_as();
         }
         
@@ -70,70 +103,37 @@
             var error = 0;
             
             // Validação
-
     
             if(error == 0){
 
-                $rootScope.is_loading = true;
+                $rootScope.is_loading = true;                
 
-                $scope.as.as_codigo_seq = GlobalServices.get_as_code_sequencial($scope.as.as_codigo);
-            
-                if($rootScope.$state.name == "insert-autorizacao-de-servico"){
+                $http.post('/api/public/as/insert', $scope.as).then(function (response) {
 
-                    $http.post('/api/public/as/insert', $scope.as).then(function (response) {
-                        
-                        if(response.data.result){
+                    console.log(response);
+                    
+                    if(response.data.result){
 
-                            ngToast.create({
-                                className: 'success',
-                                content: "AS cadastrada com sucesso!"
-                            });
+                        ngToast.create({
+                            className: 'success',
+                            content: "AS cadastrada com sucesso!"
+                        });
 
-                            $location.path('/autorizacao-de-servico');
+                        $location.path('/autorizacao-de-servico');
 
-                        }else{
-                            ngToast.create({
-                                className: 'danger',
-                                content: response.data.error
-                            });
-                        }
+                    }else{
+                        ngToast.create({
+                            className: 'danger',
+                            content: response.data.error
+                        });
+                    }
 
-                    }, function(response) {
-                        $rootScope.is_error = true;
-                        $rootScope.is_error_text = "Erro: " + response.data.message;
-                    }).finally(function() {
-                        $rootScope.is_loading = false;
-                    });
-
-                }else{
-
-                    $http.post('/api/public/locais/update', $scope.as ).then(function (response) {
-                        
-                        if(response.data.result){
-
-                            ngToast.create({
-                                className: 'success',
-                                content: "as editado com sucesso!"
-                            });
-
-                            $location.path('/locais');
-
-                        }else{
-                            ngToast.create({
-                                className: 'danger',
-                                content: response.data.error
-                            });
-                        }
-
-                    }, function(response) {
-                        $rootScope.is_error = true;
-                        $rootScope.is_error_text = "Erro: " + response.data.message;
-                    }).finally(function() {
-                        $rootScope.is_loading = false;
-                    });
-
-
-                }
+                }, function(response) {
+                    $rootScope.is_error = true;
+                    $rootScope.is_error_text = "Erro: " + response.data.message;
+                }).finally(function() {
+                    $rootScope.is_loading = false;
+                });
 
             }
 
@@ -187,11 +187,7 @@
 
         // Main cliente: primeira parte do cadastro da AS
         $scope.main_cliente = function(cliente){
-            $scope.as.as_cliente_id = cliente.id;
-            $scope.as.as_cliente_fantasia = cliente.cliente_nome;
-            $scope.as.as_cliente_responsavel = cliente.cliente_nome;
-            $scope.as.as_cliente_email = cliente.cliente_email;
-            $scope.as.as_cliente_phone1 = '(' + cliente.cliente_phone_01_ddd + ') ' + cliente.cliente_phone_01;
+            
         }
 
         // Cliente consignatario
@@ -216,53 +212,6 @@
         $scope.cliente_faturamento = function(cliente){
             $scope.as.as_id_cliente_faturamento = cliente.id;
             $scope.cliente_faturamento_data = cliente;
-        }
-
-        // Seleção de projeto
-
-        $scope.projeto_search_filter = { free_term : '' };
-        $scope.projeto_is_search = false;
-
-        $scope.search_modal_projeto = function(){
-            $rootScope.is_modal_loading = true;
-
-            $http.get('/api/public/projetos/search?term=' + $scope.projeto_search_filter.free_term + '&context=' + $localStorage.currentEmpresaId, $scope.as ).then(function (response) {
-                    
-                if(response.data.result){
-                    $scope.projetos = response.data.results;
-                    $scope.projeto_is_search = true;
-                }else{
-                    ngToast.create({
-                        className: 'danger',
-                        content: response.data.error
-                    });
-                }
-
-            }, function(response) {
-                $rootScope.is_error = true;
-                $rootScope.is_error_text = "Erro: " + response.data.message;
-            }).finally(function() {
-                $rootScope.is_modal_loading = false;
-            });
-
-        }
-
-        $scope.open_choose_projeto = function(fn){
-            $scope.open_choose_projeto_fn = fn;
-            $rootScope.openModal("/app/components/autorizacao-de-servico/projetos.modal.html",false,$scope);
-        }
-
-        $scope.choose_projeto = function(projeto){
-            $scope[$scope.open_choose_projeto_fn](projeto);
-            $rootScope.closeModal();
-            $scope.projeto_is_search = false;
-        }
-
-        $scope.main_projeto = function(projeto){
-            $scope.as.as_id_projeto = projeto.id;
-            $scope.as.as_projeto_nome = projeto.projeto_apelido;
-            $scope.as.as_projeto_cod = projeto.projeto_codigo;
-            $scope.as.as_projeto_resumo = projeto.projeto_resumo;
         }
 
         // Seleção de local
@@ -324,6 +273,75 @@
             e.preventDefault()
             $(this).tab('show')
         });
+
+        // Objeto de carregamento
+        $scope.open_objeto_form = function(){
+            $scope.objeto = {
+                objeto_tipo_valor : 'reais',
+                is_edit : false
+            };
+            $rootScope.openModal("/app/components/autorizacao-de-servico/objeto-form.modal.html",false,$scope);
+        }
+
+        function get_empresas(){
+
+            $http.get('/api/public/empresas/get?getall=1').then(function (response) {
+                $scope.empresas = response.data.results;
+            });
+
+        }
+
+        function get_vendedores(){
+
+            $http.get('/api/public/vendedores/get?getall=1').then(function (response) {
+                $scope.vendedores = response.data.results;
+            });
+
+        }
+
+        function get_categorias(){
+
+            $http.get('/api/public/categorias/get?getall=1').then(function (response) {
+                $scope.categorias = response.data.results;
+            });
+
+        }
+
+        function get_as_code(){
+
+            $rootScope.is_loading = true;
+
+            var param = {
+                id_empresa : $scope.as.id_empresa,
+                revisao : $scope.as.as_projeto_revisao
+            }
+
+            if($rootScope.$state.name == "update-autorizacao-de-servico"){
+                param.as_projeto_code_sequencial = $scope.as.as_projeto_code_sequencial;
+            }
+
+            $http.post('/api/public/as/getnextcode', param ).then(function (response) {
+            
+                if(response.data.result){
+
+                    $scope.as.as_projeto_code = response.data.as_projeto_code;
+                    $scope.as.as_projeto_code_sequencial = response.data.as_projeto_code_sequencial;
+                    
+                }else{
+                    ngToast.create({
+                        className: 'danger',
+                        content: response.data.error
+                    });
+                }
+
+            }, function(response) {
+                $rootScope.is_error = true;
+                $rootScope.is_error_text = "Erro: " + response.data.message;
+            }).finally(function() {
+                $rootScope.is_loading = false;
+            });
+
+        }
 
         
     }
