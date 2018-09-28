@@ -20,19 +20,19 @@
 			<div class="col-md-4">
 				<div class="form-group margin-bottom-0">
 					<label>Número AS</label>
-					<input type="text" class="form-control" placeholder="Número sequencial da cotação" name="cotacao_num" ng-model="get_filters.cotacao_num">
+					<input type="text" class="form-control" placeholder="Número sequencial da AS" name="as_num" ng-model="get_filters.as_num">
 				</div>
 			</div>
 			<div class="col-md-4">
 				<div class="form-group margin-bottom-0">
 					<label>Conhecimento</label>
-					<input type="text" class="form-control" placeholder="Cliente" name="cotacao_cliente" ng-model="get_filters.cotacao_cliente">
+					<input type="text" class="form-control" placeholder="Número do conhecimento" name="cte_num" ng-model="get_filters.cte_num">
 				</div>
 			</div>
 			<div class="col-md-4">
 				<div class="form-group margin-bottom-0">
 					<label>Nota fiscal</label>
-					<input type="text" class="form-control" placeholder="Apelido do projeto" name="cotacao_projeto" ng-model="get_filters.cotacao_projeto">
+					<input type="text" class="form-control" placeholder="Número da nota fiscal" name="nf_num" ng-model="get_filters.nf_num">
 				</div>
 			</div>
 		</div>
@@ -40,19 +40,22 @@
 			<div class="col-md-4">
 				<div class="form-group margin-bottom-0">
 					<label>Cliente</label>
-					<input type="text" class="form-control" placeholder="Número sequencial da cotação" name="cotacao_num" ng-model="get_filters.cotacao_num">
+					<input type="text" class="form-control" placeholder="Nome do cliente" name="cliente_nome" ng-model="get_filters.cliente_nome">
 				</div>
 			</div>
 			<div class="col-md-4">
 				<div class="form-group margin-bottom-0">
 					<label>Projeto</label>
-					<input type="text" class="form-control" placeholder="Cliente" name="cotacao_cliente" ng-model="get_filters.cotacao_cliente">
+					<input type="text" class="form-control" placeholder="Nome do projeto" name="projeto_nome" ng-model="get_filters.projeto_nome">
 				</div>
 			</div>
 			<div class="col-md-4">
 				<div class="form-group margin-bottom-0">
 					<label>Vendedor</label>
-					<input type="text" class="form-control" placeholder="Apelido do projeto" name="cotacao_projeto" ng-model="get_filters.cotacao_projeto">
+					<select class="form-control" name="vendedor_id" ng-model="get_filters.vendedor_id">
+						<option value="">Selecione...</option>
+						<option ng-repeat="(key, val) in vendedores" value="{{ val.id }}">{{ val.vendedor_nome }}</option>
+					</select>
 				</div>
 			</div>
 		</div>
@@ -73,15 +76,11 @@
 
 	<table class="table table-striped margin-top-30 margin-bottom-80">
 		<tr>
-			<th>Código AS</th>
-			
+			<th width="180">Código AS</th>
 			<th>CT-e</th>
 			<th>NFS/FAT</th>
-			<th>Data</th>
-			<th>Cliente</th>
-			<th>Projeto</th>
-			<th>UF/Origem</th>
-			<th>UF/Destino</th>
+			<th>Cliente/<br/>Projeto</th>
+			<th>UF/Origem<br />UF/Destino</th>
 			<th>Vendedor</th>
 			<th>Categoria</th>
 			<th>Status</th>
@@ -89,19 +88,19 @@
 		</tr>
 
 		<tr ng-repeat="(key, val) in autorizacoes.results">
-			<td><a href="/autorizacao-de-servico/visualizar">{{ val.as_projeto_code }}</a></td>
-			<td>-</td>
-			
-			<td>-</td>
-			<td>{{ val.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm'}}</td>
-			<td>{{ val.as_cliente_fantasia }}</td>
-			<td>{{ val.as_projeto_nome }}</td>
+			<td>
+				<a href="/autorizacao-de-servico/visualizar/{{ val.id }}">{{ val.as_projeto_code }}</a><br />
+				<small><a href="#" ng-click="open_revisoes(val.id)">Ver revisões</a></small><br />
+				<small>{{ val.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm'}}</small>
+			</td>
 			<td>-</td>
 			<td>-</td>
-			<td>{{ val.as_vendedor }}</td>
+			<td>{{ val.as_projeto_cliente_nome }}<br />{{ val.as_projeto_nome }}</td>
 			<td>-</td>
-			<td><a href="/autorizacao-de-servico/visualizar">{{ val.as_status }}</a></td>
-			<td width="180" class="text-right">
+			<td>{{ val.vendedor_nome }}</td>
+			<td>{{ val.cat_name }}</td>
+			<td><a href="/autorizacao-de-servico/visualizar/{{ val.id }}">{{ val.as_projeto_status_text }}</a></td>
+			<td width="160" class="text-right">
 				<div class="buttons-capsule">
 					<a href="/autorizacao-de-servico/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><a href="/autorizacao-de-servico/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">Editar</a>
 				</div>			

@@ -557,6 +557,45 @@ textarea.form-control {
     border-left-color: #00a2e8;
 }
 
+.valores-as-footer {
+
+    border:1px solid #e9ecef;
+
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+45,f2f2f2+100 */
+    background: #ffffff; /* Old browsers */
+    background: -moz-linear-gradient(top, #ffffff 45%, #f2f2f2 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #ffffff 45%,#f2f2f2 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #ffffff 45%,#f2f2f2 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f2f2f2',GradientType=0 ); /* IE6-9 */
+
+}
+
+.valores-as-footer ul {
+    display: table;
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+.valores-as-footer ul li {
+    display: table-cell;
+    vertical-align: middle;
+    border-right: 1px solid #e9ecef;
+    text-align: center;
+    font-size: 13px;
+    text-transform: uppercase;
+    padding: 12px 0px;
+    color: #666;
+}
+
+.valores-as-footer ul li:last-child {
+    border-right: 0px;
+}
+
+.valores-as-footer ul li strong {
+    display: block;
+    font-size: 18px;
+}
 
 
 

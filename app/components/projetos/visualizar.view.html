@@ -166,21 +166,15 @@
 	<table class="table table-striped">
 		<tr>
 			<th>AS</th>
-			<th>Descrição</th>
 			<th>Data</th>
-			<th>Preço</th>
-			<th>Custo</th>
-			<th>Resultado</th>
 			<th>Status</th>
+			<th width="110"></th>
 		</tr>
-		<tr ng-repeat="(key, val) in list_as">
-			<td><a href="">1234</a></td>
-			<td>Descrição exemplo</td>
-			<td>16/06/2018</td>
-			<td>R$ 100,00</td>
-			<td>R$ 100,00</td>
-			<td>Sucesso</td>
-			<td>Finalizado</td>
+		<tr ng-repeat="(key, val) in projeto.list_as">
+			<td><a href="/autorizacao-de-servico/gerencia/{{ val.id }}">{{ val.as_projeto_code }}</a></td>
+			<td>{{ val.create_timestamp * 1000 | date:"dd/MM/yyyy HH:mm" }}</td>
+			<td>{{ val.as_projeto_status_text }}</td>
+			<td><a href="/autorizacao-de-servico/gerencia/{{ val.id }}" class="btn btn-primary btn-sm"><i class="fa fa-sign-out" aria-hidden="true"></i> Acessar</a></td>
 		</tr>
 		<tr ng-if="projeto.list_as.length == 0">
 			<td colspan="7" class="text-center"><strong>Nenhuma AS encontrada para este projeto.</strong></td>

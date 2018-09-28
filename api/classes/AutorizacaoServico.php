@@ -142,6 +142,12 @@ class AutorizacaoServico {
 		"active"
 	);
 
+	public $status_array = array(
+		'em-aberto' => 'Em aberto',
+		'em-viagem' => 'Em viagem',
+		'faturado' => 'Faturado'
+	);
+
 	function __construct($db = false, $item_per_page = false){
 		if(!$db){
 			die();
@@ -213,6 +219,79 @@ class AutorizacaoServico {
 			return $response;
 		}
 
+		// Checkbox
+		if(!isset($args['as_as_incluso_comercial_rcfdc']) || strlen($args['as_as_incluso_comercial_rcfdc']) == 0){
+			$args['as_as_incluso_comercial_rcfdc'] = false;
+		}
+
+		if(!isset($args['as_as_incluso_comercial_rctrc']) || strlen($args['as_as_incluso_comercial_rctrc']) == 0){
+			$args['as_as_incluso_comercial_rctrc'] = false;
+		}
+
+		if(!isset($args['as_as_incluso_comercial_despacho']) || strlen($args['as_as_incluso_comercial_despacho']) == 0){
+			$args['as_as_incluso_comercial_despacho'] = false;
+		}
+
+		if(!isset($args['as_as_incluso_comercial_carga']) || strlen($args['as_as_incluso_comercial_carga']) == 0){
+			$args['as_as_incluso_comercial_carga'] = false;
+		}
+
+		if(!isset($args['as_as_incluso_comercial_descarga']) || strlen($args['as_as_incluso_comercial_descarga']) == 0){
+			$args['as_as_incluso_comercial_descarga'] = false;
+		}
+
+		if(!isset($args['as_as_incluso_comercial_estadia']) || strlen($args['as_as_incluso_comercial_estadia']) == 0){
+			$args['as_as_incluso_comercial_estadia'] = false;
+		}
+
+		if(!isset($args['as_as_incluso_comercial_pernoite']) || strlen($args['as_as_incluso_comercial_pernoite']) == 0){
+			$args['as_as_incluso_comercial_pernoite'] = false;
+		}
+
+		if(!isset($args['as_as_incluso_comercial_armazenagem']) || strlen($args['as_as_incluso_comercial_armazenagem']) == 0){
+			$args['as_as_incluso_comercial_armazenagem'] = false;
+		}
+
+		if(!isset($args['as_as_incluso_comercial_advalorem']) || strlen($args['as_as_incluso_comercial_advalorem']) == 0){
+			$args['as_as_incluso_comercial_advalorem'] = false;
+		}
+
+		if(!isset($args['as_as_incluso_comercial_seguro']) || strlen($args['as_as_incluso_comercial_seguro']) == 0){
+			$args['as_as_incluso_comercial_seguro'] = false;
+		}
+
+		if(!isset($args['as_as_incluso_contabil_icms']) || strlen($args['as_as_incluso_contabil_icms']) == 0){
+			$args['as_as_incluso_contabil_icms'] = false;
+		}
+
+		if(!isset($args['as_as_incluso_contabil_iss']) || strlen($args['as_as_incluso_contabil_iss']) == 0){
+			$args['as_as_incluso_contabil_iss'] = false;
+		}
+
+		if(!isset($args['as_as_incluso_contabil_inss']) || strlen($args['as_as_incluso_contabil_inss']) == 0){
+			$args['as_as_incluso_contabil_inss'] = false;
+		}
+
+		if(!isset($args['as_as_incluso_contabil_ir']) || strlen($args['as_as_incluso_contabil_ir']) == 0){
+			$args['as_as_incluso_contabil_ir'] = false;
+		}
+
+		if(!isset($args['as_as_incluso_contabil_pis']) || strlen($args['as_as_incluso_contabil_pis']) == 0){
+			$args['as_as_incluso_contabil_pis'] = false;
+		}
+
+		if(!isset($args['as_as_incluso_contabil_cofins']) || strlen($args['as_as_incluso_contabil_cofins']) == 0){
+			$args['as_as_incluso_contabil_cofins'] = false;
+		}
+
+		if(!isset($args['as_as_incluso_contabil_csll']) || strlen($args['as_as_incluso_contabil_csll']) == 0){
+			$args['as_as_incluso_contabil_csll'] = false;
+		}
+
+		if(!isset($args['as_as_incluso_contabil_cp']) || strlen($args['as_as_incluso_contabil_cp']) == 0){
+			$args['as_as_incluso_contabil_cp'] = false;
+		}
+
 		// Init insert
 		$data = array_flip($this->schema);
 
@@ -221,7 +300,7 @@ class AutorizacaoServico {
 			
 			if(isset($args[$field])){
 
-				if(strlen($args[$field]) > 0){
+				if(is_bool($args[$field]) || strlen($args[$field]) > 0){
 
 					$val = $args[$field];
 
@@ -237,19 +316,40 @@ class AutorizacaoServico {
 						$val = intval($val);
 					}
 
-					/*
+					
 					// Tratamento de data
-					if(	$field == 'as_data_cadastro' || 
-						$field == 'as_local_carregamento_date' ||
-						$field == 'as_local_previsao_entrega' || 
-						$field == 'as_faturamento_prazo' || 
-						$field == 'as_faturamento_date' ||
-						$field == 'as_faturamento_date_envio'
+					if(	
+						$field == 'as_projeto_cadastro_data' ||
+						$field == 'as_as_prazo_pagamento'
 					){
 						$date = new \DateTime();
 						$date->setTimestamp($val);
 						$val = $date->format("Y-m-d\TH:i:s");
-					}*/
+					}
+
+					// Checkboxes
+					if(
+						$field == 'as_as_incluso_comercial_rcfdc' || 
+						$field == 'as_as_incluso_comercial_rctrc' || 
+						$field == 'as_as_incluso_comercial_despacho' || 
+						$field == 'as_as_incluso_comercial_carga' || 
+						$field == 'as_as_incluso_comercial_descarga' || 
+						$field == 'as_as_incluso_comercial_estadia' || 
+						$field == 'as_as_incluso_comercial_pernoite' || 
+						$field == 'as_as_incluso_comercial_armazenagem' || 
+						$field == 'as_as_incluso_comercial_advalorem' || 
+						$field == 'as_as_incluso_comercial_seguro' || 
+						$field == 'as_as_incluso_contabil_icms' || 
+						$field == 'as_as_incluso_contabil_iss' || 
+						$field == 'as_as_incluso_contabil_inss' || 
+						$field == 'as_as_incluso_contabil_ir' || 
+						$field == 'as_as_incluso_contabil_pis' || 
+						$field == 'as_as_incluso_contabil_cofins' || 
+						$field == 'as_as_incluso_contabil_csll' || 
+						$field == 'as_as_incluso_contabil_cp'
+					){
+						$val = ($val ? 'Y' : 'N');
+					}
 
 					$data[$field] = $val;
 
@@ -293,6 +393,28 @@ class AutorizacaoServico {
 
 			}
 
+			// Insere objetos
+			if(is_array($args['as_objetos_carregamento'])){
+
+				$asObjetos = new AsObjetos($this->db);
+
+				foreach ($args['as_objetos_carregamento'] as $chave => $objeto) {
+
+					$objeto['id_as'] = $response['id'];
+					
+					$obj_response = $asObjetos->insert($objeto);
+
+					if(!$obj_response['result']){
+						$response['result'] = false;
+						$response['error'] = $obj_response['error'];
+						return $response;
+					}
+
+				}
+
+			}
+
+
 		}
 
 		return $response;
@@ -304,6 +426,7 @@ class AutorizacaoServico {
 
 		$response = array();
 		$is_search = false;
+		$paginate = (isset($args['paginate']) ? $args['paginate'] : true);
 
 		// Count total
 		$query_count = "
@@ -314,16 +437,58 @@ class AutorizacaoServico {
 				WHERE a1.active = 'Y' 
 		";
 
+		// Filter 
+		if(isset($args['id_projeto'])){
+			if(strlen(trim($args['id_projeto'])) > 0){
+				$query_count .= " AND a1.id_projeto = '".$args['id_projeto']."' ";
+				$is_search = true;
+			}
+		}
+
+		if(isset($args['as_num'])){
+			if(strlen(trim($args['as_num'])) > 0){
+				$query_count .= " AND a1.as_projeto_code_sequencial LIKE '%".$args['as_num']."%' ";
+				$is_search = true;
+			}
+		}
+
+		if(isset($args['cliente_nome'])){
+			if(strlen(trim($args['cliente_nome'])) > 0){
+				$query_count .= " AND a1.as_projeto_cliente_nome LIKE '%".$args['cliente_nome']."%' ";
+				$is_search = true;
+			}
+		}
+
+		if(isset($args['projeto_nome'])){
+			if(strlen(trim($args['projeto_nome'])) > 0){
+				$query_count .= " AND a1.as_projeto_nome LIKE '%".$args['projeto_nome']."%' ";
+				$is_search = true;
+			}
+		}
+
+		if(isset($args['vendedor_id'])){
+			if(strlen(trim($args['vendedor_id'])) > 0){
+				$query_count .= " AND a1.id_vendedor = '".$args['vendedor_id']."' ";
+				$is_search = true;
+			}
+		}
+	
+
 		$count = $this->db->query($query_count);
 		$total_data = $count->fetch();
 
 		$config = array(
-			'total' => $total_data['total'],
-			'item_per_page' => $this->item_per_page,
-			'total_pages' => ceil($total_data['total'] / $this->item_per_page),
-			'current_page' => (isset($args['current_page']) ? $args['current_page'] : 1 ),
-			'is_search' => $is_search
+			'total' => $total_data['total']
 		);
+
+		if($paginate){
+
+			$config['item_per_page'] = $this->item_per_page;
+			$config['total_pages'] = ceil($total_data['total'] / $this->item_per_page);
+			$config['current_page'] = (isset($args['current_page']) ? $args['current_page'] : 1 );
+			$config['is_search'] = $is_search;
+
+		}
 
 		$response['config'] = $config;
 
@@ -333,25 +498,66 @@ class AutorizacaoServico {
 			$offset = ($config['current_page'] == '1' ? 0 : ($config['current_page'] - 1) * $config['item_per_page'] );
 
 			$query = "
-				SELECT a1.*, v.vendedor_nome
+				SELECT a1.*, v.vendedor_nome, c.cat_name
 					FROM autorizacao_servico a1 
 						INNER JOIN (SELECT MAX(a2.id) as id FROM autorizacao_servico a2 GROUP BY a2.id_revisao) a2
 						ON a2.id = a1.id
 						INNER JOIN vendedores v 
 						ON v.id = a1.id_vendedor
+						LEFT JOIN categorias c 
+						ON c.id = a1.id_categoria
 					WHERE a1.active = 'Y' 
 			";
 
-			// Config
-			$query .= "ORDER BY a1.create_time DESC OFFSET ".$offset." ROWS FETCH NEXT ".$config['item_per_page']." ROWS ONLY";
+			// Filter 
+			if(isset($args['id_projeto'])){
+				if(strlen(trim($args['id_projeto'])) > 0){
+					$query .= " AND a1.id_projeto = '".$args['id_projeto']."' ";
+				}
+			}
+
+			if(isset($args['as_num'])){
+				if(strlen(trim($args['as_num'])) > 0){
+					$query .= " AND a1.as_projeto_code_sequencial LIKE '%".$args['as_num']."%' ";
+				}
+			}
+
+			if(isset($args['cliente_nome'])){
+				if(strlen(trim($args['cliente_nome'])) > 0){
+					$query .= " AND a1.as_projeto_cliente_nome LIKE '%".$args['cliente_nome']."%' ";
+				}
+			}
+
+			if(isset($args['projeto_nome'])){
+				if(strlen(trim($args['projeto_nome'])) > 0){
+					$query .= " AND a1.as_projeto_nome LIKE '%".$args['projeto_nome']."%' ";
+				}
+			}	
+
+			if(isset($args['vendedor_id'])){
+				if(strlen(trim($args['vendedor_id'])) > 0){
+					$query .= " AND a1.id_vendedor = '".$args['vendedor_id']."' ";
+				}
+			}	
+
+			// Order by
+			$query .= "ORDER BY a1.create_time DESC ";
+
+			if($paginate){
+				$query .= "OFFSET ".$offset." ROWS FETCH NEXT ".$config['item_per_page']." ROWS ONLY";
+			}
 
 			$select = $this->db->query($query);
 			$response['results'] = $this->parser_fetch($select->fetchAll(\PDO::FETCH_ASSOC),'all');
-			$response['config']['page_items_total'] = count($response['results']);
+
+			if($paginate){
+				$response['config']['page_items_total'] = count($response['results']);
+			}
 
 		}else{
 			$response['results'] = [];
 		}
+
 
 		return $response;
 
@@ -359,32 +565,62 @@ class AutorizacaoServico {
 
 	public function parser_fetch($result, $fetch = 'one'){
 		if($fetch == 'one'){
-			$result = $this->apply_filter_local($result);
+			$result = $this->apply_filter_as($result);
 		}else{
 			if($fetch == 'all'){
 				foreach ($result as $key => $value) {
-					$result[$key] = $this->apply_filter_local($value);
+					$result[$key] = $this->apply_filter_as($value);
 				}
 			}
 		}
 		return $result;
 	}
 
-	public function apply_filter_local($local){
+	public function apply_filter_as($as){
 
-		foreach ($local as $key => $field) {
-			$local[$key] = trim($field);
+		foreach ($as as $key => $field) {
+			$as[$key] = trim($field);
 		}
 
-		if(strlen($local['local_cnpj']) == 14){
-			$local['local_cnpj'] = Utilities::mask($local['local_cnpj'],'##.###.###/####-##');
-		}
+		$as['as_projeto_status_text'] = $this->status_array[$as['as_projeto_status']];
 
-		$create_time = new \DateTime($local['create_time']);
-		$local['create_timestamp'] = $create_time->getTimestamp();
-		
+		$create_time = new \DateTime($as['create_time']);
+		$as['create_timestamp'] = $create_time->getTimestamp();
 
-		return $local;
+		//  DATA: as_projeto_cadastro_data
+		$as_projeto_cadastro_data = new \DateTime($as['as_projeto_cadastro_data']);
+		$as['as_projeto_cadastro_data'] = $as_projeto_cadastro_data->getTimestamp();
+
+		// DATA: as_as_prazo_pagamento
+		$as_as_prazo_pagamento = new \DateTime($as['as_as_prazo_pagamento']);
+		$as['as_as_prazo_pagamento'] = $as_as_prazo_pagamento->getTimestamp();
+
+		// Checkbox
+		$as['as_as_incluso_comercial_rcfdc'] = ($as['as_as_incluso_comercial_rcfdc'] == 'Y' ? true : false);
+		$as['as_as_incluso_comercial_rctrc'] = ($as['as_as_incluso_comercial_rctrc'] == 'Y' ? true : false);
+		$as['as_as_incluso_comercial_despacho'] = ($as['as_as_incluso_comercial_despacho'] == 'Y' ? true : false);
+		$as['as_as_incluso_comercial_carga'] = ($as['as_as_incluso_comercial_carga'] == 'Y' ? true : false);
+		$as['as_as_incluso_comercial_descarga'] = ($as['as_as_incluso_comercial_descarga'] == 'Y' ? true : false);
+		$as['as_as_incluso_comercial_estadia'] = ($as['as_as_incluso_comercial_estadia'] == 'Y' ? true : false);
+		$as['as_as_incluso_comercial_pernoite'] = ($as['as_as_incluso_comercial_pernoite'] == 'Y' ? true : false);
+		$as['as_as_incluso_comercial_armazenagem'] = ($as['as_as_incluso_comercial_armazenagem'] == 'Y' ? true : false);
+		$as['as_as_incluso_comercial_advalorem'] = ($as['as_as_incluso_comercial_advalorem'] == 'Y' ? true : false);
+		$as['as_as_incluso_comercial_seguro'] = ($as['as_as_incluso_comercial_seguro'] == 'Y' ? true : false);
+		$as['as_as_incluso_contabil_icms'] = ($as['as_as_incluso_contabil_icms'] == 'Y' ? true : false);
+		$as['as_as_incluso_contabil_iss'] = ($as['as_as_incluso_contabil_iss'] == 'Y' ? true : false);
+		$as['as_as_incluso_contabil_inss'] = ($as['as_as_incluso_contabil_inss'] == 'Y' ? true : false);
+		$as['as_as_incluso_contabil_ir'] = ($as['as_as_incluso_contabil_ir'] == 'Y' ? true : false);
+		$as['as_as_incluso_contabil_pis'] = ($as['as_as_incluso_contabil_pis'] == 'Y' ? true : false);
+		$as['as_as_incluso_contabil_cofins'] = ($as['as_as_incluso_contabil_cofins'] == 'Y' ? true : false);
+		$as['as_as_incluso_contabil_csll'] = ($as['as_as_incluso_contabil_csll'] == 'Y' ? true : false);
+		$as['as_as_incluso_contabil_cp'] = ($as['as_as_incluso_contabil_cp'] == 'Y' ? true : false);
+
+		// Puxa os objetos
+		$asObjetos = new AsObjetos($this->db);
+		$as_objetos_carregamento = $asObjetos->get(array( 'id_as' => $as['id'] ));
+		$as['as_objetos_carregamento'] = $as_objetos_carregamento['results'];
+				
+		return $as;
 	}
 
 	public function delete($args = array()){
@@ -553,6 +789,41 @@ class AutorizacaoServico {
 		}else{
 			return false;
 		}
+
+	}
+
+	public function get_revisoes($id_as = false){
+
+		$response = array(
+			'result' => false
+		);
+
+		if(!$id_as){
+			$response['error'] = 'ID da AS não informado';
+			return $response;
+		}else{
+
+			$as = $this->get_by_id($id_as);
+
+			if(!$as['result']){
+				$response['error'] = $as['error'];
+				return $response;
+			}else{
+				$as = $as['as'];
+			}
+
+		}
+
+		$select = $this->db->query("SELECT * FROM autorizacao_servico WHERE id_revisao = '".$as['id_revisao']."' AND id != '".$as['id']."' AND active = 'Y' ORDER BY create_time");
+		$revisoes = $this->parser_fetch($select->fetchAll(\PDO::FETCH_ASSOC),'all');
+
+		// ------------------------------
+
+		$response['revisoes'] = $revisoes;
+		$response['as'] = $as;
+		$response['result'] = true;
+
+		return $response;
 
 	}
 

@@ -29,6 +29,21 @@ $app->get('/as/get/{id}', function (Request $request, Response $response, array 
 	return $response->withJson($data);
 });
 
+$app->get('/as/getbyproject/{id_projeto}', function (Request $request, Response $response, array $args) {
+	$as = new AutorizacaoServico($this->db);
+	$data = $as->get(array(
+		'id_projeto' => $args['id_projeto'],
+		'paginate' => false
+	));
+	return $response->withJson($data);
+});
+
+$app->get('/as/revisoes/get/{id}', function (Request $request, Response $response, array $args) {
+	$as = new AutorizacaoServico($this->db);
+	$data = $as->get_revisoes($args['id']);
+	return $response->withJson($data);
+});
+
 /*
 
 

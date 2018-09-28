@@ -2,12 +2,12 @@
 
 namespace Classes;
 
-class CotacoesObjetos {
+class AsObjetos {
 
 	private $db;
 
 	public $schema = array(
-		"id_cotacao",
+		"id_as",
 		"objeto_item",
 		"objeto_quantidade",
 		"objeto_descricao",
@@ -40,8 +40,8 @@ class CotacoesObjetos {
 		);
 
 		// Block if required fields isn't informed
-		if(!isset($args['id_cotacao'])){
-			$response['error'] = 'O campo id_cotacao é obrigatório.';
+		if(!isset($args['id_as'])){
+			$response['error'] = 'O campo id_as é obrigatório.';
 			return $response;
 		}
 
@@ -54,8 +54,6 @@ class CotacoesObjetos {
 			if(isset($args[$field])){
 
 				$val = $args[$field];
-
-
 
 				$data[$field] = $val;
 
@@ -73,7 +71,7 @@ class CotacoesObjetos {
 
 		$response['data'] = $data;
 
-		$insertStatement = $this->db->insert(array_keys($data))->into('cotacoes_objetos')->values(array_values($data));
+		$insertStatement = $this->db->insert(array_keys($data))->into('autorizacao_servico_objetos')->values(array_values($data));
 
 		$response['id'] = $insertStatement->execute();
 
@@ -90,12 +88,12 @@ class CotacoesObjetos {
 
 		$response = array();
 
-		if(!isset($args['id_cotacao'])){
-			$response['error'] = 'O campo id_cotacao é obrigatório.';
+		if(!isset($args['id_as'])){
+			$response['error'] = 'O campo id_as é obrigatório.';
 			return $response;
 		}
 
-		$query = "SELECT * FROM cotacoes_objetos WHERE id_cotacao = '".$args['id_cotacao']."';";
+		$query = "SELECT * FROM autorizacao_servico_objetos WHERE id_as = '".$args['id_as']."';";
 					
 		$select = $this->db->query($query);
 		$response['results'] = $this->parser_fetch($select->fetchAll(\PDO::FETCH_ASSOC),'all');

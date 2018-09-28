@@ -13,7 +13,21 @@
             $http.get('/api/public/projetos/get/'+$rootScope.$stateParams.id_projeto).then(function (response) {
 
                 $scope.projeto = response.data.projeto;
-                $scope.projeto.list_as = [];
+
+                get_list_as();
+
+            }, function(response) {
+                $rootScope.is_error = true;
+                $rootScope.is_error_text = "Erro: " + response.data.error;
+            });
+
+        }
+
+        function get_list_as(){
+
+            $http.get('/api/public/as/getbyproject/'+$rootScope.$stateParams.id_projeto).then(function (response) {
+
+                $scope.projeto.list_as = response.data.results;
 
             }, function(response) {
                 $rootScope.is_error = true;

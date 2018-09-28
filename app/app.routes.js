@@ -305,9 +305,9 @@
             })
 
             .state('visualizar-autorizacao-de-servico', {
-                url: '/autorizacao-de-servico/visualizar',
+                url: '/autorizacao-de-servico/visualizar/{id_as}?queryString',
                 templateUrl: 'app/components/autorizacao-de-servico/visualizar.view.html',
-                controller: 'Produtos.IndexController',
+                controller: 'As.VisualizarController',
                 controllerAs: 'vm'
             })
 

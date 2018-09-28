@@ -24,7 +24,10 @@
                    as_projeto_revisao : '0',
                    as_projeto_cadastro_data_obj : new Date(),
                    as_projeto_status : 'em-aberto',
-                   id_author : $localStorage.currentUser.id
+                   id_author : $localStorage.currentUser.id,
+                   as_as_valor_retido : 'N',
+                   as_objetos_carregamento : [],
+                   as_dados_carga : []
                 }
 
                 var id_projeto = $location.search().projeto; 
@@ -69,15 +72,24 @@
 
                 $http.get('/api/public/as/get/' + $rootScope.$stateParams.id_as).then(function (response) {
                     
-                    $scope.as = response.data.as;                    
+                    $scope.as = response.data.as; 
+
+                    console.log($scope.as);             
 
                     $scope.as.as_projeto_revisao =  parseInt($scope.as.as_projeto_revisao) + 1;
-                    $scope.as.id_revisao = ($scope.as.as_projeto_revisao == 1 ? $scope.as.id : $scope.as.id_revisao );
-                    // $scope.as.as_projeto_cadastro_data_obj = new Date($scope.as.as_projeto_cadastro_data * 1000);
+                    $scope.as.id_revisao = ($scope.as.as_projeto_revisao == 1 ? $scope.as.id : $scope.as.id_revisao );             
+                    $scope.as.as_projeto_cadastro_data_obj = ($scope.as.as_projeto_cadastro_data.length > 0 ? new Date($scope.as.as_projeto_cadastro_data * 1000) : new Date() );
+                    $scope.as.as_dados_carga = [];
+
+                    // DATA : as_as_prazo_pagamento_obj
+                    if(String($scope.as.as_as_prazo_pagamento).length > 0){
+                        $scope.as.as_as_prazo_pagamento_obj = new Date($scope.as.as_as_prazo_pagamento * 1000);
+                    }
 
                     delete $scope.as.id;
                     
                     get_as_code();
+                    calc_total_as_objeto();
 
                 }, function(response) {
                     $rootScope.is_error = true;
@@ -106,12 +118,19 @@
     
             if(error == 0){
 
-                $rootScope.is_loading = true;                
+                $rootScope.is_loading = true;   
+
+                $scope.as.as_projeto_cadastro_data = Math.floor($scope.as.as_projeto_cadastro_data_obj.getTime() / 1000);
+
+                // DATA : as_as_prazo_pagamento_obj
+                if($scope.as.as_as_prazo_pagamento_obj){
+                    $scope.as.as_as_prazo_pagamento = Math.floor($scope.as.as_as_prazo_pagamento_obj.getTime() / 1000);
+                }          
 
                 $http.post('/api/public/as/insert', $scope.as).then(function (response) {
 
                     console.log(response);
-                    
+                                        
                     if(response.data.result){
 
                         ngToast.create({
@@ -192,19 +211,22 @@
 
         // Cliente consignatario
         $scope.cliente_consignatario = function(cliente){
-            $scope.as.as_id_cliente_consig = cliente.id;
+            $scope.as.as_as_id_cliente_faturamento = cliente.id;
+            $scope.as.as_as_cliente_faturamento_nome = cliente.cliente_nome;
             $scope.cliente_consig_data = cliente;
         }
 
         // Cliente remetente
         $scope.cliente_remetente = function(cliente){
-            $scope.as.as_id_cliente_remetente = cliente.id;
+            $scope.as.as_op_id_cliente_remetente = cliente.id;
+            $scope.as.as_op_cliente_remetente_nome = cliente.cliente_nome;
             $scope.cliente_remetente_data = cliente;
         }
 
         // Cliente destinatario
         $scope.cliente_destinatario = function(cliente){
-            $scope.as.as_id_cliente_destinatario = cliente.id;
+            $scope.as.as_op_id_cliente_destinatario = cliente.id;
+            $scope.as.as_op_cliente_destinatario_nome = cliente.cliente_nome;
             $scope.cliente_destinatario_data = cliente;
         }
 
@@ -281,6 +303,47 @@
                 is_edit : false
             };
             $rootScope.openModal("/app/components/autorizacao-de-servico/objeto-form.modal.html",false,$scope);
+        }
+
+        $scope.save_as_objeto = function(){
+
+            if(!$scope.objeto.is_edit){
+                $scope.as.as_objetos_carregamento.push($scope.objeto);
+            }else{
+                $scope.as.as_objetos_carregamento[$scope.objeto.key] = $scope.objeto;
+            }
+            
+            $scope.objeto = {};
+            $rootScope.closeModal();
+            calc_total_as_objeto();
+
+            ngToast.create({
+                className: 'success',
+                content: 'Objeto incluso com sucesso!'
+            });
+
+        }
+
+        $scope.edit_objeto = function(key){
+            $scope.objeto = $scope.as.as_objetos_carregamento[key];
+            $scope.objeto.is_edit = true;
+            $scope.objeto.key = key;
+            $rootScope.openModal("/app/components/autorizacao-de-servico/objeto-form.modal.html",false,$scope);
+        }
+
+        $scope.remove_objeto = function(key){
+            if(confirm("Deseja remover esse objeto?")){
+                $scope.as.as_objetos_carregamento.splice(key, 1);
+                calc_total_as_objeto();
+            }
+        }
+
+        function calc_total_as_objeto(){
+            $scope.total_as_objetos = 0;
+            $.each($scope.as.as_objetos_carregamento, function(key, val){
+                $scope.total_as_objetos += parseFloat(val.objeto_valor_total);
+            });
+
         }
 
         function get_empresas(){

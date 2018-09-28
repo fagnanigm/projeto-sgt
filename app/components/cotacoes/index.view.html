@@ -67,7 +67,7 @@
 		<tr ng-repeat="(key, val) in cotacoes.results">
 			<td>
 				<a href="/cotacoes/visualizar/{{ val.id }}" class="text-dark">{{ val.cotacao_code }}</a><br />
-				<a href="#" ng-click="open_revisoes(val.id)">Ver revisões</a>
+				<small><a href="#" ng-click="open_revisoes(val.id)">Ver revisões</a></small>
 			</td>
 			<td>
 				{{ val.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm' }}

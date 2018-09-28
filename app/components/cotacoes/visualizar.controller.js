@@ -10,7 +10,7 @@
         
         function get_cotacao(){
 
-            $http.get('/api/public/cotacoes/get/'+$rootScope.$stateParams.id_cotacao+'?context='+$localStorage.currentEmpresaId).then(function (response) {
+            $http.get('/api/public/cotacoes/get/'+$rootScope.$stateParams.id_cotacao).then(function (response) {
                 $scope.cotacao = response.data.cotacao;
 
                 calc_total_cotacao_objeto();
