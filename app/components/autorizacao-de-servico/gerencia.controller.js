@@ -17,17 +17,21 @@
             if($rootScope.$state.name == "insert-autorizacao-de-servico"){
 
                 $scope.as = {
-                   id_empresa : '0',
-                   as_projeto_status : '0',
-                   id_vendedor : '0',
-                   id_categoria : '0',
-                   as_projeto_revisao : '0',
-                   as_projeto_cadastro_data_obj : new Date(),
-                   as_projeto_status : 'em-aberto',
-                   id_author : $localStorage.currentUser.id,
-                   as_as_valor_retido : 'N',
-                   as_objetos_carregamento : [],
-                   as_dados_carga : []
+                    id_empresa : '0',
+                    as_projeto_status : '0',
+                    id_vendedor : '0',
+                    id_categoria : '0',
+                    as_projeto_revisao : '0',
+                    as_projeto_cadastro_data_obj : new Date(),
+                    as_projeto_status : 'em-aberto',
+                    id_author : $localStorage.currentUser.id,
+                    as_as_valor_retido : 'N',
+                    as_objetos_carregamento : [],
+                    as_dados_carga : [],
+                    as_valor_total_bruto : 0,
+                    as_valor_liquido_receber : 0,
+                    as_valor_resultado_bruto : 0,
+                    as_valor_resultado_liquido : 0,
                 }
 
                 var id_projeto = $location.search().projeto; 
@@ -339,9 +343,35 @@
         }
 
         function calc_total_as_objeto(){
+            
             $scope.total_as_objetos = 0;
             $.each($scope.as.as_objetos_carregamento, function(key, val){
                 $scope.total_as_objetos += parseFloat(val.objeto_valor_total);
+            });
+
+
+
+            $scope.as.as_valor_total_bruto = $scope.total_as_objetos;
+
+        }
+
+        // Dados da carga
+        $scope.open_carga_form = function(){
+            $scope.carga = {
+                is_edit : false
+            };
+            $rootScope.openModal("/app/components/autorizacao-de-servico/dados-carga-form.modal.html",false,$scope);
+        }
+
+        $scope.save_as_carga = function(){
+            $scope.as.as_dados_carga.push($scope.carga)
+
+            $scope.carga = {}
+            $rootScope.closeModal();
+
+            ngToast.create({
+                className: 'success',
+                content: 'Carga inclusa com sucesso!'
             });
 
         }

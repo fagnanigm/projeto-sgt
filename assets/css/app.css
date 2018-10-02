@@ -526,9 +526,10 @@ textarea.form-control {
     font-weight: bold;
     color: #666;
     border-radius:0px;
-    padding: 20px 15px;
+    padding: 20px 11px;
     border-color: #e9ecef #e9ecef #dee2e6;
     border-left-color: transparent;
+    font-size: 13px;
 
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+45,f2f2f2+100 */
     background: #ffffff; /* Old browsers */

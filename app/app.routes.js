@@ -281,6 +281,13 @@
                 controllerAs: 'vm'
             })
 
+            .state('projetos-paged', {
+                url: '/projetos/{page}?queryString',
+                templateUrl: 'app/components/projetos/index.view.html',
+                controller: 'Projetos.IndexController',
+                controllerAs: 'vm'
+            })
+            
             // AS
 
             .state('autorizacao-de-servico', {
