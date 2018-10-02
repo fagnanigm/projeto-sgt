@@ -42,9 +42,8 @@ class AutorizacaoServico {
 		"as_as_cliente_faturamento_contato_email",
 		"as_as_forma_faturamento",
 		"as_as_forma_pagamento",
-		"as_as_prazo_pagamento",
+		"as_as_prazo_pagamento_id",
 		"as_as_condicoes_comerciais",
-		"as_as_valor_retido",
 		"as_as_incluso_comercial_rcfdc",
 		"as_as_incluso_comercial_rcfdc_valor",
 		"as_as_incluso_comercial_rctrc",
@@ -64,9 +63,6 @@ class AutorizacaoServico {
 		"as_as_incluso_comercial_advalorem",
 		"as_as_incluso_comercial_advalorem_percent",
 		"as_as_incluso_comercial_advalorem_valor",
-		"as_as_incluso_comercial_seguro",
-		"as_as_incluso_comercial_seguro_percent",
-		"as_as_incluso_comercial_seguro_valor",
 		"as_as_incluso_contabil_icms",
 		"as_as_incluso_contabil_icms_percent",
 		"as_as_incluso_contabil_icms_valor",
@@ -91,6 +87,15 @@ class AutorizacaoServico {
 		"as_as_incluso_contabil_cp",
 		"as_as_incluso_contabil_cp_percent",
 		"as_as_incluso_contabil_cp_valor",
+		"as_as_incluso_contabil_inss_percent_root",
+		"as_as_incluso_contabil_iss_retido",
+		"as_as_incluso_contabil_inss_retido",
+		"as_as_incluso_contabil_ir_retido",
+		"as_as_incluso_contabil_pis_retido",
+		"as_as_incluso_contabil_cofins_retido",
+		"as_as_incluso_contabil_csll_retido",
+		"as_as_incluso_contabil_cp_retido",
+		"as_as_pedido_compra_numero",
 		"as_op_id_cliente_remetente",
 		"as_op_cliente_remetente_nome",
 		"as_op_cliente_remetente_contato_nome",
@@ -115,6 +120,12 @@ class AutorizacaoServico {
 		"as_op_id_veiculo",
 		"as_op_veiculo_frota",
 		"as_op_equipamentos",
+		"as_op_local_coleta_contato_telefone",
+		"as_op_local_coleta_contato_celular",
+		"as_op_local_coleta_contato_email",
+		"as_op_local_entrega_contato_telefone",
+		"as_op_local_entrega_contato_celular",
+		"as_op_local_entrega_contato_email",
 		"as_fat_id_cliente_faturamento",
 		"as_fat_cliente_faturamento_nome",
 		"as_fat_cliente_faturamento_contato_nome",
@@ -127,7 +138,6 @@ class AutorizacaoServico {
 		"as_fat_prazo_pagamento",
 		"as_fat_valor_total_as_bruto",
 		"as_fat_valor_total_as_liquido",
-		"as_fat_valor_resultado_bruto",
 		"as_fat_obs_faturamento",
 		"as_fat_data_faturamento",
 		"as_fat_data_envio",
@@ -138,6 +148,7 @@ class AutorizacaoServico {
 		"as_fat_cliente_cobranca_contato_celular",
 		"as_fat_cliente_cobranca_contato_email",
 		"as_fat_obs_financeiro",
+		"as_fat_tipo_envio",
 		"create_time",
 		"active"
 	);
@@ -256,10 +267,7 @@ class AutorizacaoServico {
 			$args['as_as_incluso_comercial_advalorem'] = false;
 		}
 
-		if(!isset($args['as_as_incluso_comercial_seguro']) || strlen($args['as_as_incluso_comercial_seguro']) == 0){
-			$args['as_as_incluso_comercial_seguro'] = false;
-		}
-
+	
 		if(!isset($args['as_as_incluso_contabil_icms']) || strlen($args['as_as_incluso_contabil_icms']) == 0){
 			$args['as_as_incluso_contabil_icms'] = false;
 		}
@@ -290,6 +298,34 @@ class AutorizacaoServico {
 
 		if(!isset($args['as_as_incluso_contabil_cp']) || strlen($args['as_as_incluso_contabil_cp']) == 0){
 			$args['as_as_incluso_contabil_cp'] = false;
+		}
+
+		if(!isset($args['as_as_incluso_contabil_iss_retido']) || strlen($args['as_as_incluso_contabil_iss_retido']) == 0){
+			$args['as_as_incluso_contabil_iss_retido'] = false;
+		}
+
+		if(!isset($args['as_as_incluso_contabil_inss_retido']) || strlen($args['as_as_incluso_contabil_inss_retido']) == 0){
+			$args['as_as_incluso_contabil_inss_retido'] = false;
+		}
+
+		if(!isset($args['as_as_incluso_contabil_ir_retido']) || strlen($args['as_as_incluso_contabil_ir_retido']) == 0){
+			$args['as_as_incluso_contabil_ir_retido'] = false;
+		}
+
+		if(!isset($args['as_as_incluso_contabil_ir_retido']) || strlen($args['as_as_incluso_contabil_pis_retido']) == 0){
+			$args['as_as_incluso_contabil_pis_retido'] = false;
+		}
+
+		if(!isset($args['as_as_incluso_contabil_cofins_retido']) || strlen($args['as_as_incluso_contabil_cofins_retido']) == 0){
+			$args['as_as_incluso_contabil_cofins_retido'] = false;
+		}
+
+		if(!isset($args['as_as_incluso_contabil_csll_retido']) || strlen($args['as_as_incluso_contabil_csll_retido']) == 0){
+			$args['as_as_incluso_contabil_csll_retido'] = false;
+		}
+
+		if(!isset($args['as_as_incluso_contabil_cp_retido']) || strlen($args['as_as_incluso_contabil_cp_retido']) == 0){
+			$args['as_as_incluso_contabil_cp_retido'] = false;
 		}
 
 		// Init insert
@@ -337,8 +373,7 @@ class AutorizacaoServico {
 						$field == 'as_as_incluso_comercial_estadia' || 
 						$field == 'as_as_incluso_comercial_pernoite' || 
 						$field == 'as_as_incluso_comercial_armazenagem' || 
-						$field == 'as_as_incluso_comercial_advalorem' || 
-						$field == 'as_as_incluso_comercial_seguro' || 
+						$field == 'as_as_incluso_comercial_advalorem' ||
 						$field == 'as_as_incluso_contabil_icms' || 
 						$field == 'as_as_incluso_contabil_iss' || 
 						$field == 'as_as_incluso_contabil_inss' || 
@@ -346,6 +381,13 @@ class AutorizacaoServico {
 						$field == 'as_as_incluso_contabil_pis' || 
 						$field == 'as_as_incluso_contabil_cofins' || 
 						$field == 'as_as_incluso_contabil_csll' || 
+						$field == 'as_as_incluso_contabil_iss_retido' || 
+						$field == 'as_as_incluso_contabil_inss_retido' || 
+						$field == 'as_as_incluso_contabil_ir_retido' || 
+						$field == 'as_as_incluso_contabil_pis_retido' || 
+						$field == 'as_as_incluso_contabil_cofins_retido' || 
+						$field == 'as_as_incluso_contabil_csll_retido' || 
+						$field == 'as_as_incluso_contabil_cp_retido' || 
 						$field == 'as_as_incluso_contabil_cp'
 					){
 						$val = ($val ? 'Y' : 'N');
@@ -605,7 +647,6 @@ class AutorizacaoServico {
 		$as['as_as_incluso_comercial_pernoite'] = ($as['as_as_incluso_comercial_pernoite'] == 'Y' ? true : false);
 		$as['as_as_incluso_comercial_armazenagem'] = ($as['as_as_incluso_comercial_armazenagem'] == 'Y' ? true : false);
 		$as['as_as_incluso_comercial_advalorem'] = ($as['as_as_incluso_comercial_advalorem'] == 'Y' ? true : false);
-		$as['as_as_incluso_comercial_seguro'] = ($as['as_as_incluso_comercial_seguro'] == 'Y' ? true : false);
 		$as['as_as_incluso_contabil_icms'] = ($as['as_as_incluso_contabil_icms'] == 'Y' ? true : false);
 		$as['as_as_incluso_contabil_iss'] = ($as['as_as_incluso_contabil_iss'] == 'Y' ? true : false);
 		$as['as_as_incluso_contabil_inss'] = ($as['as_as_incluso_contabil_inss'] == 'Y' ? true : false);
@@ -614,6 +655,14 @@ class AutorizacaoServico {
 		$as['as_as_incluso_contabil_cofins'] = ($as['as_as_incluso_contabil_cofins'] == 'Y' ? true : false);
 		$as['as_as_incluso_contabil_csll'] = ($as['as_as_incluso_contabil_csll'] == 'Y' ? true : false);
 		$as['as_as_incluso_contabil_cp'] = ($as['as_as_incluso_contabil_cp'] == 'Y' ? true : false);
+		$as['as_as_incluso_contabil_iss_retido'] = ($as['as_as_incluso_contabil_iss_retido'] == 'Y' ? true : false);
+		$as['as_as_incluso_contabil_inss_retido'] = ($as['as_as_incluso_contabil_inss_retido'] == 'Y' ? true : false);
+		$as['as_as_incluso_contabil_ir_retido'] = ($as['as_as_incluso_contabil_ir_retido'] == 'Y' ? true : false);
+		$as['as_as_incluso_contabil_pis_retido'] = ($as['as_as_incluso_contabil_pis_retido'] == 'Y' ? true : false);
+		$as['as_as_incluso_contabil_cofins_retido'] = ($as['as_as_incluso_contabil_cofins_retido'] == 'Y' ? true : false);
+		$as['as_as_incluso_contabil_csll_retido'] = ($as['as_as_incluso_contabil_csll_retido'] == 'Y' ? true : false);
+		$as['as_as_incluso_contabil_cp_retido'] = ($as['as_as_incluso_contabil_cp_retido'] == 'Y' ? true : false);
+
 
 		// Puxa os objetos
 		$asObjetos = new AsObjetos($this->db);

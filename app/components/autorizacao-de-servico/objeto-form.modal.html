@@ -104,6 +104,21 @@
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
+						<label for="valor-mercadoria-unit">Valor da mercadoria unit.</label>
+						<input type="text" class="form-control" id="valor-mercadoria-unit" placeholder="Valor da mercadoria unit." ng-model="objeto.objeto_valor_mercadoria_unit" money-mask required>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="valor-mercadoria-total">Valor da mercadoria total</label>
+						<input type="text" class="form-control" id="valor-mercadoria-total" placeholder="Valor da mercadoria total" ng-model="objeto.objeto_valor_mercadoria_total" money-mask required>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
 						<label for="valor-unit">Valor unit.</label>
 						<input type="text" class="form-control" id="valor-unit" placeholder="Valor unit." ng-model="objeto.objeto_valor_unit" money-mask required>
 					</div>
@@ -115,7 +130,7 @@
 					</div>
 				</div>
 			</div>
-
+			
 		</div>
 
 	</div>

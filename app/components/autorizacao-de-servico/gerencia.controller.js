@@ -32,6 +32,7 @@
                     as_valor_liquido_receber : 0,
                     as_valor_resultado_bruto : 0,
                     as_valor_resultado_liquido : 0,
+                    as_as_prazo_pagamento_id : '0'
                 }
 
                 var id_projeto = $location.search().projeto; 
@@ -85,11 +86,6 @@
                     $scope.as.as_projeto_cadastro_data_obj = ($scope.as.as_projeto_cadastro_data.length > 0 ? new Date($scope.as.as_projeto_cadastro_data * 1000) : new Date() );
                     $scope.as.as_dados_carga = [];
 
-                    // DATA : as_as_prazo_pagamento_obj
-                    if(String($scope.as.as_as_prazo_pagamento).length > 0){
-                        $scope.as.as_as_prazo_pagamento_obj = new Date($scope.as.as_as_prazo_pagamento * 1000);
-                    }
-
                     delete $scope.as.id;
                     
                     get_as_code();
@@ -110,6 +106,7 @@
             get_empresas();
             get_vendedores();
             get_categorias();
+            get_prazos_pg();
         	get_as();
         }
         
@@ -399,6 +396,16 @@
             });
 
         }
+
+        function get_prazos_pg(){
+
+            $http.get('/api/public/autorizacao-servico-prazo-pg/get?getall=1').then(function (response) {
+                $scope.prazos_pgs = response.data.results;
+            });
+
+        }
+
+        
 
         function get_as_code(){
 

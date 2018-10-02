@@ -2,30 +2,27 @@
 
 namespace Classes;
 
-class AsObjetos {
+class AsCargas {
 
 	private $db;
 
 	public $schema = array(
 		"id_as",
 		"objeto_item",
-		"objeto_quantidade",
-		"objeto_descricao",
-		"objeto_origem",
-		"objeto_destino",
-		"objeto_quilometragem",
-		"objeto_comprimento",
-		"objeto_largura",
-		"objeto_altura",
-		"objeto_peso_unit",
-		"objeto_peso_total",
-		"objeto_tipo_valor",
-		"objeto_valor_unit",
-		"objeto_valor_total",
-		"objeto_valor_mercadoria_unit",
-		"objeto_valor_mercadoria_total",
+		"dado_numero",
+		"dado_nota_fiscal",
+		"dado_quantidade",
+		"dado_mercadoria",
+		"dado_especie",
+		"dado_comprimento",
+		"dado_largura",
+		"dado_altura",
+		"dado_peso",
+		"dado_valor",
+		"dado_frete_peso",
 		"create_time",
-		"active"
+		"active",
+		"dado_nota_fiscal_chave"
 	);
 
 	function __construct($db = false){
@@ -73,7 +70,7 @@ class AsObjetos {
 
 		$response['data'] = $data;
 
-		$insertStatement = $this->db->insert(array_keys($data))->into('autorizacao_servico_objetos')->values(array_values($data));
+		$insertStatement = $this->db->insert(array_keys($data))->into('autorizacao_servico_dados_carga')->values(array_values($data));
 
 		$response['id'] = $insertStatement->execute();
 
@@ -95,7 +92,7 @@ class AsObjetos {
 			return $response;
 		}
 
-		$query = "SELECT * FROM autorizacao_servico_objetos WHERE id_as = '".$args['id_as']."';";
+		$query = "SELECT * FROM autorizacao_servico_dados_carga WHERE id_as = '".$args['id_as']."';";
 					
 		$select = $this->db->query($query);
 		$response['results'] = $this->parser_fetch($select->fetchAll(\PDO::FETCH_ASSOC),'all');

@@ -314,6 +314,11 @@
 						</div>
 
 						<div class="form-group">
+							<label for="numero-pedido-compra-as">No. Pedido de Compra</label>
+							<input type="text" class="form-control" id="numero-pedido-compra-as" name="as_as_pedido_compra_numero" ng-model="as.as_as_pedido_compra_numero" placeholder="Número pedido de compra">
+						</div>
+
+						<div class="form-group">
 							<label for="forma-pagamento">Forma de Pagamento</label>
 						
 							<div class="row">
@@ -331,8 +336,11 @@
 						</div>
 
 						<div class="form-group">
-							<label for="prazo-pagamento">Prazo de pagamento</label>
-							<input type="date" class="form-control" id="prazo-pagamento" name="as_as_prazo_pagamento" ng-model="as.as_as_prazo_pagamento_obj">
+							<label for="prazo-pagamento">Prazo/Condição de pagamento</label>
+							<select class="form-control" ng-model="as.as_as_prazo_pagamento_id">
+								<option value="0">Selecionar...</option>
+								<option ng-repeat="(key, val) in prazos_pgs" value="{{ val.id }}">{{ val.prazo_nome}}</option>
+							</select>
 						</div>
 
 					</div>
@@ -356,6 +364,7 @@
 						<th class="text-center">Distância<br />(km)</th>
 						<th class="text-center">Dimensão<br />(CxLxA)</th>
 						<th class="text-center">Peso<br />(kg)</th>
+						<th class="text-center">Valor Mercadoria</th>
 						<th class="text-center">Valor</th>
 						<th></th>
 					</tr>
@@ -384,6 +393,10 @@
 						 	<small>Total:</small> {{ val.objeto_peso_total }}
 						 </td>
 						 <td class="text-center">
+							<small>Unit:</small> {{ val.objeto_valor_mercadoria_unit | currency }}<br />
+						 	<small>Total:</small> {{ val.objeto_valor_mercadoria_total | currency }}
+						 </td>
+						 <td class="text-center">
 							<small>Unit:</small> {{ val.objeto_valor_unit | currency }}<br />
 						 	<small>Total:</small> {{ val.objeto_valor_total | currency }}
 						 </td>
@@ -396,7 +409,7 @@
 						<td colspan="9" class="text-center"><strong>Nenhum objeto cadastrado</strong></td>
 					</tr>
 					<tr>
-						<th colspan="6"></th>
+						<th colspan="7"></th>
 						<th class="text-center">Total: {{ total_as_objetos | currency }}</th>
 						<th></th>
 					</tr>
@@ -407,66 +420,51 @@
 				<hr class="margin-top-40 margin-bottom-40" />
 
 				<div class="row">
-					<div class="col-md-3">
-
-						<div class="form-group">
-							<label for="valor-retido">Valor retido:</label>
-							<select class="form-control" name="as_as_valor_retido" ng-model="as.as_as_valor_retido">
-								<option value="N">Não</option>
-								<option value="Y">Sim</option>
-							</select>
-						</div>
-
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-6">
+					<div class="col-md-5">
 
 						<div class="form-group">
 							<label for="id">Inclusos no Preço Comercial</label>
 						</div>
 
-
-						<div class="form-group">
-
-							<div class="row margin-top-5">
-								<div class="col-md-4">
+						<table class="table">
+							<tr>
+								<th width="130">Item</th>
+								<th>Valor</th>
+								<th></th>
+							</tr>
+							<tr>
+								<td>
 									<input type="checkbox" name="as_as_incluso_comercial_rcfdc" ng-model="as.as_as_incluso_comercial_rcfdc"> RCFDC
-								</div>
-								<div class="col-md-4">
-									
+								</td>
+								<td>
 									<div class="input-group">
 										<input type="text" class="form-control" name="as_as_incluso_comercial_rcfdc_valor" ng-model="as.as_as_incluso_comercial_rcfdc_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_rcfdc">
 										<div class="input-group-append">
 											<span class="input-group-text">R$</span>
 										</div>
 									</div>
-
-								</div>
-							</div>
-
-							<div class="row margin-top-5">
-								<div class="col-md-4">
+								</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>
 									<input type="checkbox" name="as_as_incluso_comercial_rctrc" ng-model="as.as_as_incluso_comercial_rctrc"> RCTRC Sec/Ca
-								</div>
-								<div class="col-md-4">
-									
+								</td>
+								<td>
 									<div class="input-group">
 										<input type="text" class="form-control" name="as_as_incluso_comercial_rctrc_valor" ng-model="as.as_as_incluso_comercial_rctrc_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_rctrc">
 										<div class="input-group-append">
 											<span class="input-group-text">R$</span>
 										</div>
 									</div>
-
-								</div>
-							</div>
-
-							<div class="row margin-top-5">
-								<div class="col-md-4">
+								</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>
 									<input type="checkbox" name="as_as_incluso_comercial_despacho" ng-model="as.as_as_incluso_comercial_despacho"> Despacho
-								</div>
-								<div class="col-md-4">
+								</td>
+								<td>
 									
 									<div class="input-group">
 										<input type="text" class="form-control" name="as_as_incluso_comercial_despacho_valor" ng-model="as.as_as_incluso_comercial_despacho_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_despacho">
@@ -475,118 +473,106 @@
 										</div>
 									</div>
 
-								</div>
-							</div>
-
-							<div class="row margin-top-5">
-								<div class="col-md-4">
+								</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>
 									<input type="checkbox" name="as_as_incluso_comercial_carga" ng-model="as.as_as_incluso_comercial_carga"> Carga
-								</div>
-								<div class="col-md-4">
-									
+								</td>
+								<td>
 									<div class="input-group">
 										<input type="text" class="form-control" name="as_as_incluso_comercial_carga_valor" ng-model="as.as_as_incluso_comercial_carga_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_carga">
 										<div class="input-group-append">
 											<span class="input-group-text">R$</span>
 										</div>
 									</div>
-
-								</div>
-							</div>
-
-							<div class="row margin-top-5">
-								<div class="col-md-4">
+								</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>
 									<input type="checkbox" name="as_as_incluso_comercial_descarga" ng-model="as.as_as_incluso_comercial_descarga"> Descarga
-								</div>
-								<div class="col-md-4">
-									
+								</td>
+								<td>
 									<div class="input-group">
 										<input type="text" class="form-control" name="as_as_incluso_comercial_descarga_valor" ng-model="as.as_as_incluso_comercial_descarga_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_descarga">
 										<div class="input-group-append">
 											<span class="input-group-text">R$</span>
 										</div>
 									</div>
-
-								</div>
-							</div>
-
-							<div class="row margin-top-5">
-								<div class="col-md-4">
+								</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>
 									<input type="checkbox" name="as_as_incluso_comercial_estadia" ng-model="as.as_as_incluso_comercial_estadia"> Estadia
-								</div>
-								<div class="col-md-4">
-									
+								</td>
+								<td>
 									<div class="input-group">
 										<input type="text" class="form-control" name="as_as_incluso_comercial_estadia_valor" ng-model="as.as_as_incluso_comercial_estadia_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_estadia">
 										<div class="input-group-append">
 											<span class="input-group-text">R$</span>
 										</div>
 									</div>
-
-								</div>
-							</div>
-
-							<div class="row margin-top-5">
-								<div class="col-md-4">
+								</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>
 									<input type="checkbox" name="as_as_incluso_comercial_pernoite" ng-model="as.as_as_incluso_comercial_pernoite"> Pernoite
-								</div>
-								<div class="col-md-4">
-									
+								</td>
+								<td>
 									<div class="input-group">
 										<input type="text" class="form-control" name="as_as_incluso_comercial_pernoite_valor" ng-model="as.as_as_incluso_comercial_pernoite_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_pernoite">
 										<div class="input-group-append">
 											<span class="input-group-text">R$</span>
 										</div>
 									</div>
-
-								</div>
-							</div>
-
-							<div class="row margin-top-5">
-								<div class="col-md-4">
+								</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>
 									<input type="checkbox" name="as_as_incluso_comercial_armazenagem" ng-model="as.as_as_incluso_comercial_armazenagem"> Armazengem
-								</div>
-								<div class="col-md-4">
-									
+								</td>
+								<td>
 									<div class="input-group">
 										<input type="text" class="form-control" name="as_as_incluso_comercial_armazenagem_valor" ng-model="as.as_as_incluso_comercial_armazenagem_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_armazenagem">
 										<div class="input-group-append">
 											<span class="input-group-text">R$</span>
 										</div>
 									</div>
-
-								</div>
-							</div>
-
-							<div class="row margin-top-5">
-								<div class="col-md-4">
+								</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>
 									<input type="checkbox" name="as_as_incluso_comercial_advalorem" ng-model="as.as_as_incluso_comercial_advalorem"> Ad valorem / Seguro
-								</div>
-								<div class="col-md-4">
+								</td>
+								<td>
 									<div class="input-group">
 										<input type="text" class="form-control" ng-model="as.as_as_incluso_comercial_advalorem_percent" mask="99?.9?9" placeholder="Ex: 1.56" ng-disabled="!as.as_as_incluso_comercial_advalorem">
 										<div class="input-group-append">
 											<span class="input-group-text">%</span>
 										</div>
 									</div>
-								</div>
-								<div class="col-md-4">
-									
+								</td>
+								<td>
 									<div class="input-group">
 										<input type="text" class="form-control" name="as_as_incluso_comercial_advalorem_valor" ng-model="as.as_as_incluso_comercial_advalorem_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_advalorem">
 										<div class="input-group-append">
 											<span class="input-group-text">R$</span>
 										</div>
 									</div>
-
-								</div>
-							</div>
-
-						</div>
-						
+								</td>
+							</tr>
+							
+						</table>
+												
 					</div>
 
-					<div class="col-md-6">
+					<div class="col-md-7">
 
 						<div class="form-group">
 							<label for="id">Valores fiscais</label>
@@ -596,13 +582,14 @@
 
 							<table class="table">
 								<tr>
-									<th>Imposto</th>
-									<th>Retido</th>
-									<th>%</th>
-									<th>Valor</th>
+									<th width="90">Imposto</th>
+									<th width="90">Retido</th>
+									<th></th>
+									<th class="text-center">%</th>
+									<th class="text-center">Valor</th>
 								</tr>
-								<tr>
-									<td colspan="2">
+								<tr ng-if="as.as_as_forma_faturamento == 'cte' || as.as_as_forma_faturamento == 'nfe'">
+									<td colspan="3">
 										<input type="checkbox" name="as_as_incluso_contabil_icms" ng-model="as.as_as_incluso_contabil_icms"> ICMS
 									</td>
 									<td>
@@ -622,12 +609,15 @@
 										</div>
 									</td>
 								</tr>
-								<tr>
+								<tr ng-if="
+										as.as_as_forma_faturamento == 'fatura' || 
+										as.as_as_forma_faturamento == 'nfs' || 
+										as.as_as_forma_faturamento == 'nfe'">
 									<td>
 										<input type="checkbox" name="as_as_incluso_contabil_iss" ng-model="as.as_as_incluso_contabil_iss"> ISS
 									</td>
-									<td>
-										
+									<td colspan="2">
+										<input type="checkbox" name="as_as_incluso_contabil_iss_retido" ng-model="as.as_as_incluso_contabil_iss_retido" ng-disabled="!as.as_as_incluso_contabil_iss"> Retido
 									</td>
 									<td>
 										<div class="input-group">
@@ -646,12 +636,23 @@
 										</div>
 									</td>
 								</tr>
-								<tr>
+								<tr ng-if="
+										as.as_as_forma_faturamento == 'fatura' || 
+										as.as_as_forma_faturamento == 'nfs' || 
+										as.as_as_forma_faturamento == 'nfe'">
 									<td>
 										<input type="checkbox" name="as_as_incluso_contabil_inss" ng-model="as.as_as_incluso_contabil_inss"> INSS
 									</td>
 									<td>
-										
+										<input type="checkbox" name="as_as_incluso_contabil_inss_retido" ng-model="as.as_as_incluso_contabil_inss_retido" ng-disabled="!as.as_as_incluso_contabil_inss"> Retido
+									</td>
+									<td>
+										<div class="input-group">
+											<input type="text" class="form-control" ng-model="as.as_as_incluso_contabil_inss_percent_root" mask="99?.9?9" placeholder="Ex: 1.56" ng-disabled="!as.as_as_incluso_contabil_inss">
+											<div class="input-group-append">
+												<span class="input-group-text">%</span>
+											</div>
+										</div>
 									</td>
 									<td>
 										<div class="input-group">
@@ -674,8 +675,8 @@
 									<td>
 										<input type="checkbox" name="as_as_incluso_contabil_ir" ng-model="as.as_as_incluso_contabil_ir"> IR
 									</td>
-									<td>
-
+									<td colspan="2">
+										<input type="checkbox" name="as_as_incluso_contabil_ir_retido" ng-model="as.as_as_incluso_contabil_ir_retido" ng-disabled="!as.as_as_incluso_contabil_ir"> Retido
 									</td>
 									<td>
 										<div class="input-group">
@@ -698,8 +699,8 @@
 									<td>
 										<input type="checkbox" name="as_as_incluso_contabil_pis" ng-model="as.as_as_incluso_contabil_pis"> PIS
 									</td>
-									<td>
-										
+									<td colspan="2">
+										<input type="checkbox" name="as_as_incluso_contabil_pis_retido" ng-model="as.as_as_incluso_contabil_pis_retido" ng-disabled="!as.as_as_incluso_contabil_pis"> Retido
 									</td>
 									<td>
 										<div class="input-group">
@@ -718,81 +719,82 @@
 										</div>
 									</td>
 								</tr>
+								<tr>
+									<td>
+										<input type="checkbox" name="as_as_incluso_contabil_cofins" ng-model="as.as_as_incluso_contabil_cofins"> COFINS
+									</td>
+									<td colspan="2">
+										<input type="checkbox" name="as_as_incluso_contabil_cofins_retido" ng-model="as.as_as_incluso_contabil_cofins_retido" ng-disabled="!as.as_as_incluso_contabil_cofins"> Retido
+									</td>
+									<td>
+										<div class="input-group">
+											<input type="text" class="form-control" ng-model="as.as_as_incluso_contabil_cofins_percent" mask="99?.9?9" placeholder="Ex: 1.56" ng-disabled="!as.as_as_incluso_contabil_cofins">
+											<div class="input-group-append">
+												<span class="input-group-text">%</span>
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="input-group">
+											<input type="text" class="form-control" name="as_as_incluso_contabil_cofins_valor" ng-model="as.as_as_incluso_contabil_cofins_valor" money-mask ng-disabled="!as.as_as_incluso_contabil_cofins">
+											<div class="input-group-append">
+												<span class="input-group-text">R$</span>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<input type="checkbox" name="as_as_incluso_contabil_csll" ng-model="as.as_as_incluso_contabil_csll"> CSLL
+									</td>
+									<td colspan="2">
+										<input type="checkbox" name="as_as_incluso_contabil_csll_retido" ng-model="as.as_as_incluso_contabil_csll_retido" ng-disabled="!as.as_as_incluso_contabil_csll"> Retido
+									</td>
+									<td>
+										<div class="input-group">
+											<input type="text" class="form-control" ng-model="as.as_as_incluso_contabil_csll_percent" mask="99?.9?9" placeholder="Ex: 1.56" ng-disabled="!as.as_as_incluso_contabil_csll">
+											<div class="input-group-append">
+												<span class="input-group-text">%</span>
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="input-group">
+											<input type="text" class="form-control" name="as_as_incluso_contabil_csll_valor" ng-model="as.as_as_incluso_contabil_csll_valor" money-mask ng-disabled="!as.as_as_incluso_contabil_csll">
+											<div class="input-group-append">
+												<span class="input-group-text">R$</span>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<input type="checkbox" name="as_as_incluso_contabil_cp" ng-model="as.as_as_incluso_contabil_cp"> CP
+									</td>
+									<td colspan="2">
+										<input type="checkbox" name="as_as_incluso_contabil_cp_retido" ng-model="as.as_as_incluso_contabil_cp_retido" ng-disabled="!as.as_as_incluso_contabil_cp"> Retido
+									</td>
+									<td>
+										<div class="input-group">
+											<input type="text" class="form-control" ng-model="as.as_as_incluso_contabil_cp_percent" mask="99?.9?9" placeholder="Ex: 1.56" ng-disabled="!as.as_as_incluso_contabil_cp">
+											<div class="input-group-append">
+												<span class="input-group-text">%</span>
+											</div>
+										</div>
+									</td>
+									<td>
+
+										<div class="input-group">
+											<input type="text" class="form-control" name="as_as_incluso_contabil_cp_valor" ng-model="as.as_as_incluso_contabil_cp_valor" money-mask ng-disabled="!as.as_as_incluso_contabil_cp">
+											<div class="input-group-append">
+												<span class="input-group-text">R$</span>
+											</div>
+										</div>
+
+									</td>
+								</tr>
+
 							</table>
-
-	
-
-							<div class="row margin-top-5">
-								<div class="col-md-4">
-									<input type="checkbox" name="as_as_incluso_contabil_cofins" ng-model="as.as_as_incluso_contabil_cofins"> COFINS
-								</div>
-								<div class="col-md-4">
-									<div class="input-group">
-										<input type="text" class="form-control" ng-model="as.as_as_incluso_contabil_cofins_percent" mask="99?.9?9" placeholder="Ex: 1.56" ng-disabled="!as.as_as_incluso_contabil_cofins">
-										<div class="input-group-append">
-											<span class="input-group-text">%</span>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-4">
-									
-									<div class="input-group">
-										<input type="text" class="form-control" name="as_as_incluso_contabil_cofins_valor" ng-model="as.as_as_incluso_contabil_cofins_valor" money-mask ng-disabled="!as.as_as_incluso_contabil_cofins">
-										<div class="input-group-append">
-											<span class="input-group-text">R$</span>
-										</div>
-									</div>
-
-								</div>
-							</div>
-
-							<div class="row margin-top-5">
-								<div class="col-md-4">
-									<input type="checkbox" name="as_as_incluso_contabil_csll" ng-model="as.as_as_incluso_contabil_csll"> CSLL
-								</div>
-								<div class="col-md-4">
-									<div class="input-group">
-										<input type="text" class="form-control" ng-model="as.as_as_incluso_contabil_csll_percent" mask="99?.9?9" placeholder="Ex: 1.56" ng-disabled="!as.as_as_incluso_contabil_csll">
-										<div class="input-group-append">
-											<span class="input-group-text">%</span>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-4">
-									
-									<div class="input-group">
-										<input type="text" class="form-control" name="as_as_incluso_contabil_csll_valor" ng-model="as.as_as_incluso_contabil_csll_valor" money-mask ng-disabled="!as.as_as_incluso_contabil_csll">
-										<div class="input-group-append">
-											<span class="input-group-text">R$</span>
-										</div>
-									</div>
-
-								</div>
-							</div>
-
-							<div class="row margin-top-5">
-								<div class="col-md-4">
-									<input type="checkbox" name="as_as_incluso_contabil_cp" ng-model="as.as_as_incluso_contabil_cp"> CP
-								</div>
-								<div class="col-md-4">
-									<div class="input-group">
-										<input type="text" class="form-control" ng-model="as.as_as_incluso_contabil_cp_percent" mask="99?.9?9" placeholder="Ex: 1.56" ng-disabled="!as.as_as_incluso_contabil_cp">
-										<div class="input-group-append">
-											<span class="input-group-text">%</span>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-4">
-									
-									<div class="input-group">
-										<input type="text" class="form-control" name="as_as_incluso_contabil_cp_valor" ng-model="as.as_as_incluso_contabil_cp_valor" money-mask ng-disabled="!as.as_as_incluso_contabil_cp">
-										<div class="input-group-append">
-											<span class="input-group-text">R$</span>
-										</div>
-									</div>
-
-								</div>
-							</div>
 
 						</div>
 

@@ -62,3 +62,6 @@ require 'routes/formas-pagamento/formas-pagamento.php';
 
 // UPLOAD
 require 'routes/upload/upload.php';
+
+// Autorizacao servico prazo pagamento
+require 'routes/autorizacao-servico-prazo-pg/autorizacao-servico-prazo-pg.php';
