@@ -356,7 +356,8 @@ class AutorizacaoServico {
 					// Tratamento de data
 					if(	
 						$field == 'as_projeto_cadastro_data' ||
-						$field == 'as_as_prazo_pagamento'
+						$field == 'as_op_data_carregamento' ||
+						$field == 'as_op_data_previsao'
 					){
 						$date = new \DateTime();
 						$date->setTimestamp($val);
@@ -455,6 +456,46 @@ class AutorizacaoServico {
 				}
 
 			}
+
+			// Insere dados carga
+			if(is_array($args['as_dados_carga'])){
+
+				$asCargas = new AsCargas($this->db);
+
+				foreach ($args['as_dados_carga'] as $chave => $carga) {
+
+					$carga['id_as'] = $response['id'];
+					
+					$obj_response = $asCargas->insert($carga);
+
+					if(!$obj_response['result']){
+						$response['result'] = false;
+						$response['error'] = $obj_response['error'];
+						return $response;
+					}
+
+				}
+
+			}
+
+			// Salva veiculos
+			if(is_array($args['as_assoc_frotas'])){
+
+				foreach ($args['as_assoc_frotas'] as $key => $veiculo) {
+
+					$data = array(
+						'id_as' => $response['id'],
+						'id_veiculo' => $veiculo['id']
+					);
+					
+					$insertStatement = $this->db->insert(array_keys($data))->into('autorizacao_servico_frota')->values(array_values($data));
+					$insertStatement->execute();
+
+				}
+
+			}
+
+			
 
 
 		}
@@ -634,8 +675,12 @@ class AutorizacaoServico {
 		$as['as_projeto_cadastro_data'] = $as_projeto_cadastro_data->getTimestamp();
 
 		// DATA: as_as_prazo_pagamento
-		$as_as_prazo_pagamento = new \DateTime($as['as_as_prazo_pagamento']);
-		$as['as_as_prazo_pagamento'] = $as_as_prazo_pagamento->getTimestamp();
+		$as_op_data_carregamento = new \DateTime($as['as_op_data_carregamento']);
+		$as['as_op_data_carregamento'] = $as_op_data_carregamento->getTimestamp();
+
+		// DATA: as_op_data_previsao
+		$as_op_data_previsao = new \DateTime($as['as_op_data_previsao']);
+		$as['as_op_data_previsao'] = $as_op_data_previsao->getTimestamp();
 
 		// Checkbox
 		$as['as_as_incluso_comercial_rcfdc'] = ($as['as_as_incluso_comercial_rcfdc'] == 'Y' ? true : false);
@@ -668,6 +713,27 @@ class AutorizacaoServico {
 		$asObjetos = new AsObjetos($this->db);
 		$as_objetos_carregamento = $asObjetos->get(array( 'id_as' => $as['id'] ));
 		$as['as_objetos_carregamento'] = $as_objetos_carregamento['results'];
+
+		// Puxa as cargas
+		$asCargas = new AsCargas($this->db);
+		$as_dados_carga = $asCargas->get(array( 'id_as' => $as['id'] ));
+		$as['as_dados_carga'] = $as_dados_carga['results'];
+
+		// Traz as frotas
+		$select = $this->db->query("
+			SELECT v.* FROM autorizacao_servico_frota f
+				INNER JOIN veiculos v
+				ON f.id_veiculo = v.id
+			WHERE f.id_as = '".$as['id']."';
+		");
+
+		$as_assoc_frotas = $select->fetchAll(\PDO::FETCH_ASSOC);
+
+		if(!is_array($as_assoc_frotas)){
+			$as_assoc_frotas = array();
+		}
+
+		$as['as_assoc_frotas'] = $as_assoc_frotas;
 				
 		return $as;
 	}

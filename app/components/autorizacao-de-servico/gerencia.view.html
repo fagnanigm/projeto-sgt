@@ -968,8 +968,8 @@
 						<td>{{ val.dado_valor | currency }}</td>
 						<td>{{ val.dado_frete_peso }}</td>
 						<td>
-							<button type="button" ng-click="edit_objeto(key)" class="btn btn-sm btn-warning"><i class="icon-pencil icons"></i></button>
-							<button type="button" ng-click="remove_objeto(key)" class="btn btn-sm btn-danger"><i class="icon-trash icons"></i></button>
+							<button type="button" ng-click="edit_carga(key)" class="btn btn-sm btn-warning"><i class="icon-pencil icons"></i></button>
+							<button type="button" ng-click="remove_carga(key)" class="btn btn-sm btn-danger"><i class="icon-trash icons"></i></button>
 						</td>
 					</tr>
 					<tr ng-if="as.as_dados_carga.length == 0">
@@ -977,7 +977,7 @@
 					</tr>
 					<tr>
 						<th colspan="10"></th>
-						<th class="text-center">Total: {{ total_cotacao_objetos | currency }}</th>
+						<th class="text-center"></th>
 						<th></th>
 					</tr>
 				</table>
@@ -1000,7 +1000,7 @@
 							</div>
 							
 							<div class="input-group my-3">
-		  						<input type="text" class="form-control" placeholder="Selecionar local de coleta" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="local_coleta_data.local_apelido">
+		  						<input type="text" class="form-control" placeholder="Selecionar local de coleta" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="as.as_op_local_coleta_nome">
 								<div class="input-group-append">
 									<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_local('local_coleta')"><i class="icon-magnifier icons"></i></button>
 								</div>
@@ -1022,12 +1022,32 @@
 									<th>Endereço:</th>
 									<td>{{ local_coleta_data.local_logradouro }}</td>
 								</tr>
-							</table>
-						</div>
+								<tr>
+									<th>Nome:</th>
+									<td>
+										<input type="text" class="form-control" name="as_op_local_coleta_contato" ng-model="as.as_op_local_coleta_contato" placeholder="Nome do responsável">
+									</td>
+								</tr>
+								<tr>
+									<th>Telefone:</th>
+									<td>
+										<input type="text" class="form-control" name="as_op_local_coleta_contato_telefone" ng-model="as.as_op_local_coleta_contato_telefone" mask="(99) 9?9999-9999" placeholder="(DDD) + Número">
+									</td>
+								</tr>
+								<tr>
+									<th>Celular:</th>
+									<td>
+										<input type="text" class="form-control" name="as_op_local_coleta_contato_celular" ng-model="as.as_op_local_coleta_contato_celular" mask="(99) 9?9999-9999" placeholder="(DDD) + Número">
+									</td>
+								</tr>
+								<tr>
+									<th>E-mail:</th>
+									<td>
+										<input type="email" class="form-control" name="as_op_local_coleta_contato_email" ng-model="as.as_op_local_coleta_contato_email" placeholder="E-mail do responsável">
+									</td>
+								</tr>
 
-						<div class="form-group">
-							<label for="id">Procurar por:</label>
-							<input type="text" class="form-control" id="id">
+							</table>
 						</div>
 
 						<div class="form-group">
@@ -1068,7 +1088,7 @@
 							</div>
 							
 							<div class="input-group my-3">
-		  						<input type="text" class="form-control" placeholder="Selecionar local de entrega" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="local_entrega_data.local_apelido">
+		  						<input type="text" class="form-control" placeholder="Selecionar local de entrega" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="as.as_op_local_entrega_nome">
 								<div class="input-group-append">
 									<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_local('local_entrega')"><i class="icon-magnifier icons"></i></button>
 								</div>
@@ -1090,27 +1110,45 @@
 									<th>Endereço:</th>
 									<td>{{ local_entrega_data.local_logradouro }}</td>
 								</tr>
+								<tr>
+									<th>Nome:</th>
+									<td>
+										<input type="text" class="form-control" name="as_op_local_entrega_contato" ng-model="as.as_op_local_entrega_contato" placeholder="Nome do responsável">
+									</td>
+								</tr>
+								<tr>
+									<th>Telefone:</th>
+									<td>
+										<input type="text" class="form-control" name="as_op_local_entrega_contato_telefone" ng-model="as.as_op_local_entrega_contato_telefone" mask="(99) 9?9999-9999" placeholder="(DDD) + Número">
+									</td>
+								</tr>
+								<tr>
+									<th>Celular:</th>
+									<td>
+										<input type="text" class="form-control" name="as_op_local_entrega_contato_celular" ng-model="as.as_op_local_entrega_contato_celular" mask="(99) 9?9999-9999" placeholder="(DDD) + Número">
+									</td>
+								</tr>
+								<tr>
+									<th>E-mail:</th>
+									<td>
+										<input type="email" class="form-control" name="as_op_local_entrega_contato_email" ng-model="as.as_op_local_entrega_contato_email" placeholder="E-mail do responsável">
+									</td>
+								</tr>
 							</table>
-						</div>
-
-						<div class="form-group">
-							<label for="id">Procurar por:</label>
-							<input type="text" class="form-control" id="id">
 						</div>
 
 					</div>
 					<div class="col-md-4">
 
 						<div class="form-group">
-							<label for="id">Observações para o Operacional</label>
-							<textarea class="form-control"></textarea>
+							<label for="as_op_observacao">Observações para o Operacional</label>
+							<textarea class="form-control" id="as_op_observacao" ng-model="as.as_op_observacao"></textarea>
 						</div>
 
-
 						<div class="form-group">
-							<label for="id">Data de carregamento:</label>
+							<label for="as_op_data_carregamento">Data de carregamento:</label>
 							<div class="input-group">
-		  						<input type="date" class="form-control" placeholder="Data de carregamento" aria-label="Recipient's username" aria-describedby="button-addon2">
+		  						<input type="date" class="form-control" id="as_op_data_carregamento" placeholder="Data de carregamento" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="as.as_op_data_carregamento_obj">
 								<div class="input-group-append">
 									<button class="btn btn-primary" type="button" id="button-addon2">Carregado</button>
 								</div>
@@ -1118,23 +1156,43 @@
 						</div>
 
 						<div class="form-group">
-							<label for="id">Previsão de Entrega:</label>
-							<input type="date" class="form-control" id="id">
+							<label for="as_op_data_previsao">Previsão de Entrega:</label>
+							<input type="date" class="form-control" id="as_op_data_previsao" ng-model="as.as_op_data_previsao_obj">
 						</div>
 
 						<div class="form-group">
-							<label for="id">Frota utilizada</label>
-							<div class="input-group">
-		  						<input type="text" class="form-control" placeholder="Selecione a frota..." aria-label="Recipient's username" aria-describedby="button-addon2">
-								<div class="input-group-append">
-									<button class="btn btn-primary" type="button" id="button-addon2"><i class="icon-magnifier icons"></i></button>
+							<label for="as_op_equipamentos">Equipamento a ser utilizado</label>
+							<textarea class="form-control" id="as_op_equipamentos" ng-model="as.as_op_equipamentos"></textarea>
+						</div>
+
+						<div class="form-group">
+							
+							<label for="as_op_equipamentos">Associação de frota</label>
+
+							<div class="card">
+  								<div class="card-body">
+
+									<table class="table table-striped">
+										<tr>
+											<th>Frota</th>
+											<th width="35"></th>
+										</tr>
+										<tr ng-repeat="(key, val) in as.as_assoc_frotas">
+											<td><strong>{{ val.veiculo_frota }}</strong> - {{ val.veiculo_modelo }}</td>
+											<td class="text-center">
+												<button type="button" class="btn btn-sm btn-danger" ng-click="remove_veiculo(key)"><i class="icon-trash icons"></i></button>
+											</td>
+										</tr>
+										<tr ng-if="as.as_assoc_frotas.length == 0">
+											<td colspan="2" class="text-center">Nenhum veículo associado.</td>
+										</tr>
+									</table>
+
+									<button type="button" class="btn btn-sm btn-success" ng-click="open_choose_veiculos('assoc_frota')">Adicionar</button>
+
 								</div>
 							</div>
-						</div>
-
-						<div class="form-group">
-							<label for="id">Equipamento a ser utilizado</label>
-							<textarea class="form-control"></textarea>
+							
 						</div>
 
 					</div>
@@ -1268,11 +1326,6 @@
 							<input type="text" class="form-control" id="id">
 						</div>
 
-						<div class="form-group">
-							<label for="id">Resultado bruto</label>
-							<input type="text" class="form-control" id="id">
-						</div>
-
 					</div>
 					<div class="col-md-4">
 
@@ -1357,6 +1410,8 @@
 
 				<button class="btn btn-secondary">Emitir nota de débito</button>
 
+				<button class="btn btn-secondary">Emitir outros</button>
+
 			</div>
 
 			<!-- Financeiro -->
@@ -1439,15 +1494,15 @@
 				</li>
 				<li>
 					Valor líquido à receber
-					<strong>R$ {{ as.as_valor_liquido_receber | currency }}</strong>
+					<strong>{{ as.as_valor_liquido_receber | currency }}</strong>
 				</li>
 				<li>
 					Resultado bruto
-					<strong>R$ {{ as.as_valor_resultado_bruto | currency }}</strong>
+					<strong>{{ as.as_valor_resultado_bruto | currency }}</strong>
 				</li>
 				<li>
 					Resultado líquido
-					<strong>R$ {{ as.as_valor_resultado_liquido }}</strong>
+					<strong>{{ as.as_valor_resultado_liquido | currency }}</strong>
 				</li>
 			</ul>
 

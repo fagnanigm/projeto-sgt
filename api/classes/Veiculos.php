@@ -486,6 +486,38 @@ class Veiculos {
 
 	}
 
+	public function search($args = array()){
+
+		$response = array('result' => false);
+
+		if(!isset($args['term'])){
+			$response['error'] = 'Termo não definido.';
+			return $response;
+		}else{
+			if(strlen(trim($args['term'])) == 0){
+				$response['error'] = 'Termo não definido.';
+				return $response;
+			}
+		}
+
+		$term = trim($args['term']);
+		
+		$select = $this->db->query('SELECT * FROM veiculos 
+			WHERE active = \'Y\' 
+			AND (
+				veiculo_frota = \''.$term.'\' OR
+				veiculo_modelo LIKE \'%'.$term.'%\'
+			)
+			ORDER BY veiculo_frota');
+			
+		$response['results'] = $this->parser_fecth($select->fetchAll(\PDO::FETCH_ASSOC),'all');
+
+		$response['result'] = true;
+
+		return $response;
+
+	}
+
 }
 
 ?>

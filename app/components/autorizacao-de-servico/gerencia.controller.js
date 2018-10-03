@@ -32,7 +32,20 @@
                     as_valor_liquido_receber : 0,
                     as_valor_resultado_bruto : 0,
                     as_valor_resultado_liquido : 0,
-                    as_as_prazo_pagamento_id : '0'
+                    as_as_prazo_pagamento_id : '0',
+                    // Valores fiscais
+                    as_as_incluso_contabil_inss_percent : '3.50',
+                    as_as_incluso_contabil_ir_percent : '1.50',
+                    as_as_incluso_contabil_pis_percent : '0.65',
+                    as_as_incluso_contabil_cofins_percent : '3.00',
+                    as_as_incluso_contabil_csll_percent : '1.00',
+                    as_as_incluso_contabil_cp_percent : '1.50',
+                    as_as_incluso_contabil_inss_percent_root : '35.00',
+                    as_as_incluso_contabil_iss_percent : '0.00',
+                    as_as_incluso_contabil_icms_percent : '0.00',
+                    as_as_incluso_comercial_advalorem_percent : '0.00',
+                    // Frotas
+                    as_assoc_frotas : []
                 }
 
                 var id_projeto = $location.search().projeto; 
@@ -77,14 +90,17 @@
 
                 $http.get('/api/public/as/get/' + $rootScope.$stateParams.id_as).then(function (response) {
                     
-                    $scope.as = response.data.as; 
-
-                    console.log($scope.as);             
+                    $scope.as = response.data.as;     
 
                     $scope.as.as_projeto_revisao =  parseInt($scope.as.as_projeto_revisao) + 1;
                     $scope.as.id_revisao = ($scope.as.as_projeto_revisao == 1 ? $scope.as.id : $scope.as.id_revisao );             
                     $scope.as.as_projeto_cadastro_data_obj = ($scope.as.as_projeto_cadastro_data.length > 0 ? new Date($scope.as.as_projeto_cadastro_data * 1000) : new Date() );
-                    $scope.as.as_dados_carga = [];
+
+                    // DATA
+                    $scope.as.as_op_data_carregamento_obj = (String($scope.as.as_op_data_carregamento).length > 0 ? new Date($scope.as.as_op_data_carregamento * 1000) : new Date() );
+                    $scope.as.as_op_data_previsao_obj = (String($scope.as.as_op_data_previsao).length > 0 ? new Date($scope.as.as_op_data_previsao * 1000) : new Date() );
+
+                    console.log($scope.as)
 
                     delete $scope.as.id;
                     
@@ -123,10 +139,15 @@
 
                 $scope.as.as_projeto_cadastro_data = Math.floor($scope.as.as_projeto_cadastro_data_obj.getTime() / 1000);
 
-                // DATA : as_as_prazo_pagamento_obj
-                if($scope.as.as_as_prazo_pagamento_obj){
-                    $scope.as.as_as_prazo_pagamento = Math.floor($scope.as.as_as_prazo_pagamento_obj.getTime() / 1000);
+                // DATA : as_op_data_carregamento_obj
+                if($scope.as.as_op_data_carregamento_obj){
+                    $scope.as.as_op_data_carregamento = Math.floor($scope.as.as_op_data_carregamento_obj.getTime() / 1000);
                 }          
+
+                // DATA : as_op_data_previsao
+                if($scope.as.as_op_data_previsao_obj){
+                    $scope.as.as_op_data_previsao = Math.floor($scope.as.as_op_data_previsao_obj.getTime() / 1000);
+                }
 
                 $http.post('/api/public/as/insert', $scope.as).then(function (response) {
 
@@ -281,13 +302,15 @@
 
         // Local de coleta
         $scope.local_coleta = function(local){
-            $scope.as.as_id_local_coleta = local.id;
+            $scope.as.as_op_id_local_coleta = local.id;
+            $scope.as.as_op_local_coleta_nome = local.local_nome;
             $scope.local_coleta_data = local;
         }
 
         // Local entrega
         $scope.local_entrega = function(local){
-            $scope.as.as_id_local_entrega = local.id;
+            $scope.as.as_op_id_local_entrega = local.id;
+            $scope.as.as_op_local_entrega_nome = local.local_nome;
             $scope.local_entrega_data = local;
         }
 
@@ -341,16 +364,171 @@
 
         function calc_total_as_objeto(){
             
+            // Soma os valores dos objetos de carregamento
             $scope.total_as_objetos = 0;
+            $scope.total_mercadoria_as_objetos = 0;
+
             $.each($scope.as.as_objetos_carregamento, function(key, val){
                 $scope.total_as_objetos += parseFloat(val.objeto_valor_total);
+                $scope.total_mercadoria_as_objetos += parseFloat(val.objeto_valor_mercadoria_total);
             });
-
-
 
             $scope.as.as_valor_total_bruto = $scope.total_as_objetos;
 
+            // soma valores "inclusos no preço comercial"
+            if($scope.as.as_as_incluso_comercial_rcfdc){
+                if(typeof($scope.as.as_as_incluso_comercial_rcfdc_valor) != 'undefined'){
+                    $scope.as.as_valor_total_bruto += parseFloat($scope.as.as_as_incluso_comercial_rcfdc_valor);
+                }
+            }
+
+            if($scope.as.as_as_incluso_comercial_rctrc){
+                if(typeof($scope.as.as_as_incluso_comercial_rctrc_valor) != 'undefined'){
+                    $scope.as.as_valor_total_bruto += parseFloat($scope.as.as_as_incluso_comercial_rctrc_valor);
+                }
+            }
+
+            if($scope.as.as_as_incluso_comercial_despacho){
+                if(typeof($scope.as.as_as_incluso_comercial_despacho_valor) != 'undefined'){
+                    $scope.as.as_valor_total_bruto += parseFloat($scope.as.as_as_incluso_comercial_despacho_valor);
+                }
+            }
+
+            if($scope.as.as_as_incluso_comercial_carga){
+                if(typeof($scope.as.as_as_incluso_comercial_carga_valor) != 'undefined'){
+                    $scope.as.as_valor_total_bruto += parseFloat($scope.as.as_as_incluso_comercial_carga_valor);
+                }
+            }
+
+            if($scope.as.as_as_incluso_comercial_descarga){
+                if(typeof($scope.as.as_as_incluso_comercial_descarga_valor) != 'undefined'){
+                    $scope.as.as_valor_total_bruto += parseFloat($scope.as.as_as_incluso_comercial_descarga_valor);
+                }
+            }
+
+            if($scope.as.as_as_incluso_comercial_estadia){
+                if(typeof($scope.as.as_as_incluso_comercial_estadia_valor) != 'undefined'){
+                    $scope.as.as_valor_total_bruto += parseFloat($scope.as.as_as_incluso_comercial_estadia_valor);
+                }
+            }
+
+            if($scope.as.as_as_incluso_comercial_pernoite){
+                if(typeof($scope.as.as_as_incluso_comercial_pernoite_valor) != 'undefined'){
+                    $scope.as.as_valor_total_bruto += parseFloat($scope.as.as_as_incluso_comercial_pernoite_valor);
+                }
+            }
+
+            if($scope.as.as_as_incluso_comercial_armazenagem){
+                if(typeof($scope.as.as_as_incluso_comercial_armazenagem_valor) != 'undefined'){
+                    $scope.as.as_valor_total_bruto += parseFloat($scope.as.as_as_incluso_comercial_armazenagem_valor);
+                }
+            }
+
+            if($scope.as.as_as_incluso_comercial_advalorem){
+                if(typeof($scope.as.as_as_incluso_comercial_advalorem_valor) != 'undefined'){
+                    $scope.as.as_valor_total_bruto += parseFloat($scope.as.as_as_incluso_comercial_advalorem_valor);
+                }
+            }
+
+            // Valor liquido a receber
+
+            $scope.as.as_valor_liquido_receber = $scope.as.as_valor_total_bruto;
+           
+            if($scope.as.as_as_incluso_contabil_iss && $scope.as.as_as_incluso_contabil_iss_retido){
+                $scope.as.as_valor_liquido_receber -= parseFloat($scope.as.as_as_incluso_contabil_iss_valor);
+            }
+
+            if($scope.as.as_as_incluso_contabil_inss && $scope.as.as_as_incluso_contabil_inss_retido){
+                $scope.as.as_valor_liquido_receber -= parseFloat($scope.as.as_as_incluso_contabil_inss_valor);
+            }
+
+            if($scope.as.as_as_incluso_contabil_ir && $scope.as.as_as_incluso_contabil_ir_retido){
+                $scope.as.as_valor_liquido_receber -= parseFloat($scope.as.as_as_incluso_contabil_ir_valor);
+            }
+
+            if($scope.as.as_as_incluso_contabil_pis && $scope.as.as_as_incluso_contabil_pis_retido){
+                $scope.as.as_valor_liquido_receber -= parseFloat($scope.as.as_as_incluso_contabil_pis_valor);
+            }
+
+            if($scope.as.as_as_incluso_contabil_cofins && $scope.as.as_as_incluso_contabil_cofins_retido){
+                $scope.as.as_valor_liquido_receber -= parseFloat($scope.as.as_as_incluso_contabil_cofins_valor);
+            }
+
+            if($scope.as.as_as_incluso_contabil_csll && $scope.as.as_as_incluso_contabil_csll_retido){
+                $scope.as.as_valor_liquido_receber -= parseFloat($scope.as.as_as_incluso_contabil_csll_valor);
+            }
+
+            if($scope.as.as_as_incluso_contabil_cp && $scope.as.as_as_incluso_contabil_cp_retido){
+                $scope.as.as_valor_liquido_receber -= parseFloat($scope.as.as_as_incluso_contabil_cp_valor);
+            }
+
+            // ---- Resultado bruto
+
+            $scope.as.as_valor_resultado_bruto = $scope.as.as_valor_liquido_receber;
+
+            if($scope.as.as_as_incluso_contabil_iss && !$scope.as.as_as_incluso_contabil_iss_retido){
+                $scope.as.as_valor_resultado_bruto -= parseFloat($scope.as.as_as_incluso_contabil_iss_valor);
+            }
+
+            if($scope.as.as_as_incluso_contabil_inss && !$scope.as.as_as_incluso_contabil_inss_retido){
+                $scope.as.as_valor_resultado_bruto -= parseFloat($scope.as.as_as_incluso_contabil_inss_valor);
+            }
+
+            if($scope.as.as_as_incluso_contabil_ir && !$scope.as.as_as_incluso_contabil_ir_retido){
+                $scope.as.as_valor_resultado_bruto -= parseFloat($scope.as.as_as_incluso_contabil_ir_valor);
+            }
+
+            if($scope.as.as_as_incluso_contabil_pis && !$scope.as.as_as_incluso_contabil_pis_retido){
+                $scope.as.as_valor_resultado_bruto -= parseFloat($scope.as.as_as_incluso_contabil_pis_valor);
+            }
+
+            if($scope.as.as_as_incluso_contabil_cofins && !$scope.as.as_as_incluso_contabil_cofins_retido){
+                $scope.as.as_valor_resultado_bruto -= parseFloat($scope.as.as_as_incluso_contabil_cofins_valor);
+            }
+
+            if($scope.as.as_as_incluso_contabil_csll && !$scope.as.as_as_incluso_contabil_csll_retido){
+                $scope.as.as_valor_resultado_bruto -= parseFloat($scope.as.as_as_incluso_contabil_csll_valor);
+            }
+
+            if($scope.as.as_as_incluso_contabil_cp && !$scope.as.as_as_incluso_contabil_cp_retido){
+                $scope.as.as_valor_resultado_bruto -= parseFloat($scope.as.as_as_incluso_contabil_cp_valor);
+            }
+
+
+
+            // Porcentagem Ad Valores
+            if($scope.as.as_as_incluso_comercial_advalorem_percent){
+                $scope.as.as_as_incluso_comercial_advalorem_valor = ($scope.total_mercadoria_as_objetos * parseFloat($scope.as.as_as_incluso_comercial_advalorem_percent)) / 100;
+            }
+
+            // Porcentagem valores fiscais
+            $scope.as.as_as_incluso_contabil_icms_valor = ($scope.as.as_valor_total_bruto * parseFloat($scope.as.as_as_incluso_contabil_icms_percent)) / 100;
+
+            $scope.as.as_as_incluso_contabil_iss_valor = ($scope.as.as_valor_total_bruto * parseFloat($scope.as.as_as_incluso_contabil_iss_percent)) / 100;
+
+            $scope.as.as_as_incluso_contabil_inss_valor = ( ( ($scope.as.as_valor_total_bruto * parseFloat($scope.as.as_as_incluso_contabil_inss_percent_root)) / 100) * parseFloat($scope.as.as_as_incluso_contabil_inss_percent)) / 100;
+
+            $scope.as.as_as_incluso_contabil_ir_valor = ($scope.as.as_valor_total_bruto * parseFloat($scope.as.as_as_incluso_contabil_ir_percent)) / 100;
+
+            $scope.as.as_as_incluso_contabil_pis_valor = ($scope.as.as_valor_total_bruto * parseFloat($scope.as.as_as_incluso_contabil_pis_percent)) / 100;
+
+            $scope.as.as_as_incluso_contabil_cofins_valor = ($scope.as.as_valor_total_bruto * parseFloat($scope.as.as_as_incluso_contabil_cofins_percent)) / 100;
+
+            $scope.as.as_as_incluso_contabil_csll_valor = ($scope.as.as_valor_total_bruto * parseFloat($scope.as.as_as_incluso_contabil_csll_percent)) / 100;
+
+            $scope.as.as_as_incluso_contabil_cp_valor = ($scope.as.as_valor_total_bruto * parseFloat($scope.as.as_as_incluso_contabil_cp_percent)) / 100;
+
+
+            $scope.as.as_valor_resultado_liquido = $scope.as.as_valor_resultado_bruto;
+
         }
+
+   
+
+
+        $scope.$watch('as', function() {
+            calc_total_as_objeto();
+        }, true);
 
         // Dados da carga
         $scope.open_carga_form = function(){
@@ -361,16 +539,34 @@
         }
 
         $scope.save_as_carga = function(){
-            $scope.as.as_dados_carga.push($scope.carga)
+
+            if(!$scope.carga.is_edit){
+                $scope.as.as_dados_carga.push($scope.carga)
+            }else{
+                $scope.as.as_dados_carga[$scope.carga.key] = $scope.carga;
+            }
 
             $scope.carga = {}
             $rootScope.closeModal();
 
             ngToast.create({
                 className: 'success',
-                content: 'Carga inclusa com sucesso!'
+                content: 'Carga incluída com sucesso!'
             });
 
+        }
+
+        $scope.edit_carga = function(key){
+            $scope.carga = $scope.as.as_dados_carga[key];
+            $scope.carga.is_edit = true;
+            $scope.carga.key = key;
+            $rootScope.openModal("/app/components/autorizacao-de-servico/dados-carga-form.modal.html",false,$scope);
+        }
+
+        $scope.remove_carga = function(key){
+            if(confirm("Deseja remover essa carga?")){
+                $scope.as.as_dados_carga.splice(key, 1);
+            }
         }
 
         function get_empresas(){
@@ -404,8 +600,6 @@
             });
 
         }
-
-        
 
         function get_as_code(){
 
@@ -443,6 +637,53 @@
 
         }
 
+        $scope.veiculo_search_filter = {}
+        $scope.veiculo_is_search = false;
+
+        $scope.open_choose_veiculos = function(fn){
+            $scope.open_choose_veiculo_fn = fn;
+            $rootScope.openModal("/app/components/autorizacao-de-servico/veiculos.modal.html",false,$scope);
+        }
+
+        $scope.choose_veiculo = function(veiculo){
+            $scope[$scope.open_choose_veiculo_fn](veiculo);
+            $rootScope.closeModal();
+            $scope.veiculo_is_search = false;
+        }
+
+        $scope.assoc_frota = function(veiculo){
+            $scope.as.as_assoc_frotas.push(veiculo);
+        }
+
+        $scope.remove_veiculo = function(key){
+            if(confirm("Deseja remover esse veículo?")){
+                $scope.as.as_assoc_frotas.splice(key, 1);
+            }
+        }
+
+        $scope.search_modal_veiculo = function(){
+            $rootScope.is_modal_loading = true;
+
+            $http.get('/api/public/veiculos/search?term=' + $scope.veiculo_search_filter.free_term, $scope.as ).then(function (response) {
+                    
+                if(response.data.result){
+                    $scope.veiculos = response.data.results;
+                    $scope.veiculo_is_search = true;
+                }else{
+                    ngToast.create({
+                        className: 'danger',
+                        content: response.data.error
+                    });
+                }
+
+            }, function(response) {
+                $rootScope.is_error = true;
+                $rootScope.is_error_text = "Erro: " + response.data.message;
+            }).finally(function() {
+                $rootScope.is_modal_loading = false;
+            });
+
+        }
         
     }
 

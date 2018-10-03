@@ -134,6 +134,12 @@ $app->post('/veiculos/update', function (Request $request, Response $response, a
 	return $response->withJson($data);
 });
 
+// Procura de veículos
+$app->get('/veiculos/search', function (Request $request, Response $response, array $args) {
+	$veiculos = new Veiculos($this->db);
+	$data = $veiculos->search($request->getParams());
+	return $response->withJson($data);
+});
 
 
 ?>
