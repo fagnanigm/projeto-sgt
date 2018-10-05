@@ -230,12 +230,12 @@
 					<div class="col-md-5">
 
 						<div class="form-group">
-							<label for="id">Cliente Consignatário / faturamento:</label>
+							<label>Cliente Consignatário / faturamento:</label>
 							
 							<div class="input-group">
-		  						<input type="text" class="form-control" placeholder="Selecionar cliente consignatário" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="as.as_as_cliente_faturamento_nome">
+		  						<input type="text" class="form-control" placeholder="Selecionar cliente consignatário" aria-label="Recipient's username" ng-model="as.as_as_cliente_faturamento_nome">
 								<div class="input-group-append">
-									<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_cliente('cliente_consignatario')"><i class="icon-magnifier icons"></i></button>
+									<button class="btn btn-primary" type="button" ng-click="open_choose_cliente('cliente_consignatario')"><i class="icon-magnifier icons"></i></button>
 								</div>
 							</div>
 
@@ -348,7 +348,7 @@
 				</div>
 
 				<div class="form-group">
-					<label for="id">Condições Comerciais Adicionais</label>
+					<label for="as_as_condicoes_comerciais">Condições Comerciais Adicionais</label>
 					<textarea class="form-control" name="as_as_condicoes_comerciais" ng-model="as.as_as_condicoes_comerciais" placeholder="Condições comerciais adicionais"></textarea>
 				</div>
 
@@ -423,7 +423,7 @@
 					<div class="col-md-5">
 
 						<div class="form-group">
-							<label for="id">Inclusos no Preço Comercial</label>
+							<label>Inclusos no Preço Comercial</label>
 						</div>
 
 						<table class="table">
@@ -575,7 +575,7 @@
 					<div class="col-md-7">
 
 						<div class="form-group">
-							<label for="id">Valores fiscais</label>
+							<label>Valores fiscais</label>
 						</div>
 
 						<div class="form-group">
@@ -824,7 +824,7 @@
 							<div class="input-group">
 		  						<input type="text" class="form-control" placeholder="Selecionar cliente remetente" id="as_op_cliente_remetente_nome" ng-model="as.as_op_cliente_remetente_nome">
 								<div class="input-group-append">
-									<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_cliente('cliente_remetente')"><i class="icon-magnifier icons"></i></button>
+									<button class="btn btn-primary" type="button" ng-click="open_choose_cliente('cliente_remetente')"><i class="icon-magnifier icons"></i></button>
 								</div>
 							</div>
 
@@ -876,12 +876,12 @@
 					<div class="col-md-6">
 
 						<div class="form-group">
-							<label for="id">Cliente destinatário:</label>
+							<label>Cliente destinatário:</label>
 							
 							<div class="input-group">
-		  						<input type="text" class="form-control" placeholder="Selecionar cliente destinatário" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="as.as_op_cliente_destinatario_nome">
+		  						<input type="text" class="form-control" placeholder="Selecionar cliente destinatário" aria-label="Recipient's username" ng-model="as.as_op_cliente_destinatario_nome">
 								<div class="input-group-append">
-									<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_cliente('cliente_destinatario')"><i class="icon-magnifier icons"></i></button>
+									<button class="btn btn-primary" type="button" ng-click="open_choose_cliente('cliente_destinatario')"><i class="icon-magnifier icons"></i></button>
 								</div>
 							</div>
 
@@ -992,7 +992,7 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-6">
-									<label for="id">Local de coleta:</label>
+									<label>Local de coleta:</label>
 								</div>
 								<div class="col-md-6 text-right">
 									<input type="checkbox" name=""> Exterior
@@ -1000,9 +1000,9 @@
 							</div>
 							
 							<div class="input-group my-3">
-		  						<input type="text" class="form-control" placeholder="Selecionar local de coleta" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="as.as_op_local_coleta_nome">
+		  						<input type="text" class="form-control" placeholder="Selecionar local de coleta" aria-label="Recipient's username" ng-model="as.as_op_local_coleta_nome">
 								<div class="input-group-append">
-									<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_local('local_coleta')"><i class="icon-magnifier icons"></i></button>
+									<button class="btn btn-primary" type="button" ng-click="open_choose_local('local_coleta')"><i class="icon-magnifier icons"></i></button>
 								</div>
 							</div>
 
@@ -1051,7 +1051,7 @@
 						</div>
 
 						<div class="form-group">
-							<label for="id">Emitido</label>
+							<label>Emitido</label>
 							<div class="row">
 								<div class="col-md-6">
 									<input type="checkbox" name=""> Licença
@@ -1080,7 +1080,7 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-6">
-									<label for="id">Local da entrega:</label>
+									<label>Local da entrega:</label>
 								</div>
 								<div class="col-md-6 text-right">
 									<input type="checkbox" name=""> Exterior
@@ -1088,9 +1088,9 @@
 							</div>
 							
 							<div class="input-group my-3">
-		  						<input type="text" class="form-control" placeholder="Selecionar local de entrega" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="as.as_op_local_entrega_nome">
+		  						<input type="text" class="form-control" placeholder="Selecionar local de entrega" aria-label="Recipient's username" ng-model="as.as_op_local_entrega_nome">
 								<div class="input-group-append">
-									<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_local('local_entrega')"><i class="icon-magnifier icons"></i></button>
+									<button class="btn btn-primary" type="button" ng-click="open_choose_local('local_entrega')"><i class="icon-magnifier icons"></i></button>
 								</div>
 							</div>
 
@@ -1148,9 +1148,9 @@
 						<div class="form-group">
 							<label for="as_op_data_carregamento">Data de carregamento:</label>
 							<div class="input-group">
-		  						<input type="date" class="form-control" id="as_op_data_carregamento" placeholder="Data de carregamento" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="as.as_op_data_carregamento_obj">
+		  						<input type="date" class="form-control" id="as_op_data_carregamento" placeholder="Data de carregamento" aria-label="Recipient's username" ng-model="as.as_op_data_carregamento_obj">
 								<div class="input-group-append">
-									<button class="btn btn-primary" type="button" id="button-addon2">Carregado</button>
+									<button class="btn btn-primary" type="button">Carregado</button>
 								</div>
 							</div>
 						</div>
@@ -1219,12 +1219,12 @@
 					<div class="col-md-4">
 
 						<div class="form-group">
-							<label for="id">Faturamento</label>
+							<label>Faturamento</label>
 							
 							<div class="input-group my-3">
-		  						<input type="text" class="form-control" placeholder="Sel. cliente faturamento" aria-label="Recipient's username" aria-describedby="button-addon2" ng-model="cliente_faturamento_data.cliente_nome">
+		  						<input type="text" class="form-control" placeholder="Sel. cliente faturamento" aria-label="Recipient's username" ng-model="as.as_fat_cliente_faturamento_nome">
 								<div class="input-group-append">
-									<button class="btn btn-primary" type="button" id="button-addon2" ng-click="open_choose_cliente('cliente_faturamento')"><i class="icon-magnifier icons"></i></button>
+									<button class="btn btn-primary" type="button" ng-click="open_choose_cliente('cliente_faturamento')"><i class="icon-magnifier icons"></i></button>
 								</div>
 							</div>
 
@@ -1246,52 +1246,52 @@
 								</tr>
 								<tr>
 									<th>Nome:</th>
-									<td><input type="text" class="form-control" name=""></td>
+									<td><input type="text" class="form-control" name="as_fat_cliente_faturamento_contato_nome" ng-model="as.as_fat_cliente_faturamento_contato_nome" placeholder="Nome do responsável"></td>
 								</tr>
 								<tr>
 									<th>Telefone:</th>
-									<td><input type="text" class="form-control" name=""></td>
+									<td><input type="text" class="form-control" name="as_fat_cliente_faturamento_contato_telefone" ng-model="as.as_fat_cliente_faturamento_contato_telefone" mask="(99) 9?9999-9999" placeholder="(DDD) + Número"></td>
 								</tr>
 								<tr>
 									<th>Celular:</th>
-									<td><input type="text" class="form-control" name=""></td>
+									<td><input type="text" class="form-control" name="as_fat_cliente_faturamento_contato_celular" ng-model="as.as_fat_cliente_faturamento_contato_celular" mask="(99) 9?9999-9999" placeholder="(DDD) + Número"></td>
 								</tr>
 								<tr>
 									<th>E-mail:</th>
-									<td><input type="text" class="form-control" name=""></td>
+									<td><input type="email" class="form-control" name="as_fat_cliente_faturamento_contato_email" ng-model="as.as_fat_cliente_faturamento_contato_email" placeholder="E-mail do responsável"></td>
 								</tr>
 							</table>
 						</div>
 
 						<div class="form-group mt-3">
-							<label for="forma-faturamento">Forma de Faturamento</label>
+							<label for="as_as_forma_faturamento">Forma de Faturamento</label>
 
 							<div class="row">
 								<div class="col-md-4">
-									<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="cte"> CT-e
+									<input type="radio" name="as_fat_forma_faturamento" ng-model="as.as_fat_forma_faturamento" value="cte"> CT-e
 								</div>
 								<div class="col-md-4">
-									<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="nfe"> NFE
+									<input type="radio" name="as_fat_forma_faturamento" ng-model="as.as_fat_forma_faturamento" value="nfe"> NFE
 								</div>
 								<div class="col-md-4">
-									<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="fatura"> Fatura
+									<input type="radio" name="as_fat_forma_faturamento" ng-model="as.as_fat_forma_faturamento" value="fatura"> Fatura
 								</div>
 								<div class="col-md-4">
-									<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="nfs"> NFS
+									<input type="radio" name="as_fat_forma_faturamento" ng-model="as.as_fat_forma_faturamento" value="nfs"> NFS
 								</div>
 								<div class="col-md-4">
-									<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="nd"> ND
+									<input type="radio" name="as_fat_forma_faturamento" ng-model="as.as_fat_forma_faturamento" value="nd"> ND
 								</div>
 								<div class="col-md-4">
-									<input type="radio" name="as_faturamento_forma" ng-model="as.as_faturamento_forma" value="outros"> Outros
+									<input type="radio" name="as_fat_forma_faturamento" ng-model="as.as_fat_forma_faturamento" value="outros"> Outros
 								</div>
 							</div>
 
 						</div>
 
 						<div class="form-group">
-							<label for="id">No. Pedido de Compra</label>
-							<input type="text" class="form-control" id="id">
+							<label for="numero-pedido-compra-as-faturamento">No. Pedido de Compra</label>
+							<input type="text" class="form-control" id="numero-pedido-compra-as-faturamento" name="as_as_pedido_compra_numero" ng-model="as.as_as_pedido_compra_numero" placeholder="Número pedido de compra">
 						</div>
 
 						<div class="form-group">
@@ -1299,63 +1299,69 @@
 						
 							<div class="row">
 								<div class="col-md-12">
-									<input type="radio" name="as_faturamento_forma_pg" ng-model="as.as_faturamento_forma_pg" value="boleto"> Boleto
+									<input type="radio" name="as_fat_forma_pagamento" ng-model="as.as_fat_forma_pagamento" value="boleto"> Boleto
 								</div>
 								<div class="col-md-12">
-									<input type="radio" name="as_faturamento_forma_pg" ng-model="as.as_faturamento_forma_pg" value="deposito"> Depósito
+									<input type="radio" name="as_fat_forma_pagamento" ng-model="as.as_fat_forma_pagamento" value="deposito"> Depósito
 								</div>
 								<div class="col-md-12">
-									<input type="radio" name="as_faturamento_forma_pg" ng-model="as.as_faturamento_forma_pg" value="compensacao"> Compensação
+									<input type="radio" name="as_fat_forma_pagamento" ng-model="as.as_fat_forma_pagamento" value="compensacao"> Compensação
 								</div>
 							</div>
 
 						</div>
 
 						<div class="form-group">
-							<label for="id">Prazo de pagamento</label>
-							<input type="date" class="form-control" id="id">
+							<label for="prazo-pagamento">Prazo/Condição de pagamento</label>
+							<select class="form-control" ng-model="as.as_as_prazo_pagamento_id">
+								<option value="0">Selecionar...</option>
+								<option ng-repeat="(key, val) in prazos_pgs" value="{{ val.id }}">{{ val.prazo_nome}}</option>
+							</select>
 						</div>
 
 						<div class="form-group">
-							<label for="id">Valor total da A.S. bruto</label>
-							<input type="text" class="form-control" id="id">
+							<label for="as_fat_valor_total_as_bruto">Valor total da A.S. bruto</label>
+							<input type="text" class="form-control" id="as_fat_valor_total_as_bruto" ng-model="as.as_fat_valor_total_as_bruto" money-mask readonly>
 						</div>
 
 						<div class="form-group">
-							<label for="id">Valor total liquido à cobrar</label>
-							<input type="text" class="form-control" id="id">
+							<label for="as_fat_valor_total_as_liquido">Valor total liquido à cobrar</label>
+							<input type="text" class="form-control" id="as_fat_valor_total_as_liquido" ng-model="as.as_fat_valor_total_as_liquido" money-mask readonly>
 						</div>
 
 					</div>
 					<div class="col-md-4">
 
 						<div class="form-group">
-							<label for="id">Observações para o Faturamento</label>
-							<textarea class="form-control"></textarea>
+							<label for="as_fat_obs_faturamento">Observações para o Faturamento</label>
+							<textarea class="form-control" name="as_fat_obs_faturamento" ng-model="as.as_fat_obs_faturamento"></textarea>
 						</div>
 
 						<div class="form-group">
-							<label for="id">Data do Faturamento:</label>
-							<input type="date" class="form-control" id="id">
+							<label for="as_fat_data_faturamento">Data do Faturamento:</label>
+							<input type="date" class="form-control" id="as_fat_data_faturamento" ng-model="as.as_fat_data_faturamento_obj">
 						</div>
 
 						<div class="form-group">
-							<label for="id">Data do envio:</label>
-							<input type="date" class="form-control" id="id">
+							<label for="as_fat_data_envio">Data do envio:</label>
+							<input type="date" class="form-control" id="as_fat_data_envio" ng-model="as.as_fat_data_envio_obj">
 						</div>
 
-
+						<div class="form-group">
+							<label for="as_fat_tipo_envio">Tipo do envio:</label>
+							<input type="text" class="form-control" id="as_fat_tipo_envio" ng-model="as.as_fat_tipo_envio">
+						</div>
 						
 					</div>
 					<div class="col-md-4">
 						
 						<div class="form-group">
-							<label for="id">Cobrança</label>
+							<label for="as_fat_id_cliente_cobranca">Cobrança</label>
 							
 							<div class="input-group my-3">
-		  						<input type="text" class="form-control" placeholder="Sel. cliente de cobrança" aria-label="Recipient's username" aria-describedby="button-addon2">
+		  						<input type="text" class="form-control" placeholder="Sel. cliente cobrança" ng-model="as.as_fat_cliente_cobranca_nome">
 								<div class="input-group-append">
-									<button class="btn btn-primary" type="button" id="button-addon2"><i class="icon-magnifier icons"></i></button>
+									<button class="btn btn-primary" type="button" ng-click="open_choose_cliente('cliente_cobranca')"><i class="icon-magnifier icons"></i></button>
 								</div>
 							</div>
 
@@ -1365,38 +1371,38 @@
 							<table class="table">
 								<tr>
 									<th width="120">CNPJ:</th>
-									<td>00.000.000/000-00</td>
+									<td>{{ cliente_cobranca_data.cliente_cnpj }}</td>
 								</tr>
 								<tr>
 									<th>Ins. Estadual:</th>
-									<td>000.000.000.000</td>
+									<td>{{ cliente_cobranca_data.cliente_ie }}</td>
 								</tr>
 								<tr>
 									<th>Endereço:</th>
-									<td>Rua / Avenida / etc...	Bairro	Cidade - UF	CEP</td>
+									<td>{{ cliente_cobranca_data.cliente_logradouro }}</td>
 								</tr>
 								<tr>
 									<th>Nome:</th>
-									<td><input type="text" class="form-control" name=""></td>
+									<td><input type="text" class="form-control" name="as_fat_cliente_cobranca_contato_nome" ng-model="as.as_fat_cliente_cobranca_contato_nome" placeholder="Nome do responsável"></td>
 								</tr>
 								<tr>
 									<th>Telefone:</th>
-									<td><input type="text" class="form-control" name=""></td>
+									<td><input type="text" class="form-control" name="as_fat_cliente_cobranca_contato_telefone" ng-model="as.as_fat_cliente_cobranca_contato_telefone" mask="(99) 9?9999-9999" placeholder="(DDD) + Número"></td>
 								</tr>
 								<tr>
 									<th>Celular:</th>
-									<td><input type="text" class="form-control" name=""></td>
+									<td><input type="text" class="form-control" name="as_fat_cliente_cobranca_contato_celular" ng-model="as.as_fat_cliente_cobranca_contato_celular" mask="(99) 9?9999-9999" placeholder="(DDD) + Número"></td>
 								</tr>
 								<tr>
 									<th>E-mail:</th>
-									<td><input type="text" class="form-control" name=""></td>
+									<td><input type="email" class="form-control" name="as_fat_cliente_cobranca_contato_email" ng-model="as.as_fat_cliente_cobranca_contato_email" placeholder="E-mail do responsável"></td>
 								</tr>
 							</table>
 						</div>
 
 						<div class="form-group mt-3">
-							<label for="id">Observações para o Financeiro</label>
-							<textarea class="form-control"></textarea>
+							<label for="as_fat_obs_financeiro">Observações para o Financeiro</label>
+							<textarea id="as_fat_obs_financeiro" ng-model="as.as_fat_obs_financeiro" class="form-control"></textarea>
 						</div>
 
 					</div>
@@ -1423,7 +1429,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="form-group">
-							<label for="id">Titulos em aberto</label>
+							<label>Titulos em aberto</label>
 							
 							<table class="table">
 								<tr>

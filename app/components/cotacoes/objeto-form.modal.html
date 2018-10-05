@@ -13,13 +13,13 @@
 		<div ng-show="!is_modal_loading">
 
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-4">
 					<div class="form-group">
 						<label for="item">Item</label>
 						<input type="text" class="form-control" id="item" placeholder="Item" ng-model="objeto.objeto_item" required>
 					</div>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-8">
 					<div class="form-group">
 						<label for="quantidade">Quantidade</label>
 						<input type="text" class="form-control" id="quantidade" placeholder="Quantidade" ng-model="objeto.objeto_quantidade" required>
@@ -46,7 +46,13 @@
 				<div class="col-md-12">
 					<div class="form-group">
 						<label for="quilometragem">Quilometragem</label>
-						<input type="text" class="form-control" id="quilometragem" placeholder="Quilometragem" ng-model="objeto.objeto_quilometragem">
+						<div class="input-group">
+							<input type="text" class="form-control" id="quilometragem" placeholder="Quilometragem" ng-model="objeto.objeto_quilometragem" mask="9?9?9?9?9?9.999">
+							<div class="input-group-append">
+								<span class="input-group-text" id="quilometragem">Km</span>
+							</div>
+						</div>
+
 					</div>
 				</div>
 
@@ -57,32 +63,57 @@
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group">
-						<label for="comprimento">Comp. (mm)</label>
-						<input type="text" class="form-control" id="comprimento" placeholder="Comp." ng-model="objeto.objeto_comprimento">
+						<label for="comprimento">Comprimento</label>
+						<div class="input-group">
+							<input type="text" class="form-control" id="comprimento" placeholder="Comp." ng-model="objeto.objeto_comprimento" mask="9?9?9?9?9?9.999">
+							<div class="input-group-append">
+								<span class="input-group-text" id="comprimento">mm</span>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="col-md-4">
 					<div class="form-group">
-						<label for="largura">Larg. (mm)</label>
-						<input type="text" class="form-control" id="largura" placeholder="Larg." ng-model="objeto.objeto_largura">
+						<label for="largura">Largura</label>
+						<div class="input-group">
+							<input type="text" class="form-control" id="largura" placeholder="Larg." ng-model="objeto.objeto_largura" mask="9?9?9?9?9?9.999">
+							<div class="input-group-append">
+								<span class="input-group-text" id="largura">mm</span>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="col-md-4">
 					<div class="form-group">
-						<label for="altura">Alt. (mm)</label>
-						<input type="text" class="form-control" id="altura" placeholder="Alt." ng-model="objeto.objeto_altura">
+						<label for="altura">Altura</label>
+						<div class="input-group">
+							<input type="text" class="form-control" id="altura" placeholder="Alt." ng-model="objeto.objeto_altura" mask="9?9?9?9?9?9.999">
+							<div class="input-group-append">
+								<span class="input-group-text" id="altura">mm</span>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
-						<label for="peso-unit">Peso unit. (kg)</label>
-						<input type="text" class="form-control" id="peso-unit" placeholder="Peso unit." ng-model="objeto.objeto_peso_unit" required>
+						<label for="peso-unit">Peso líquido unitário</label>
+						<div class="input-group">
+							<input type="text" class="form-control" id="peso-unit" placeholder="Peso unit." ng-model="objeto.objeto_peso_unit" mask="9?9?9?9?9?9.999" required>
+							<div class="input-group-append">
+								<span class="input-group-text" id="peso-unit">kg</span>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
-						<label for="peso-total">Peso bruto total (kg)</label>
-						<input type="text" class="form-control" id="peso-total" placeholder="Peso total" ng-model="objeto.objeto_peso_total">
+						<label for="peso-total">Peso bruto unitário</label>
+						<div class="input-group">
+							<input type="text" class="form-control" id="peso-total" placeholder="Peso total" ng-model="objeto.objeto_peso_total" mask="9?9?9?9?9?9.999">
+							<div class="input-group-append">
+								<span class="input-group-text" id="peso-total">kg</span>
+							</div>
+						</div>
 					</div>
 				</div>
 

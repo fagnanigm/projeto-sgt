@@ -40,9 +40,7 @@ class Cotacoes {
 		"cotacao_vi_seguro",
 		"cotacao_vi_seguro_percent",
 		"cotacao_objeto_operacao",
-		"cotacao_seguro",
-		"cotacao_impostos",
-		"cotacao_condicoes_pagamento",
+		"cotacao_condicoes_pagamento_id",
 		"cotacao_validade_proposta",
 		"cotacao_status_cadastro",
 		"cotacao_carga_descarga",
@@ -346,6 +344,13 @@ class Cotacoes {
 			}
 		}
 
+		if(isset($args['cotacao_status'])){
+			if(strlen(trim($args['cotacao_status'])) > 0){
+				$query_count .= "AND cm.cotacao_status = '".$args['cotacao_status']."' ";
+				$is_search = true;
+			}
+		}
+
 		$count = $this->db->query($query_count);
 		$total_data = $count->fetch();
 
@@ -391,6 +396,12 @@ class Cotacoes {
 			if(isset($args['cotacao_projeto'])){
 				if(strlen(trim($args['cotacao_projeto'])) > 0){
 					$query .= "AND cm.cotacao_projeto_nome LIKE '%".$args['cotacao_projeto']."%' "; 
+				}
+			}
+
+			if(isset($args['cotacao_status'])){
+				if(strlen(trim($args['cotacao_status'])) > 0){
+					$query .= "AND cm.cotacao_status = '".$args['cotacao_status']."' "; 
 				}
 			}
 

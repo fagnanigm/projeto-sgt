@@ -99,6 +99,8 @@
                     // DATA
                     $scope.as.as_op_data_carregamento_obj = (String($scope.as.as_op_data_carregamento).length > 0 ? new Date($scope.as.as_op_data_carregamento * 1000) : new Date() );
                     $scope.as.as_op_data_previsao_obj = (String($scope.as.as_op_data_previsao).length > 0 ? new Date($scope.as.as_op_data_previsao * 1000) : new Date() );
+                    $scope.as.as_fat_data_faturamento_obj = (String($scope.as.as_fat_data_faturamento).length > 0 ? new Date($scope.as.as_fat_data_faturamento * 1000) : new Date() );
+                    $scope.as.as_fat_data_envio_obj = (String($scope.as.as_fat_data_envio).length > 0 ? new Date($scope.as.as_fat_data_envio * 1000) : new Date() );
 
                     console.log($scope.as)
 
@@ -106,6 +108,8 @@
                     
                     get_as_code();
                     calc_total_as_objeto();
+
+                    
 
                 }, function(response) {
                     $rootScope.is_error = true;
@@ -149,6 +153,16 @@
                     $scope.as.as_op_data_previsao = Math.floor($scope.as.as_op_data_previsao_obj.getTime() / 1000);
                 }
 
+                // DATA : as_fat_data_faturamento
+                if($scope.as.as_fat_data_faturamento_obj){
+                    $scope.as.as_fat_data_faturamento = Math.floor($scope.as.as_fat_data_faturamento_obj.getTime() / 1000);
+                }
+
+                // DATA : as_fat_data_envio
+                if($scope.as.as_fat_data_envio_obj){
+                    $scope.as.as_fat_data_envio = Math.floor($scope.as.as_fat_data_envio_obj.getTime() / 1000);
+                }
+
                 $http.post('/api/public/as/insert', $scope.as).then(function (response) {
 
                     console.log(response);
@@ -190,6 +204,7 @@
         $scope.cliente_destinatario_data = false;
         $scope.cliente_remetente_data = false;
         $scope.cliente_faturamento_data = false;
+        $scope.cliente_cobranca_data = false;
 
         $scope.search_modal_cliente = function(){
             $rootScope.is_modal_loading = true;
@@ -254,8 +269,16 @@
 
         // Cliente faturamento
         $scope.cliente_faturamento = function(cliente){
-            $scope.as.as_id_cliente_faturamento = cliente.id;
+            $scope.as.as_fat_id_cliente_faturamento = cliente.id;
+            $scope.as.as_fat_cliente_faturamento_nome = cliente.cliente_nome;
             $scope.cliente_faturamento_data = cliente;
+        }
+
+        // Cliente cobrança
+        $scope.cliente_cobranca = function(cliente){
+            $scope.as.as_fat_id_cliente_cobranca = cliente.id;
+            $scope.as.as_fat_cliente_cobranca_nome = cliente.cliente_nome;
+            $scope.cliente_cobranca_data = cliente;
         }
 
         // Seleção de local
@@ -521,10 +544,12 @@
 
             $scope.as.as_valor_resultado_liquido = $scope.as.as_valor_resultado_bruto;
 
+
+            // Valores finais
+            $scope.as.as_fat_valor_total_as_bruto = $scope.as.as_valor_total_bruto;
+            $scope.as.as_fat_valor_total_as_liquido = $scope.as.as_valor_liquido_receber;
+
         }
-
-   
-
 
         $scope.$watch('as', function() {
             calc_total_as_objeto();
@@ -684,6 +709,23 @@
             });
 
         }
+
+        // Altera os status das formas de faturamento
+        $scope.$watch('as.as_fat_forma_faturamento', function() {
+            $scope.as.as_as_forma_faturamento = $scope.as.as_fat_forma_faturamento;
+        });
+
+        $scope.$watch('as.as_as_forma_faturamento', function() {
+            $scope.as.as_fat_forma_faturamento = $scope.as.as_as_forma_faturamento;
+        });
+
+        $scope.$watch('as.as_fat_forma_pagamento', function() {
+            $scope.as.as_as_forma_pagamento = $scope.as.as_fat_forma_pagamento;
+        });
+
+        $scope.$watch('as.as_as_forma_pagamento', function() {
+            $scope.as.as_fat_forma_pagamento = $scope.as.as_as_forma_pagamento;
+        });
         
     }
 

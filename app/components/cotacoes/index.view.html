@@ -41,6 +41,21 @@
 		</div>
 
 		<div class="row margin-top-10">
+			<div class="col-md-4">
+				<div class="form-group margin-bottom-0">
+					<label>Status</label>
+					<select class="form-control" ng-model="get_filters.cotacao_status" name="cotacao_status">
+						<option value="">Selecionar...</option>
+						<option value="em-aberto">Em aberto</option>
+						<option value="aprovado">Aprovado</option>
+						<option value="aguardando-preco">Aguardando preço</option>
+						<option value="cancelado">Cancelado</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<div class="row margin-top-10">
 			<div class="col-md-6">
 				<div ng-if="cotacoes.config.is_search">
 					<small>Mostrando {{ cotacoes.config.total }} resultados.</small>

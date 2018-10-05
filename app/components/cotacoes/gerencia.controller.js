@@ -27,7 +27,8 @@
                     cotacao_status : '0',
                     cotacao_caracteristica_objetos : [],
                     cotacao_cadastro_data_obj : new Date(),
-                    cotacao_anexos_objetos : []
+                    cotacao_anexos_objetos : [],
+                    cotacao_condicoes_pagamento_id : '0'
                 }
 
                 var copy = $location.search().copy;
@@ -101,6 +102,7 @@
             get_vendedores();
             get_categorias();
             get_formas_pagamento();
+            get_prazos_pg();
         	get_cotacao();
         }
 
@@ -247,6 +249,7 @@
                 
                 if(response.data.result){
                     $scope.clientes = response.data.results;
+                    console.log($scope.clientes)
                     $scope.cliente_is_search = true;
                 }else{
                     ngToast.create({
@@ -284,8 +287,17 @@
         $scope.open_objeto_form = function(){
             $scope.objeto = {
                 objeto_tipo_valor : 'reais',
-                is_edit : false
+                is_edit : false,
+                objeto_item : ($scope.cotacao.cotacao_caracteristica_objetos.length + 1)
             };
+
+            $scope.$watch('[objeto.objeto_quantidade, objeto.objeto_valor_unit]', function() {
+                var quantidade = parseInt($scope.objeto.objeto_quantidade, 10);
+                quantidade = (!Number.isNaN(quantidade) ? quantidade : 1 );
+                $scope.objeto.objeto_valor_total = quantidade * $scope.objeto.objeto_valor_unit;
+            }, true);
+
+
             $rootScope.openModal("/app/components/cotacoes/objeto-form.modal.html",false,$scope);
         }
 
@@ -314,6 +326,7 @@
             $scope.objeto.key = key;
             $rootScope.openModal("/app/components/cotacoes/objeto-form.modal.html",false,$scope);
         }
+
 
         $scope.remove_objeto = function(key){
             if(confirm("Deseja remover esse objeto?")){
@@ -429,7 +442,15 @@
 
         }
 
-        
+        function get_prazos_pg(){
+
+            $http.get('/api/public/autorizacao-servico-prazo-pg/get?getall=1').then(function (response) {
+                $scope.prazos_pgs = response.data.results;
+            });
+
+        }
+
+         
     }
 
 })();

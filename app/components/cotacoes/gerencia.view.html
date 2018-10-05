@@ -37,7 +37,7 @@
 						</div>
 					</div>
 
-					<div class="col-md-12">
+					<div class="col-md-7">
 						<div class="form-group">
 							<label for="cliente">Cliente</label>
 							<div class="input-group">
@@ -46,6 +46,13 @@
 									<button class="btn btn-primary" type="button" ng-click="open_choose_cliente('main_cliente')"><i class="icon-magnifier icons"></i></button>
 								</div>
 							</div>
+						</div>
+					</div>
+
+					<div class="col-md-5">
+						<div class="form-group">
+							<label for="status-cadastro">Status de cadastro</label>
+							<input type="text" class="form-control" id="status-cadastro" placeholder="Status de cadastro" ng-model="cotacao.cotacao_status_cadastro">
 						</div>
 					</div>
 
@@ -150,43 +157,6 @@
 				<div class="form-group">
 					<label for="descricao-projeto">Descrição do projeto</label>
 					<textarea class="form-control" id="descricao-projeto" ng-model="cotacao.cotacao_projeto_descricao"></textarea>
-				</div>
-
-				<div class="form-group">
-					<label for="descricao">Cotação com valores inclusos</label>
-					<div class="row">
-						<div class="col-md-6">
-							<input type="checkbox" name="imposto-icms" ng-model="cotacao.cotacao_vi_imposto_icms"> Imposto - ICMS
-						</div>
-						<div class="col-md-6">
-							<input type="checkbox" name="imposto-inss" ng-model="cotacao.cotacao_vi_imposto_inss"> Imposto - INSS
-						</div>
-						<div class="col-md-6">
-							<input type="checkbox" name="imposto-ir" ng-model="cotacao.cotacao_vi_imposto_ir"> Imposto - IR
-						</div>
-						<div class="col-md-6">
-							<input type="checkbox" name="taxa-licencas" ng-model="cotacao.cotacao_vi_taxas"> Taxas/Licenças
-						</div>
-						<div class="col-md-6">
-							<input type="checkbox" name="imposto-iss" ng-model="cotacao.cotacao_vi_iss"> Imposto ISS
-						</div>
-						<div class="col-md-6">
-							<input type="checkbox" name="escolta" ng-model="cotacao.cotacao_vi_escolta"> Escolta
-						</div>
-						<div class="col-md-6">
-							<input type="checkbox" name="imposto-pis-cofins-csll" ng-model="cotacao.cotacao_vi_imposto_pis_cofins"> Imposto - PIS/COFINS/CSLL
-						</div>
-						
-						<div class="col-md-6">
-							<input type="checkbox" name="seguro-sob-merc" ng-model="cotacao.cotacao_vi_seguro"> Seguro % sob merc.
-							<div class="input-group input-group-sm margin-top-5">
-								<input type="text" class="form-control" placeholder="Porcentagem" ng-model="cotacao.cotacao_vi_seguro_percent">
-								<div class="input-group-append">
-									<span class="input-group-text">%</span>
-								</div>
-							</div>
-						</div>
-					</div>
 				</div>
 
 			</div>
@@ -307,27 +277,12 @@
 			<div class="col-md-6">
 
 				<div class="form-group">
-					<label for="seguro">Seguro</label>
-					<input type="text" class="form-control" id="seguro" placeholder="Seguro" ng-model="cotacao.cotacao_seguro">
-				</div>
-
-				<div class="form-group">
-					<label for="impostos">Impostos</label>
-					<input type="text" class="form-control" id="impostos" placeholder="Impostos" ng-model="cotacao.cotacao_impostos">
-				</div>
-
-				<div class="form-group">
 					<label for="condicoes-pagamento">Condições de pagamento</label>
-					<input type="text" class="form-control" id="condicoes-pagamento" placeholder="Condições de pagamento" ng-model="cotacao.cotacao_condicoes_pagamento">
+					<select class="form-control" ng-model="cotacao.cotacao_condicoes_pagamento_id" id="condicoes-pagamento">
+						<option value="0">Selecionar...</option>
+						<option ng-repeat="(key, val) in prazos_pgs" value="{{ val.id }}">{{ val.prazo_nome}}</option>
+					</select>
 				</div>
-
-				<div class="form-group">
-					<label for="validade-proposta">Validade da proposta</label>
-					<input type="text" class="form-control" id="validade-proposta" placeholder="Validade da proposta" ng-model="cotacao.cotacao_validade_proposta">
-				</div>
-
-			</div>
-			<div class="col-md-6">
 
 				<div class="form-group">
 					<label for="forma-pagamento">Forma de pagamento</label>
@@ -338,11 +293,49 @@
 				</div>
 
 				<div class="form-group">
-					<label for="status-cadastro">Status de cadastro</label>
-					<input type="text" class="form-control" id="status-cadastro" placeholder="Status de cadastro" ng-model="cotacao.cotacao_status_cadastro">
+					<label for="validade-proposta">Validade da proposta</label>
+					<input type="text" class="form-control" id="validade-proposta" placeholder="Validade da proposta" ng-model="cotacao.cotacao_validade_proposta">
+				</div>
+
+				<div class="form-group">
+					<label for="descricao">Cotação com valores inclusos</label>
+					<div class="row">
+						<div class="col-md-6">
+							<input type="checkbox" name="imposto-icms" ng-model="cotacao.cotacao_vi_imposto_icms"> Imposto - ICMS
+						</div>
+						<div class="col-md-6">
+							<input type="checkbox" name="imposto-inss" ng-model="cotacao.cotacao_vi_imposto_inss"> Imposto - INSS
+						</div>
+						<div class="col-md-6">
+							<input type="checkbox" name="imposto-ir" ng-model="cotacao.cotacao_vi_imposto_ir"> Imposto - IR
+						</div>
+						<div class="col-md-6">
+							<input type="checkbox" name="taxa-licencas" ng-model="cotacao.cotacao_vi_taxas"> Taxas/Licenças
+						</div>
+						<div class="col-md-6">
+							<input type="checkbox" name="imposto-iss" ng-model="cotacao.cotacao_vi_iss"> Imposto ISS
+						</div>
+						<div class="col-md-6">
+							<input type="checkbox" name="escolta" ng-model="cotacao.cotacao_vi_escolta"> Escolta
+						</div>
+						<div class="col-md-6">
+							<input type="checkbox" name="imposto-pis-cofins-csll" ng-model="cotacao.cotacao_vi_imposto_pis_cofins"> Imposto - PIS/COFINS/CSLL
+						</div>
+						
+						<div class="col-md-6">
+							<input type="checkbox" name="seguro-sob-merc" ng-model="cotacao.cotacao_vi_seguro"> Seguro % sob merc.
+							<div class="input-group input-group-sm margin-top-5">
+								<input type="text" class="form-control" placeholder="Porcentagem" ng-model="cotacao.cotacao_vi_seguro_percent">
+								<div class="input-group-append">
+									<span class="input-group-text">%</span>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 
 			</div>
+			
 		</div>
 
 		<div class="box-subtitle margin-top-30">

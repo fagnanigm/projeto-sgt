@@ -133,9 +133,7 @@ class AutorizacaoServico {
 		"as_fat_cliente_faturamento_contato_celular",
 		"as_fat_cliente_faturamento_contato_email",
 		"as_fat_forma_faturamento",
-		"as_fat_num_pedido_compra",
 		"as_fat_forma_pagamento",
-		"as_fat_prazo_pagamento",
 		"as_fat_valor_total_as_bruto",
 		"as_fat_valor_total_as_liquido",
 		"as_fat_obs_faturamento",
@@ -357,7 +355,9 @@ class AutorizacaoServico {
 					if(	
 						$field == 'as_projeto_cadastro_data' ||
 						$field == 'as_op_data_carregamento' ||
-						$field == 'as_op_data_previsao'
+						$field == 'as_op_data_previsao' || 
+						$field == 'as_fat_data_faturamento' || 
+						$field == 'as_fat_data_envio'
 					){
 						$date = new \DateTime();
 						$date->setTimestamp($val);
@@ -681,6 +681,14 @@ class AutorizacaoServico {
 		// DATA: as_op_data_previsao
 		$as_op_data_previsao = new \DateTime($as['as_op_data_previsao']);
 		$as['as_op_data_previsao'] = $as_op_data_previsao->getTimestamp();
+
+		// DATA: as_fat_data_faturamento
+		$as_fat_data_faturamento = new \DateTime($as['as_fat_data_faturamento']);
+		$as['as_fat_data_faturamento'] = $as_fat_data_faturamento->getTimestamp();
+
+		// DATA: as_fat_data_envio
+		$as_fat_data_envio = new \DateTime($as['as_fat_data_envio']);
+		$as['as_fat_data_envio'] = $as_fat_data_envio->getTimestamp();
 
 		// Checkbox
 		$as['as_as_incluso_comercial_rcfdc'] = ($as['as_as_incluso_comercial_rcfdc'] == 'Y' ? true : false);

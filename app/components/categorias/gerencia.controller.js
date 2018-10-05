@@ -21,6 +21,8 @@
                     id_author : $localStorage.currentUser.id
                 }
 
+                $rootScope.is_loading = false;
+
             }else{
 
                 $http.get('/api/public/categorias/get/' + $rootScope.$stateParams.id_categoria ).then(function (response) {
