@@ -6,6 +6,24 @@
         .controller('Cotacoes.GerenciaController', Controller);
 
     function Controller($rootScope,$scope,$http,ngToast,$location,GlobalServices, $localStorage) {
+
+        // Protect to change
+        $scope.allow_change_page = false;
+        $scope.$on('onBeforeUnload', function (e, confirmation) {
+            confirmation.message = "Todos os dados que foram alterados serão perdidos.";
+            e.preventDefault();
+        });
+
+        $scope.$on('$locationChangeStart', function (e, next, current) {
+            if(!$scope.allow_change_page){
+                if(!confirm("Todos os dados que foram alterados serão perdidos. Deseja prosseguir?")){
+                    $rootScope.is_loading = false;
+                    e.preventDefault();
+                }  
+            }
+        });
+        // Finish protect to change
+
         var vm = this;
 
         $scope.cotacao = {};
@@ -28,7 +46,8 @@
                     cotacao_caracteristica_objetos : [],
                     cotacao_cadastro_data_obj : new Date(),
                     cotacao_anexos_objetos : [],
-                    cotacao_condicoes_pagamento_id : '0'
+                    cotacao_condicoes_pagamento_id : '0',
+                    cotacao_validade_proposta_id : '0'
                 }
 
                 var copy = $location.search().copy;
@@ -103,6 +122,7 @@
             get_categorias();
             get_formas_pagamento();
             get_prazos_pg();
+            get_validades_proposta();
         	get_cotacao();
         }
 
@@ -174,6 +194,8 @@
                 $http.post('/api/public/cotacoes/insert', $scope.cotacao).then(function (response) {
                     
                     if(response.data.result){
+
+                        $scope.allow_change_page = true;
 
                         ngToast.create({
                             className: 'success',
@@ -416,12 +438,14 @@
                 
                     if(response.data.result){
 
+                        $scope.allow_change_page = true;
+
                         ngToast.create({
                             className: 'success',
                             content: 'Cotação aprovada com sucesso! Redirecionando...'
                         });
 
-                        location.href = '/projetos/visualizar/' + response.data.id;
+                        $location.path('/projetos/visualizar/' + response.data.id);
                         
                     }else{
                         ngToast.create({
@@ -446,6 +470,14 @@
 
             $http.get('/api/public/autorizacao-servico-prazo-pg/get?getall=1').then(function (response) {
                 $scope.prazos_pgs = response.data.results;
+            });
+
+        }
+
+        function get_validades_proposta(){
+
+            $http.get('/api/public/validades-proposta/get?getall=1').then(function (response) {
+                $scope.validades_propostas = response.data.results;
             });
 
         }

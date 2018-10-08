@@ -377,7 +377,7 @@ class Projetos {
 		}
 
 		$selectStatement = $this->db->query("
-			SELECT p.*, e.empresa_name, v.vendedor_nome, cat.cat_name, fg.forma_nome
+			SELECT p.*, e.empresa_name, v.vendedor_nome, cat.cat_name, fg.forma_nome, cot.cotacao_observacoes_finais
 				FROM projetos p 
 
 					INNER JOIN empresas e 
@@ -388,6 +388,9 @@ class Projetos {
 
 					INNER JOIN categorias cat 
 					ON p.id_categoria = cat.id
+
+					INNER JOIN cotacoes cot 
+					ON p.id_cotacao = cot.id
 
 					LEFT OUTER JOIN formas_pagamento fg 
 					ON p.id_forma_pagamento = fg.id

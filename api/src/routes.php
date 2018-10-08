@@ -65,3 +65,6 @@ require 'routes/upload/upload.php';
 
 // Autorizacao servico prazo pagamento
 require 'routes/autorizacao-servico-prazo-pg/autorizacao-servico-prazo-pg.php';
+
+// VALIDADES PROPOSTA
+require 'routes/validades-proposta/validades-proposta.php';

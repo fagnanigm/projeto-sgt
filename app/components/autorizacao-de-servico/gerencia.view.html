@@ -41,6 +41,12 @@
 			</li>
 
 			<li class="nav-item">
+				<a class="nav-link" id="acerto-de-contas-tab" data-toggle="tab" href="#acerto-de-contas" role="tab">
+					<i class="fa fa-legal" aria-hidden="true"></i> AS - Acerto de contas
+				</a>
+			</li>
+
+			<li class="nav-item">
 				<a class="nav-link" id="observacoes-tab" data-toggle="tab" href="#observacoes" role="tab">
 					<i class="fa fa-comments" aria-hidden="true"></i> AS - Observações
 				</a>
@@ -254,7 +260,15 @@
 								</tr>
 								<tr>
 									<th>Endereço:</th>
-									<td>{{ cliente_consig_data.cliente_logradouro }}</td>
+									<td ng-if="as.as_as_id_cliente_faturamento">
+										{{ cliente_consig_data.cliente_logradouro }}
+										{{ cliente_consig_data.cliente_bairro }} - 
+										{{ cliente_consig_data.cliente_cidade }} - 
+										{{ cliente_consig_data.cliente_estado }} - 
+										{{ cliente_consig_data.cliente_pais }} | 
+										CEP: {{ cliente_consig_data.cliente_cep }}
+									</td>
+									<td ng-if="!as.as_as_id_cliente_faturamento"></td>
 								</tr>
 								<tr>
 									<th>Nome:</th>
@@ -436,7 +450,7 @@
 								<td>
 									<input type="checkbox" name="as_as_incluso_comercial_rcfdc" ng-model="as.as_as_incluso_comercial_rcfdc"> RCFDC
 								</td>
-								<td>
+								<td colspan="2">
 									<div class="input-group">
 										<input type="text" class="form-control" name="as_as_incluso_comercial_rcfdc_valor" ng-model="as.as_as_incluso_comercial_rcfdc_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_rcfdc">
 										<div class="input-group-append">
@@ -444,13 +458,12 @@
 										</div>
 									</div>
 								</td>
-								<td></td>
 							</tr>
 							<tr>
 								<td>
 									<input type="checkbox" name="as_as_incluso_comercial_rctrc" ng-model="as.as_as_incluso_comercial_rctrc"> RCTRC Sec/Ca
 								</td>
-								<td>
+								<td colspan="2">
 									<div class="input-group">
 										<input type="text" class="form-control" name="as_as_incluso_comercial_rctrc_valor" ng-model="as.as_as_incluso_comercial_rctrc_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_rctrc">
 										<div class="input-group-append">
@@ -458,13 +471,12 @@
 										</div>
 									</div>
 								</td>
-								<td></td>
 							</tr>
 							<tr>
 								<td>
 									<input type="checkbox" name="as_as_incluso_comercial_despacho" ng-model="as.as_as_incluso_comercial_despacho"> Despacho
 								</td>
-								<td>
+								<td colspan="2">
 									
 									<div class="input-group">
 										<input type="text" class="form-control" name="as_as_incluso_comercial_despacho_valor" ng-model="as.as_as_incluso_comercial_despacho_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_despacho">
@@ -474,13 +486,12 @@
 									</div>
 
 								</td>
-								<td></td>
 							</tr>
 							<tr>
 								<td>
 									<input type="checkbox" name="as_as_incluso_comercial_carga" ng-model="as.as_as_incluso_comercial_carga"> Carga
 								</td>
-								<td>
+								<td colspan="2">
 									<div class="input-group">
 										<input type="text" class="form-control" name="as_as_incluso_comercial_carga_valor" ng-model="as.as_as_incluso_comercial_carga_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_carga">
 										<div class="input-group-append">
@@ -488,13 +499,12 @@
 										</div>
 									</div>
 								</td>
-								<td></td>
 							</tr>
 							<tr>
 								<td>
 									<input type="checkbox" name="as_as_incluso_comercial_descarga" ng-model="as.as_as_incluso_comercial_descarga"> Descarga
 								</td>
-								<td>
+								<td colspan="2">
 									<div class="input-group">
 										<input type="text" class="form-control" name="as_as_incluso_comercial_descarga_valor" ng-model="as.as_as_incluso_comercial_descarga_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_descarga">
 										<div class="input-group-append">
@@ -502,13 +512,12 @@
 										</div>
 									</div>
 								</td>
-								<td></td>
 							</tr>
 							<tr>
 								<td>
 									<input type="checkbox" name="as_as_incluso_comercial_estadia" ng-model="as.as_as_incluso_comercial_estadia"> Estadia
 								</td>
-								<td>
+								<td colspan="2">
 									<div class="input-group">
 										<input type="text" class="form-control" name="as_as_incluso_comercial_estadia_valor" ng-model="as.as_as_incluso_comercial_estadia_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_estadia">
 										<div class="input-group-append">
@@ -516,13 +525,12 @@
 										</div>
 									</div>
 								</td>
-								<td></td>
 							</tr>
 							<tr>
 								<td>
 									<input type="checkbox" name="as_as_incluso_comercial_pernoite" ng-model="as.as_as_incluso_comercial_pernoite"> Pernoite
 								</td>
-								<td>
+								<td colspan="2">
 									<div class="input-group">
 										<input type="text" class="form-control" name="as_as_incluso_comercial_pernoite_valor" ng-model="as.as_as_incluso_comercial_pernoite_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_pernoite">
 										<div class="input-group-append">
@@ -530,13 +538,12 @@
 										</div>
 									</div>
 								</td>
-								<td></td>
 							</tr>
 							<tr>
 								<td>
 									<input type="checkbox" name="as_as_incluso_comercial_armazenagem" ng-model="as.as_as_incluso_comercial_armazenagem"> Armazengem
 								</td>
-								<td>
+								<td colspan="2">
 									<div class="input-group">
 										<input type="text" class="form-control" name="as_as_incluso_comercial_armazenagem_valor" ng-model="as.as_as_incluso_comercial_armazenagem_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_armazenagem">
 										<div class="input-group-append">
@@ -544,7 +551,6 @@
 										</div>
 									</div>
 								</td>
-								<td></td>
 							</tr>
 							<tr>
 								<td>
@@ -771,9 +777,7 @@
 									<td>
 										<input type="checkbox" name="as_as_incluso_contabil_cp" ng-model="as.as_as_incluso_contabil_cp"> CP
 									</td>
-									<td colspan="2">
-										<input type="checkbox" name="as_as_incluso_contabil_cp_retido" ng-model="as.as_as_incluso_contabil_cp_retido" ng-disabled="!as.as_as_incluso_contabil_cp"> Retido
-									</td>
+									<td colspan="2"></td>
 									<td>
 										<div class="input-group">
 											<input type="text" class="form-control" ng-model="as.as_as_incluso_contabil_cp_percent" mask="99?.9?9" placeholder="Ex: 1.56" ng-disabled="!as.as_as_incluso_contabil_cp">
@@ -801,13 +805,7 @@
 					</div>
 				</div>
 
-				<div class="row my-3">
-					<div class="col-md-12 text-right">
-
-						<button class="btn btn-secondary" type="button">Faturar</button>
-
-					</div>
-				</div>				
+							
 
 			</div>
 
@@ -842,7 +840,15 @@
 								</tr>
 								<tr>
 									<th>Endereço:</th>
-									<td>{{ cliente_remetente_data.cliente_logradouro }}</td>
+									<td ng-if="as.as_op_id_cliente_remetente">
+										{{ cliente_remetente_data.cliente_logradouro }}
+										{{ cliente_remetente_data.cliente_bairro }} -
+										{{ cliente_remetente_data.cliente_cidade }} - 
+										{{ cliente_remetente_data.cliente_estado }} - 
+										{{ cliente_remetente_data.cliente_pais }} | 
+										CEP: {{ cliente_remetente_data.cliente_cep }}
+									</td>
+									<td ng-if="!as.as_op_id_cliente_remetente"></td>
 								</tr>
 								<tr>
 									<th>Nome:</th>
@@ -900,7 +906,15 @@
 								</tr>
 								<tr>
 									<th>Endereço:</th>
-									<td>{{ cliente_destinatario_data.cliente_logradouro }}</td>
+									<td ng-if="as.as_op_id_cliente_destinatario">
+										{{ cliente_destinatario_data.cliente_logradouro }}
+										{{ cliente_destinatario_data.cliente_bairro }} -
+										{{ cliente_destinatario_data.cliente_cidade }} - 
+										{{ cliente_destinatario_data.cliente_estado }} - 
+										{{ cliente_destinatario_data.cliente_pais }} | 
+										CEP: {{ cliente_destinatario_data.cliente_cep }}
+									</td>
+									<td ng-if="!as.as_op_id_cliente_destinatario"></td>
 								</tr>
 								<tr>
 									<th>Nome:</th>
@@ -1020,7 +1034,15 @@
 								</tr>
 								<tr>
 									<th>Endereço:</th>
-									<td>{{ local_coleta_data.local_logradouro }}</td>
+									<td ng-if="as.as_op_id_local_coleta">
+										{{ local_coleta_data.local_logradouro }}
+										{{ local_coleta_data.local_bairro }} -
+										{{ local_coleta_data.local_cidade }} - 
+										{{ local_coleta_data.local_estado }} - 
+										{{ local_coleta_data.local_pais }} | 
+										CEP: {{ local_coleta_data.local_cep }}
+									</td>
+									<td ng-if="!as.as_op_id_local_coleta"></td>
 								</tr>
 								<tr>
 									<th>Nome:</th>
@@ -1108,7 +1130,15 @@
 								</tr>
 								<tr>
 									<th>Endereço:</th>
-									<td>{{ local_entrega_data.local_logradouro }}</td>
+									<td ng-if="as.as_op_id_local_entrega">
+										{{ local_entrega_data.local_logradouro }}
+										{{ local_entrega_data.local_bairro }} -
+										{{ local_entrega_data.local_cidade }} - 
+										{{ local_entrega_data.local_estado }} - 
+										{{ local_entrega_data.local_pais }} | 
+										CEP: {{ local_entrega_data.local_cep }}
+									</td>
+									<td ng-if="!as.as_op_id_local_entrega"></td>
 								</tr>
 								<tr>
 									<th>Nome:</th>
@@ -1242,7 +1272,15 @@
 								</tr>
 								<tr>
 									<th>Endereço:</th>
-									<td>{{ cliente_faturamento_data.cliente_logradouro }}</td>
+									<td ng-if="as.as_fat_id_cliente_faturamento">
+										{{ cliente_faturamento_data.cliente_logradouro }}
+										{{ cliente_faturamento_data.cliente_bairro }} - 
+										{{ cliente_faturamento_data.cliente_cidade }} - 
+										{{ cliente_faturamento_data.cliente_estado }} - 
+										{{ cliente_faturamento_data.cliente_pais }} | 
+										CEP: {{ cliente_faturamento_data.cliente_cep }}
+									</td>
+									<td ng-if="!as.as_fat_id_cliente_faturamento"></td>
 								</tr>
 								<tr>
 									<th>Nome:</th>
@@ -1379,7 +1417,15 @@
 								</tr>
 								<tr>
 									<th>Endereço:</th>
-									<td>{{ cliente_cobranca_data.cliente_logradouro }}</td>
+									<td ng-if="as.as_fat_id_cliente_cobranca">
+										{{ cliente_cobranca_data.cliente_logradouro }}
+										{{ cliente_cobranca_data.cliente_bairro }} - 
+										{{ cliente_cobranca_data.cliente_cidade }} - 
+										{{ cliente_cobranca_data.cliente_estado }} - 
+										{{ cliente_cobranca_data.cliente_pais }} | 
+										CEP: {{ cliente_cobranca_data.cliente_cep }}
+									</td>
+									<td ng-if="!as.as_fat_id_cliente_cobranca"></td>
 								</tr>
 								<tr>
 									<th>Nome:</th>
@@ -1417,6 +1463,8 @@
 				<button class="btn btn-secondary">Emitir nota de débito</button>
 
 				<button class="btn btn-secondary">Emitir outros</button>
+
+				<button class="btn btn-secondary" type="button">Faturar</button>
 
 			</div>
 
@@ -1480,7 +1528,14 @@
 
 			</div>
 
-			<!-- Financeiro -->
+			<!-- Acerto de contas -->
+			<div class="tab-pane fade" id="acerto-de-contas" role="tabpanel">
+
+				<p class="text-center">Em breve.</p>
+
+			</div>
+
+			<!-- Observações -->
 			<div class="tab-pane fade" id="observacoes" role="tabpanel">
 
 				<p class="text-center">Em breve.</p>
@@ -1496,19 +1551,43 @@
 			<ul>
 				<li>
 					Valor total da “AS” bruto
-					<strong>{{ as.as_valor_total_bruto | currency }}</strong>
+					<strong 
+						ng-class="{
+							'text-danger': as.as_valor_total_bruto < 0,
+							'text-primary': as.as_valor_total_bruto >= 0
+						}">
+						{{ as.as_valor_total_bruto | currency }}
+					</strong>
 				</li>
 				<li>
 					Valor líquido à receber
-					<strong>{{ as.as_valor_liquido_receber | currency }}</strong>
+					<strong 
+						ng-class="{
+							'text-danger': as.as_valor_liquido_receber < 0,
+							'text-primary': as.as_valor_liquido_receber >= 0
+						}">
+						{{ as.as_valor_liquido_receber | currency }}
+					</strong>
 				</li>
 				<li>
 					Resultado bruto
-					<strong>{{ as.as_valor_resultado_bruto | currency }}</strong>
+					<strong 
+						ng-class="{
+							'text-danger': as.as_valor_resultado_bruto < 0,
+							'text-primary': as.as_valor_resultado_bruto >= 0
+						}">
+						{{ as.as_valor_resultado_bruto | currency }}
+					</strong>
 				</li>
 				<li>
 					Resultado líquido
-					<strong>{{ as.as_valor_resultado_liquido | currency }}</strong>
+					<strong 
+						ng-class="{
+							'text-danger': as.as_valor_resultado_liquido < 0,
+							'text-primary': as.as_valor_resultado_liquido >= 0
+						}">
+						{{ as.as_valor_resultado_liquido | currency }}
+					</strong>
 				</li>
 			</ul>
 

@@ -49,7 +49,8 @@ $app->add(new TokenAuthentication([
     	'/as',
         '/vendedores',
         '/formas-pagamento',
-        '/autorizacao-servico-prazo-pg'
+        '/autorizacao-servico-prazo-pg',
+        '/validades-proposta'
     ),
     'passthrough' => array( // Permitidos
     	'/users/login'

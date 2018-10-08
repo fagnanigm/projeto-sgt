@@ -94,7 +94,6 @@ class AutorizacaoServico {
 		"as_as_incluso_contabil_pis_retido",
 		"as_as_incluso_contabil_cofins_retido",
 		"as_as_incluso_contabil_csll_retido",
-		"as_as_incluso_contabil_cp_retido",
 		"as_as_pedido_compra_numero",
 		"as_op_id_cliente_remetente",
 		"as_op_cliente_remetente_nome",
@@ -322,10 +321,6 @@ class AutorizacaoServico {
 			$args['as_as_incluso_contabil_csll_retido'] = false;
 		}
 
-		if(!isset($args['as_as_incluso_contabil_cp_retido']) || strlen($args['as_as_incluso_contabil_cp_retido']) == 0){
-			$args['as_as_incluso_contabil_cp_retido'] = false;
-		}
-
 		// Init insert
 		$data = array_flip($this->schema);
 
@@ -388,7 +383,6 @@ class AutorizacaoServico {
 						$field == 'as_as_incluso_contabil_pis_retido' || 
 						$field == 'as_as_incluso_contabil_cofins_retido' || 
 						$field == 'as_as_incluso_contabil_csll_retido' || 
-						$field == 'as_as_incluso_contabil_cp_retido' || 
 						$field == 'as_as_incluso_contabil_cp'
 					){
 						$val = ($val ? 'Y' : 'N');
@@ -714,7 +708,6 @@ class AutorizacaoServico {
 		$as['as_as_incluso_contabil_pis_retido'] = ($as['as_as_incluso_contabil_pis_retido'] == 'Y' ? true : false);
 		$as['as_as_incluso_contabil_cofins_retido'] = ($as['as_as_incluso_contabil_cofins_retido'] == 'Y' ? true : false);
 		$as['as_as_incluso_contabil_csll_retido'] = ($as['as_as_incluso_contabil_csll_retido'] == 'Y' ? true : false);
-		$as['as_as_incluso_contabil_cp_retido'] = ($as['as_as_incluso_contabil_cp_retido'] == 'Y' ? true : false);
 
 
 		// Puxa os objetos
@@ -742,6 +735,28 @@ class AutorizacaoServico {
 		}
 
 		$as['as_assoc_frotas'] = $as_assoc_frotas;
+
+		// COMERCIAL : CLIENTE CONSIGNATÁRIO / FATURAMENTO: 
+		$as['cliente_consig_data'] = $this->get_as_cliente($as['as_as_id_cliente_faturamento']);
+
+		// OPERACIONAL : CLIENTE REMETENTE:
+		$as['cliente_remetente_data'] = $this->get_as_cliente($as['as_op_id_cliente_remetente']);
+
+		// OPERACIONAL : CLIENTE DESTINATÁRIO:
+		$as['cliente_destinatario_data'] = $this->get_as_cliente($as['as_op_id_cliente_destinatario']);
+		
+		// FATURAMENTO : FATURAMENTO
+		$as['cliente_faturamento_data'] = $this->get_as_cliente($as['as_fat_id_cliente_faturamento']);
+
+		// FATURAMENTO : COBRANÇA
+		$as['cliente_cobranca_data'] = $this->get_as_cliente($as['as_fat_id_cliente_cobranca']);
+
+		// OPERACIONAL : LOCAL DE COLETA:
+		$as['local_coleta_data'] = $this->get_as_local($as['as_op_id_local_coleta']);
+
+		// OPERACIONAL : LOCAL DA ENTREGA:
+		$as['local_entrega_data'] = $this->get_as_local($as['as_op_id_local_entrega']);
+		
 				
 		return $as;
 	}
@@ -947,6 +962,36 @@ class AutorizacaoServico {
 		$response['result'] = true;
 
 		return $response;
+
+	}
+
+	public function get_as_cliente($id){
+
+		$clientes = new Clientes($this->db);
+
+		$cliente = array();
+
+		if(strlen($id) > 0 || $id != '0'){
+			$cliente = $clientes->get_by_id($id);
+			$cliente = ($cliente['result'] ? $cliente['cliente'] : array() );
+		}
+
+		return $cliente;
+
+	}
+
+	public function get_as_local($id){
+
+		$locais = new Locais($this->db);
+
+		$local = array();
+
+		if(strlen($id) > 0 || $id != '0'){
+			$local = $locais->get_by_id($id);
+			$local = ($local['result'] ? $local['local'] : array() );
+		}
+
+		return $local;
 
 	}
 

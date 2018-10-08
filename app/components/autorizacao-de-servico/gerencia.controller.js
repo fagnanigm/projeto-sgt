@@ -6,6 +6,25 @@
         .controller('As.GerenciaController', Controller);
 
     function Controller($rootScope,$scope,$http,ngToast,$location,GlobalServices, $localStorage) {
+
+        // Protect to change
+        $scope.allow_change_page = false;
+        $scope.$on('onBeforeUnload', function (e, confirmation) {
+            confirmation.message = "Todos os dados que foram alterados serão perdidos.";
+            e.preventDefault();
+        });
+
+        $scope.$on('$locationChangeStart', function (e, next, current) {
+            if(!$scope.allow_change_page){
+                if(!confirm("Todos os dados que foram alterados serão perdidos. Deseja prosseguir?")){
+                    $rootScope.is_loading = false;
+                    e.preventDefault();
+                }  
+            }
+        });
+        // Finish protect to change
+
+
         var vm = this;
 
         $scope.as = {};
@@ -72,6 +91,8 @@
                         $scope.as.as_projeto_nome = projeto.projeto_nome;
                         $scope.as.as_projeto_descricao = projeto.projeto_descricao;
 
+                        $scope.as.as_as_condicoes_comerciais = projeto.cotacao_observacoes_finais
+
                         get_as_code();
 
                     }, function(response) {
@@ -101,6 +122,18 @@
                     $scope.as.as_op_data_previsao_obj = (String($scope.as.as_op_data_previsao).length > 0 ? new Date($scope.as.as_op_data_previsao * 1000) : new Date() );
                     $scope.as.as_fat_data_faturamento_obj = (String($scope.as.as_fat_data_faturamento).length > 0 ? new Date($scope.as.as_fat_data_faturamento * 1000) : new Date() );
                     $scope.as.as_fat_data_envio_obj = (String($scope.as.as_fat_data_envio).length > 0 ? new Date($scope.as.as_fat_data_envio * 1000) : new Date() );
+
+                    // Dados dos clientes
+                    $scope.cliente_consig_data = $scope.as.cliente_consig_data;
+                    $scope.cliente_remetente_data = $scope.as.cliente_remetente_data;
+                    $scope.cliente_destinatario_data = $scope.as.cliente_destinatario_data;
+                    $scope.cliente_faturamento_data = $scope.as.cliente_faturamento_data;
+                    $scope.cliente_cobranca_data = $scope.as.cliente_cobranca_data;
+
+                    // Dados dos locais
+                    $scope.local_coleta_data = $scope.as.local_coleta_data;
+                    $scope.local_entrega_data = $scope.as.local_entrega_data;
+
 
                     console.log($scope.as)
 
@@ -168,6 +201,8 @@
                     console.log(response);
                                         
                     if(response.data.result){
+
+                        $scope.allow_change_page = true;
 
                         ngToast.create({
                             className: 'success',
@@ -347,7 +382,8 @@
         $scope.open_objeto_form = function(){
             $scope.objeto = {
                 objeto_tipo_valor : 'reais',
-                is_edit : false
+                is_edit : false,
+                objeto_item : ($scope.as.as_objetos_carregamento.length + 1)
             };
             $rootScope.openModal("/app/components/autorizacao-de-servico/objeto-form.modal.html",false,$scope);
         }
@@ -481,10 +517,6 @@
                 $scope.as.as_valor_liquido_receber -= parseFloat($scope.as.as_as_incluso_contabil_csll_valor);
             }
 
-            if($scope.as.as_as_incluso_contabil_cp && $scope.as.as_as_incluso_contabil_cp_retido){
-                $scope.as.as_valor_liquido_receber -= parseFloat($scope.as.as_as_incluso_contabil_cp_valor);
-            }
-
             // ---- Resultado bruto
 
             $scope.as.as_valor_resultado_bruto = $scope.as.as_valor_liquido_receber;
@@ -513,7 +545,7 @@
                 $scope.as.as_valor_resultado_bruto -= parseFloat($scope.as.as_as_incluso_contabil_csll_valor);
             }
 
-            if($scope.as.as_as_incluso_contabil_cp && !$scope.as.as_as_incluso_contabil_cp_retido){
+            if($scope.as.as_as_incluso_contabil_cp){
                 $scope.as.as_valor_resultado_bruto -= parseFloat($scope.as.as_as_incluso_contabil_cp_valor);
             }
 

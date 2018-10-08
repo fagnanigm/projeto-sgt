@@ -6,6 +6,25 @@
         .controller('Usuarios.GerenciaController', Controller);
 
     function Controller($rootScope,$scope,$http,ngToast,$location,GlobalServices) {
+
+        // Protect to change
+        $scope.allow_change_page = false;
+        $scope.$on('onBeforeUnload', function (e, confirmation) {
+            confirmation.message = "Todos os dados que foram alterados serão perdidos.";
+            e.preventDefault();
+        });
+
+        $scope.$on('$locationChangeStart', function (e, next, current) {
+            if(!$scope.allow_change_page){
+                if(!confirm("Todos os dados que foram alterados serão perdidos. Deseja prosseguir?")){
+                    $rootScope.is_loading = false;
+                    e.preventDefault();
+                }  
+            }
+        });
+        // Finish protect to change
+
+
         var vm = this;
 
         $scope.user = {};
@@ -92,6 +111,8 @@
                         
                         if(response.data.result){
 
+                            $scope.allow_change_page = true;
+
                             ngToast.create({
                                 className: 'success',
                                 content: "Usuário cadastrado com sucesso!"
@@ -121,6 +142,8 @@
                     $http.post('/api/public/users/update', $scope.user ).then(function (response) {
                         
                         if(response.data.result){
+
+                            $scope.allow_change_page = true;
 
                             ngToast.create({
                                 className: 'success',

@@ -41,7 +41,7 @@ class Cotacoes {
 		"cotacao_vi_seguro_percent",
 		"cotacao_objeto_operacao",
 		"cotacao_condicoes_pagamento_id",
-		"cotacao_validade_proposta",
+		"cotacao_validade_proposta_id",
 		"cotacao_status_cadastro",
 		"cotacao_carga_descarga",
 		"cotacao_equipamentos",

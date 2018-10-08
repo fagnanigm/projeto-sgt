@@ -6,9 +6,10 @@
         .run(run)
         .animation('.yAnimate',animation)
         .factory('PagerService', PagerService)
+        .factory('beforeUnload', beforeUnload)
         .filter('range', rangeService);
 
-    function run($rootScope, $http, $location, $localStorage, $state, $stateParams,AuthenticationService, GlobalServices) {
+    function run($rootScope, $http, $location, $localStorage, $state, $stateParams,AuthenticationService, GlobalServices, beforeUnload) {
 
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
@@ -169,30 +170,23 @@
                 return input;
         };
     };
-    /*
-    function capitalize(){
-        return {
-            require: 'ngModel',
-            link: function(scope, element, attrs, modelCtrl) {
-                var capitalize = function(inputValue) {
-                    if (inputValue == undefined) inputValue = '';
-                        var capitalized = inputValue.toUpperCase();
-                    if (capitalized !== inputValue) {
-                        // see where the cursor is before the update so that we can set it back
-                        var selection = element[0].selectionStart;
-                        modelCtrl.$setViewValue(capitalized);
-                        modelCtrl.$render();
-                        // set back the cursor after rendering
-                        element[0].selectionStart = selection;
-                        element[0].selectionEnd = selection;
-                    }
-                    
-                    return capitalized;
-                }
-                modelCtrl.$parsers.push(capitalize);
-                capitalize(scope[attrs.ngModel]); // capitalize initial value
+
+    function beforeUnload($rootScope, $window){
+        // Events are broadcast outside the Scope Lifecycle
+        
+        $window.onbeforeunload = function (e) {
+            var confirmation = {};
+            var event = $rootScope.$broadcast('onBeforeUnload', confirmation);
+
+            if (event.defaultPrevented) {
+                return confirmation.message;
             }
         };
-    });*/
+        
+        $window.onunload = function () {
+            $rootScope.$broadcast('onUnload');
+        };
+        return {};
+    }
 
 })();
