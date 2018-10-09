@@ -182,6 +182,75 @@
 	</table>
 
 
+	<hr class="margin-top-40 margin-bottom-40" />
+
+	<div class="valores-as-footer margin-bottom-35">
+
+		<ul>
+			<li>
+				Valor da cotação
+				<strong 
+					ng-class="{
+						'text-danger': as.as_valor_total_bruto < 0,
+						'text-primary': as.as_valor_total_bruto >= 0
+					}">
+					{{ projeto.valor_cotacao | currency }}
+				</strong>
+			</li>
+			<li>
+				Valor total da AS emitida
+				<strong 
+					ng-class="{
+						'text-danger': as.as_valor_liquido_receber < 0,
+						'text-primary': as.as_valor_liquido_receber >= 0
+					}">
+					-
+				</strong>
+			</li>
+			<li>
+				Valor faturado
+				<strong 
+					ng-class="{
+						'text-danger': as.as_valor_resultado_bruto < 0,
+						'text-primary': as.as_valor_resultado_bruto >= 0
+					}">
+					-
+				</strong>
+			</li>
+			<li>
+				Valor despesas/custos
+				<strong 
+					ng-class="{
+						'text-danger': as.as_valor_resultado_liquido < 0,
+						'text-primary': as.as_valor_resultado_liquido >= 0
+					}">
+					-
+				</strong>
+			</li>
+			<li>
+				Valor resultado
+				<strong 
+					ng-class="{
+						'text-danger': as.as_valor_resultado_liquido < 0,
+						'text-primary': as.as_valor_resultado_liquido >= 0
+					}">
+					-
+				</strong>
+			</li>
+			<li>
+				Percentual
+				<strong 
+					ng-class="{
+						'text-danger': as.as_valor_resultado_liquido < 0,
+						'text-primary': as.as_valor_resultado_liquido >= 0
+					}">
+					-
+				</strong>
+			</li>
+		</ul>
+
+	</div>
+
 	<div class="cadastro-footer margin-top-25">
 		<a href="/projetos" class="btn btn-primary"><i class="icon-arrow-left icons"></i> Voltar</a>
 		<a ng-if="projeto.projeto_status == 'aprovado'" href="/autorizacao-de-servico/gerencia?projeto={{ projeto.id }}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Criar AS</a>

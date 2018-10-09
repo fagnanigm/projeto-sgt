@@ -12,6 +12,8 @@
 
             $http.get('/api/public/projetos/get/'+$rootScope.$stateParams.id_projeto).then(function (response) {
 
+                console.log(response);
+
                 $scope.projeto = response.data.projeto;
 
                 get_list_as();

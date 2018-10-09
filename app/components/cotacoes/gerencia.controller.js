@@ -47,7 +47,8 @@
                     cotacao_cadastro_data_obj : new Date(),
                     cotacao_anexos_objetos : [],
                     cotacao_condicoes_pagamento_id : '0',
-                    cotacao_validade_proposta_id : '0'
+                    cotacao_validade_proposta_id : '0',
+                    cotacao_previsao_mes : '0'
                 }
 
                 var copy = $location.search().copy;

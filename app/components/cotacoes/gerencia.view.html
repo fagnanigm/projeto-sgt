@@ -125,6 +125,43 @@
 						</div>
 					</div>
 
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+
+						<div class="form-group">
+							<label for="previsao-mes">Prev. de início (mês)</label>
+							<select class="form-control" id="previsao-mes" ng-model="cotacao.cotacao_previsao_mes">
+								<option value="0">Selecionar...</option>
+								<option value="1">Janeiro</option>
+								<option value="2">Fevereiro</option>
+								<option value="3">Março</option>
+								<option value="4">Abril</option>
+								<option value="5">Maio</option>
+								<option value="6">Junho</option>
+								<option value="7">Julho</option>
+								<option value="8">Agosto</option>
+								<option value="9">Setembro</option>
+								<option value="10">Outubro</option>
+								<option value="11">Novembro</option>
+								<option value="12">Dezembro</option>
+							</select>
+						</div>
+
+					</div>
+					<div class="col-md-6">
+
+						<div class="form-group">
+							<label for="previsao-ano">Prev. de início (ano)</label>
+							<input type="text" class="form-control" id="previsao-ano" placeholder="Ex. 2018" ng-model="cotacao.cotacao_previsao_ano">
+						</div>
+
+					</div>
+				</div>
+
+				<div class="row">
+
 					<div class="col-md-12">
 						<div class="form-group">
 							<label for="vendedor">Vendedor</label>

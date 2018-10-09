@@ -28,6 +28,8 @@ class Cotacoes {
 		"cotacao_ramal",
 		"cotacao_status",
 		"cotacao_cadastro_data",
+		"cotacao_previsao_mes",
+		"cotacao_previsao_ano",
 		"cotacao_projeto_nome",
 		"cotacao_projeto_descricao",
 		"cotacao_vi_imposto_icms",

@@ -68,3 +68,6 @@ require 'routes/autorizacao-servico-prazo-pg/autorizacao-servico-prazo-pg.php';
 
 // VALIDADES PROPOSTA
 require 'routes/validades-proposta/validades-proposta.php';
+
+// PRAZO RAZÕES
+require 'routes/prazo-razoes/prazo-razoes.php';

@@ -291,6 +291,12 @@ class Projetos {
 
 		$projeto['projeto_status_text'] = $this->projeto_status_array[$projeto['projeto_status']];
 
+		$valor_cotacao_query = $this->db->query("SELECT SUM(co.objeto_valor_total) AS valor_total FROM cotacoes_objetos co WHERE co.id_cotacao = '".$projeto['id_cotacao']."';");
+
+		$valor_cotacao = $valor_cotacao_query->fetch(\PDO::FETCH_ASSOC);
+
+		$projeto['valor_cotacao'] = (strlen($valor_cotacao['valor_total']) > 0 ? $valor_cotacao['valor_total'] : 0);
+
 		return $projeto;
 	}
 

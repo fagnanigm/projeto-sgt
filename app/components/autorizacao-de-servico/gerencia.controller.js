@@ -52,6 +52,7 @@
                     as_valor_resultado_bruto : 0,
                     as_valor_resultado_liquido : 0,
                     as_as_prazo_pagamento_id : '0',
+                    as_as_prazo_razao_id : '0',
                     // Valores fiscais
                     as_as_incluso_contabil_inss_percent : '3.50',
                     as_as_incluso_contabil_ir_percent : '1.50',
@@ -63,6 +64,11 @@
                     as_as_incluso_contabil_iss_percent : '0.00',
                     as_as_incluso_contabil_icms_percent : '0.00',
                     as_as_incluso_comercial_advalorem_percent : '0.00',
+                    as_as_incluso_contabil_ir : true,
+                    as_as_incluso_contabil_pis : true,
+                    as_as_incluso_contabil_cofins : true,
+                    as_as_incluso_contabil_csll : true,
+                    as_as_incluso_contabil_cp : true,
                     // Frotas
                     as_assoc_frotas : []
                 }
@@ -160,6 +166,7 @@
             get_vendedores();
             get_categorias();
             get_prazos_pg();
+            get_prazo_razoes();
         	get_as();
         }
         
@@ -658,6 +665,16 @@
 
         }
 
+        function get_prazo_razoes(){
+
+            $http.get('/api/public/prazo-razoes/get?getall=1').then(function (response) {
+                $scope.prazo_razoes = response.data.results;
+            });
+
+        }
+
+        
+
         function get_as_code(){
 
             $rootScope.is_loading = true;
@@ -745,6 +762,11 @@
         // Altera os status das formas de faturamento
         $scope.$watch('as.as_fat_forma_faturamento', function() {
             $scope.as.as_as_forma_faturamento = $scope.as.as_fat_forma_faturamento;
+
+            if($scope.as.as_as_forma_faturamento == 'cte'){
+                $scope.as.as_as_incluso_contabil_icms = true;
+            }
+
         });
 
         $scope.$watch('as.as_as_forma_faturamento', function() {
@@ -753,6 +775,11 @@
 
         $scope.$watch('as.as_fat_forma_pagamento', function() {
             $scope.as.as_as_forma_pagamento = $scope.as.as_fat_forma_pagamento;
+
+            if($scope.as.as_as_forma_faturamento == 'cte'){
+                $scope.as.as_as_incluso_contabil_icms = true;
+            }
+            
         });
 
         $scope.$watch('as.as_as_forma_pagamento', function() {

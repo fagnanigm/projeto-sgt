@@ -43,6 +43,7 @@ class AutorizacaoServico {
 		"as_as_forma_faturamento",
 		"as_as_forma_pagamento",
 		"as_as_prazo_pagamento_id",
+		"as_as_prazo_razao_id",
 		"as_as_condicoes_comerciais",
 		"as_as_incluso_comercial_rcfdc",
 		"as_as_incluso_comercial_rcfdc_valor",
