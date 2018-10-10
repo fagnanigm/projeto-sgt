@@ -1196,19 +1196,24 @@
 									<table class="table table-striped">
 										<tr>
 											<th>Provisionamento</th>
-											<th>Tipo</th>
+											<th class="text-center">Tipo</th>
 											<th class="text-center">Valor</th>
 											<th width="35"></th>
 										</tr>
-										<tr ng-repeat="(key, val) in as.as_assoc_frotas">
-											<td><strong>{{ val.veiculo_frota }}</strong> - {{ val.veiculo_modelo }}</td>
-											<td class="text-center">
+										<tr ng-repeat="(key, val) in as.as_taxas_licencas">
+											<td>{{ val.taxa_code }}</td>
+											<td class="text-center">{{ val.id_tipo }}</td>
+											<td class="text-center">{{ val.taxa_valor | currency }}</td>
+											<td class="text-right">
+												<button type="button" class="btn btn-sm btn-warning">
+													<i class="icon-pencil icons"></i>
+												</button>
 												<button type="button" class="btn btn-sm btn-danger">
 													<i class="icon-trash icons"></i>
 												</button>
 											</td>
 										</tr>
-										<tr ng-if="as.as_assoc_frotas.length == 0">
+										<tr ng-if="as.as_taxas_licencas.length == 0">
 											<td colspan="4" class="text-center">Nenhuma taxa/licença associada.</td>
 										</tr>
 										<tr>
@@ -1218,7 +1223,7 @@
 										</tr>
 									</table>
 
-									<button type="button" class="btn btn-sm btn-success" ng-click="open_choose_veiculos('assoc_frota')">Adicionar</button>
+									<button type="button" class="btn btn-sm btn-success" ng-click="open_insert_taxa('insert_taxa')">Adicionar</button>
 
 								</div>
 							</div>

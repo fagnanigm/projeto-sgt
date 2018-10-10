@@ -10,7 +10,7 @@ $container = $app->getContainer();
 // PDO Connection
 $container['db'] = function ($c) {
 
-	define('DB_HOST'        , "192.168.1.166");
+	define('DB_HOST'        , "192.168.1.215");
 	define('DB_USER'        , "SA");
 	define('DB_PASSWORD'    , "Easy010239tag//");
 	define('DB_NAME'        , "db_sgt");

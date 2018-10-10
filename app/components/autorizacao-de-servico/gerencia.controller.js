@@ -22,8 +22,8 @@
                 }  
             }
         });
-        // Finish protect to change
 
+        // Finish protect to change
 
         var vm = this;
 
@@ -70,7 +70,8 @@
                     as_as_incluso_contabil_csll : true,
                     as_as_incluso_contabil_cp : true,
                     // Frotas
-                    as_assoc_frotas : []
+                    as_assoc_frotas : [],
+                    as_taxas_licencas : []
                 }
 
                 var id_projeto = $location.search().projeto; 
@@ -140,6 +141,7 @@
                     $scope.local_coleta_data = $scope.as.local_coleta_data;
                     $scope.local_entrega_data = $scope.as.local_entrega_data;
 
+                    $scope.as.as_taxas_licencas = [];
 
                     console.log($scope.as)
 
@@ -785,6 +787,34 @@
         $scope.$watch('as.as_as_forma_pagamento', function() {
             $scope.as.as_fat_forma_pagamento = $scope.as.as_as_forma_pagamento;
         });
+
+        // Taxas e licenças
+        $scope.open_insert_taxa = function(fn){
+            $scope.taxa = {
+                is_edit : false,
+                taxa_status : 'pendente',
+                taxa_arquivos : [],
+                id_tipo : '0',
+                id_categoria : '0'
+            };
+            $rootScope.openModal("/app/components/autorizacao-de-servico/taxas-licencas.modal.html",false,$scope);
+        }
+
+        $scope.save_to_taxa = function(args){
+            args = $.parseJSON(args);
+
+            if(args.result){
+                $scope.taxa.taxa_arquivos.push(args.data);
+            }
+        }
+
+        $scope.save_as_taxa = function(){
+            $scope.as.as_taxas_licencas.push($scope.taxa);
+            $rootScope.closeModal();
+        }
+
+
+
         
     }
 

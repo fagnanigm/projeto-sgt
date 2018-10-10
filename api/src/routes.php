@@ -71,3 +71,8 @@ require 'routes/validades-proposta/validades-proposta.php';
 
 // PRAZO RAZÕES
 require 'routes/prazo-razoes/prazo-razoes.php';
+
+// TAXAS LICENÇAS
+require 'routes/taxas-licencas/taxas-licencas.php';
+require 'routes/taxas-licencas/taxas-licencas-tipos.php';
+require 'routes/taxas-licencas/taxas-licencas-categorias.php';

@@ -1,0 +1,136 @@
+<form ng-submit="save_as_taxa()">
+
+	<div class="modal-header">
+	    <h3 class="modal-title" id="modal-title">Adicionar taxa & licença</h3>
+	</div>
+
+	<div class="modal-body" id="modal-body">
+
+		<div class="modal-loading ng-hide" ng-show="is_modal_loading">
+			<i class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></i>
+		</div>
+
+		<div ng-show="!is_modal_loading">
+
+			<div class="row">
+				<div class="col-md-7">
+					<div class="form-group">
+						<label for="taxa_code">Código</label>
+						<input type="text" class="form-control" id="taxa_code" placeholder="Código" required ng-model="taxa.taxa_code">
+					</div>
+				</div>
+
+				<div class="col-md-5">
+					<div class="form-group">
+						<label for="id_tipo">Tipo</label>
+						<select class="form-control" id="id_tipo" ng-model="taxa.id_tipo">
+							<option value="0">Selecionar...</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="id_categoria">Categoria</label>
+						<select class="form-control" id="id_categoria" ng-model="taxa.id_categoria">
+							<option value="0">Selecionar...</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="taxa_fornecedor">Taxa do fornecedor</label>
+						<input type="text" class="form-control" id="taxa_fornecedor" placeholder="Taxa do fornecedor" required ng-model="taxa.taxa_fornecedor">
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="taxa_aet">Número de AET</label>
+						<input type="text" class="form-control" id="taxa_aet" placeholder="Número de AET" ng-model="taxa.taxa_aet">
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="taxa_valor">Valor</label>
+						<input type="text" class="form-control" id="taxa_valor" placeholder="Valor da taxa" required ng-model="taxa.taxa_valor">
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="taxa_previsao_pagamento">Previsão do pagamento</label>
+						<input type="date" class="form-control" id="taxa_previsao_pagamento" placeholder="Valor da taxa" required ng-model="taxa.taxa_previsao_pagamento">
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="taxa_numero_nota_fiscal">Número da nota fiscal</label>
+						<input type="text" class="form-control" id="taxa_numero_nota_fiscal" placeholder="Valor da taxa" required ng-model="taxa.taxa_numero_nota_fiscal">
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="taxa_forma_pagamento">Forma de pagamento</label>
+						<input type="text" class="form-control" id="taxa_forma_pagamento" placeholder="Forma de pagamento" required ng-model="taxa.taxa_forma_pagamento">
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="taxa_status">Status</label>
+						<select class="form-control" id="taxa_status" ng-model="taxa.taxa_status">
+							<option value="pendente">Pendente</option>
+							<option value="pago">Pago</option>
+						</select>
+					</div>
+				</div>
+				
+			</div>
+
+			<hr />
+
+			<div class="form-group">
+
+				<label for="taxa_status">Comprovantes</label>
+
+				<div flow-init="{target: '/api/public/upload', testChunks: false, chunkSize: 1024*1024*1024}"
+					flow-files-submitted="$flow.upload()"
+					flow-file-success="$file.nome = $message; save_to_taxa($message)">			
+
+					<table class="table table-striped">
+						<tr>
+							<th width="75%">Arquivo</th>
+							<th width="25%">Data</th>
+						</tr>
+						<tr ng-repeat="(key, val) in taxa.taxa_arquivos">
+							<td><a href="/api/public{{ val.file_path }}" target="_blank">{{ val.file_name }}</a></td>
+							<td>{{ val.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm' }}</td>
+						</tr>
+					</table>
+
+					<div class="drag-drop-box" flow-drop>
+					    Arraste os seus arquivos aqui
+					</div>
+
+					<button type="button" class="btn btn-sm btn-primary margin-top-20" flow-btn><i class="fa fa-upload" aria-hidden="true"></i> Carregar arquivo</button>
+
+				</div>
+			</div>
+
+				
+		</div>
+
+
+	</div>
+
+	<div class="modal-footer">
+	    <button class="btn btn-danger" type="button" ng-click="$ctrl.close()"><i class="fa fa-times" aria-hidden="true"></i> Fechar</button>
+	    <button class="btn btn-success" type="submit"><i class="fa fa-times" aria-hidden="true"></i> Cadastrar</button>
+	</div>
+
+</form>
