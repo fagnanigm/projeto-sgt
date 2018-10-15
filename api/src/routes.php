@@ -76,3 +76,6 @@ require 'routes/prazo-razoes/prazo-razoes.php';
 require 'routes/taxas-licencas/taxas-licencas.php';
 require 'routes/taxas-licencas/taxas-licencas-tipos.php';
 require 'routes/taxas-licencas/taxas-licencas-categorias.php';
+
+// CFOP
+require 'routes/cfop/cfop.php';

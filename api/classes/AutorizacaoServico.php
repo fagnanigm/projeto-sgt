@@ -126,6 +126,7 @@ class AutorizacaoServico {
 		"as_op_local_entrega_contato_telefone",
 		"as_op_local_entrega_contato_celular",
 		"as_op_local_entrega_contato_email",
+		"as_op_cfop_id",
 		"as_fat_id_cliente_faturamento",
 		"as_fat_cliente_faturamento_nome",
 		"as_fat_cliente_faturamento_contato_nome",
@@ -153,7 +154,9 @@ class AutorizacaoServico {
 
 	public $status_array = array(
 		'em-aberto' => 'Em aberto',
+		'carregado' => 'Carregado',
 		'em-viagem' => 'Em viagem',
+		'em-operacao' => 'Em operação',
 		'faturado' => 'Faturado'
 	);
 
@@ -490,8 +493,44 @@ class AutorizacaoServico {
 
 			}
 
-			
+			// Salva motoristas
+			if(is_array($args['as_assoc_motoristas'])){
 
+				foreach ($args['as_assoc_motoristas'] as $key => $motorista) {
+
+					$data = array(
+						'id_as' => $response['id'],
+						'id_motorista' => $motorista['id']
+					);
+					
+					$insertStatement = $this->db->insert(array_keys($data))->into('autorizacao_servico_motoristas')->values(array_values($data));
+					$insertStatement->execute();
+
+				}
+
+			}
+
+			// Insere taxas e provisionamentos
+			
+			if(is_array($args['as_taxas_licencas'])){
+
+				$taxas_licencas = new TaxasLicencas($this->db);
+
+				foreach ($args['as_taxas_licencas'] as $key => $taxa) {
+
+					$taxa['id_as'] = $response['id'];
+
+					$taxa_response = $taxas_licencas->insert($taxa);
+
+					if(!$taxa_response['result']){
+						$response['result'] = false;
+						$response['error'] = $taxa_response['error'];
+						return $response;
+					}
+
+				}
+
+			}
 
 		}
 
@@ -721,6 +760,12 @@ class AutorizacaoServico {
 		$as_dados_carga = $asCargas->get(array( 'id_as' => $as['id'] ));
 		$as['as_dados_carga'] = $as_dados_carga['results'];
 
+		// Puxa as taxas
+		$taxasLicencas = new TaxasLicencas($this->db);
+		$as_taxas_licencas = $taxasLicencas->get(array( 'id_as' => $as['id'] ));
+		$as['as_taxas_licencas'] = $as_taxas_licencas['results'];
+		
+
 		// Traz as frotas
 		$select = $this->db->query("
 			SELECT v.* FROM autorizacao_servico_frota f
@@ -736,6 +781,22 @@ class AutorizacaoServico {
 		}
 
 		$as['as_assoc_frotas'] = $as_assoc_frotas;
+
+		// Traz os motoristas
+		$select = $this->db->query("
+			SELECT m.* FROM autorizacao_servico_motoristas f
+				INNER JOIN motoristas m
+				ON f.id_motorista = m.id
+			WHERE f.id_as = '".$as['id']."';
+		");
+
+		$as_assoc_motoristas = $select->fetchAll(\PDO::FETCH_ASSOC);
+
+		if(!is_array($as_assoc_motoristas)){
+			$as_assoc_motoristas = array();
+		}
+
+		$as['as_assoc_motoristas'] = $as_assoc_motoristas;
 
 		// COMERCIAL : CLIENTE CONSIGNATÁRIO / FATURAMENTO: 
 		$as['cliente_consig_data'] = $this->get_as_cliente($as['as_as_id_cliente_faturamento']);
@@ -757,6 +818,9 @@ class AutorizacaoServico {
 
 		// OPERACIONAL : LOCAL DA ENTREGA:
 		$as['local_entrega_data'] = $this->get_as_local($as['as_op_id_local_entrega']);
+
+		// OPERACIONAL : CFOP :
+		$as['cfop_data'] = $this->get_as_cfop($as['as_op_cfop_id']);
 		
 				
 		return $as;
@@ -995,6 +1059,24 @@ class AutorizacaoServico {
 		return $local;
 
 	}
+
+	public function get_as_cfop($id){
+
+		$cfop = new Cfop($this->db);
+
+		$data = array();
+
+		if(strlen($id) > 0 || $id != '0'){
+			$data = $cfop->get_by_id($id);
+			$data = ($data['result'] ? $data['data'] : array() );
+		}
+
+		return $data;
+
+	}
+
+
+	
 
 }
 

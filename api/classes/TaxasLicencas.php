@@ -126,7 +126,26 @@ class TaxasLicencas {
 		$response['id'] = $insertStatement->execute();
 
 		if(strlen($response['id']) > 0){
+
 			$response['result'] = true;
+
+			if(is_array($args['taxa_arquivos'])){
+
+				foreach ($args['taxa_arquivos'] as $key => $anexo) {
+
+					$data = array(
+						'id_taxa' => $response['id'],
+						'id_arquivo' => $anexo['id'],
+						'create_time' => $date->format("Y-m-d\TH:i:s")
+					);
+					
+					$insertStatement = $this->db->insert(array_keys($data))->into('taxas_licencas_arquivos')->values(array_values($data));
+					$insertStatement->execute();
+
+				}
+
+			}
+
 		}
 
 		return $response;
@@ -137,75 +156,28 @@ class TaxasLicencas {
 	public function get($args = array()){
 
 		$response = array();
-		$is_search = false;
 
-		$args['getall'] = (isset($args['getall']) ? $args['getall'] : false);
-
-		// Count total
-		$query_count = "SELECT COUNT(*) AS total FROM taxas_licencas WHERE active = 'Y'";
-
-		// Filtro
-		if(isset($args['tipo_nome'])){
-			$query_count .= " AND tipo_nome LIKE '%".$args['tipo_nome']."%'";
-			$is_search = true;
+		if(!isset($args['id_as'])){
+			$response['error'] = 'O campo id_as é obrigatório.';
+			return $response;
 		}
 
-		$count = $this->db->query($query_count);
-		$total_data = $count->fetch();
-
-		if($args['getall'] == '1'){
-
-			$config = array(
-				'total' => $total_data['total'],
-			);
-
-			$response['config'] = $config;
-
-			$select = $this->db->query('SELECT * FROM taxas_licencas WHERE active = \'Y\' ORDER BY tipo_nome');
-			$response['results'] = $this->parser_fecth($select->fetchAll(\PDO::FETCH_ASSOC),'all');
-
-		}else{
-
-			$config = array(
-				'total' => $total_data['total'],
-				'item_per_page' => $this->item_per_page,
-				'total_pages' => ceil($total_data['total'] / $this->item_per_page),
-				'current_page' => (isset($args['current_page']) ? $args['current_page'] : 1 ),
-				'is_search' => $is_search
-			);
-
-			$response['config'] = $config;
-
-			if($config['current_page'] <= $config['total_pages']){
-
-				// Offset
-				$offset = ($config['current_page'] == '1' ? 0 : ($config['current_page'] - 1) * $config['item_per_page'] );
-
-				$query = "SELECT * FROM taxas_licencas WHERE active = 'Y' ";
-
-				// Filtro
-				if(isset($args['tipo_nome'])){
-					$query .= " AND tipo_nome LIKE '%".$args['tipo_nome']."%' ";
-				}
-
-				// Config
-				$query .= "ORDER BY id OFFSET ".$offset." ROWS FETCH NEXT ".$config['item_per_page']." ROWS ONLY";
-
-				$select = $this->db->query($query);
-				$response['results'] = $this->parser_fecth($select->fetchAll(\PDO::FETCH_ASSOC),'all');
-				$response['config']['page_items_total'] = count($response['results']);
-
-			}else{
-				$response['results'] = [];
-			}
-
-		}
+		$query = "
+			SELECT tl.* , tp.tipo_nome as taxa_tipo_text
+			FROM taxas_licencas tl 
+				INNER JOIN taxas_licencas_tipos tp 
+				ON tp.id = tl.id_tipo
+			WHERE tl.id_as = '".$args['id_as']."'
+		;";
+					
+		$select = $this->db->query($query);
+		$response['results'] = $this->parser_fetch($select->fetchAll(\PDO::FETCH_ASSOC),'all');
 
 		return $response;
-
+		
 	}
 
-	public function parser_fecth($result, $fetch = 'one'){
+	public function parser_fetch($result, $fetch = 'one'){
 		if($fetch == 'one'){
 			$result = $this->apply_filter($result);
 		}else{
@@ -224,9 +196,36 @@ class TaxasLicencas {
 			$campos[$key] = trim($field);
 		}
 		
+		// Create time
 		$create_time = new \DateTime($campos['create_time']);
 		$campos['create_timestamp'] = $create_time->getTimestamp();
-		
+
+		// DATA : taxa_previsao_pagamento 
+		$taxa_previsao_pagamento = new \DateTime($campos['taxa_previsao_pagamento']);
+		$campos['taxa_previsao_pagamento'] = $taxa_previsao_pagamento->getTimestamp();
+
+		// Taxas de arquivos
+
+		$select = $this->db->query("
+			SELECT a.* FROM taxas_licencas_arquivos ca
+				LEFT JOIN arquivos a 
+				ON ca.id_arquivo = a.id
+			WHERE ca.id_taxa = '".$campos['id']."';
+		");
+
+		$taxa_arquivos = $select->fetchAll(\PDO::FETCH_ASSOC);
+
+		if(is_array($taxa_arquivos)){
+			foreach ($taxa_arquivos as $key => $value) {	
+				$create_time = new \DateTime($value['create_time']);
+				$taxa_arquivos[$key]['create_timestamp'] = $create_time->getTimestamp();
+			}
+		}else{
+			$taxa_arquivos = array();
+		}
+
+		$campos['taxa_arquivos'] = $taxa_arquivos;
+
 		return $campos;
 	}
 

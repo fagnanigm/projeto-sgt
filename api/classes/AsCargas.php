@@ -10,7 +10,6 @@ class AsCargas {
 		"id_as",
 		"objeto_item",
 		"dado_numero",
-		"dado_nota_fiscal",
 		"dado_quantidade",
 		"dado_mercadoria",
 		"dado_especie",
@@ -22,7 +21,9 @@ class AsCargas {
 		"dado_frete_peso",
 		"create_time",
 		"active",
-		"dado_nota_fiscal_chave"
+		"dado_nota_fiscal_chave",
+		"dado_nota_fiscal_tipo",
+		"dado_nota_fiscal_serie"
 	);
 
 	function __construct($db = false){

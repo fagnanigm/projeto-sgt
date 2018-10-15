@@ -16,7 +16,7 @@
 				<div class="col-md-7">
 					<div class="form-group">
 						<label for="taxa_code">Código</label>
-						<input type="text" class="form-control" id="taxa_code" placeholder="Código" required ng-model="taxa.taxa_code">
+						<input type="text" class="form-control" id="taxa_code" placeholder="Código" required ng-model="taxa.taxa_code" readonly>
 					</div>
 				</div>
 
@@ -25,6 +25,7 @@
 						<label for="id_tipo">Tipo</label>
 						<select class="form-control" id="id_tipo" ng-model="taxa.id_tipo">
 							<option value="0">Selecionar...</option>
+							<option ng-repeat="(key, val) in taxas_tipos" value="{{ val.id }}">{{ val.tipo_nome }}</option>		
 						</select>
 					</div>
 				</div>
@@ -34,6 +35,8 @@
 						<label for="id_categoria">Categoria</label>
 						<select class="form-control" id="id_categoria" ng-model="taxa.id_categoria">
 							<option value="0">Selecionar...</option>
+							<option ng-repeat="(key, val) in taxas_categorias" value="{{ val.id }}">{{ val.categoria_nome }}</option>	
+							
 						</select>
 					</div>
 				</div>
@@ -55,21 +58,21 @@
 				<div class="col-md-6">
 					<div class="form-group">
 						<label for="taxa_valor">Valor</label>
-						<input type="text" class="form-control" id="taxa_valor" placeholder="Valor da taxa" required ng-model="taxa.taxa_valor">
+						<input type="text" class="form-control" id="taxa_valor" placeholder="Valor da taxa" required ng-model="taxa.taxa_valor" money-mask>
 					</div>
 				</div>
 
 				<div class="col-md-6">
 					<div class="form-group">
 						<label for="taxa_previsao_pagamento">Previsão do pagamento</label>
-						<input type="date" class="form-control" id="taxa_previsao_pagamento" placeholder="Valor da taxa" required ng-model="taxa.taxa_previsao_pagamento">
+						<input type="date" class="form-control" id="taxa_previsao_pagamento" placeholder="Previsão do pagamento" required ng-model="taxa.taxa_previsao_pagamento_obj">
 					</div>
 				</div>
 
 				<div class="col-md-6">
 					<div class="form-group">
 						<label for="taxa_numero_nota_fiscal">Número da nota fiscal</label>
-						<input type="text" class="form-control" id="taxa_numero_nota_fiscal" placeholder="Valor da taxa" required ng-model="taxa.taxa_numero_nota_fiscal">
+						<input type="text" class="form-control" id="taxa_numero_nota_fiscal" placeholder="Número da nota fiscal" required ng-model="taxa.taxa_numero_nota_fiscal">
 					</div>
 				</div>
 
@@ -100,16 +103,20 @@
 
 				<div flow-init="{target: '/api/public/upload', testChunks: false, chunkSize: 1024*1024*1024}"
 					flow-files-submitted="$flow.upload()"
-					flow-file-success="$file.nome = $message; save_to_taxa($message)">			
+					flow-file-success="$file.nome = $message; save_file_to_taxa($message)">			
 
 					<table class="table table-striped">
 						<tr>
-							<th width="75%">Arquivo</th>
-							<th width="25%">Data</th>
+							<th width="70%">Arquivo</th>
+							<th width="20%">Data</th>
+							<th width="10%"></th>
 						</tr>
 						<tr ng-repeat="(key, val) in taxa.taxa_arquivos">
 							<td><a href="/api/public{{ val.file_path }}" target="_blank">{{ val.file_name }}</a></td>
 							<td>{{ val.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm' }}</td>
+							<td>
+								<button type="button" class="btn btn-sm btn-danger" ng-click="remove_file_taxa(key)"><i class="icon-trash icons"></i></button>
+							</td>
 						</tr>
 					</table>
 
@@ -130,7 +137,7 @@
 
 	<div class="modal-footer">
 	    <button class="btn btn-danger" type="button" ng-click="$ctrl.close()"><i class="fa fa-times" aria-hidden="true"></i> Fechar</button>
-	    <button class="btn btn-success" type="submit"><i class="fa fa-times" aria-hidden="true"></i> Cadastrar</button>
+	    <button class="btn btn-success" type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
 	</div>
 
 </form>

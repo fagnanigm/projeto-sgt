@@ -13,6 +13,33 @@
 		<div ng-show="!is_modal_loading">
 
 			<div class="row">
+
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="chave-nota-fiscal">Chave nota fiscal</label>
+						<input type="text" class="form-control" id="chave-nota-fiscal" placeholder="Chave nota fiscal" ng-model="carga.dado_nota_fiscal_chave">
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="dado_nota_fiscal_tipo">Tipo da nota fiscal</label>
+						<input type="text" class="form-control" id="dado_nota_fiscal_tipo" placeholder="Tipo da nota fiscal" ng-model="carga.dado_nota_fiscal_tipo">
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="dado_nota_fiscal_serie">Série da nota fiscal</label>
+						<input type="text" class="form-control" id="dado_nota_fiscal_serie" placeholder="Série da nota fiscal" ng-model="carga.dado_nota_fiscal_serie">
+					</div>
+				</div>
+
+			</div>
+
+			<hr />
+
+			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
 						<label for="numero">Número</label>
@@ -31,22 +58,11 @@
 						<input type="text" class="form-control" id="mercadoria" placeholder="Mercadoria" ng-model="carga.dado_mercadoria" required>
 					</div>
 				</div>
-				<div class="col-md-12">
-					<div class="form-group">
-						<label for="nota-fiscal">Nota fiscal</label>
-						<input type="text" class="form-control" id="nota-fiscal" placeholder="Nota fiscal" ng-model="carga.dado_nota_fiscal" required>
-					</div>
-				</div>
+
 				<div class="col-md-12">
 					<div class="form-group">
 						<label for="especie">Espécie</label>
 						<input type="text" class="form-control" id="especie" placeholder="Espécie" ng-model="carga.dado_especie" required>
-					</div>
-				</div>
-				<div class="col-md-12">
-					<div class="form-group">
-						<label for="chave-nota-fiscal">Chave nota fiscal</label>
-						<input type="text" class="form-control" id="chave-nota-fiscal" placeholder="Chave nota fiscal" ng-model="carga.dado_nota_fiscal_chave">
 					</div>
 				</div>
 

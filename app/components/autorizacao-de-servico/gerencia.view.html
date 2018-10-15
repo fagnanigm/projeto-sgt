@@ -156,8 +156,10 @@
 									<select class="form-control" ng-model="as.as_projeto_status">
 										<option value="0">Selecionar...</option>
 										<option value="em-aberto">Em aberto</option>
+										<option value="carregado">Carregado</option>
 										<option value="aprovado">Em viagem</option>
-										<option value="aguardando-preco">Faturado</option>
+										<option value="em-operacao">Em operação</option>
+										<option value="faturado">Faturado</option>
 									</select>
 								</div>
 							</div>
@@ -805,6 +807,17 @@
 
 									</td>
 								</tr>
+								<tr>
+									<th colspan="4" class="text-right">Total retido:</th>
+									<td>
+										<div class="input-group">
+											<input type="text" class="form-control" name="as_as_incluso_contabil_valor_retido" ng-model="as.as_as_incluso_contabil_valor_retido" money-mask readonly>
+											<div class="input-group-append">
+												<span class="input-group-text">R$</span>
+											</div>
+										</div>
+									</td>
+								</tr>
 
 							</table>
 
@@ -1155,6 +1168,18 @@
 					<div class="col-md-4">
 
 						<div class="form-group">
+							<label>CFOP:</label>
+							<div class="input-group my-3">
+		  						<input type="text" class="form-control" placeholder="Selecionar CFOP" ng-model="cfop_data.cfop_descricao" readonly>
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="button" ng-click="open_choose_cfop('operacional_cfop')"><i class="icon-magnifier icons"></i></button>
+								</div>
+							</div>
+
+						</div>
+
+
+						<div class="form-group">
 							<label for="as_op_observacao">Observações para o Operacional</label>
 							<textarea class="form-control" id="as_op_observacao" ng-model="as.as_op_observacao"></textarea>
 						</div>
@@ -1198,17 +1223,17 @@
 											<th>Provisionamento</th>
 											<th class="text-center">Tipo</th>
 											<th class="text-center">Valor</th>
-											<th width="35"></th>
+											<th width="90"></th>
 										</tr>
 										<tr ng-repeat="(key, val) in as.as_taxas_licencas">
 											<td>{{ val.taxa_code }}</td>
-											<td class="text-center">{{ val.id_tipo }}</td>
+											<td class="text-center">{{ val.taxa_tipo_text }}</td>
 											<td class="text-center">{{ val.taxa_valor | currency }}</td>
 											<td class="text-right">
-												<button type="button" class="btn btn-sm btn-warning">
+												<button type="button" class="btn btn-sm btn-warning" ng-click="edit_taxa(key)">
 													<i class="icon-pencil icons"></i>
 												</button>
-												<button type="button" class="btn btn-sm btn-danger">
+												<button type="button" class="btn btn-sm btn-danger" ng-click="remove_taxa(key)">
 													<i class="icon-trash icons"></i>
 												</button>
 											</td>
@@ -1218,7 +1243,7 @@
 										</tr>
 										<tr>
 											<th colspan="2"></th>
-											<th class="text-center">Total: </th>
+											<th class="text-center">Total: {{ as_taxas_licencas_total | currency}}</th>
 											<th></th>
 										</tr>
 									</table>
@@ -1263,15 +1288,46 @@
 							
 						</div>
 
+
+						<div class="form-group">
+							
+							<label for="as_op_motoristas">Associação de motorista</label>
+
+							<div class="card">
+  								<div class="card-body">
+
+									<table class="table table-striped">
+										<tr>
+											<th>Motorista</th>
+											<th width="35"></th>
+										</tr>
+										<tr ng-repeat="(key, val) in as.as_assoc_motoristas">
+											<td><strong>{{ val.motorista_nome }}</strong><br />{{ val.motorista_cpf }}</td>
+											<td class="text-center">
+												<button type="button" class="btn btn-sm btn-danger" ng-click="remove_motorista(key)"><i class="icon-trash icons"></i></button>
+											</td>
+										</tr>
+										<tr ng-if="as.as_assoc_motoristas.length == 0">
+											<td colspan="2" class="text-center">Nenhum motorista associado.</td>
+										</tr>
+									</table>
+
+									<button type="button" class="btn btn-sm btn-success" ng-click="open_choose_motoristas('assoc_motorista')">Adicionar</button>
+
+								</div>
+							</div>
+							
+						</div>
+
 					</div>
 				</div>
 
 				<div class="row my-3">
 					<div class="col-md-12">
 
-						<button class="btn btn-secondary">Emitir OCC</button>
+						<button class="btn btn-primary" ng-if="as.as_as_forma_faturamento != 'cte'">Emitir OCC</button>
 
-						<button class="btn btn-secondary">Emitir CTE</button>
+						<button class="btn btn-primary" ng-if="as.as_as_forma_faturamento == 'cte'">Emitir CTE</button>
 
 					</div>
 				</div>
@@ -1490,6 +1546,8 @@
 					</div>
 				</div>
 
+				<!-- 
+
 				<button class="btn btn-secondary">Emitir a fatura</button>
 
 				<button class="btn btn-secondary">Emitir NF de serviço</button>
@@ -1500,7 +1558,9 @@
 
 				<button class="btn btn-secondary">Emitir outros</button>
 
-				<button class="btn btn-secondary" type="button">Faturar</button>
+				-->
+
+				<button class="btn btn-primary" type="button">Faturar</button>
 
 			</div>
 
@@ -1603,6 +1663,16 @@
 							'text-primary': as.as_valor_liquido_receber >= 0
 						}">
 						{{ as.as_valor_liquido_receber | currency }}
+					</strong>
+				</li>
+				<li>
+					Custos / depesas
+					<strong 
+						ng-class="{
+							'text-danger': as.as_valor_custos_depesas < 0,
+							'text-primary': as.as_valor_custos_depesas >= 0
+						}">
+						{{ as.as_valor_custos_depesas | currency }}
 					</strong>
 				</li>
 				<li>

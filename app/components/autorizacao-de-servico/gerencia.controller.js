@@ -51,6 +51,7 @@
                     as_valor_liquido_receber : 0,
                     as_valor_resultado_bruto : 0,
                     as_valor_resultado_liquido : 0,
+                    as_valor_custos_depesas : 0,
                     as_as_prazo_pagamento_id : '0',
                     as_as_prazo_razao_id : '0',
                     // Valores fiscais
@@ -71,6 +72,8 @@
                     as_as_incluso_contabil_cp : true,
                     // Frotas
                     as_assoc_frotas : [],
+                    // Motoristas 
+                    as_assoc_motoristas : [],
                     as_taxas_licencas : []
                 }
 
@@ -98,7 +101,7 @@
                         $scope.as.as_projeto_nome = projeto.projeto_nome;
                         $scope.as.as_projeto_descricao = projeto.projeto_descricao;
 
-                        $scope.as.as_as_condicoes_comerciais = projeto.cotacao_observacoes_finais
+                        $scope.as.as_as_condicoes_comerciais = projeto.cotacao_observacoes_finais;
 
                         get_as_code();
 
@@ -141,9 +144,10 @@
                     $scope.local_coleta_data = $scope.as.local_coleta_data;
                     $scope.local_entrega_data = $scope.as.local_entrega_data;
 
-                    $scope.as.as_taxas_licencas = [];
+                    // Dados da CFOP
+                    $scope.cfop_data = $scope.as.cfop_data;
 
-                    console.log($scope.as)
+                    $scope.as.as_valor_custos_depesas = 0;
 
                     delete $scope.as.id;
                     
@@ -169,6 +173,8 @@
             get_categorias();
             get_prazos_pg();
             get_prazo_razoes();
+            get_taxas_tipos();
+            get_taxas_categorias();
         	get_as();
         }
         
@@ -500,30 +506,38 @@
 
             // Valor liquido a receber
 
+            $scope.as.as_as_incluso_contabil_valor_retido = 0;
+
             $scope.as.as_valor_liquido_receber = $scope.as.as_valor_total_bruto;
            
             if($scope.as.as_as_incluso_contabil_iss && $scope.as.as_as_incluso_contabil_iss_retido){
                 $scope.as.as_valor_liquido_receber -= parseFloat($scope.as.as_as_incluso_contabil_iss_valor);
+                $scope.as.as_as_incluso_contabil_valor_retido += parseFloat($scope.as.as_as_incluso_contabil_iss_valor);
             }
 
             if($scope.as.as_as_incluso_contabil_inss && $scope.as.as_as_incluso_contabil_inss_retido){
                 $scope.as.as_valor_liquido_receber -= parseFloat($scope.as.as_as_incluso_contabil_inss_valor);
+                $scope.as.as_as_incluso_contabil_valor_retido += parseFloat($scope.as.as_as_incluso_contabil_inss_valor);
             }
 
             if($scope.as.as_as_incluso_contabil_ir && $scope.as.as_as_incluso_contabil_ir_retido){
                 $scope.as.as_valor_liquido_receber -= parseFloat($scope.as.as_as_incluso_contabil_ir_valor);
+                $scope.as.as_as_incluso_contabil_valor_retido += parseFloat($scope.as.as_as_incluso_contabil_ir_valor);
             }
 
             if($scope.as.as_as_incluso_contabil_pis && $scope.as.as_as_incluso_contabil_pis_retido){
                 $scope.as.as_valor_liquido_receber -= parseFloat($scope.as.as_as_incluso_contabil_pis_valor);
+                $scope.as.as_as_incluso_contabil_valor_retido += parseFloat($scope.as.as_as_incluso_contabil_pis_valor);
             }
 
             if($scope.as.as_as_incluso_contabil_cofins && $scope.as.as_as_incluso_contabil_cofins_retido){
                 $scope.as.as_valor_liquido_receber -= parseFloat($scope.as.as_as_incluso_contabil_cofins_valor);
+                $scope.as.as_as_incluso_contabil_valor_retido += parseFloat($scope.as.as_as_incluso_contabil_cofins_valor);
             }
 
             if($scope.as.as_as_incluso_contabil_csll && $scope.as.as_as_incluso_contabil_csll_retido){
                 $scope.as.as_valor_liquido_receber -= parseFloat($scope.as.as_as_incluso_contabil_csll_valor);
+                $scope.as.as_as_incluso_contabil_valor_retido += parseFloat($scope.as.as_as_incluso_contabil_csll_valor);
             }
 
             // ---- Resultado bruto
@@ -675,6 +689,22 @@
 
         }
 
+        function get_taxas_tipos(){
+
+            $http.get('/api/public/taxas-licencas/tipos/get?getall=1').then(function (response) {
+                $scope.taxas_tipos = response.data.results;
+            });
+
+        }
+
+        function get_taxas_categorias(){
+
+            $http.get('/api/public/taxas-licencas/categorias/get?getall=1').then(function (response) {
+                $scope.taxas_categorias = response.data.results;
+            });
+
+        }
+
         
 
         function get_as_code(){
@@ -789,18 +819,38 @@
         });
 
         // Taxas e licenças
+
+        function get_taxa_code(){
+
+            var code = String(  ($scope.as.as_taxas_licencas.length) + 1) .padStart(6, '0');
+
+            if($scope.as.as_taxas_licencas.length > 0){ 
+                var max_taxa = $scope.as.as_taxas_licencas[$scope.as.as_taxas_licencas.length - 1];
+                code = String( parseInt(max_taxa.taxa_num_sequencial) + 1) .padStart(6, '0'); 
+            }   
+
+            return code;
+
+        }
+
         $scope.open_insert_taxa = function(fn){
+
+            var taxa_num_sequencial = get_taxa_code();
+
             $scope.taxa = {
                 is_edit : false,
                 taxa_status : 'pendente',
                 taxa_arquivos : [],
                 id_tipo : '0',
-                id_categoria : '0'
+                id_categoria : '0',
+                taxa_code : 'PROV-' + taxa_num_sequencial,
+                taxa_num_sequencial : parseInt(taxa_num_sequencial),
+                taxa_previsao_pagamento_obj : new Date()
             };
             $rootScope.openModal("/app/components/autorizacao-de-servico/taxas-licencas.modal.html",false,$scope);
         }
 
-        $scope.save_to_taxa = function(args){
+        $scope.save_file_to_taxa = function(args){
             args = $.parseJSON(args);
 
             if(args.result){
@@ -808,12 +858,158 @@
             }
         }
 
+        $scope.remove_file_taxa = function(key){
+            if(confirm("Deseja remover esse arquivo?")){
+                $scope.taxa.taxa_arquivos.splice(key, 1);
+            }
+        }
+
+        function get_taxa_tipo_text(id){
+            if(id != '0'){
+                $.each($scope.taxas_tipos,function(key, val){
+                    if(val.id == id){
+                        return val.tipo_nome;
+                    }
+                });
+            }
+        }
+
         $scope.save_as_taxa = function(){
-            $scope.as.as_taxas_licencas.push($scope.taxa);
+            $scope.taxa.taxa_previsao_pagamento = Math.floor($scope.taxa.taxa_previsao_pagamento_obj.getTime() / 1000);
+            $scope.taxa.taxa_tipo_text = $('#id_tipo option:checked').html();
+
+            console.log($scope.taxa.taxa_tipo_text)
+
+            if($scope.taxa.is_edit){
+                $scope.as.as_taxas_licencas[$scope.taxa.key] = $scope.taxa;
+            }else{
+                $scope.as.as_taxas_licencas.push($scope.taxa);
+            }
+            
             $rootScope.closeModal();
         }
 
+        $scope.as_taxas_licencas_total = 0;
 
+        $scope.$watch('as.as_taxas_licencas', function() {
+            $scope.as_taxas_licencas_total = 0;
+            $.each($scope.as.as_taxas_licencas, function(key, val){
+                $scope.as_taxas_licencas_total += parseFloat(val.taxa_valor);
+            });
+        }, true);
+
+        $scope.edit_taxa = function(key){
+            $scope.taxa = $scope.as.as_taxas_licencas[key];
+            $scope.taxa.taxa_previsao_pagamento_obj = new Date($scope.taxa.taxa_previsao_pagamento * 1000);
+            $scope.taxa.is_edit = true;
+            $scope.taxa.key = key;
+            $rootScope.openModal("/app/components/autorizacao-de-servico/taxas-licencas.modal.html",false,$scope);
+        }
+
+        $scope.remove_taxa = function(key){
+            if(confirm("Deseja remover essa taxa?")){
+                $scope.as.as_taxas_licencas.splice(key, 1);
+            }
+        }
+
+        //CFOP
+
+        $scope.cfop_data = false;
+        $scope.cfop_is_search = false;
+        $scope.cfop_search_filter = { free_term : '' };
+
+        $scope.open_choose_cfop = function(fn){
+            $scope.open_choose_cfop_fn = fn;
+            $rootScope.openModal("/app/components/autorizacao-de-servico/cfop.modal.html",false,$scope);
+        }
+
+        $scope.choose_cfop = function(cliente){
+            $scope[$scope.open_choose_cfop_fn](cliente);
+            $rootScope.closeModal();
+            $scope.cfop_is_search = false;
+        }
+
+        $scope.operacional_cfop = function(cfop){
+            $scope.cfop_data = cfop;
+            $scope.cfop_data.full_name = cfop.cfop_codigo + ' - ' + cfop.cfop_descricao;
+            $scope.as.as_op_cfop_id = cfop.id;
+            console.log(cfop)
+        }
+
+        $scope.search_modal_cfop = function(){
+            $rootScope.is_modal_loading = true;
+            
+            $http.get('/api/public/cfop/search?term=' + $scope.cfop_search_filter.free_term).then(function (response) {
+                
+                if(response.data.result){
+                    $scope.cfops = response.data.results;
+                    $scope.cfop_is_search = true;
+                }else{
+                    ngToast.create({
+                        className: 'danger',
+                        content: response.data.error
+                    });
+                }
+
+            }, function(response) {
+                $rootScope.is_error = true;
+                $rootScope.is_error_text = "Erro: " + response.data.message;
+            }).finally(function() {
+                $rootScope.is_modal_loading = false;
+            });
+
+        }
+
+
+        // Motoristas
+
+        $scope.motorista_search_filter = {}
+        $scope.motorista_is_search = false;
+
+        $scope.open_choose_motoristas = function(fn){
+            $scope.open_choose_motorista_fn = fn;
+            $rootScope.openModal("/app/components/autorizacao-de-servico/motoristas.modal.html",false,$scope);
+        }
+
+        $scope.choose_motorista = function(veiculo){
+            $scope[$scope.open_choose_motorista_fn](veiculo);
+            $rootScope.closeModal();
+            $scope.motorista_is_search = false;
+        }
+
+        $scope.assoc_motorista = function(motorista){
+            $scope.as.as_assoc_motoristas.push(motorista);
+        }
+
+        $scope.remove_motorista = function(key){
+            if(confirm("Deseja remover esse motorista?")){
+                $scope.as.as_assoc_motoristas.splice(key, 1);
+            }
+        }
+
+        $scope.search_modal_motorista = function(){
+            $rootScope.is_modal_loading = true;
+
+            $http.get('/api/public/motoristas/search?term=' + $scope.motorista_search_filter.free_term ).then(function (response) {
+                    
+                if(response.data.result){
+                    $scope.motoristas = response.data.results;
+                    $scope.motorista_is_search = true;
+                }else{
+                    ngToast.create({
+                        className: 'danger',
+                        content: response.data.error
+                    });
+                }
+
+            }, function(response) {
+                $rootScope.is_error = true;
+                $rootScope.is_error_text = "Erro: " + response.data.message;
+            }).finally(function() {
+                $rootScope.is_modal_loading = false;
+            });
+
+        }
 
         
     }

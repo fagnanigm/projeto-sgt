@@ -52,7 +52,8 @@ $app->add(new TokenAuthentication([
         '/autorizacao-servico-prazo-pg',
         '/validades-proposta',
         '/prazo-razoes',
-        '/taxas-licencas'
+        '/taxas-licencas',
+        '/cfop'
     ),
     'passthrough' => array( // Permitidos
     	'/users/login'

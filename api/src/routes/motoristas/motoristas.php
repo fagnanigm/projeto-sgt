@@ -8,7 +8,7 @@ use Classes\Utilities;
 // Inserção de motorista
 $app->post('/motoristas/insert', function (Request $request, Response $response, array $args) {
 
-	$motoristas = new motoristas($this->db);
+	$motoristas = new Motoristas($this->db);
 	$data = $motoristas->insert($request->getParams());
 
 	// Registro de log
@@ -56,7 +56,7 @@ $app->get('/motoristas/get', function (Request $request, Response $response, arr
 
 // Seleção de motorista por ID
 $app->get('/motoristas/get/{id}', function (Request $request, Response $response, array $args) {
-	$motoristas = new motoristas($this->db);
+	$motoristas = new Motoristas($this->db);
 	$data = $motoristas->get_by_id($args['id'], $request->getParams());
 
 	// Registro de log
@@ -83,7 +83,7 @@ $app->post('/motoristas/delete', function (Request $request, Response $response,
 
 	$params = $request->getParams();
 
-	$motoristas = new motoristas($this->db);
+	$motoristas = new Motoristas($this->db);
 	$data = $motoristas->delete($params);
 
 	// Registro de log
@@ -110,7 +110,7 @@ $app->post('/motoristas/update', function (Request $request, Response $response,
 
 	$params = $request->getParams();
 
-	$motoristas = new motoristas($this->db);
+	$motoristas = new Motoristas($this->db);
 	$data = $motoristas->update($params);
 
 	// Registro de log
@@ -129,6 +129,13 @@ $app->post('/motoristas/update', function (Request $request, Response $response,
 		'id_target' => (isset($params['id']) ? $params['id'] : '0' )
 	));
 
+	return $response->withJson($data);
+});
+
+// Procura de motoristas
+$app->get('/motoristas/search', function (Request $request, Response $response, array $args) {
+	$motoristas = new Motoristas($this->db);
+	$data = $motoristas->search($request->getParams());
 	return $response->withJson($data);
 });
 

@@ -393,6 +393,37 @@ class Motoristas {
 
 	}
 
+	public function search($args = array()){
+
+		$response = array('result' => false);
+
+		if(!isset($args['term'])){
+			$response['error'] = 'Termo não definido.';
+			return $response;
+		}else{
+			if(strlen(trim($args['term'])) == 0){
+				$response['error'] = 'Termo não definido.';
+				return $response;
+			}
+		}
+
+		$term = trim($args['term']);
+		
+		$select = $this->db->query('SELECT * FROM motoristas 
+			WHERE active = \'Y\' 
+			AND (
+				motorista_nome LIKE \'%'.$term.'%\'
+			)
+			ORDER BY motorista_nome');
+			
+		$response['results'] = $this->parser_fecth($select->fetchAll(\PDO::FETCH_ASSOC),'all');
+
+		$response['result'] = true;
+
+		return $response;
+
+	}
+
 }
 
 ?>
