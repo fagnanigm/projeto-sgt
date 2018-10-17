@@ -79,3 +79,6 @@ require 'routes/taxas-licencas/taxas-licencas-categorias.php';
 
 // CFOP
 require 'routes/cfop/cfop.php';
+
+// Conhecimentos
+require 'routes/conhecimentos/conhecimentos.php';

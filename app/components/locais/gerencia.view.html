@@ -90,7 +90,7 @@
 							<label for="estado">Estado</label>
 							<select class="form-control" name="local_estado" ng-model="local.local_estado" ng-change="ufChange(local.local_estado)">
 								<option value="">Selecione...</option>
-								<option ng-repeat="(key, uf) in ufs" value="{{ uf.uf_nome }}" data-ibge-code="{{ uf.uf_code_ibge }}">{{ uf.uf_nome }}</option>
+								<option ng-repeat="(key, uf) in ufs" value="{{ uf.uf_sigla }}" data-ibge-code="{{ uf.uf_code_ibge }}">{{ uf.uf_nome }}</option>
 							</select>
 						</div>
 					</div>
@@ -105,7 +105,7 @@
 					<div class="col-md-6" ng-if="local.local_exterior == 'S'">
 						<div class="form-group">
 							<label for="local_estado_ibge">Estado cód. IBGE</label>
-							<input type="text" class="form-control" name="local_estado_ibge" ng-model="local.local_estado_ibge">						
+							<input type="text" class="form-control" name="local_estado_ibge" ng-model="local.local_estado_ibge">		
 						</div>
 					</div>
 
