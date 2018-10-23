@@ -180,9 +180,41 @@
             
         }
 
+        // Listagem para o mapa
 
+        $scope.$watch('local', function() {
 
+            $scope.local.local_google_address = false;
+
+            if(
+                $scope.local.local_cep.length == 0 ||
+                $scope.local.local_logradouro.length == 0 ||
+                $scope.local.local_numero.length == 0 || 
+                $scope.local.local_estado.length == 0 ||
+                $scope.local.local_cidade.length == 0                 
+            ){
+                return;
+            }
+
+            $scope.local.local_google_address = 
+                $scope.local.local_logradouro + ' ' + 
+                $scope.local.local_numero + ' ' + 
+                $scope.local.local_cidade + ' ' +
+                $scope.local.local_estado + ' ' + 
+                $scope.local.local_cep;
+
+                get_google_map();
+            
+        }, true);
         
+        function get_google_map() {
+            
+            
+
+            
+
+        }
+
     }
 
 })();

@@ -297,6 +297,10 @@ class Projetos {
 
 		$projeto['valor_cotacao'] = (strlen($valor_cotacao['valor_total']) > 0 ? $valor_cotacao['valor_total'] : 0);
 
+		// Objetos da cotação
+		$cotacoes_objetos = $this->db->query("SELECT * FROM cotacoes_objetos co WHERE co.id_cotacao = '".$projeto['id_cotacao']."';");
+		$projeto['cotacoes_objetos'] = $cotacoes_objetos->fetchAll(\PDO::FETCH_ASSOC);
+
 		return $projeto;
 	}
 
@@ -383,7 +387,7 @@ class Projetos {
 		}
 
 		$selectStatement = $this->db->query("
-			SELECT p.*, e.empresa_name, v.vendedor_nome, cat.cat_name, fg.forma_nome, cot.cotacao_observacoes_finais
+			SELECT p.*, e.empresa_name, v.vendedor_nome, cat.cat_name, fg.forma_nome, cot.cotacao_prazo_razao_id, cot.cotacao_condicoes_pagamento_id
 				FROM projetos p 
 
 					INNER JOIN empresas e 

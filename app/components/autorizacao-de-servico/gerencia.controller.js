@@ -65,6 +65,10 @@
                     as_as_incluso_contabil_iss_percent : '0.00',
                     as_as_incluso_contabil_icms_percent : '0.00',
                     as_as_incluso_comercial_advalorem_percent : '0.00',
+                    as_as_incluso_comercial_rcfdc_percent : '0.00',
+                    as_as_incluso_comercial_rctrc_percent : '0.00',
+                    as_as_incluso_comercial_icms_percent : '0.00',
+                    as_as_incluso_comercial_iss_percent : '0.00',
                     as_as_incluso_contabil_ir : true,
                     as_as_incluso_contabil_pis : true,
                     as_as_incluso_contabil_cofins : true,
@@ -101,7 +105,19 @@
                         $scope.as.as_projeto_nome = projeto.projeto_nome;
                         $scope.as.as_projeto_descricao = projeto.projeto_descricao;
 
-                        $scope.as.as_as_condicoes_comerciais = projeto.cotacao_observacoes_finais;
+                        $scope.as.as_as_prazo_razao_id = projeto.cotacao_prazo_razao_id;
+                        $scope.as.as_as_prazo_pagamento_id = projeto.cotacao_condicoes_pagamento_id;
+
+
+                        if(projeto.cotacoes_objetos){
+
+                            $.each(projeto.cotacoes_objetos, function(key, val){
+                                $scope.as.as_objetos_carregamento.push(val);
+                            });
+
+                        }
+
+                        console.log(projeto);
 
                         get_as_code();
 
@@ -132,6 +148,9 @@
                     $scope.as.as_op_data_previsao_obj = (String($scope.as.as_op_data_previsao).length > 0 ? new Date($scope.as.as_op_data_previsao * 1000) : new Date() );
                     $scope.as.as_fat_data_faturamento_obj = (String($scope.as.as_fat_data_faturamento).length > 0 ? new Date($scope.as.as_fat_data_faturamento * 1000) : new Date() );
                     $scope.as.as_fat_data_envio_obj = (String($scope.as.as_fat_data_envio).length > 0 ? new Date($scope.as.as_fat_data_envio * 1000) : new Date() );
+                    $scope.as.as_fat_data_vencimento_obj = (String($scope.as.as_fat_data_vencimento).length > 0 ? new Date($scope.as.as_fat_data_vencimento * 1000) : new Date() );
+
+
 
                     // Dados dos clientes
                     $scope.cliente_consig_data = $scope.as.cliente_consig_data;
@@ -209,6 +228,11 @@
                 // DATA : as_fat_data_envio
                 if($scope.as.as_fat_data_envio_obj){
                     $scope.as.as_fat_data_envio = Math.floor($scope.as.as_fat_data_envio_obj.getTime() / 1000);
+                }
+
+                // DATA : as_fat_data_vencimento_obj
+                if($scope.as.as_fat_data_vencimento_obj){
+                    $scope.as.as_fat_data_vencimento = Math.floor($scope.as.as_fat_data_vencimento_obj.getTime() / 1000);
                 }
 
                 $http.post('/api/public/as/insert', $scope.as).then(function (response) {
@@ -441,6 +465,12 @@
             // Soma os valores dos objetos de carregamento
             $scope.total_as_objetos = 0;
             $scope.total_mercadoria_as_objetos = 0;
+            $scope.as.as_valor_custos_depesas = 0;
+
+            // Calcula de taxas
+            $.each($scope.as.as_taxas_licencas, function(key, val){
+                $scope.as.as_valor_custos_depesas += parseFloat(val.taxa_valor);
+            });
 
             $.each($scope.as.as_objetos_carregamento, function(key, val){
                 $scope.total_as_objetos += parseFloat(val.objeto_valor_total);
@@ -450,6 +480,18 @@
             $scope.as.as_valor_total_bruto = $scope.total_as_objetos;
 
             // soma valores "inclusos no preço comercial"
+            if($scope.as.as_as_incluso_comercial_icms){
+                if(typeof($scope.as.as_as_incluso_comercial_icms_valor) != 'undefined'){
+                    $scope.as.as_valor_total_bruto += parseFloat($scope.as.as_as_incluso_comercial_icms_valor);
+                }
+            }
+
+            if($scope.as.as_as_incluso_comercial_iss){
+                if(typeof($scope.as.as_as_incluso_comercial_iss_valor) != 'undefined'){
+                    $scope.as.as_valor_total_bruto += parseFloat($scope.as.as_as_incluso_comercial_iss_valor);
+                }
+            }
+
             if($scope.as.as_as_incluso_comercial_rcfdc){
                 if(typeof($scope.as.as_as_incluso_comercial_rcfdc_valor) != 'undefined'){
                     $scope.as.as_valor_total_bruto += parseFloat($scope.as.as_as_incluso_comercial_rcfdc_valor);
@@ -572,11 +614,25 @@
                 $scope.as.as_valor_resultado_bruto -= parseFloat($scope.as.as_as_incluso_contabil_cp_valor);
             }
 
-
-
             // Porcentagem Ad Valores
             if($scope.as.as_as_incluso_comercial_advalorem_percent){
                 $scope.as.as_as_incluso_comercial_advalorem_valor = ($scope.total_mercadoria_as_objetos * parseFloat($scope.as.as_as_incluso_comercial_advalorem_percent)) / 100;
+            }
+
+            if($scope.as.as_as_incluso_comercial_rcfdc_percent){
+                $scope.as.as_as_incluso_comercial_rcfdc_valor = ($scope.total_mercadoria_as_objetos * parseFloat($scope.as.as_as_incluso_comercial_rcfdc_percent)) / 100;
+            }
+
+            if($scope.as.as_as_incluso_comercial_rctrc_percent){
+                $scope.as.as_as_incluso_comercial_rctrc_valor = ($scope.total_mercadoria_as_objetos * parseFloat($scope.as.as_as_incluso_comercial_rctrc_percent)) / 100;
+            }
+
+            if($scope.as.as_as_incluso_comercial_icms_percent){
+                $scope.as.as_as_incluso_comercial_icms_valor = ($scope.as.as_valor_total_bruto * parseFloat($scope.as.as_as_incluso_comercial_icms_percent)) / 100;
+            }
+
+            if($scope.as.as_as_incluso_comercial_iss_percent){
+                $scope.as.as_as_incluso_comercial_iss_valor = ($scope.as.as_valor_total_bruto * parseFloat($scope.as.as_as_incluso_comercial_iss_percent)) / 100;
             }
 
             // Porcentagem valores fiscais

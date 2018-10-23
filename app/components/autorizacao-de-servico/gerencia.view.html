@@ -359,6 +359,8 @@
 							</select>
 						</div>
 
+
+
 						<div class="form-group">
 							<label for="prazo-pagamento">Contados a partir:</label>
 							<select class="form-control" ng-model="as.as_as_prazo_razao_id">
@@ -382,11 +384,13 @@
 
 				<table class="table table-striped margin-top-20">
 					<tr>
-						<th class="text-center">Item</th>
+						<th class="text-center">#</th>
+						<th class="text-center">Qtd.</th>
 						<th>Descrição</th>
 						<th>Origem / Destino</th>
-						<th class="text-center">Distância<br />(km)</th>
-						<th class="text-center">Dimensão<br />(CxLxA)</th>
+						<th class="text-center">Comp.</th>
+						<th class="text-center">Larg.</th>
+						<th class="text-center">Alt.</th>
 						<th class="text-center">Peso<br />(kg)</th>
 						<th class="text-center">Valor Mercadoria</th>
 						<th class="text-center">Valor</th>
@@ -396,25 +400,29 @@
 						<td class="text-center">
 							{{ val.objeto_item }}
 						</td>
+						<td class="text-center">
+							{{ val.objeto_quantidade }}
+						</td>
 						<td>
 							<strong>{{ val.objeto_descricao }}</strong><br />
-							<small>Qtd: {{ val.objeto_quantidade }}</small>
 						</td>
+
 						<td>
 							<span>{{ val.objeto_origem }}</span><br />
 							<span>{{ val.objeto_destino }}</span>
 						</td>
+
 						<td class="text-center">
-							{{ val.objeto_quilometragem }}
+							{{ val.objeto_comprimento }}
 						</td>
 						<td class="text-center">
-							{{ val.objeto_comprimento }} <br />
-						 	{{ val.objeto_largura }} <br />
+						 	{{ val.objeto_largura }}
+						 </td>
+						 <td class="text-center">
 						 	{{ val.objeto_altura }}
 						 </td>
 						 <td class="text-center">
-							<small>Unit:</small> {{ val.objeto_peso_unit }}<br />
-						 	<small>Total:</small> {{ val.objeto_peso_total }}
+							{{ val.objeto_peso_unit }}kg
 						 </td>
 						 <td class="text-center">
 							<small>Unit:</small> {{ val.objeto_valor_mercadoria_unit | currency }}<br />
@@ -433,7 +441,7 @@
 						<td colspan="9" class="text-center"><strong>Nenhum objeto cadastrado</strong></td>
 					</tr>
 					<tr>
-						<th colspan="7"></th>
+						<th colspan="9"></th>
 						<th class="text-center">Total: {{ total_as_objetos | currency }}</th>
 						<th></th>
 					</tr>
@@ -456,13 +464,66 @@
 								<th>Valor</th>
 								<th></th>
 							</tr>
+							<tr ng-if="as.as_as_forma_faturamento == 'cte' || as.as_as_forma_faturamento == 'nfe'">
+								<td>
+									<input type="checkbox" name="as_as_incluso_comercial_icms" ng-model="as.as_as_incluso_comercial_icms"> ICMS
+								</td>
+								<td>
+									<div class="input-group">
+										<input type="text" class="form-control" ng-model="as.as_as_incluso_comercial_icms_percent" mask="99?.9?9" placeholder="Ex: 1.56" ng-disabled="!as.as_as_incluso_comercial_icms">
+										<div class="input-group-append">
+											<span class="input-group-text">%</span>
+										</div>
+									</div>
+								</td>
+								<td>
+									<div class="input-group">
+										<input type="text" class="form-control" name="as_as_incluso_comercial_icms_valor" ng-model="as.as_as_incluso_comercial_icms_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_icms">
+										<div class="input-group-append">
+											<span class="input-group-text">R$</span>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr ng-if="
+									as.as_as_forma_faturamento == 'fatura' || 
+									as.as_as_forma_faturamento == 'nfs' || 
+									as.as_as_forma_faturamento == 'nfe'">
+								<td>
+									<input type="checkbox" name="as_as_incluso_comercial_iss" ng-model="as.as_as_incluso_comercial_iss"> ISS
+								</td>
+								<td>
+									<div class="input-group">
+										<input type="text" class="form-control" ng-model="as.as_as_incluso_comercial_iss_percent" mask="99?.9?9" placeholder="Ex: 1.56" ng-disabled="!as.as_as_incluso_comercial_iss">
+										<div class="input-group-append">
+											<span class="input-group-text">%</span>
+										</div>
+									</div>
+								</td>
+								<td>
+									<div class="input-group">
+										<input type="text" class="form-control" name="as_as_incluso_comercial_iss_valor" ng-model="as.as_as_incluso_comercial_iss_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_iss">
+										<div class="input-group-append">
+											<span class="input-group-text">R$</span>
+										</div>
+									</div>
+								</td>
+							</tr>
 							<tr>
 								<td>
 									<input type="checkbox" name="as_as_incluso_comercial_rcfdc" ng-model="as.as_as_incluso_comercial_rcfdc"> RCFDC
 								</td>
-								<td colspan="2">
+								<td>
 									<div class="input-group">
-										<input type="text" class="form-control" name="as_as_incluso_comercial_rcfdc_valor" ng-model="as.as_as_incluso_comercial_rcfdc_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_rcfdc">
+										<input type="text" class="form-control" ng-model="as.as_as_incluso_comercial_rcfdc_percent" mask="99?.9?9" placeholder="Ex: 1.56" ng-disabled="!as.as_as_incluso_comercial_rcfdc">
+										<div class="input-group-append">
+											<span class="input-group-text">%</span>
+										</div>
+									</div>
+								</td>
+								<td>
+									<div class="input-group">
+										<input type="text" class="form-control" name="as_as_incluso_comercial_rcfdc_valor" ng-model="as.as_as_incluso_comercial_rcfdc_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_rcfdc" readonly>
 										<div class="input-group-append">
 											<span class="input-group-text">R$</span>
 										</div>
@@ -473,9 +534,17 @@
 								<td>
 									<input type="checkbox" name="as_as_incluso_comercial_rctrc" ng-model="as.as_as_incluso_comercial_rctrc"> RCTRC Sec/Ca
 								</td>
-								<td colspan="2">
+								<td>
 									<div class="input-group">
-										<input type="text" class="form-control" name="as_as_incluso_comercial_rctrc_valor" ng-model="as.as_as_incluso_comercial_rctrc_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_rctrc">
+										<input type="text" class="form-control" ng-model="as.as_as_incluso_comercial_rctrc_percent" mask="99?.9?9" placeholder="Ex: 1.56" ng-disabled="!as.as_as_incluso_comercial_rctrc">
+										<div class="input-group-append">
+											<span class="input-group-text">%</span>
+										</div>
+									</div>
+								</td>
+								<td>
+									<div class="input-group">
+										<input type="text" class="form-control" name="as_as_incluso_comercial_rctrc_valor" ng-model="as.as_as_incluso_comercial_rctrc_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_rctrc" readonly>
 										<div class="input-group-append">
 											<span class="input-group-text">R$</span>
 										</div>
@@ -1325,9 +1394,17 @@
 				<div class="row my-3">
 					<div class="col-md-12">
 
-						<button class="btn btn-primary" ng-if="as.as_as_forma_faturamento != 'cte'">Emitir OCC</button>
+						<button class="btn btn-primary">Emitir OCC</button>
 
 						<button class="btn btn-primary" ng-if="as.as_as_forma_faturamento == 'cte'">Emitir CTE</button>
+
+						<button class="btn btn-primary" ng-if="as.as_as_forma_faturamento == 'nfs' || as.as_as_forma_faturamento == 'nfe'">Emitir OS</button>
+
+						<button class="btn btn-primary" ng-if="as.as_as_forma_faturamento == 'nd'">Emitir Nota de Débito</button>
+
+						<button class="btn btn-primary" ng-if="as.as_as_forma_faturamento == 'fatura'">Emitir Fatura</button>
+
+						<button class="btn btn-primary" ng-if="as.as_as_forma_faturamento == 'outros'">Emitir Recibo</button>
 
 					</div>
 				</div>
@@ -1447,6 +1524,11 @@
 								<option value="0">Selecionar...</option>
 								<option ng-repeat="(key, val) in prazos_pgs" value="{{ val.id }}">{{ val.prazo_nome}}</option>
 							</select>
+						</div>
+
+						<div class="form-group">
+							<label for="as_fat_data_faturamento">Data de vencimento:</label>
+							<input type="date" class="form-control" id="as_fat_data_vencimento" ng-model="as.as_fat_data_vencimento_obj">
 						</div>
 
 						<div class="form-group">

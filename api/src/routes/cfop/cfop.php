@@ -13,7 +13,7 @@ $app->post('/cfop/insert', function (Request $request, Response $response, array
 
 // Seleção de todos os CFOP
 $app->get('/cfop/get', function (Request $request, Response $response, array $args) {
-	$cfop = new Cfop($this->db);
+	$cfop = new Cfop($this->db, 25);
 	$data = $cfop->get($request->getParams());
 	return $response->withJson($data);
 });

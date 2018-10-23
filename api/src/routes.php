@@ -82,3 +82,9 @@ require 'routes/cfop/cfop.php';
 
 // Conhecimentos
 require 'routes/conhecimentos/conhecimentos.php';
+
+// Equipamentos tipos comerciais
+require 'routes/equipamentos-tipos-comerciais/equipamentos-tipos-comerciais.php';
+
+// Textos padrões
+require 'routes/textos-padroes/textos-padroes.php';

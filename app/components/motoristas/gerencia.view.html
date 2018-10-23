@@ -219,8 +219,43 @@
 
 				<div class="row">
 
-					<div class="col-md-6" ng-repeat="(key, val) in beneficios">
-						<input type="checkbox" ng-model="motorista.motorista_beneficios_checked[key]" value="{{ val }}"> {{ val }}
+					<div class="col-md-6">
+						<input type="checkbox" ng-model="motorista.motorista_beneficio_nr10"> NR10
+					</div>
+
+					<div class="col-md-6">
+						<input type="checkbox" ng-model="motorista.motorista_beneficio_nr35"> NR35
+					</div>
+
+					<div class="col-md-6">
+						<input type="checkbox" ng-model="motorista.motorista_beneficio_ci"> CI - C. Indivis.
+					</div>
+
+					<div class="col-md-6">
+						<input type="checkbox" ng-model="motorista.motorista_beneficio_credenciado"> Credenciado
+					</div>
+
+					<div class="col-md-6">
+						<input type="checkbox" ng-model="motorista.motorista_beneficio_vale_pedagio"> Vale pedágio
+					</div>
+
+					<div class="col-md-6">
+						<input type="checkbox" ng-model="motorista.motorista_beneficio_ciot"> CIOT
+					</div>
+
+				</div>
+
+				<div class="row">
+
+					<div class="col-md-12">
+						<input type="checkbox" ng-model="motorista.motorista_beneficio_codesp"> CODESP
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="validade-codesp">Validade CODESP</label>
+							<input type="date" class="form-control" id="validade-codesp" ng-model="motorista.motorista_beneficio_codesp_validade_obj" ng-disabled="!motorista.motorista_beneficio_codesp">
+						</div>
 					</div>
 
 				</div>

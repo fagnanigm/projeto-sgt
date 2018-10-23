@@ -11,6 +11,7 @@ class Vendedores {
 		"vendedor_nome",
 		"vendedor_telefone",
 		"vendedor_email",
+		"vendedor_comissao",
 		"create_time",
 		"active"
 	);

@@ -1,0 +1,83 @@
+<div class="title-page">
+	<div class="row">
+
+		<div class="col-md-8">
+			<h1>Tipos dos veículos <small>({{ config.total }} registros)</small></h1>
+		</div>
+		<div class="col-md-4 text-right">
+			<a href="/configuracoes/tipos-dos-veiculos/gerencia" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Cadastrar</a>
+		</div>
+
+	</div>
+</div>
+
+<div class="box-content">
+
+	<div class="box-subtitle">
+		<h2>Tipos dos veículos do sistema</h2>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+
+			<form action="/configuracoes/tipos-dos-veiculos">
+
+				<div class="form-group margin-bottom-0">
+					<label>Filtro</label>
+					<div class="input-group mb-3">
+						<input type="text" class="form-control" placeholder="Descrição do tipo do veículo" name="tipo_term" ng-model="get_filters.tipo_term">
+						<div class="input-group-append">
+							<button class="btn btn-primary" type="submit"><i class="icon-magnifier icons"></i> Buscar</button>
+						</div>
+					</div>
+
+					<div ng-if="config.is_search">
+						<small>Mostrando {{ config.total }} resultados para "{{ get_filters.tipo_term }}".</small>
+						<small><a href="/configuracoes/tipos-dos-veiculos" target="_self" class="text-danger">Limpar filtro</a></small>
+					</div>
+
+				</div>
+
+			</form>
+
+		</div>
+	</div>
+
+	<table class="table table-striped margin-top-30">
+		<tr>
+			<th>Tipo do veículo</th>
+			<th class="text-center">Cadastrado</th>
+			<th></th>
+		</tr>
+		<tr ng-repeat="(key, val) in results">
+			<td>
+				<strong>{{ val.tipo_nome }}</strong><br />
+				<small>Código: #{{ val.id }}</small>
+			</td>
+			<td class="text-center">{{ val.create_timestamp * 1000 | date:"dd/MM/yyyy HH:mm" }}</td>
+			<td width="150">
+				<div class="buttons-capsule">
+					<a href="/configuracoes/tipos-dos-veiculos/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">Editar</a><button ng-click="delete_item(val.id)" class="btn btn-sm btn-danger">Excluir</button>
+				</div>
+			</td>
+		</tr>
+	</table>
+
+	<!-- pager -->
+	<div class="text-center margin-top-30">
+		<div aria-label="navigation" ng-if="config.total_pages > 1" class="d-inline-block">
+		    <ul class="pagination">
+		        <li ng-class="{disabled:config.current_page == 1}" class="page-item">
+		            <a href="/configuracoes/tipos-dos-veiculos/{{config.current_page - 1}}" class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+		        </li>
+		        <li ng-repeat="page in [] | range: config.total_pages | limitTo:10" ng-class="{active:config.current_page == page}" class="page-item">
+		            <a href="/configuracoes/tipos-dos-veiculos/{{page}}" class="page-link">{{page}}</a>
+		        </li>                
+		        <li ng-class="{disabled:config.current_page == config.total_pages}" class="page-item">
+		            <a href="/configuracoes/tipos-dos-veiculos/{{ config.current_page + 1 }}" class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+		        </li>
+		    </ul>
+		</div>
+	</div>
+
+</div>

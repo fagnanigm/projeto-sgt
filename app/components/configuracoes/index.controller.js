@@ -14,7 +14,7 @@
 
         function initController() {
 
-
+            $rootScope.is_loading = false;
 
         }
 
@@ -67,10 +67,15 @@
             }).finally(function() {
                 $rootScope.is_loading = false;
             });
-    
-            
 
         }
+
+
+        // Tabs
+        $('#tabs-configuracoes a').on('click', function (e) {
+            e.preventDefault()
+            $(this).tab('show')
+        });
 
     }
 

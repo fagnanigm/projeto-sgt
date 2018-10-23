@@ -48,7 +48,11 @@
                     cotacao_anexos_objetos : [],
                     cotacao_condicoes_pagamento_id : '0',
                     cotacao_validade_proposta_id : '0',
-                    cotacao_previsao_mes : '0'
+                    cotacao_prazo_razao_id : '0',
+                    cotacao_previsao_mes : '0',
+                    cotacao_vi_pedagios : true,
+                    cotacao_vi_escolta : true,
+                    cotacao_vi_taxas : true
                 }
 
                 var copy = $location.search().copy;
@@ -123,6 +127,7 @@
             get_categorias();
             get_formas_pagamento();
             get_prazos_pg();
+            get_prazo_razoes();
             get_validades_proposta();
         	get_cotacao();
         }
@@ -257,6 +262,14 @@
 
             $http.get('/api/public/formas-pagamento/get?getall=1').then(function (response) {
                 $scope.formas_pagamento = response.data.results;
+            });
+
+        }
+
+        function get_prazo_razoes(){
+
+            $http.get('/api/public/prazo-razoes/get?getall=1').then(function (response) {
+                $scope.prazo_razoes = response.data.results;
             });
 
         }

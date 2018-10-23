@@ -66,6 +66,10 @@
                         $scope.motorista.motorista_cnh_validade_obj = new Date($scope.motorista.motorista_cnh_validade);
                     }
 
+                    if($scope.motorista.motorista_beneficio_codesp_validade.length > 0){
+                        $scope.motorista.motorista_beneficio_codesp_validade_obj = new Date($scope.motorista.motorista_beneficio_codesp_validade);
+                    }
+
                     var beneficios = $.parseJSON($scope.motorista.motorista_beneficios);
                     $scope.motorista.motorista_beneficios_checked = {};
 
@@ -92,21 +96,6 @@
 
         vm.setMotorista = function(){
 
-            // Tratamento 
-            $scope.motorista.motorista_beneficios = [];
-
-            $.each($scope.motorista.motorista_beneficios_checked, function(key, val){
-
-                if(val){
-                    $scope.motorista.motorista_beneficios.push({
-                        key : key,
-                        beneficio : $scope.beneficios[key]
-                    })
-                }
-
-            });
-
-            $scope.motorista.motorista_beneficios = JSON.stringify($scope.motorista.motorista_beneficios);
 
             if($scope.motorista.motorista_cnh_validade_obj == null){
                 delete $scope.motorista.motorista_cnh_validade_obj;
@@ -123,6 +112,11 @@
             }else{
                 $scope.motorista.motorista_data_nascimento = Math.floor($scope.motorista.motorista_data_nascimento_obj.getTime() / 1000);
             }
+
+            // DATA : motorista_beneficio_codesp_validade_obj
+            if($scope.motorista.motorista_beneficio_codesp_validade_obj){
+                $scope.motorista.motorista_beneficio_codesp_validade = Math.floor($scope.motorista.motorista_beneficio_codesp_validade_obj.getTime() / 1000);
+            }   
 
             // Validação
             if($scope.motorista.id_filial == '0'){

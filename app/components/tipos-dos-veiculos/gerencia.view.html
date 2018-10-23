@@ -1,0 +1,38 @@
+<h1 class="title-page">Gerencia tipo dos veículos</h1>
+
+<div class="box-content">
+
+	<form ng-submit="vm.setItem()">
+
+		<div class="box-subtitle">
+			<h2>Cadastro / edição de tipo do veículo</h2>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+
+				<div class="row">
+
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="validade-da-proposta">Tipo do veículo</label>
+							<input type="text" class="form-control" id="validade-da-proposta" ng-model="data.tipo_nome" placeholder="Digite o tipo do veículo aqui..." required>
+						</div>
+					</div>
+
+				</div>
+			
+
+			</div>
+
+		</div>
+
+		<div class="cadastro-footer margin-top-25">
+			<a href="/configuracoes/tipos-dos-veiculos" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
+			<button type="submit" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+		</div>
+
+
+	</form>
+
+</div>

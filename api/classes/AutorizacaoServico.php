@@ -47,8 +47,10 @@ class AutorizacaoServico {
 		"as_as_condicoes_comerciais",
 		"as_as_incluso_comercial_rcfdc",
 		"as_as_incluso_comercial_rcfdc_valor",
+		"as_as_incluso_comercial_rcfdc_percent",
 		"as_as_incluso_comercial_rctrc",
 		"as_as_incluso_comercial_rctrc_valor",
+		"as_as_incluso_comercial_rctrc_percent",
 		"as_as_incluso_comercial_despacho",
 		"as_as_incluso_comercial_despacho_valor",
 		"as_as_incluso_comercial_carga",
@@ -95,6 +97,12 @@ class AutorizacaoServico {
 		"as_as_incluso_contabil_pis_retido",
 		"as_as_incluso_contabil_cofins_retido",
 		"as_as_incluso_contabil_csll_retido",
+		"as_as_incluso_comercial_icms",
+		"as_as_incluso_comercial_icms_percent",
+		"as_as_incluso_comercial_icms_valor",
+		"as_as_incluso_comercial_iss",
+		"as_as_incluso_comercial_iss_percent",
+		"as_as_incluso_comercial_iss_valor",
 		"as_as_pedido_compra_numero",
 		"as_op_id_cliente_remetente",
 		"as_op_cliente_remetente_nome",
@@ -148,6 +156,7 @@ class AutorizacaoServico {
 		"as_fat_cliente_cobranca_contato_email",
 		"as_fat_obs_financeiro",
 		"as_fat_tipo_envio",
+		"as_fat_data_vencimento",
 		"create_time",
 		"active"
 	);
@@ -232,6 +241,14 @@ class AutorizacaoServico {
 		}
 
 		// Checkbox
+		if(!isset($args['as_as_incluso_comercial_icms']) || strlen($args['as_as_incluso_comercial_icms']) == 0){
+			$args['as_as_incluso_comercial_icms'] = false;
+		}
+
+		if(!isset($args['as_as_incluso_comercial_iss']) || strlen($args['as_as_incluso_comercial_iss']) == 0){
+			$args['as_as_incluso_comercial_iss'] = false;
+		}
+
 		if(!isset($args['as_as_incluso_comercial_rcfdc']) || strlen($args['as_as_incluso_comercial_rcfdc']) == 0){
 			$args['as_as_incluso_comercial_rcfdc'] = false;
 		}
@@ -356,7 +373,8 @@ class AutorizacaoServico {
 						$field == 'as_op_data_carregamento' ||
 						$field == 'as_op_data_previsao' || 
 						$field == 'as_fat_data_faturamento' || 
-						$field == 'as_fat_data_envio'
+						$field == 'as_fat_data_envio' || 
+						$field == 'as_fat_data_vencimento'
 					){
 						$date = new \DateTime();
 						$date->setTimestamp($val);
@@ -387,7 +405,9 @@ class AutorizacaoServico {
 						$field == 'as_as_incluso_contabil_pis_retido' || 
 						$field == 'as_as_incluso_contabil_cofins_retido' || 
 						$field == 'as_as_incluso_contabil_csll_retido' || 
-						$field == 'as_as_incluso_contabil_cp'
+						$field == 'as_as_incluso_contabil_cp' ||
+						$field == 'as_as_incluso_comercial_icms' || 
+						$field == 'as_as_incluso_comercial_iss'
 					){
 						$val = ($val ? 'Y' : 'N');
 					}
@@ -724,6 +744,12 @@ class AutorizacaoServico {
 		$as_fat_data_envio = new \DateTime($as['as_fat_data_envio']);
 		$as['as_fat_data_envio'] = $as_fat_data_envio->getTimestamp();
 
+		// DATA: as_fat_data_envio
+		$as_fat_data_vencimento = new \DateTime($as['as_fat_data_vencimento']);
+		$as['as_fat_data_vencimento'] = $as_fat_data_vencimento->getTimestamp();
+
+		
+
 		// Checkbox
 		$as['as_as_incluso_comercial_rcfdc'] = ($as['as_as_incluso_comercial_rcfdc'] == 'Y' ? true : false);
 		$as['as_as_incluso_comercial_rctrc'] = ($as['as_as_incluso_comercial_rctrc'] == 'Y' ? true : false);
@@ -748,8 +774,9 @@ class AutorizacaoServico {
 		$as['as_as_incluso_contabil_pis_retido'] = ($as['as_as_incluso_contabil_pis_retido'] == 'Y' ? true : false);
 		$as['as_as_incluso_contabil_cofins_retido'] = ($as['as_as_incluso_contabil_cofins_retido'] == 'Y' ? true : false);
 		$as['as_as_incluso_contabil_csll_retido'] = ($as['as_as_incluso_contabil_csll_retido'] == 'Y' ? true : false);
-
-
+		$as['as_as_incluso_comercial_icms'] = ($as['as_as_incluso_comercial_icms'] == 'Y' ? true : false);
+		$as['as_as_incluso_comercial_iss'] = ($as['as_as_incluso_comercial_iss'] == 'Y' ? true : false);
+		
 		// Puxa os objetos
 		$asObjetos = new AsObjetos($this->db);
 		$as_objetos_carregamento = $asObjetos->get(array( 'id_as' => $as['id'] ));

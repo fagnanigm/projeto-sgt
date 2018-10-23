@@ -97,11 +97,6 @@ class Locais {
 			return $response;
 		}
 
-		if(!isset($args['local_cep'])){
-			$response['error'] = 'O campo local_cep é obrigatório.';
-			return $response;
-		}
-
 		// Init insert
 		$data = array_flip($this->schema);
 

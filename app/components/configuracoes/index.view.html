@@ -4,71 +4,137 @@
 
 	<div class="box-content">
 
-		<ul class="nav nav-tabs" id="myTab" role="tablist">
-			<!-- 
+		<ul class="nav nav-tabs" id="tabs-configuracoes" role="tablist">
+
 			<li class="nav-item">
 				<a class="nav-link active" id="geral-tab" data-toggle="tab" href="#geral" role="tab" aria-controls="geral" aria-selected="true">Geral</a>
 			</li>
-			-->
 			<li class="nav-item">
-				<a class="nav-link active" id="omie-tab" data-toggle="tab" href="#omie" role="tab" aria-controls="omie" aria-selected="false">Omie</a>
-			</li>
-			<!-- 
-			<li class="nav-item">
-				<a class="nav-link" id="acbr-tab" data-toggle="tab" href="#acbr" role="tab" aria-controls="acbr" aria-selected="false">ACBr</a>
+				<a class="nav-link" id="veiculos-tab" data-toggle="tab" href="#veiculos" role="tab" aria-controls="veiculos" aria-selected="true">Veículos</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" id="logs-tab" data-toggle="tab" href="#logs" role="tab" aria-controls="logs" aria-selected="false">Logs</a>
+				<a class="nav-link" id="cotacao-tab" data-toggle="tab" href="#cotacao" role="tab" aria-controls="cotacao" aria-selected="true">Cotação</a>
 			</li>
-			-->
+			<li class="nav-item">
+				<a class="nav-link" id="as-tab" data-toggle="tab" href="#as" role="tab" aria-controls="as" aria-selected="true">AS</a>
+			</li>
+
 		</ul>
 
 		<div class="tab-content margin-top-25" id="myTabContent">
-			<!-- 
-			<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-				<p>Configurações gerais do sistema</p>
-			</div>
-			-->
-			<div class="tab-pane fade show active" id="omie" role="tabpanel" aria-labelledby="omie-tab" ng-init="load_config('omie_auth')">
 
-				<form ng-submit="update_config('omie_auth')">
+			<!-- Geral -->
+			<div class="tab-pane fade show active" id="geral" role="tabpanel" aria-labelledby="geral-tab">
+				<div class="card">
+					<div class="card-body">
 
-					<div class="row">
-						<div class="col-md-6">
+						<h3>Configurações gerais do sistema</h3>
 
-							<div class="card">
-								<div class="card-body">
+						<hr />
 
-									<h3>Configurações da omie</h3>
-
-									<div class="form-group">
-										<label for="app_key">App Key</label>
-										<input type="text" class="form-control" id="app_key" ng-model="configuracoes.omie_auth.configuracao.meta_value.app_key" placeholder="APP KEY">
-									</div>
-									<div class="form-group">
-										<label for="app_secret">App Secret</label>
-										<input type="text" class="form-control" id="app_secret" ng-model="configuracoes.omie_auth.configuracao.meta_value.app_secret" placeholder="APP SECRET">
-									</div>
-
-									<button type="submit" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
-									
-								</div>
-							</div>
-
+						<div class="config-box">
+							<h4>Formas de pagamento</h4>
+							<p>Faça o gerenciamento das formas de pagamento do sistema.</p>
+							<a href="/configuracoes/formas-de-pagamento" class="btn btn-primary"><i class="fa fa-cog" aria-hidden="true"></i> Acessar</a>
 						</div>
+
+						<div class="config-box">
+							<h4>Validades da proposta</h4>
+							<p>Faça o gerenciamento das validades das propostas do sistema.</p>
+							<a href="/configuracoes/validades-da-proposta" class="btn btn-primary"><i class="fa fa-cog" aria-hidden="true"></i> Acessar</a>
+						</div>
+						
 					</div>
+				</div>
+			</div>
 
-				</form>
+			<!-- Veículos -->
+			<div class="tab-pane fade" id="veiculos" role="tabpanel" aria-labelledby="veiculos-tab">
+				<div class="card">
+					<div class="card-body">
 
+						<h3>Configurações dos veículos</h3>
+
+						<hr />
+
+						<div class="config-box">
+							<h4>Tipos dos veículos</h4>
+							<p>Faça o gerenciamento dos tipos dos veículos do sistema.</p>
+							<a href="/configuracoes/tipos-dos-veiculos" class="btn btn-primary"><i class="fa fa-cog" aria-hidden="true"></i> Acessar</a>
+						</div> 
+						
+					</div>
+				</div>
 			</div>
-			<!--
-			<div class="tab-pane fade" id="acbr" role="tabpanel" aria-labelledby="acbr-tab">
-				<p>Configurações do ACBr</p>
+
+			<!-- Cotação -->
+			<div class="tab-pane fade" id="cotacao" role="tabpanel" aria-labelledby="cotacao-tab">
+				<div class="card">
+					<div class="card-body">
+
+						<h3>Configurações das cotações</h3>
+
+						<hr />
+
+						<div class="config-box">
+							<h4>Descrição dos tipos comerciais</h4>
+							<p>Faça o gerenciamento dos tipos comerciais do sistema.</p>
+							<a href="/configuracoes/equipamentos-tipos-comerciais" class="btn btn-primary"><i class="fa fa-cog" aria-hidden="true"></i> Acessar</a>
+						</div> 
+
+						<div class="config-box">
+							<h4>Textos pré-definidos</h4>
+							<p>Faça o gerenciamento dos textos padrões no cadastro da cotação.</p>
+							<a href="/configuracoes/cotacoes-textos-padroes" class="btn btn-primary"><i class="fa fa-cog" aria-hidden="true"></i> Acessar</a>
+						</div> 
+						
+					</div>
+				</div>
 			</div>
-			<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="logs-tab">
-				<p>Logs do sistema</p>
+
+			<!-- AS -->
+			<div class="tab-pane fade" id="as" role="tabpanel" aria-labelledby="as-tab">
+				<div class="card">
+					<div class="card-body">
+
+						<h3>Configurações das AS's</h3>
+
+						<hr />
+
+						<div class="config-box">
+							<h4>Condições de pagamento</h4>
+							<p>Faça o gerenciamento das condições de pagamento do sistema.</p>
+							<a href="/configuracoes/condicoes-de-pagamento" class="btn btn-primary"><i class="fa fa-cog" aria-hidden="true"></i> Acessar</a>
+						</div>
+
+						<div class="config-box">
+							<h4>Motivos do prazo de pagamento</h4>
+							<p>Faça o gerenciamento dos motivos do prazo de pagamento do sistema.</p>
+							<a href="/configuracoes/motivos-do-prazo-de-pagamento" class="btn btn-primary"><i class="fa fa-cog" aria-hidden="true"></i> Acessar</a>
+						</div>
+
+						<div class="config-box">
+							<h4>Tipos de taxas e licenças</h4>
+							<p>Faça o gerenciamento dos tipos de taxas e licenças do sistema.</p>
+							<a href="/configuracoes/tipos-de-taxas-e-licencas" class="btn btn-primary"><i class="fa fa-cog" aria-hidden="true"></i> Acessar</a>
+						</div>
+
+						<div class="config-box">
+							<h4>Categorias de taxas e licenças</h4>
+							<p>Faça o gerenciamento das categorias de taxas e licenças do sistema.</p>
+							<a href="/configuracoes/categorias-de-taxas-e-licencas" class="btn btn-primary"><i class="fa fa-cog" aria-hidden="true"></i> Acessar</a>
+						</div>
+
+						<div class="config-box">
+							<h4>CFOP</h4>
+							<p>Faça o gerenciamento das CFOP's do sistema.</p>
+							<a href="/configuracoes/cfops" class="btn btn-primary"><i class="fa fa-cog" aria-hidden="true"></i> Acessar</a>
+						</div>
+						
+					</div>
+				</div>
 			</div>
-			-->
+			
 		</div>
 
 		<div class="cadastro-footer margin-top-25">

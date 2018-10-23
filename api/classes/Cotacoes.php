@@ -37,13 +37,16 @@ class Cotacoes {
 		"cotacao_vi_imposto_ir",
 		"cotacao_vi_taxas",
 		"cotacao_vi_iss",
+		"cotacao_vi_iss_percent",
 		"cotacao_vi_escolta",
 		"cotacao_vi_imposto_pis_cofins",
 		"cotacao_vi_seguro",
+		"cotacao_vi_pedagios",
 		"cotacao_vi_seguro_percent",
 		"cotacao_objeto_operacao",
 		"cotacao_condicoes_pagamento_id",
 		"cotacao_validade_proposta_id",
+		"cotacao_prazo_razao_id",
 		"cotacao_status_cadastro",
 		"cotacao_carga_descarga",
 		"cotacao_equipamentos",
@@ -59,7 +62,10 @@ class Cotacoes {
 		'em-aberto' => 'Em aberto',
 		'aprovado' => 'Aprovado',
 		'aguardando-preco' => 'Aguardando preço',
-		'cancelado' => 'Cancelado'
+		'cancelado' => 'Cancelado',
+		'reprovado' => 'Reprovado',
+		'orientativo' => 'Orientativo',
+		'pendente' => 'Pendente'
 	);
 
 	function __construct($db = false, $item_per_page = false){
@@ -172,6 +178,10 @@ class Cotacoes {
 			$args['cotacao_vi_escolta'] = false;
 		}
 
+		if(!isset($args['cotacao_vi_pedagios'])){
+			$args['cotacao_vi_pedagios'] = false;
+		}
+
 		if(!isset($args['cotacao_vi_imposto_pis_cofins'])){
 			$args['cotacao_vi_imposto_pis_cofins'] = false;
 		}
@@ -219,7 +229,8 @@ class Cotacoes {
 					$field == 'cotacao_vi_iss' || 
 					$field == 'cotacao_vi_escolta' || 
 					$field == 'cotacao_vi_imposto_pis_cofins' || 
-					$field == 'cotacao_vi_seguro'
+					$field == 'cotacao_vi_seguro' || 
+					$field == 'cotacao_vi_pedagios'
 				){
 					$val = ($val ? 'Y' : 'N');
 				}
@@ -456,6 +467,7 @@ class Cotacoes {
 		$cotacao['cotacao_vi_escolta'] = ($cotacao['cotacao_vi_escolta'] == 'Y' ? true : false);
 		$cotacao['cotacao_vi_imposto_pis_cofins'] = ($cotacao['cotacao_vi_imposto_pis_cofins'] == 'Y' ? true : false);
 		$cotacao['cotacao_vi_seguro'] = ($cotacao['cotacao_vi_seguro'] == 'Y' ? true : false);
+		$cotacao['cotacao_vi_pedagios'] = ($cotacao['cotacao_vi_pedagios'] == 'Y' ? true : false);
 
 		$cotacao['cotacao_status_text'] = $this->cotacao_status_array[$cotacao['cotacao_status']];
 

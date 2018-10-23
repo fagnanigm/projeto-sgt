@@ -25,6 +25,7 @@ class Veiculos {
 		"veiculo_renavam",
 		"veiculo_tipo_categoria",
 		"veiculo_venc_tacografo",
+		"veiculo_codesp_validade",
 		"veiculo_codesp",
 		"veiculo_seguro",
 		"veiculo_st_financiamento",
@@ -138,7 +139,8 @@ class Veiculos {
 					$field == 'veiculo_venc_tacografo' || 
 					$field == 'veiculo_data_quitacao' || 
 					$field == 'veiculo_vendido_data' || 
-					$field == 'veiculo_sinistro_data'
+					$field == 'veiculo_sinistro_data' || 
+					$field == 'veiculo_codesp_validade'
 				){
 					$dt = new \DateTime();
 					$dt->setTimestamp($val);
@@ -313,6 +315,11 @@ class Veiculos {
 			$veiculo['veiculo_venc_tacografo_timestamp'] = $create_time->getTimestamp();
 		}
 
+		if(strlen($veiculo['veiculo_codesp_validade']) > 0){
+			$create_time = new \DateTime($veiculo['veiculo_codesp_validade']);
+			$veiculo['veiculo_codesp_validade_timestamp'] = $create_time->getTimestamp();
+		}
+
 		if(strlen($veiculo['veiculo_vendido_data']) > 0){
 			$create_time = new \DateTime($veiculo['veiculo_vendido_data']);
 			$veiculo['veiculo_vendido_data_timestamp'] = $create_time->getTimestamp();
@@ -398,7 +405,8 @@ class Veiculos {
 					$field == 'veiculo_venc_tacografo' || 
 					$field == 'veiculo_data_quitacao' || 
 					$field == 'veiculo_vendido_data' || 
-					$field == 'veiculo_sinistro_data'
+					$field == 'veiculo_sinistro_data' ||
+					$field == 'veiculo_codesp_validade'
 				){
 					$dt = new \DateTime();
 					$dt->setTimestamp($val);

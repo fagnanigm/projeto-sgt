@@ -39,6 +39,14 @@ class Motoristas {
 		"motorista_cc",
 		"motorista_banco_cpf",
 		"motorista_nominal",
+		"motorista_beneficio_nr10",
+		"motorista_beneficio_nr35",
+		"motorista_beneficio_ci",
+		"motorista_beneficio_credenciado",
+		"motorista_beneficio_vale_pedagio",
+		"motorista_beneficio_ciot",
+		"motorista_beneficio_codesp",
+		"motorista_beneficio_codesp_validade",
 		"create_time",
 		"active"
 	);
@@ -95,6 +103,36 @@ class Motoristas {
 			return $response;
 		}
 
+
+		// Benefícios
+		if(!isset($args['motorista_beneficio_nr10']) || strlen($args['motorista_beneficio_nr10']) == 0){
+			$args['motorista_beneficio_nr10'] = false;
+		}
+
+		if(!isset($args['motorista_beneficio_nr35']) || strlen($args['motorista_beneficio_nr35']) == 0){
+			$args['motorista_beneficio_nr35'] = false;
+		}
+
+		if(!isset($args['motorista_beneficio_ci']) || strlen($args['motorista_beneficio_ci']) == 0){
+			$args['motorista_beneficio_ci'] = false;
+		}
+
+		if(!isset($args['motorista_beneficio_credenciado']) || strlen($args['motorista_beneficio_credenciado']) == 0){
+			$args['motorista_beneficio_credenciado'] = false;
+		}
+
+		if(!isset($args['motorista_beneficio_vale_pedagio']) || strlen($args['motorista_beneficio_vale_pedagio']) == 0){
+			$args['motorista_beneficio_vale_pedagio'] = false;
+		}
+
+		if(!isset($args['motorista_beneficio_ciot']) || strlen($args['motorista_beneficio_ciot']) == 0){
+			$args['motorista_beneficio_ciot'] = false;
+		}
+
+		if(!isset($args['motorista_beneficio_codesp']) || strlen($args['motorista_beneficio_codesp']) == 0){
+			$args['motorista_beneficio_codesp'] = false;
+		}
+
 		// Init insert
 		$data = array_flip($this->schema);
 
@@ -102,28 +140,50 @@ class Motoristas {
 		foreach ($data as $field => $value) {
 			
 			if(isset($args[$field])){
-				$val = $args[$field];
 
-				// Tratamento de CPF
-				if(
-					$field == 'motorista_cpf' || 
-					$field == 'motorista_banco_cpf' || 
-					$field == 'motorista_rg'
-				){
-					$val = Utilities::unMask($val);
+				if(is_bool($args[$field]) || strlen($args[$field]) > 0){
+
+					$val = $args[$field];
+
+					// Tratamento de CPF
+					if(
+						$field == 'motorista_cpf' || 
+						$field == 'motorista_banco_cpf' || 
+						$field == 'motorista_rg'
+					){
+						$val = Utilities::unMask($val);
+					}
+
+					if(
+						$field == 'motorista_cnh_validade' || 
+						$field == 'motorista_data_nascimento' || 
+						$field == 'motorista_beneficio_codesp_validade'
+					){
+						$date = new \DateTime();
+						$date->setTimestamp($val);
+						$val = $date->format("Y-m-d\TH:i:s");
+					}
+
+					// Checkboxes
+					if(
+						$field == 'motorista_beneficio_nr10' || 
+						$field == 'motorista_beneficio_nr35' || 
+						$field == 'motorista_beneficio_ci' || 
+						$field == 'motorista_beneficio_credenciado' || 
+						$field == 'motorista_beneficio_vale_pedagio' || 
+						$field == 'motorista_beneficio_ciot' || 
+						$field == 'motorista_beneficio_codesp'
+					){
+						$val = ($val ? 'Y' : 'N');
+					}
+
+					
+					$data[$field] = $val;
+
+				}else{
+					unset($data[$field]);
 				}
 
-				if(
-					$field == 'motorista_cnh_validade' || 
-					$field == 'motorista_data_nascimento'
-				){
-					$date = new \DateTime();
-					$date->setTimestamp($val);
-					$val = $date->format("Y-m-d\TH:i:s");
-				}
-				
-
-				$data[$field] = $val;
 			}else{
 				unset($data[$field]);
 			}
@@ -267,6 +327,16 @@ class Motoristas {
 		$filial = $stmt->fetch();
 		$motorista['filial_text'] = $filial['empresa_name'];
 		
+
+		// Checkbox
+		$motorista['motorista_beneficio_nr10'] = ($motorista['motorista_beneficio_nr10'] == 'Y' ? true : false);
+		$motorista['motorista_beneficio_nr35'] = ($motorista['motorista_beneficio_nr35'] == 'Y' ? true : false);
+		$motorista['motorista_beneficio_ci'] = ($motorista['motorista_beneficio_ci'] == 'Y' ? true : false);
+		$motorista['motorista_beneficio_credenciado'] = ($motorista['motorista_beneficio_credenciado'] == 'Y' ? true : false);
+		$motorista['motorista_beneficio_vale_pedagio'] = ($motorista['motorista_beneficio_vale_pedagio'] == 'Y' ? true : false);
+		$motorista['motorista_beneficio_ciot'] = ($motorista['motorista_beneficio_ciot'] == 'Y' ? true : false);
+		$motorista['motorista_beneficio_codesp'] = ($motorista['motorista_beneficio_codesp'] == 'Y' ? true : false);
+
 		return $motorista;
 	}
 
@@ -312,6 +382,35 @@ class Motoristas {
 			unset($args['id']);
 		}
 
+		// Benefícios
+		if(!isset($args['motorista_beneficio_nr10']) || strlen($args['motorista_beneficio_nr10']) == 0){
+			$args['motorista_beneficio_nr10'] = false;
+		}
+
+		if(!isset($args['motorista_beneficio_nr35']) || strlen($args['motorista_beneficio_nr35']) == 0){
+			$args['motorista_beneficio_nr35'] = false;
+		}
+
+		if(!isset($args['motorista_beneficio_ci']) || strlen($args['motorista_beneficio_ci']) == 0){
+			$args['motorista_beneficio_ci'] = false;
+		}
+
+		if(!isset($args['motorista_beneficio_credenciado']) || strlen($args['motorista_beneficio_credenciado']) == 0){
+			$args['motorista_beneficio_credenciado'] = false;
+		}
+
+		if(!isset($args['motorista_beneficio_vale_pedagio']) || strlen($args['motorista_beneficio_vale_pedagio']) == 0){
+			$args['motorista_beneficio_vale_pedagio'] = false;
+		}
+
+		if(!isset($args['motorista_beneficio_ciot']) || strlen($args['motorista_beneficio_ciot']) == 0){
+			$args['motorista_beneficio_ciot'] = false;
+		}
+
+		if(!isset($args['motorista_beneficio_codesp']) || strlen($args['motorista_beneficio_codesp']) == 0){
+			$args['motorista_beneficio_codesp'] = false;
+		}
+
 		// Init insert
 		$data = array_flip($this->schema);
 
@@ -319,27 +418,50 @@ class Motoristas {
 		foreach ($data as $field => $value) {
 			
 			if(isset($args[$field])){
-				$val = $args[$field];
 
-				// Tratamento de CPF
-				if(
-					$field == 'motorista_cpf' || 
-					$field == 'motorista_banco_cpf' || 
-					$field == 'motorista_rg'
-				){
-					$val = Utilities::unMask($val);
+				if(is_bool($args[$field]) || strlen($args[$field]) > 0){
+
+
+					$val = $args[$field];
+
+					// Tratamento de CPF
+					if(
+						$field == 'motorista_cpf' || 
+						$field == 'motorista_banco_cpf' || 
+						$field == 'motorista_rg'
+					){
+						$val = Utilities::unMask($val);
+					}
+
+					if(
+						$field == 'motorista_cnh_validade' || 
+						$field == 'motorista_data_nascimento' || 
+						$field == 'motorista_beneficio_codesp_validade'
+					){
+						$date = new \DateTime();
+						$date->setTimestamp($val);
+						$val = $date->format("Y-m-d\TH:i:s");
+					}
+
+					// Checkboxes
+					if(
+						$field == 'motorista_beneficio_nr10' || 
+						$field == 'motorista_beneficio_nr35' || 
+						$field == 'motorista_beneficio_ci' || 
+						$field == 'motorista_beneficio_credenciado' || 
+						$field == 'motorista_beneficio_vale_pedagio' || 
+						$field == 'motorista_beneficio_ciot' || 
+						$field == 'motorista_beneficio_codesp'
+					){
+						$val = ($val ? 'Y' : 'N');
+					}
+
+					$data[$field] = $val;
+
+				}else{
+					unset($data[$field]);
 				}
 
-				if(
-					$field == 'motorista_cnh_validade' || 
-					$field == 'motorista_data_nascimento'
-				){
-					$date = new \DateTime();
-					$date->setTimestamp($val);
-					$val = $date->format("Y-m-d\TH:i:s");
-				}
-
-				$data[$field] = $val;
 			}else{
 				unset($data[$field]);
 			}

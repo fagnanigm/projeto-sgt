@@ -102,7 +102,13 @@ class Cfop {
 		$query_count = "SELECT COUNT(*) AS total FROM lista_cfop WHERE active = 'Y'";
 
 		// Filtro
-
+		if(isset($args['cfop_term'])){
+			$query_count .= " AND ( ";
+				$query_count .= "cfop_descricao LIKE '%".$args['cfop_term']."%' OR ";
+				$query_count .= "cfop_codigo = '".$args['cfop_term']."'";
+			$query_count .= " ) ";
+			$is_search = true;
+		}
 
 		$count = $this->db->query($query_count);
 		$total_data = $count->fetch();
@@ -138,7 +144,12 @@ class Cfop {
 				$query = "SELECT * FROM lista_cfop WHERE active = 'Y' ";
 
 				// Filtro
-
+				if(isset($args['cfop_term'])){
+					$query .= " AND ( ";
+						$query .= "cfop_descricao LIKE '%".$args['cfop_term']."%' OR ";
+						$query .= "cfop_codigo = '".$args['cfop_term']."'";
+					$query .= " ) ";
+				}
 
 				// Config
 				$query .= "ORDER BY create_time OFFSET ".$offset." ROWS FETCH NEXT ".$config['item_per_page']." ROWS ONLY";

@@ -81,7 +81,7 @@
                 <ul class="sub-header-menu">
                     <li><a href="/usuarios">Usuários</a></li>
                     <li><a href="/empresas">Empresas</a></li>
-                    <!-- <li><a href="/configuracoes">Configurações</a></li> -->
+                    <li><a href="/configuracoes">Configurações</a></li>
                     <li class="has-dropdown">
                         <a href="#"><i class="icon-user icons"></i> {{ logged_user.username }} <i class="icon-arrow-down icons"></i></a>
 
@@ -123,14 +123,12 @@
 
                     <li ng-class="{ active: $state.name == 'cotacoes' }"><a href="/cotacoes"><i class="icon-drawer icons"></i> Cotações</a></li>
 
-                    <li ng-class="{ active: $state.name == 'projetos
-                    ' }"><a href="/projetos"><i class="icon-grid icons"></i> Projetos</a></li>
+                    <li ng-class="{ active: $state.name == 'projetos' }"><a href="/projetos"><i class="icon-grid icons"></i> Projetos</a></li>
 
-                    <li ng-class="{ active: $state.name == 'orcamentos' }"><a href="/autorizacao-de-servico"><i class="icon-briefcase icons"></i> Aut. de serviço</a></li>
-                    <!-- 
-                    <li ng-class="{ active: $state.name == 'orcamentos' }"><a href="/cte-emitidos"><i class="icon-paper-clip icons"></i> CT-e emitidos</a></li>
+                    <li ng-class="{ active: $state.name == 'autorizacao-de-servico' }"><a href="/autorizacao-de-servico"><i class="icon-briefcase icons"></i> Aut. de serviço</a></li>
+
                     <li ng-class="{ active: $state.name == 'relatorios' }"><a href="/relatorios"><i class="icon-pie-chart icons"></i> Relatórios</a></li>
-                    -->
+                    
                 </ul>
 
             </div>            
@@ -238,6 +236,33 @@
 
     <!-- configuracoes -->
     <script src="/app/components/configuracoes/index.controller.js"></script>
+
+    <!-- formas de pagamento -->
+    <script src="/app/components/formas-de-pagamento/index.controller.js"></script>
+    <script src="/app/components/formas-de-pagamento/gerencia.controller.js"></script>
+
+    <!-- validades da proposta -->
+    <script src="/app/components/validades-da-proposta/index.controller.js"></script>
+    <script src="/app/components/validades-da-proposta/gerencia.controller.js"></script>
+
+    <!-- tipos dos veiculos -->
+    <script src="/app/components/tipos-dos-veiculos/index.controller.js"></script>
+    <script src="/app/components/tipos-dos-veiculos/gerencia.controller.js"></script>
+
+    <!-- equipamentos tipos comerciais -->
+    <script src="/app/components/equipamentos-tipos-comerciais/index.controller.js"></script>
+    <script src="/app/components/equipamentos-tipos-comerciais/gerencia.controller.js"></script>
+
+    <!-- cotacoes textos padrões -->
+    <script src="/app/components/cotacoes-textos-padroes/index.controller.js"></script>
+
+    <!-- cfops -->
+    <script src="/app/components/cfops/index.controller.js"></script>
+    <script src="/app/components/cfops/gerencia.controller.js"></script>
+
+    <!-- categorias taxas e licenças -->
+    <script src="/app/components/categorias-de-taxas-e-licencas/index.controller.js"></script>
+    <script src="/app/components/categorias-de-taxas-e-licencas/gerencia.controller.js"></script>
 
     <!-- cotacoes -->
     <script src="/app/components/cotacoes/index.controller.js"></script>

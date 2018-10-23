@@ -450,6 +450,181 @@
                 controllerAs: 'vm'
             })
 
+            // CONFIGURAÇÕES -- GERAL
+
+            // FORMAS DE PAGAMENTO
+            .state('formas-de-pagamento', {
+                url: '/configuracoes/formas-de-pagamento',
+                templateUrl: 'app/components/formas-de-pagamento/index.view.html',
+                controller: 'FormasDePagamento.IndexController',
+                controllerAs: 'vm'
+            })
+            .state('insert-forma-de-pagamento', {
+                url: '/configuracoes/formas-de-pagamento/gerencia',
+                templateUrl: 'app/components/formas-de-pagamento/gerencia.view.html',
+                controller: 'FormasDePagamento.GerenciaController',
+                controllerAs: 'vm'
+            })
+            .state('update-forma-de-pagamento', {
+                url: '/configuracoes/formas-de-pagamento/gerencia/{id_forma}?queryString',
+                templateUrl: 'app/components/formas-de-pagamento/gerencia.view.html',
+                controller: 'FormasDePagamento.GerenciaController',
+                controllerAs: 'vm'
+            })
+            .state('formas-de-pagamento-paged', {
+                url: '/configuracoes/formas-de-pagamento/{page}?queryString',
+                templateUrl: 'app/components/formas-de-pagamento/index.view.html',
+                controller: 'FormasDePagamento.IndexController',
+                controllerAs: 'vm'
+            })
+
+
+            // VALIDADES DA PROPOSTA
+            .state('validades-da-proposta', {
+                url: '/configuracoes/validades-da-proposta',
+                templateUrl: 'app/components/validades-da-proposta/index.view.html',
+                controller: 'ValidadesDaProposta.IndexController',
+                controllerAs: 'vm'
+            })
+            .state('insert-validade-da-proposta', {
+                url: '/configuracoes/validades-da-proposta/gerencia',
+                templateUrl: 'app/components/validades-da-proposta/gerencia.view.html',
+                controller: 'ValidadesDaProposta.GerenciaController',
+                controllerAs: 'vm'
+            })
+            .state('update-validade-da-proposta', {
+                url: '/configuracoes/validades-da-proposta/gerencia/{id_validade}?queryString',
+                templateUrl: 'app/components/validades-da-proposta/gerencia.view.html',
+                controller: 'ValidadesDaProposta.GerenciaController',
+                controllerAs: 'vm'
+            })
+            .state('validades-da-proposta-paged', {
+                url: '/configuracoes/validades-da-proposta/{page}?queryString',
+                templateUrl: 'app/components/validades-da-proposta/index.view.html',
+                controller: 'ValidadesDaProposta.IndexController',
+                controllerAs: 'vm'
+            })
+
+            // CONFIGURAÇÕES -- VEÍCULOS
+
+            // TIPOS DOS VEÍCULOS
+            .state('tipos-dos-veiculos', {
+                url: '/configuracoes/tipos-dos-veiculos',
+                templateUrl: 'app/components/tipos-dos-veiculos/index.view.html',
+                controller: 'TiposDosVeiculos.IndexController',
+                controllerAs: 'vm'
+            })
+            .state('insert-tipos-dos-veiculos', {
+                url: '/configuracoes/tipos-dos-veiculos/gerencia',
+                templateUrl: 'app/components/tipos-dos-veiculos/gerencia.view.html',
+                controller: 'TiposDosVeiculos.GerenciaController',
+                controllerAs: 'vm'
+            })
+            .state('update-tipos-dos-veiculos', {
+                url: '/configuracoes/tipos-dos-veiculos/gerencia/{id_tipo}?queryString',
+                templateUrl: 'app/components/tipos-dos-veiculos/gerencia.view.html',
+                controller: 'TiposDosVeiculos.GerenciaController',
+                controllerAs: 'vm'
+            })
+            .state('tipos-dos-veiculos-paged', {
+                url: '/configuracoes/tipos-dos-veiculos/{page}?queryString',
+                templateUrl: 'app/components/tipos-dos-veiculos/index.view.html',
+                controller: 'TiposDosVeiculos.IndexController',
+                controllerAs: 'vm'
+            })
+
+            // CONFIGURAÇÕES -- COTAÇÕES
+
+            // EQUIPAMENTOS TIPOS COMERCIAIS
+            .state('equipamentos-tipos-comerciais', {
+                url: '/configuracoes/equipamentos-tipos-comerciais',
+                templateUrl: 'app/components/equipamentos-tipos-comerciais/index.view.html',
+                controller: 'EquipTiposComerciais.IndexController',
+                controllerAs: 'vm'
+            })
+            .state('insert-equipamentos-tipos-comerciais', {
+                url: '/configuracoes/equipamentos-tipos-comerciais/gerencia',
+                templateUrl: 'app/components/equipamentos-tipos-comerciais/gerencia.view.html',
+                controller: 'EquipTiposComerciais.GerenciaController',
+                controllerAs: 'vm'
+            })
+            .state('update-equipamentos-tipos-comerciais', {
+                url: '/configuracoes/equipamentos-tipos-comerciais/gerencia/{id_tipo}?queryString',
+                templateUrl: 'app/components/equipamentos-tipos-comerciais/gerencia.view.html',
+                controller: 'EquipTiposComerciais.GerenciaController',
+                controllerAs: 'vm'
+            })
+            .state('equipamentos-tipos-comerciais-paged', {
+                url: '/configuracoes/equipamentos-tipos-comerciais/{page}?queryString',
+                templateUrl: 'app/components/equipamentos-tipos-comerciais/index.view.html',
+                controller: 'EquipTiposComerciais.IndexController',
+                controllerAs: 'vm'
+            })
+
+            // EQUIPAMENTOS TIPOS COMERCIAIS
+            .state('cotacoes-textos-padroes', {
+                url: '/configuracoes/cotacoes-textos-padroes',
+                templateUrl: 'app/components/cotacoes-textos-padroes/index.view.html',
+                controller: 'CotacoesTextosPadroes.IndexController',
+                controllerAs: 'vm'
+            })
+
+
+            // CONFIGURAÇÕES -- AS's
+
+            // CFOPS
+            .state('cfops', {
+                url: '/configuracoes/cfops',
+                templateUrl: 'app/components/cfops/index.view.html',
+                controller: 'Cfops.IndexController',
+                controllerAs: 'vm'
+            })
+            .state('insert-cfops', {
+                url: '/configuracoes/cfops/gerencia',
+                templateUrl: 'app/components/cfops/gerencia.view.html',
+                controller: 'Cfops.GerenciaController',
+                controllerAs: 'vm'
+            })
+            .state('update-cfops', {
+                url: '/configuracoes/cfops/gerencia/{id_cfop}?queryString',
+                templateUrl: 'app/components/cfops/gerencia.view.html',
+                controller: 'Cfops.GerenciaController',
+                controllerAs: 'vm'
+            })
+            .state('cfops-paged', {
+                url: '/configuracoes/cfops/{page}?queryString',
+                templateUrl: 'app/components/cfops/index.view.html',
+                controller: 'Cfops.IndexController',
+                controllerAs: 'vm'
+            })
+
+            // CATEGORIAS DE TAXAS E LICENÇAS
+            .state('categorias-de-taxas-e-licencas', {
+                url: '/configuracoes/categorias-de-taxas-e-licencas',
+                templateUrl: 'app/components/categorias-de-taxas-e-licencas/index.view.html',
+                controller: 'CategoriasTaxasLicencas.IndexController',
+                controllerAs: 'vm'
+            })
+            .state('insert-categorias-de-taxas-e-licencas', {
+                url: '/configuracoes/categorias-de-taxas-e-licencas/gerencia',
+                templateUrl: 'app/components/categorias-de-taxas-e-licencas/gerencia.view.html',
+                controller: 'CategoriasTaxasLicencas.GerenciaController',
+                controllerAs: 'vm'
+            })
+            .state('update-categorias-de-taxas-e-licencas', {
+                url: '/configuracoes/categorias-de-taxas-e-licencas/gerencia/{id_categoria}?queryString',
+                templateUrl: 'app/components/categorias-de-taxas-e-licencas/gerencia.view.html',
+                controller: 'CategoriasTaxasLicencas.GerenciaController',
+                controllerAs: 'vm'
+            })
+            .state('categorias-de-taxas-e-licencas-paged', {
+                url: '/configuracoes/categorias-de-taxas-e-licencas/{page}?queryString',
+                templateUrl: 'app/components/categorias-de-taxas-e-licencas/index.view.html',
+                controller: 'CategoriasTaxasLicencas.IndexController',
+                controllerAs: 'vm'
+            })
+
+
             ;
     }
 

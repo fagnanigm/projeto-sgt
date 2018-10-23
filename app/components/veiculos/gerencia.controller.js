@@ -72,6 +72,10 @@
                         $scope.veiculo.veiculo_venc_tacografo_obj = new Date($scope.veiculo.veiculo_venc_tacografo_timestamp * 1000);
                     }
 
+                    if($scope.veiculo.veiculo_codesp_validade.length > 0){
+                        $scope.veiculo.veiculo_codesp_validade_obj = new Date($scope.veiculo.veiculo_codesp_validade_timestamp * 1000);
+                    }
+
                     if($scope.veiculo.veiculo_validade_antt.length > 0){
                         $scope.veiculo.veiculo_validade_antt_obj = new Date($scope.veiculo.veiculo_validade_antt_timestamp * 1000);
                     }
@@ -166,6 +170,10 @@
             if($scope.veiculo.veiculo_venc_tacografo_obj != null){
                 $scope.veiculo.veiculo_venc_tacografo = Math.floor($scope.veiculo.veiculo_venc_tacografo_obj.getTime() / 1000);
             }
+
+            if($scope.veiculo.veiculo_codesp_validade_obj != null){
+                $scope.veiculo.veiculo_codesp_validade = Math.floor($scope.veiculo.veiculo_codesp_validade_obj.getTime() / 1000);
+            }           
 
             if($scope.veiculo.veiculo_data_quitacao_obj != null){
                 $scope.veiculo.veiculo_data_quitacao = Math.floor($scope.veiculo.veiculo_data_quitacao_obj.getTime() / 1000);
