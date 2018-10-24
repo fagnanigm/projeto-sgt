@@ -5,6 +5,46 @@ use Slim\Http\Response;
 use Classes\Locais;
 use Classes\Utilities;
 
+
+/**
+ * @SWG\Post(
+ *     path="/locais/insert",
+ *     summary="Finds Pets by tags",
+ *     tags={"locais"},
+ *     description="Muliple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
+ *     operationId="findPetsByTags",
+ *     produces={"application/xml", "application/json"},
+ *     @SWG\Parameter(
+ *         name="tags",
+ *         in="query",
+ *         description="Tags to filter by",
+ *         required=true,
+ *         type="array",
+ *         @SWG\Items(type="string"),
+ *         collectionFormat="multi"
+ *     ),
+ *     @SWG\Response(
+ *         response=200,
+ *         description="successful operation",
+ *         @SWG\Schema(
+ *             type="array",
+ *             
+ *         ),
+ *     ),
+ *     @SWG\Response(
+ *         response="400",
+ *         description="Invalid tag value",
+ *     ),
+ *     security={
+ *         {
+ *             "petstore_auth": {"write:pets", "read:pets"}
+ *         }
+ *     },
+ *     deprecated=false
+ * )
+ */
+
+
 // Inserção de local
 $app->post('/locais/insert', function (Request $request, Response $response, array $args) {
 	$locais = new Locais($this->db);
@@ -28,6 +68,44 @@ $app->post('/locais/insert', function (Request $request, Response $response, arr
 
 	return $response->withJson($data);
 });
+
+/**
+ * @SWG\Get(
+ *     path="/locais/get",
+ *     summary="Finds Pets by tags",
+ *     tags={"locais"},
+ *     description="Muliple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
+ *     operationId="findPetsByTags",
+ *     produces={"application/xml", "application/json"},
+ *     @SWG\Parameter(
+ *         name="tags",
+ *         in="query",
+ *         description="Tags to filter by",
+ *         required=true,
+ *         type="array",
+ *         @SWG\Items(type="string"),
+ *         collectionFormat="multi"
+ *     ),
+ *     @SWG\Response(
+ *         response=200,
+ *         description="successful operation",
+ *         @SWG\Schema(
+ *             type="array",
+ *             
+ *         ),
+ *     ),
+ *     @SWG\Response(
+ *         response="400",
+ *         description="Invalid tag value",
+ *     ),
+ *     security={
+ *         {
+ *             "petstore_auth": {"write:pets", "read:pets"}
+ *         }
+ *     },
+ *     deprecated=false
+ * )
+ */
 
 // Seleção de todos os locais
 $app->get('/locais/get', function (Request $request, Response $response, array $args) {

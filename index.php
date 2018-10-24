@@ -264,6 +264,18 @@
     <script src="/app/components/categorias-de-taxas-e-licencas/index.controller.js"></script>
     <script src="/app/components/categorias-de-taxas-e-licencas/gerencia.controller.js"></script>
 
+    <!-- tipos taxas e licenças -->
+    <script src="/app/components/tipos-de-taxas-e-licencas/index.controller.js"></script>
+    <script src="/app/components/tipos-de-taxas-e-licencas/gerencia.controller.js"></script>
+
+    <!-- motivos do prazo de pagamento -->
+    <script src="/app/components/motivos-do-prazo-de-pagamento/index.controller.js"></script>
+    <script src="/app/components/motivos-do-prazo-de-pagamento/gerencia.controller.js"></script>
+
+    <!-- condiçoes de pagamento -->
+    <script src="/app/components/condicoes-de-pagamento/index.controller.js"></script>
+    <script src="/app/components/condicoes-de-pagamento/gerencia.controller.js"></script>
+
     <!-- cotacoes -->
     <script src="/app/components/cotacoes/index.controller.js"></script>
     <script src="/app/components/cotacoes/gerencia.controller.js"></script>

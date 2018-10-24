@@ -5,17 +5,22 @@
 
 // Routes
 
- 
-$app->get('/[{name}]', function ($request, $response, array $args) {
-
-    // Sample log message
-    $this->logger->info("Slim-Skeleton '/' route");
-    
-
-    // Render index view
-    return $this->renderer->render($response, 'index.phtml', $args);
-});
-
+/**
+ * @SWG\Swagger(
+ *     schemes={"http"},
+ *     host="200.160.111.85:9090",
+ *     basePath="/api/public/",
+ *     @SWG\Info(
+ *         version="1.0.0",
+ *         title="SGT - Sistema de Gestão de Transporte",
+ *         description="Esta é a documentação muito fofa.",
+ *         @SWG\Contact(
+ *             email="guilherme.fagnani@necbrasil.com.br"
+ *         )
+ *     ),
+ *     
+ * )
+ */
 
 // USERS 
 require 'routes/users/users.php';
@@ -88,3 +93,6 @@ require 'routes/equipamentos-tipos-comerciais/equipamentos-tipos-comerciais.php'
 
 // Textos padrões
 require 'routes/textos-padroes/textos-padroes.php';
+
+// Relatórios
+require 'routes/relatorios/relatorios.php';

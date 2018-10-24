@@ -2,9 +2,62 @@
 
 <div class="box-content">
 
-	<div class="construct-page text-center margin-top-40 margin-bottom-40">
-		<i class="fa fa-wrench fa-5x" aria-hidden="true"></i>
-		<h3 class="font-size-24">Página em construção</h3>
+	<h3>Emissão de relatórios</h3>
+
+	<hr />
+
+	<div class="config-box" ng-init="init_relatorio_as()">
+		<h4>Relatório de AS</h4>
+		<p>Faça a emissão de relatório administrativo com os filtros abaixo.</p>
+
+		<form ng-submit="submit_relatorio_as()">
+			<div class="row">
+				<div class="col-md-3">
+					<div class="form-group">
+						<label for="status">Status</label>
+						<select class="form-control" ng-model="relatorio_as_filter.status">
+							<option value="0">Todos</option>
+							<option value="em-aberto">Em aberto</option>
+							<option value="carregado">Carregado</option>
+							<option value="aprovado">Em viagem</option>
+							<option value="em-operacao">Em operação</option>
+							<option value="faturado">Faturado</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-md-3">
+
+					<div class="form-group">
+						<label for="status">Início</label>
+						<input type="date" class="form-control" ng-model="relatorio_as_filter.init">
+					</div>
+
+				</div>
+				<div class="col-md-3">
+
+					<div class="form-group">
+						<label for="status">Fim</label>
+						<input type="date" class="form-control" ng-model="relatorio_as_filter.end">
+					</div>
+
+				</div>
+				<div class="col-md-3">
+					<div class="form-group">
+						<label for="status">Categoria</label>
+						<select class="form-control" ng-model="relatorio_as_filter.categoria">
+							<option value="0">Todos</option>
+							<option ng-repeat="(key, val) in categorias" value="{{ val.id }}">{{ val.cat_name }}</option>
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<button type="submit" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Emitir</button>
+
+		</form>
+
+		
 	</div>
-	
+
+					
 </div>

@@ -54,6 +54,15 @@ class Cotacoes {
 		"cotacao_prazo_execucao",
 		"cotacao_observacoes_finais",
 		"cotacao_observacoes_internas",
+		"cotacao_carga_descarga_carga",
+		"cotacao_carga_descarga_carga_valor",
+		"cotacao_carga_descarga_carga_equip",
+		"cotacao_carga_descarga_descarga",
+		"cotacao_carga_descarga_descarga_valor",
+		"cotacao_carga_descarga_descarga_equip",
+		"cotacao_carga_descarga_mob",
+		"cotacao_carga_descarga_mob_valor",
+		"cotacao_carga_descarga_mob_equip",
 		"create_time",
 		"active"
 	);
@@ -190,6 +199,18 @@ class Cotacoes {
 			$args['cotacao_vi_seguro'] = false;
 		}
 
+		if(!isset($args['cotacao_carga_descarga_carga'])){
+			$args['cotacao_carga_descarga_carga'] = false;
+		}
+
+		if(!isset($args['cotacao_carga_descarga_descarga'])){
+			$args['cotacao_carga_descarga_descarga'] = false;
+		}
+
+		if(!isset($args['cotacao_carga_descarga_mob'])){
+			$args['cotacao_carga_descarga_mob'] = false;
+		}
+
 		// Init insert
 		$data = array_flip($this->schema);
 
@@ -230,7 +251,10 @@ class Cotacoes {
 					$field == 'cotacao_vi_escolta' || 
 					$field == 'cotacao_vi_imposto_pis_cofins' || 
 					$field == 'cotacao_vi_seguro' || 
-					$field == 'cotacao_vi_pedagios'
+					$field == 'cotacao_vi_pedagios' || 
+					$field == 'cotacao_carga_descarga_carga' || 
+					$field == 'cotacao_carga_descarga_descarga' || 
+					$field == 'cotacao_carga_descarga_mob'
 				){
 					$val = ($val ? 'Y' : 'N');
 				}
@@ -307,6 +331,26 @@ class Cotacoes {
 					);
 					
 					$insertStatement = $this->db->insert(array_keys($data))->into('cotacoes_arquivos')->values(array_values($data));
+					$insertStatement->execute();
+
+				}
+
+			}
+
+			// Salva equipamentos / tipos comerciais
+			if(is_array($args['cotacao_equipamentos_tipos'])){
+
+				foreach ($args['cotacao_equipamentos_tipos'] as $ce_key => $ce_val) {
+
+					$data = array(
+						'id_cotacao' => $response['id'],
+						'ce_descricao' => $ce_val['ce_descricao'],
+						'ce_tipo_comercial_id' => $ce_val['ce_tipo_comercial_id'],
+						'create_time' => $date->format("Y-m-d\TH:i:s"),
+						'active' => 'Y'
+					);
+					
+					$insertStatement = $this->db->insert(array_keys($data))->into('cotacoes_equipamentos')->values(array_values($data));
 					$insertStatement->execute();
 
 				}
@@ -469,6 +513,10 @@ class Cotacoes {
 		$cotacao['cotacao_vi_seguro'] = ($cotacao['cotacao_vi_seguro'] == 'Y' ? true : false);
 		$cotacao['cotacao_vi_pedagios'] = ($cotacao['cotacao_vi_pedagios'] == 'Y' ? true : false);
 
+		$cotacao['cotacao_carga_descarga_carga'] = ($cotacao['cotacao_carga_descarga_carga'] == 'Y' ? true : false);
+		$cotacao['cotacao_carga_descarga_descarga'] = ($cotacao['cotacao_carga_descarga_descarga'] == 'Y' ? true : false);
+		$cotacao['cotacao_carga_descarga_mob'] = ($cotacao['cotacao_carga_descarga_mob'] == 'Y' ? true : false);
+
 		$cotacao['cotacao_status_text'] = $this->cotacao_status_array[$cotacao['cotacao_status']];
 
 		// Puxa os objetos
@@ -496,6 +544,15 @@ class Cotacoes {
 		}
 
 		$cotacao['cotacao_anexos_objetos'] = $cotacao_anexos_objetos;
+
+
+		// Puxa os equipamentos + tipos comerciais
+
+		$select = $this->db->query("
+			SELECT ce.* FROM cotacoes_equipamentos ce WHERE ce.id_cotacao = '".$cotacao['id']."';
+		");
+
+		$cotacao['cotacao_equipamentos_tipos'] = $select->fetchAll(\PDO::FETCH_ASSOC);
 		
 		return $cotacao;
 	}

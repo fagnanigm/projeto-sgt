@@ -429,6 +429,56 @@
 		<div class="row">
 			<div class="col-md-8">
 
+				<table class="table table-striped">
+					<tr>
+						<td width="40"></td>
+						<th width="150">Itens</th>
+						<th width="200">Valor</th>
+						<th>Equipamento</th>
+					</tr>
+					<tr>
+						<td><input type="checkbox" ng-model="cotacao.cotacao_carga_descarga_carga"></td>
+						<td>Carga</td>
+						<td>
+							<div class="input-group">
+								<input type="text" class="form-control" name="cotacao_carga_descarga_carga_valor" ng-model="cotacao.cotacao_carga_descarga_carga_valor" money-mask ng-disabled="!cotacao.cotacao_carga_descarga_carga">
+								<div class="input-group-append">
+									<span class="input-group-text">R$</span>
+								</div>
+							</div>
+						</td>
+						<td><input type="text" class="form-control" name="cotacao_carga_descarga_carga_equip" placeholder="Descrição do equipamento" ng-model="cotacao.cotacao_carga_descarga_carga_equip" ng-disabled="!cotacao.cotacao_carga_descarga_carga"></td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" ng-model="cotacao.cotacao_carga_descarga_descarga"></td>
+						<td>Descarga</td>
+						<td>
+							<div class="input-group">
+								<input type="text" class="form-control" name="cotacao_carga_descarga_descarga_valor" ng-model="cotacao.cotacao_carga_descarga_descarga_valor" money-mask ng-disabled="!cotacao.cotacao_carga_descarga_descarga">
+								<div class="input-group-append">
+									<span class="input-group-text">R$</span>
+								</div>
+							</div>
+						</td>
+						<td><input type="text" class="form-control" name="cotacao_carga_descarga_descarga_equip" placeholder="Descrição do equipamento" ng-model="cotacao.cotacao_carga_descarga_descarga_equip" ng-disabled="!cotacao.cotacao_carga_descarga_descarga"></td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" ng-model="cotacao.cotacao_carga_descarga_mob"></td>
+						<td>Mob. / Desmob.</td>
+						<td>
+							<div class="input-group">
+								<input type="text" class="form-control" name="cotacao_carga_descarga_mob_valor" ng-model="cotacao.cotacao_carga_descarga_mob_valor" money-mask ng-disabled="!cotacao.cotacao_carga_descarga_mob">
+								<div class="input-group-append">
+									<span class="input-group-text">R$</span>
+								</div>
+							</div>
+						</td>
+						<td><input type="text" class="form-control" name="cotacao_carga_descarga_mob_equip" placeholder="Descrição do equipamento" ng-model="cotacao.cotacao_carga_descarga_mob_equip" ng-disabled="!cotacao.cotacao_carga_descarga_mob"></td>
+					</tr>
+					
+
+				</table>
+
 				<div class="form-group">
 					<textarea class="form-control" id="carga-descarga" ng-model="cotacao.cotacao_carga_descarga" placeholder="Digite o texto da carga / descarga aqui..."></textarea>
 				</div>
@@ -443,9 +493,32 @@
 		<div class="row">
 			<div class="col-md-8">
 
-				<div class="form-group">
-					<textarea class="form-control" id="equipamentos" ng-model="cotacao.cotacao_equipamentos"></textarea>
-				</div>
+				<table class="table table-striped">
+					<tr>
+						<th width="45%">Descrição (objeto)</th>
+						<th width="45%">Tipo comercial</th>
+						<th width="10%"></th>
+					</tr>
+					<tr ng-repeat="(key,val) in cotacao.cotacao_equipamentos_tipos">
+						<td>
+							<input type="text" class="form-control" name="ce_descricao" ng-model="cotacao.cotacao_equipamentos_tipos[key].ce_descricao" placeholder="Descrição do objeto">
+						</td>
+						<td>
+							<select class="form-control" ng-model="cotacao.cotacao_equipamentos_tipos[key].ce_tipo_comercial_id">
+								<option value="0">Selecione...</option>
+								<option ng-repeat="(tipo_key, tipo_val) in equip_tipos_comerciais" value="{{ tipo_val.id }}">{{ tipo_val.tipo_nome }}</option>
+							</select>
+						</td>
+						<td class="text-right">
+							<button class="btn btn-sm btn-danger" ng-click="equipamentos_tipos_remove(key)" type="button"><i class="fa fa-trash" aria-hidden="true"></i></button>
+						</td>
+					</tr>
+					<tr ng-if="cotacao.cotacao_equipamentos_tipos.length == 0">
+						<td class="text-center" colspan="3">Nenhum equipamento cadastrado.</td>
+					</tr>
+				</table>
+
+				<button class="btn btn-sm btn-success" ng-click="equipamentos_tipos_add()" type="button"><i class="fa fa-plus" aria-hidden="true"></i> Adicionar</button>
 				
 			</div>
 		</div>

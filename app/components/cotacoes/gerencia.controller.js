@@ -52,7 +52,8 @@
                     cotacao_previsao_mes : '0',
                     cotacao_vi_pedagios : true,
                     cotacao_vi_escolta : true,
-                    cotacao_vi_taxas : true
+                    cotacao_vi_taxas : true,
+                    cotacao_equipamentos_tipos : []
                 }
 
                 var copy = $location.search().copy;
@@ -129,6 +130,8 @@
             get_prazos_pg();
             get_prazo_razoes();
             get_validades_proposta();
+            get_textos_padroes();
+            get_equip_tipos_comerciais();
         	get_cotacao();
         }
 
@@ -190,6 +193,20 @@
                 error++;
                 return;
             }
+
+            // Verifica se todos os equipamentos estão com o tipo selecionado
+            $.each($scope.cotacao.cotacao_equipamentos_tipos, function(key, val){
+
+                if(val.ce_tipo_comercial_id == '0'){
+                    ngToast.create({
+                        className: 'danger',
+                        content: "Selecione o tipo comercial de todos os equipamentos."
+                    });
+                    error++;
+                    return;
+                }
+
+            });
 
             if(error == 0){
 
@@ -274,6 +291,18 @@
 
         }
 
+        function get_textos_padroes(){
+
+            var rest_address = '/api/public/textos-padroes/get?keys=cotacao_objeto_operacao,cotacao_carga_descarga,cotacao_carencia,cotacao_prazo_execucao,cotacao_observacoes_finais';
+
+            $http.get(rest_address).then(function (response) {
+                $.each(response.data.results, function(key, val){
+                    $scope.cotacao[key] = val.texto_descricao;
+                });
+            });
+
+        }
+
         /// Seleções dos clientes
         $scope.cliente_search_filter = { free_term : '' };
         $scope.cliente_is_search = false;
@@ -341,6 +370,13 @@
 
             if(!$scope.objeto.is_edit){
                 $scope.cotacao.cotacao_caracteristica_objetos.push($scope.objeto);
+
+                // Adiciona o objeto nos itens de equipamento / tipos comerciais
+                $scope.cotacao.cotacao_equipamentos_tipos.push({
+                    ce_descricao : $scope.objeto.objeto_descricao,
+                    ce_tipo_comercial_id : '0'
+                });
+
             }else{
                 $scope.cotacao.cotacao_caracteristica_objetos[$scope.objeto.key] = $scope.objeto;
             }
@@ -495,6 +531,29 @@
             });
 
         }
+
+        function get_equip_tipos_comerciais(){
+
+            $http.get('/api/public/equipamentos-tipos-comerciais/get?getall=1').then(function (response) {
+                $scope.equip_tipos_comerciais = response.data.results;
+            });
+
+        }
+
+        $scope.equipamentos_tipos_add = function(){
+
+            $scope.cotacao.cotacao_equipamentos_tipos.push({
+                ce_descricao : '',
+                ce_tipo_comercial_id : '0'
+            });
+
+        };
+
+        $scope.equipamentos_tipos_remove = function(key){
+            if(confirm("Deseja remover esse equipamento?")){
+                $scope.cotacao.cotacao_equipamentos_tipos.splice(key, 1);
+            }
+        };
 
          
     }

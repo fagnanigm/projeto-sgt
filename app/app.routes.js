@@ -624,6 +624,83 @@
                 controllerAs: 'vm'
             })
 
+            // TIPOS DE TAXAS E LICENÇAS
+            .state('tipos-de-taxas-e-licencas', {
+                url: '/configuracoes/tipos-de-taxas-e-licencas',
+                templateUrl: 'app/components/tipos-de-taxas-e-licencas/index.view.html',
+                controller: 'TiposTaxasLicencas.IndexController',
+                controllerAs: 'vm'
+            })
+            .state('insert-tipos-de-taxas-e-licencas', {
+                url: '/configuracoes/tipos-de-taxas-e-licencas/gerencia',
+                templateUrl: 'app/components/tipos-de-taxas-e-licencas/gerencia.view.html',
+                controller: 'TiposTaxasLicencas.GerenciaController',
+                controllerAs: 'vm'
+            })
+            .state('update-tipos-de-taxas-e-licencas', {
+                url: '/configuracoes/tipos-de-taxas-e-licencas/gerencia/{id_tipo}?queryString',
+                templateUrl: 'app/components/tipos-de-taxas-e-licencas/gerencia.view.html',
+                controller: 'TiposTaxasLicencas.GerenciaController',
+                controllerAs: 'vm'
+            })
+            .state('tipos-de-taxas-e-licencas-paged', {
+                url: '/configuracoes/tipos-de-taxas-e-licencas/{page}?queryString',
+                templateUrl: 'app/components/tipos-de-taxas-e-licencas/index.view.html',
+                controller: 'TiposTaxasLicencas.IndexController',
+                controllerAs: 'vm'
+            })
+
+            // MOTIVO DO PRAZO DE PAGAMENTO
+            .state('motivos-do-prazo-de-pagamento', {
+                url: '/configuracoes/motivos-do-prazo-de-pagamento',
+                templateUrl: 'app/components/motivos-do-prazo-de-pagamento/index.view.html',
+                controller: 'MotivosPrazoPagamento.IndexController',
+                controllerAs: 'vm'
+            })
+            .state('insert-motivos-do-prazo-de-pagamento', {
+                url: '/configuracoes/motivos-do-prazo-de-pagamento/gerencia',
+                templateUrl: 'app/components/motivos-do-prazo-de-pagamento/gerencia.view.html',
+                controller: 'MotivosPrazoPagamento.GerenciaController',
+                controllerAs: 'vm'
+            })
+            .state('update-motivos-do-prazo-de-pagamento', {
+                url: '/configuracoes/motivos-do-prazo-de-pagamento/gerencia/{id_motivo}?queryString',
+                templateUrl: 'app/components/motivos-do-prazo-de-pagamento/gerencia.view.html',
+                controller: 'MotivosPrazoPagamento.GerenciaController',
+                controllerAs: 'vm'
+            })
+            .state('motivos-do-prazo-de-pagamento-paged', {
+                url: '/configuracoes/motivos-do-prazo-de-pagamento/{page}?queryString',
+                templateUrl: 'app/components/motivos-do-prazo-de-pagamento/index.view.html',
+                controller: 'MotivosPrazoPagamento.IndexController',
+                controllerAs: 'vm'
+            })
+
+            // CONDIÇÕES DE PAGAMENTO
+            .state('condicoes-de-pagamento', {
+                url: '/configuracoes/condicoes-de-pagamento',
+                templateUrl: 'app/components/condicoes-de-pagamento/index.view.html',
+                controller: 'CondicoesPagamento.IndexController',
+                controllerAs: 'vm'
+            })
+            .state('insert-condicoes-de-pagamento', {
+                url: '/configuracoes/condicoes-de-pagamento/gerencia',
+                templateUrl: 'app/components/condicoes-de-pagamento/gerencia.view.html',
+                controller: 'CondicoesPagamento.GerenciaController',
+                controllerAs: 'vm'
+            })
+            .state('update-condicoes-de-pagamento', {
+                url: '/configuracoes/condicoes-de-pagamento/gerencia/{id_condicao}?queryString',
+                templateUrl: 'app/components/condicoes-de-pagamento/gerencia.view.html',
+                controller: 'CondicoesPagamento.GerenciaController',
+                controllerAs: 'vm'
+            })
+            .state('condicoes-de-pagamento-paged', {
+                url: '/configuracoes/condicoes-de-pagamento/{page}?queryString',
+                templateUrl: 'app/components/condicoes-de-pagamento/index.view.html',
+                controller: 'CondicoesPagamento.IndexController',
+                controllerAs: 'vm'
+            })
 
             ;
     }
