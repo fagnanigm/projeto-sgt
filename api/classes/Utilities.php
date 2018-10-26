@@ -132,6 +132,20 @@ class Utilities {
 	    return $string;
 	}
 
+	public static function file_reader($file,$vars = array() ){
+		$open = fopen($file, "r+");
+		$content = fread($open,filesize($file));
+		fclose($open);
+		$content = utf8_encode($content);
+
+		foreach($vars as $var => $value){
+			$content = str_replace($var,$value,$content);
+		}
+
+		return $content;
+
+	}
+
 }
 
 ?>

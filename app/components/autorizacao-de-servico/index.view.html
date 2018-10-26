@@ -100,10 +100,23 @@
 			<td>{{ val.vendedor_nome }}</td>
 			<td>{{ val.cat_name }}</td>
 			<td><a href="/autorizacao-de-servico/visualizar/{{ val.id }}">{{ val.as_projeto_status_text }}</a></td>
-			<td width="160" class="text-right">
-				<div class="buttons-capsule">
-					<a href="/autorizacao-de-servico/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><a href="/autorizacao-de-servico/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">Editar</a>
-				</div>			
+			<td width="120" class="text-right">
+				
+				<a href="/autorizacao-de-servico/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">
+					<i class="fa fa-file-text-o" aria-hidden="true"></i>
+					<div class="btn-tooltip">Visualizar</div>
+				</a>
+
+				<a href="/autorizacao-de-servico/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">
+					<i class="fa fa-pencil" aria-hidden="true"></i>
+					<div class="btn-tooltip">Editar</div>
+				</a>
+
+				<a href="#" class="btn btn-sm btn-secondary" ng-click="print_as(val.id, 'is_loading')">
+					<i class="fa fa-print" aria-hidden="true"></i>
+					<div class="btn-tooltip">Imprimir</div>
+				</a>
+
 			</td>
 		</tr>
 		

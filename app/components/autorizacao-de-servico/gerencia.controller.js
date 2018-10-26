@@ -117,8 +117,6 @@
 
                         }
 
-                        console.log(projeto);
-
                         get_as_code();
 
                     }, function(response) {
@@ -168,12 +166,13 @@
 
                     $scope.as.as_valor_custos_depesas = 0;
 
+                    $scope.id_as = $scope.as.id;
+
                     delete $scope.as.id;
                     
                     get_as_code();
-                    calc_total_as_objeto();
 
-                    
+                    calc_total_as_objeto();
 
                 }, function(response) {
                     $rootScope.is_error = true;
@@ -461,7 +460,7 @@
         }
 
         function calc_total_as_objeto(){
-            
+
             // Soma os valores dos objetos de carregamento
             $scope.total_as_objetos = 0;
             $scope.total_mercadoria_as_objetos = 0;
@@ -652,18 +651,17 @@
 
             $scope.as.as_as_incluso_contabil_cp_valor = ($scope.as.as_valor_total_bruto * parseFloat($scope.as.as_as_incluso_contabil_cp_percent)) / 100;
 
-
             $scope.as.as_valor_resultado_liquido = $scope.as.as_valor_resultado_bruto;
-
 
             // Valores finais
             $scope.as.as_fat_valor_total_as_bruto = $scope.as.as_valor_total_bruto;
             $scope.as.as_fat_valor_total_as_liquido = $scope.as.as_valor_liquido_receber;
-
+            
         }
-
-        $scope.$watch('as', function() {
-            calc_total_as_objeto();
+        
+        $scope.$watch(['as.'], function() {
+            // calc_total_as_objeto();
+            console.log('changed')
         }, true);
 
         // Dados da carga
@@ -848,6 +846,7 @@
         }
 
         // Altera os status das formas de faturamento
+        /*
         $scope.$watch('as.as_fat_forma_faturamento', function() {
             $scope.as.as_as_forma_faturamento = $scope.as.as_fat_forma_faturamento;
 
@@ -873,6 +872,7 @@
         $scope.$watch('as.as_as_forma_pagamento', function() {
             $scope.as.as_fat_forma_pagamento = $scope.as.as_as_forma_pagamento;
         });
+        */
 
         // Taxas e licenças
 
@@ -947,12 +947,14 @@
 
         $scope.as_taxas_licencas_total = 0;
 
+        /*
         $scope.$watch('as.as_taxas_licencas', function() {
             $scope.as_taxas_licencas_total = 0;
             $.each($scope.as.as_taxas_licencas, function(key, val){
                 $scope.as_taxas_licencas_total += parseFloat(val.taxa_valor);
             });
         }, true);
+        */
 
         $scope.edit_taxa = function(key){
             $scope.taxa = $scope.as.as_taxas_licencas[key];
@@ -1063,6 +1065,36 @@
                 $rootScope.is_error_text = "Erro: " + response.data.message;
             }).finally(function() {
                 $rootScope.is_modal_loading = false;
+            });
+
+        }
+
+        $scope.print_as = function(id){
+            
+            $rootScope.is_loading = true;
+
+            var param = {
+                id_as: id
+            }
+
+            $http.post('/api/public/impressoes/as', param).then(function (response) {
+
+                if(response.data.result){
+
+                    window.open('/api/public' + response.data.file, '_blank');
+
+                }else{
+                    ngToast.create({
+                        className: 'danger',
+                        content: response.data.error
+                    });
+                }
+
+            }, function(response) {
+                $rootScope.is_error = true;
+                $rootScope.is_error_text = "Erro: " + response.data.error;
+            }).finally(function() {
+                $rootScope.is_loading = false;
             });
 
         }

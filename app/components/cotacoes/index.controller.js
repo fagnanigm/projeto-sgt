@@ -30,6 +30,8 @@
                 $scope.cotacoes = response.data;
                 $scope.cotacoes.config.current_page = parseInt($scope.cotacoes.config.current_page);
 
+
+
 			}, function(response) {
 				$rootScope.is_error = true;
 				$rootScope.is_error_text = "Erro: " + response.data.error;
@@ -64,10 +66,42 @@
                 $scope.is_modal_loading = false;
             });
 
-           
+        }
+
+        $scope.print_cotacao = function(id, loading_var){
+
+            if(loading_var == 'is_modal_loading'){
+                $scope.is_modal_loading = true;
+            }else{
+                $rootScope.is_loading = true;
+            }
+
+            var param = {
+                id_cotacao: id
+            }
+
+            $http.post('/api/public/impressoes/cotacao', param).then(function (response) {
+
+                if(response.data.result){
+
+                    window.open('/api/public' + response.data.file, '_blank');
+
+                }else{
+                    ngToast.create({
+                        className: 'danger',
+                        content: response.data.error
+                    });
+                }
+
+            }, function(response) {
+                $rootScope.is_error = true;
+                $rootScope.is_error_text = "Erro: " + response.data.error;
+            }).finally(function() {
+                $rootScope.is_loading = false;
+                $scope.is_modal_loading = false;
+            });
 
         }
-    
 
     }
 

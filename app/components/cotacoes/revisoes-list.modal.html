@@ -43,14 +43,26 @@
 					<th>Código</th>
 					<th class="text-center">Revisão</th>
 					<th class="text-center">Data</th>
-					<th width="75"></th>
+					<th width="100"></th>
 				</tr>
 				<tr ng-repeat="(key, val) in cotacao_revisao.revisoes">
 
 					<td>{{ val.cotacao_code }}</td>
 					<td class="text-center">{{ val.cotacao_revisao }}</td>
 					<td class="text-center">{{ val.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm' }}</td>
-					<td class="text-center"><a href="/cotacoes/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a></td>
+					<td class="text-right">
+
+						<a href="/cotacoes/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">
+							<i class="fa fa-file-text-o" aria-hidden="true"></i>
+							<div class="btn-tooltip">Visualizar</div>
+						</a>
+
+						<a href="#" class="btn btn-sm btn-secondary" ng-click="print_cotacao(val.id, 'is_modal_loading')">
+							<i class="fa fa-print" aria-hidden="true"></i>
+							<div class="btn-tooltip">Imprimir</div>
+						</a>
+
+					</td>
 				</tr>
 			</table>
 		</div>

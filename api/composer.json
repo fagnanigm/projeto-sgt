@@ -19,7 +19,9 @@
         "slim/pdo": "~1.10",
         "firebase/php-jwt": "^5.0",
         "dyorg/slim-token-authentication": "^0.3.3",
-        "junioalmeida/slim-framework-swagger-json-and-viewer": "^1.0"
+        "junioalmeida/slim-framework-swagger-json-and-viewer": "^1.0",
+        "phpoffice/phpspreadsheet": "^1.5",
+        "mpdf/mpdf": "^7.1"
     },
     "require-dev": {
         "phpunit/phpunit": ">=4.8 < 6.0"

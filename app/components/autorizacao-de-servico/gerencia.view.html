@@ -1785,7 +1785,7 @@
 
 			<button ng-if="$state.name != 'insert-autorizacao-de-servico'" type="button" class="btn btn-primary"><i class="fa fa-clone" aria-hidden="true"></i> Duplicar</button>
 
-			<button ng-if="$state.name != 'insert-autorizacao-de-servico'" type="button" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</button>
+			<button ng-if="$state.name != 'insert-autorizacao-de-servico'" type="button" class="btn btn-primary" ng-click="print_as(id_as)"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</button>
 
 			<a href="/autorizacao-de-servico" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
 				

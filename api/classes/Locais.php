@@ -367,6 +367,7 @@ class Locais {
 		$select = $this->db->query('SELECT * FROM locais 
 			WHERE active = \'Y\' 
 			AND (
+				local_nome LIKE \'%'.$term.'%\' OR
 				local_apelido LIKE \'%'.$term.'%\' OR
 				local_logradouro = \''.$term.'\' OR
 				local_cnpj LIKE \'%'.Utilities::unMask($term).'%\'

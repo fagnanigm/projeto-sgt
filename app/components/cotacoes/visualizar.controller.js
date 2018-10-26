@@ -36,6 +36,38 @@
 
         }
 
+
+        $scope.print_cotacao = function(id){
+
+            $rootScope.is_loading = true;
+
+            var param = {
+                id_cotacao: id
+            }
+
+            $http.post('/api/public/impressoes/cotacao', param).then(function (response) {
+
+                if(response.data.result){
+
+                    window.open('/api/public' + response.data.file, '_blank');
+
+                }else{
+                    ngToast.create({
+                        className: 'danger',
+                        content: response.data.error
+                    });
+                }
+
+            }, function(response) {
+                $rootScope.is_error = true;
+                $rootScope.is_error_text = "Erro: " + response.data.error;
+            }).finally(function() {
+                $rootScope.is_loading = false;
+            });
+
+        }
+
+
     }
 
 })();

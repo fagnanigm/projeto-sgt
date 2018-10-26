@@ -11,8 +11,7 @@
     <!-- toast -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/ng-toast/2.0.0/ngToast.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/ng-toast/2.0.0/ngToast-animations.min.css">
-   
-
+    
     <!-- application css -->
     <link href="/assets/css/app.css" rel="stylesheet" />
 

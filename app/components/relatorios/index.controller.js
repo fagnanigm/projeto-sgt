@@ -37,7 +37,31 @@
 
         $scope.submit_relatorio_as = function(){
 
-            console.log($scope.relatorio_as_filter);
+            $rootScope.is_loading = true;
+
+            var filter = {
+                id_categoria: $scope.relatorio_as_filter.categoria,
+                as_status: $scope.relatorio_as_filter.status,
+                init: Math.floor($scope.relatorio_as_filter.init.getTime() / 1000),
+                end: Math.floor($scope.relatorio_as_filter.end.getTime() / 1000),
+            }
+
+            $http.post('/api/public/relatorios/relatorio-as', filter).then(function (response) {
+
+                $rootScope.is_loading = false;
+
+                if(response.data.result){
+
+                    location.href = '/api/public' + response.data.file;
+
+                }else{
+                    ngToast.create({
+                        className: 'danger',
+                        content: response.data.error
+                    });
+                }
+
+            });
 
         }
 

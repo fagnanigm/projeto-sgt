@@ -99,10 +99,28 @@
 			<td class="text-center">
 				{{ val.cotacao_status_text }}
 			</td>
-			<td width="180">
-				<div class="buttons-capsule">
-					<a href="/cotacoes/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><a href="/cotacoes/gerencia/{{ val.id }}" class="btn btn-sm btn-warning" ng-if="val.cotacao_status != 'aprovado'">Editar</a><a href="/cotacoes/gerencia?copy={{ val.id }}" class="btn btn-sm btn-warning" ng-if="val.cotacao_status == 'aprovado'">Duplicar</a>
-				</div>
+			<td width="120" class="text-right">
+
+				<a href="/cotacoes/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">
+					<i class="fa fa-file-text-o" aria-hidden="true"></i>
+					<div class="btn-tooltip">Visualizar</div>
+				</a>
+
+				<a href="/cotacoes/gerencia/{{ val.id }}" class="btn btn-sm btn-warning" ng-if="val.cotacao_status != 'aprovado'">
+					<i class="fa fa-pencil" aria-hidden="true"></i>
+					<div class="btn-tooltip">Editar</div>
+				</a>
+
+				<a href="/cotacoes/gerencia?copy={{ val.id }}" class="btn btn-sm btn-warning" ng-if="val.cotacao_status == 'aprovado'">
+					<i class="fa fa-files-o" aria-hidden="true"></i>
+					<div class="btn-tooltip">Duplicar</div>
+				</a>
+
+				<a href="#" class="btn btn-sm btn-secondary" ng-click="print_cotacao(val.id, 'is_loading')">
+					<i class="fa fa-print" aria-hidden="true"></i>
+					<div class="btn-tooltip">Imprimir</div>
+				</a>
+
 			</td>
 		</tr>
 		

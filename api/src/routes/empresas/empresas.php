@@ -5,6 +5,134 @@ use Slim\Http\Response;
 use Classes\Empresas;
 use Classes\Utilities;
 
+/**
+	@SWG\Post(
+
+		path="/empresas/insert",
+		summary="Inserção de empresas",
+		tags={"Empresas"},
+		description="Essa função realiza o cadastro das empresas na base de dados. As empresas podem ser matrizes e/ou filiais.",
+		operationId="empresas-insert",
+		produces={"application/json"},
+		security={
+			{"Bearer":{}}
+		},
+
+		@SWG\Parameter(
+			name="body",
+			in="body",
+			required=true,
+			@SWG\Schema(
+				@SWG\Property(
+					property="id_author",
+					type="integer"
+				),
+				@SWG\Property(
+					property="empresa_name",
+					type="string"
+				),
+				@SWG\Property(
+					property="empresa_prefixo",
+					type="string"
+				),
+				@SWG\Property(
+					property="empresa_nome_fantasia",
+					type="string"
+				),
+				@SWG\Property(
+					property="empresa_razao_social",
+					type="string"
+				),
+				@SWG\Property(
+					property="empresa_name",
+					type="string"
+				),
+				@SWG\Property(
+					property="empresa_responsavel",
+					type="string"
+				),
+				@SWG\Property(
+					property="empresa_email",
+					type="string"
+				),
+				@SWG\Property(
+					property="empresa_phone_ddd",
+					type="string"
+				),
+				@SWG\Property(
+					property="empresa_phone",
+					type="string"
+				),
+				@SWG\Property(
+					property="empresa_cnpj",
+					type="string"
+				),
+				@SWG\Property(
+					property="empresa_ie",
+					type="string"
+				),
+				@SWG\Property(
+					property="empresa_im",
+					type="string"
+				),
+				@SWG\Property(
+					property="empresa_cep",
+					type="string"
+				),
+				@SWG\Property(
+					property="empresa_logradouro",
+					type="string"
+				),
+				@SWG\Property(
+					property="empresa_numero",
+					type="string"
+				),
+				@SWG\Property(
+					property="empresa_complemento",
+					type="string"
+				),
+				@SWG\Property(
+					property="empresa_bairro",
+					type="string"
+				),
+				@SWG\Property(
+					property="empresa_cidade",
+					type="string"
+				),
+				@SWG\Property(
+					property="empresa_estado",
+					type="string"
+				),
+				@SWG\Property(
+					property="empresa_app_key",
+					type="string"
+				),
+				@SWG\Property(
+					property="empresa_app_secret",
+					type="string"
+				),
+			)
+		),
+
+		@SWG\Response(
+			response=200,
+			description="Requisição realizada com sucesso",
+		),
+
+		@SWG\Response(
+			response=401,
+			description="Não autorizado",
+		),
+
+		@SWG\Response(
+			response="400",
+			description="Falha na requisição",
+		),
+		deprecated=false
+	)
+
+**/
+
 // Inserção de empresa
 $app->post('/empresas/insert', function (Request $request, Response $response, array $args) {
 	$empresas = new Empresas($this->db);
@@ -28,6 +156,57 @@ $app->post('/empresas/insert', function (Request $request, Response $response, a
 
 	return $response->withJson($data);
 });
+
+/**
+	@SWG\Get(
+
+		path="/empresas/get",
+		summary="Seleção de empresas",
+		tags={"Empresas"},
+		description="Essa função realiza a seleção das empresas de várias formas, sendo elas: paginação, listagem completa ou pesquisa.",
+		operationId="empresas-get",
+		produces={"application/json"},
+		security={
+			{"Bearer":{}}
+		},
+
+		@SWG\Parameter(
+			name="current_page",
+			in="query",
+			description="Número da página de seleção, caso não informado, traz a primeira página.",
+			type="string"
+		),
+		@SWG\Parameter(
+			name="empresa_term",
+			in="query",
+			description="Termo para pesquisa da empresa pela razão social, nome fantasia ou pelo nome, utilizado apenas para pesquisa. ",
+			type="string"
+		),
+		@SWG\Parameter(
+			name="getall",
+			in="query",
+			description="Caso este parâmetro seja informado, a API retornará com a lista completa das categorias.",
+			type="string"
+		),
+		
+		@SWG\Response(
+			response=200,
+			description="Requisição realizada com sucesso",
+		),
+
+		@SWG\Response(
+			response=401,
+			description="Não autorizado",
+		),
+
+		@SWG\Response(
+			response="400",
+			description="Falha na requisição",
+		),
+		deprecated=false
+	)
+
+**/
 
 // Seleção de todas as empresas
 $app->get('/empresas/get', function (Request $request, Response $response, array $args) {

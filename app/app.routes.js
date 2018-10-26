@@ -449,6 +449,12 @@
                 controller: 'Vendedores.GerenciaController',
                 controllerAs: 'vm'
             })
+            .state('vendedores-paged', {
+                url: '/vendedores/{page}?queryString',
+                templateUrl: 'app/components/vendedores/index.view.html',
+                controller: 'Vendedores.IndexController',
+                controllerAs: 'vm'
+            })
 
             // CONFIGURAÇÕES -- GERAL
 

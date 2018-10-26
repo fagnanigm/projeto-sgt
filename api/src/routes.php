@@ -8,12 +8,21 @@
 /**
  * @SWG\Swagger(
  *     schemes={"http"},
+ 	   @SWG\SecurityScheme(
+ *         securityDefinition="Bearer",
+ *         type="apiKey",
+ *         name="Authorization",
+ *         in="header"
+ *     ),
  *     host="200.160.111.85:9090",
  *     basePath="/api/public/",
  *     @SWG\Info(
  *         version="1.0.0",
  *         title="SGT - Sistema de Gestão de Transporte",
- *         description="Esta é a documentação muito fofa.",
+ *         description="O sistema SGT – Sistema de gestão de transporte – é um sistema desenvolvido pela a empresa NEC Brasil, tendo a sua primeira versão lançada no ano de 2018. O projeto consiste na gestão de empresas do ramo de logísticas e que atuam no mercado de transportes de cargas de médio e grande porte. 
+O objetivo principal do sistema é facilitar a emissão de documentos fiscais necessários para a circulação da carga, sendo eles: CT-e e MDF-e. Para emitir esses documentos, é utilizado uma ferramenta intermediária ACBr, que tem como principal função de processar os documentos no SEFAZ. Esse software está integrado com o sistema da OMIE para questões financeiras.
+Esta API faz a integração de todo o sistema, podendo ser utilizado por qualquer tipo de plataforma, desde requisições em javascript, aplicativos mobile e outros. Todos os métodos seguem um mesmo padrão de inserção, seleção, atualização e remoção. Veja abaixo todas as funções dessa API.
+",
  *         @SWG\Contact(
  *             email="guilherme.fagnani@necbrasil.com.br"
  *         )
@@ -85,14 +94,17 @@ require 'routes/taxas-licencas/taxas-licencas-categorias.php';
 // CFOP
 require 'routes/cfop/cfop.php';
 
-// Conhecimentos
+// CONHECIMENTOS
 require 'routes/conhecimentos/conhecimentos.php';
 
-// Equipamentos tipos comerciais
+// EQUIPAMENTOS TIPOS COMERCIAIS
 require 'routes/equipamentos-tipos-comerciais/equipamentos-tipos-comerciais.php';
 
-// Textos padrões
+// TEXTOS PADRÕES
 require 'routes/textos-padroes/textos-padroes.php';
 
-// Relatórios
+// RELATÓRIOS
 require 'routes/relatorios/relatorios.php';
+
+// IMPRESSÕES
+require 'routes/impressoes/impressoes.php';

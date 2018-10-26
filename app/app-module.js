@@ -73,6 +73,7 @@
             GlobalServices.get_filter_load();
         
         });
+
         
     }
 
