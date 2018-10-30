@@ -108,3 +108,6 @@ require 'routes/relatorios/relatorios.php';
 
 // IMPRESSÕES
 require 'routes/impressoes/impressoes.php';
+
+// MANIFESTOS
+require 'routes/manifestos/manifestos.php';

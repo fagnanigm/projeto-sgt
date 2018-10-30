@@ -44,6 +44,14 @@ $app->get('/as/revisoes/get/{id}', function (Request $request, Response $respons
 	return $response->withJson($data);
 });
 
+
+$app->post('/as/emitirOs', function (Request $request, Response $response, array $args) {
+	$as = new AutorizacaoServico($this->db);
+	$data = $as->emitir_os($request->getParams());
+	return $response->withJson($data);
+});
+
+
 /*
 
 

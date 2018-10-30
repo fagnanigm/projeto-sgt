@@ -132,6 +132,297 @@ class Impressoes {
 
 	}
 
+	public function print_os($args){
+
+		$response = array(
+			'result' => false
+		);
+
+		if(!isset($args['id_as'])){
+			$response['error'] = 'O campo id_as é obrigatório.';
+			return $response;
+		}else{
+
+			$as_rc = new AutorizacaoServico($this->db);
+
+			$as = $as_rc->get_by_id($args['id_as']);
+			
+			if(!$as['result']){
+				$response['error'] = 'Autorização de serviço não encontrada para essa ID';
+				return $response;
+			}
+
+			$as = $as['as'];
+
+		}	
+
+		// Gera o arquivo
+		$mpdf = new \Mpdf\Mpdf();
+
+		// Coleta o conteúdo
+
+		$content = Utilities::file_reader($this->impressoes_template_path.'ordem-de-servico.html',array(
+			'|*CONTENT*|' => '<pre>'.print_r($as, true).'</pre>'
+		));
+
+		$mpdf->WriteHTML($content);
+
+		$mpdf->shrink_tables_to_fit = 1;
+
+		// Salva o arquivo
+		$dir = $this->get_directory();
+
+		if($dir['result']){
+
+			$filename = 'OS-'.date('d-m-Y-H-i-s').'.pdf';
+			$dir_file = $dir['path'].$filename;
+
+			$mpdf->Output($dir_file);
+
+			$response['file'] = $dir['uri'].$filename;
+			$response['result'] = true;
+
+		}else{
+			$response['error'] = $dir['error'];
+		}		
+
+		return $response;
+
+	}
+
+
+	public function print_occ($args){
+
+		$response = array(
+			'result' => false
+		);
+
+		if(!isset($args['id_as'])){
+			$response['error'] = 'O campo id_as é obrigatório.';
+			return $response;
+		}else{
+
+			$as_rc = new AutorizacaoServico($this->db);
+
+			$as = $as_rc->get_by_id($args['id_as']);
+			
+			if(!$as['result']){
+				$response['error'] = 'Autorização de serviço não encontrada para essa ID';
+				return $response;
+			}
+
+			$as = $as['as'];
+
+		}	
+
+		// Gera o arquivo
+		$mpdf = new \Mpdf\Mpdf();
+
+		// Coleta o conteúdo
+
+		$content = Utilities::file_reader($this->impressoes_template_path.'ordem-de-carga-e-coleta.html',array(
+			'|*CONTENT*|' => '<pre>'.print_r($as, true).'</pre>'
+		));
+
+		$mpdf->WriteHTML($content);
+
+		$mpdf->shrink_tables_to_fit = 1;
+
+		// Salva o arquivo
+		$dir = $this->get_directory();
+
+		if($dir['result']){
+
+			$filename = 'OCC-'.date('d-m-Y-H-i-s').'.pdf';
+			$dir_file = $dir['path'].$filename;
+
+			$mpdf->Output($dir_file);
+
+			$response['file'] = $dir['uri'].$filename;
+			$response['result'] = true;
+
+		}else{
+			$response['error'] = $dir['error'];
+		}		
+
+		return $response;
+
+	}
+
+	public function print_nd($args){
+
+		$response = array(
+			'result' => false
+		);
+
+		if(!isset($args['id_as'])){
+			$response['error'] = 'O campo id_as é obrigatório.';
+			return $response;
+		}else{
+
+			$as_rc = new AutorizacaoServico($this->db);
+
+			$as = $as_rc->get_by_id($args['id_as']);
+			
+			if(!$as['result']){
+				$response['error'] = 'Autorização de serviço não encontrada para essa ID';
+				return $response;
+			}
+
+			$as = $as['as'];
+
+		}	
+
+		// Gera o arquivo
+		$mpdf = new \Mpdf\Mpdf();
+
+		// Coleta o conteúdo
+
+		$content = Utilities::file_reader($this->impressoes_template_path.'nota-de-debito.html',array(
+			'|*CONTENT*|' => '<pre>'.print_r($as, true).'</pre>'
+		));
+
+		$mpdf->WriteHTML($content);
+
+		$mpdf->shrink_tables_to_fit = 1;
+
+		// Salva o arquivo
+		$dir = $this->get_directory();
+
+		if($dir['result']){
+
+			$filename = 'OCC-'.date('d-m-Y-H-i-s').'.pdf';
+			$dir_file = $dir['path'].$filename;
+
+			$mpdf->Output($dir_file);
+
+			$response['file'] = $dir['uri'].$filename;
+			$response['result'] = true;
+
+		}else{
+			$response['error'] = $dir['error'];
+		}		
+
+		return $response;
+
+	}
+
+	public function print_fatura($args){
+
+		$response = array(
+			'result' => false
+		);
+
+		if(!isset($args['id_as'])){
+			$response['error'] = 'O campo id_as é obrigatório.';
+			return $response;
+		}else{
+
+			$as_rc = new AutorizacaoServico($this->db);
+
+			$as = $as_rc->get_by_id($args['id_as']);
+			
+			if(!$as['result']){
+				$response['error'] = 'Autorização de serviço não encontrada para essa ID';
+				return $response;
+			}
+
+			$as = $as['as'];
+
+		}	
+
+		// Gera o arquivo
+		$mpdf = new \Mpdf\Mpdf();
+
+		// Coleta o conteúdo
+
+		$content = Utilities::file_reader($this->impressoes_template_path.'fatura.html',array(
+			'|*CONTENT*|' => '<pre>'.print_r($as, true).'</pre>'
+		));
+
+		$mpdf->WriteHTML($content);
+
+		$mpdf->shrink_tables_to_fit = 1;
+
+		// Salva o arquivo
+		$dir = $this->get_directory();
+
+		if($dir['result']){
+
+			$filename = 'Fatura-'.date('d-m-Y-H-i-s').'.pdf';
+			$dir_file = $dir['path'].$filename;
+
+			$mpdf->Output($dir_file);
+
+			$response['file'] = $dir['uri'].$filename;
+			$response['result'] = true;
+
+		}else{
+			$response['error'] = $dir['error'];
+		}		
+
+		return $response;
+
+	}
+
+	public function print_recibo($args){
+
+		$response = array(
+			'result' => false
+		);
+
+		if(!isset($args['id_as'])){
+			$response['error'] = 'O campo id_as é obrigatório.';
+			return $response;
+		}else{
+
+			$as_rc = new AutorizacaoServico($this->db);
+
+			$as = $as_rc->get_by_id($args['id_as']);
+			
+			if(!$as['result']){
+				$response['error'] = 'Autorização de serviço não encontrada para essa ID';
+				return $response;
+			}
+
+			$as = $as['as'];
+
+		}	
+
+		// Gera o arquivo
+		$mpdf = new \Mpdf\Mpdf();
+
+		// Coleta o conteúdo
+
+		$content = Utilities::file_reader($this->impressoes_template_path.'recibo.html',array(
+			'|*CONTENT*|' => '<pre>'.print_r($as, true).'</pre>'
+		));
+
+		$mpdf->WriteHTML($content);
+
+		$mpdf->shrink_tables_to_fit = 1;
+
+		// Salva o arquivo
+		$dir = $this->get_directory();
+
+		if($dir['result']){
+
+			$filename = 'Recibo-'.date('d-m-Y-H-i-s').'.pdf';
+			$dir_file = $dir['path'].$filename;
+
+			$mpdf->Output($dir_file);
+
+			$response['file'] = $dir['uri'].$filename;
+			$response['result'] = true;
+
+		}else{
+			$response['error'] = $dir['error'];
+		}		
+
+		return $response;
+
+	}
+
 	public function get_directory(){
 
 		$response = array(

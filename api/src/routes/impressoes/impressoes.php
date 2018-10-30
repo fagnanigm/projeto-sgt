@@ -19,5 +19,33 @@ $app->post('/impressoes/as', function (Request $request, Response $response, arr
 	return $response->withJson($data);
 });
 
+// Imprimir OCC
+$app->post('/impressoes/occ', function (Request $request, Response $response, array $args) {
+	$impressoes = new Impressoes($this->db);
+	$data = $impressoes->print_occ($request->getParams());
+	return $response->withJson($data);
+});
+
+// Imprimir ND
+$app->post('/impressoes/nd', function (Request $request, Response $response, array $args) {
+	$impressoes = new Impressoes($this->db);
+	$data = $impressoes->print_nd($request->getParams());
+	return $response->withJson($data);
+});
+
+// Imprimir Fatura
+$app->post('/impressoes/fatura', function (Request $request, Response $response, array $args) {
+	$impressoes = new Impressoes($this->db);
+	$data = $impressoes->print_fatura($request->getParams());
+	return $response->withJson($data);
+});
+
+// Imprimir Recibo
+$app->post('/impressoes/recibo', function (Request $request, Response $response, array $args) {
+	$impressoes = new Impressoes($this->db);
+	$data = $impressoes->print_recibo($request->getParams());
+	return $response->withJson($data);
+});
+
 
 ?>

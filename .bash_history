@@ -37,3 +37,8 @@ htop
 sudo su
 sudo su 
 sudo su
+shutdown now
+sudo su
+sudo systemctl unmask apache2
+sudo service apache2 restart
+sudo su

@@ -478,6 +478,27 @@
 
             $scope.as.as_valor_total_bruto = $scope.total_as_objetos;
 
+            // Porcentagem Ad Valores
+            if($scope.as.as_as_incluso_comercial_advalorem_percent){
+                $scope.as.as_as_incluso_comercial_advalorem_valor = ($scope.total_mercadoria_as_objetos * parseFloat($scope.as.as_as_incluso_comercial_advalorem_percent)) / 100;
+            }
+
+            if($scope.as.as_as_incluso_comercial_rcfdc_percent){
+                $scope.as.as_as_incluso_comercial_rcfdc_valor = ($scope.total_mercadoria_as_objetos * parseFloat($scope.as.as_as_incluso_comercial_rcfdc_percent)) / 100;
+            }
+
+            if($scope.as.as_as_incluso_comercial_rctrc_percent){
+                $scope.as.as_as_incluso_comercial_rctrc_valor = ($scope.total_mercadoria_as_objetos * parseFloat($scope.as.as_as_incluso_comercial_rctrc_percent)) / 100;
+            }
+
+            if($scope.as.as_as_incluso_comercial_icms_percent){
+                $scope.as.as_as_incluso_comercial_icms_valor = ($scope.as.as_valor_total_bruto * parseFloat($scope.as.as_as_incluso_comercial_icms_percent)) / 100;
+            }
+
+            if($scope.as.as_as_incluso_comercial_iss_percent){
+                $scope.as.as_as_incluso_comercial_iss_valor = ($scope.as.as_valor_total_bruto * parseFloat($scope.as.as_as_incluso_comercial_iss_percent)) / 100;
+            }
+
             // soma valores "inclusos no preço comercial"
             if($scope.as.as_as_incluso_comercial_icms){
                 if(typeof($scope.as.as_as_incluso_comercial_icms_valor) != 'undefined'){
@@ -613,26 +634,7 @@
                 $scope.as.as_valor_resultado_bruto -= parseFloat($scope.as.as_as_incluso_contabil_cp_valor);
             }
 
-            // Porcentagem Ad Valores
-            if($scope.as.as_as_incluso_comercial_advalorem_percent){
-                $scope.as.as_as_incluso_comercial_advalorem_valor = ($scope.total_mercadoria_as_objetos * parseFloat($scope.as.as_as_incluso_comercial_advalorem_percent)) / 100;
-            }
-
-            if($scope.as.as_as_incluso_comercial_rcfdc_percent){
-                $scope.as.as_as_incluso_comercial_rcfdc_valor = ($scope.total_mercadoria_as_objetos * parseFloat($scope.as.as_as_incluso_comercial_rcfdc_percent)) / 100;
-            }
-
-            if($scope.as.as_as_incluso_comercial_rctrc_percent){
-                $scope.as.as_as_incluso_comercial_rctrc_valor = ($scope.total_mercadoria_as_objetos * parseFloat($scope.as.as_as_incluso_comercial_rctrc_percent)) / 100;
-            }
-
-            if($scope.as.as_as_incluso_comercial_icms_percent){
-                $scope.as.as_as_incluso_comercial_icms_valor = ($scope.as.as_valor_total_bruto * parseFloat($scope.as.as_as_incluso_comercial_icms_percent)) / 100;
-            }
-
-            if($scope.as.as_as_incluso_comercial_iss_percent){
-                $scope.as.as_as_incluso_comercial_iss_valor = ($scope.as.as_valor_total_bruto * parseFloat($scope.as.as_as_incluso_comercial_iss_percent)) / 100;
-            }
+            
 
             // Porcentagem valores fiscais
             $scope.as.as_as_incluso_contabil_icms_valor = ($scope.as.as_valor_total_bruto * parseFloat($scope.as.as_as_incluso_contabil_icms_percent)) / 100;
@@ -659,10 +661,55 @@
             
         }
         
-        $scope.$watch(['as.'], function() {
-            // calc_total_as_objeto();
-            console.log('changed')
-        }, true);
+        $scope.$watchGroup([
+                'as.as_as_incluso_comercial_icms',
+                'as.as_as_incluso_comercial_icms_percent',
+                'as.as_as_incluso_comercial_iss',
+                'as.as_as_incluso_comercial_iss_percent',
+                'as.as_as_incluso_comercial_rcfdc',
+                'as.as_as_incluso_comercial_rcfdc_percent',
+                'as.as_as_incluso_comercial_rctrc',
+                'as.as_as_incluso_comercial_rctrc_percent',
+                'as.as_as_incluso_comercial_despacho',
+                'as.as_as_incluso_comercial_despacho_valor',
+                'as.as_as_incluso_comercial_carga',
+                'as.as_as_incluso_comercial_carga_valor',
+                'as.as_as_incluso_comercial_descarga',
+                'as.as_as_incluso_comercial_descarga_valor',
+                'as.as_as_incluso_comercial_estadia',
+                'as.as_as_incluso_comercial_estadia_valor',
+                'as.as_as_incluso_comercial_pernoite',
+                'as.as_as_incluso_comercial_pernoite_valor',
+                'as.as_as_incluso_comercial_armazenagem',
+                'as.as_as_incluso_comercial_armazenagem_valor',
+                'as.as_as_incluso_comercial_advalorem',
+                'as.as_as_incluso_comercial_advalorem_percent',
+                'as.as_as_incluso_contabil_icms',
+                'as.as_as_incluso_contabil_icms_percent',
+                'as.as_as_incluso_contabil_iss',
+                'as.as_as_incluso_contabil_iss_retido',
+                'as.as_as_incluso_contabil_iss_percent',
+                'as.as_as_incluso_contabil_inss',
+                'as.as_as_incluso_contabil_inss_retido',
+                'as.as_as_incluso_contabil_inss_percent_root',
+                'as.as_as_incluso_contabil_inss_percent',
+                'as.as_as_incluso_contabil_ir',
+                'as.as_as_incluso_contabil_ir_retido',
+                'as.as_as_incluso_contabil_ir_percent',
+                'as.as_as_incluso_contabil_pis',
+                'as.as_as_incluso_contabil_pis_retido',
+                'as.as_as_incluso_contabil_pis_percent',
+                'as.as_as_incluso_contabil_cofins',
+                'as.as_as_incluso_contabil_cofins_retido',
+                'as.as_as_incluso_contabil_cofins_percent',
+                'as.as_as_incluso_contabil_csll',
+                'as.as_as_incluso_contabil_csll_retido',
+                'as.as_as_incluso_contabil_csll_percent',
+                'as.as_as_incluso_contabil_cp',
+                'as.as_as_incluso_contabil_cp_percent'
+            ], function() {
+            calc_total_as_objeto();
+        });
 
         // Dados da carga
         $scope.open_carga_form = function(){
@@ -1069,6 +1116,8 @@
 
         }
 
+        // Impressões
+
         $scope.print_as = function(id){
             
             $rootScope.is_loading = true;
@@ -1099,7 +1148,220 @@
 
         }
 
+        $scope.emitir_os = function(id){
+
+            $rootScope.is_loading = true;
+
+            $http.post('/api/public/as/emitirOs', { id : id }).then(function (response) {
+
+                if(response.data.result){
+
+                    console.log(response.data)
+
+                    window.open('/api/public' + response.data.impressao.file, '_blank');
+
+                }else{
+                    ngToast.create({
+                        className: 'danger',
+                        content: response.data.error
+                    });
+                }
+
+            }, function(response) {
+                $rootScope.is_error = true;
+                $rootScope.is_error_text = "Erro: " + response.data.error;
+            }).finally(function() {
+                $rootScope.is_loading = false;
+            });
+
+        }
+
+        $scope.emitir_cte = function(id){
+
+            $rootScope.is_loading = true;
+
+            $http.post('/api/public/conhecimentos/emitir', { id_as : id }).then(function (response) {
+
+                console.log(response.data)
+
+                window.open('/api/public' + response.data.file, '_blank');
+
+                if(response.data.result){
+
+                    
+
+                    // 
+
+                }else{
+                    ngToast.create({
+                        className: 'danger',
+                        content: response.data.error
+                    });
+                }
+
+            }, function(response) {
+                $rootScope.is_error = true;
+                $rootScope.is_error_text = "Erro: " + response.data.error;
+            }).finally(function() {
+                $rootScope.is_loading = false;
+            });
+
+        }
+
+        $scope.emitir_manifesto = function(id){
+
+            $rootScope.is_loading = true;
+
+            $http.post('/api/public/manifestos/emitir', { id_as : id }).then(function (response) {
+
+                console.log(response.data)
+
+                window.open('/api/public' + response.data.file, '_blank');
+
+                if(response.data.result){
+
+                    
+
+                    // 
+
+                }else{
+                    ngToast.create({
+                        className: 'danger',
+                        content: response.data.error
+                    });
+                }
+
+            }, function(response) {
+                $rootScope.is_error = true;
+                $rootScope.is_error_text = "Erro: " + response.data.error;
+            }).finally(function() {
+                $rootScope.is_loading = false;
+            });
+
+        }
+
+        $scope.print_occ = function(id){
+            
+            $rootScope.is_loading = true;
+
+            var param = {
+                id_as: id
+            }
+
+            $http.post('/api/public/impressoes/occ', param).then(function (response) {
+
+                if(response.data.result){
+
+                    window.open('/api/public' + response.data.file, '_blank');
+
+                }else{
+                    ngToast.create({
+                        className: 'danger',
+                        content: response.data.error
+                    });
+                }
+
+            }, function(response) {
+                $rootScope.is_error = true;
+                $rootScope.is_error_text = "Erro: " + response.data.error;
+            }).finally(function() {
+                $rootScope.is_loading = false;
+            });
+
+        }
         
+
+        $scope.print_nd = function(id){
+            
+            $rootScope.is_loading = true;
+
+            var param = {
+                id_as: id
+            }
+
+            $http.post('/api/public/impressoes/nd', param).then(function (response) {
+
+                if(response.data.result){
+
+                    window.open('/api/public' + response.data.file, '_blank');
+
+                }else{
+                    ngToast.create({
+                        className: 'danger',
+                        content: response.data.error
+                    });
+                }
+
+            }, function(response) {
+                $rootScope.is_error = true;
+                $rootScope.is_error_text = "Erro: " + response.data.error;
+            }).finally(function() {
+                $rootScope.is_loading = false;
+            });
+
+        }
+
+        $scope.print_fatura = function(id){
+            
+            $rootScope.is_loading = true;
+
+            var param = {
+                id_as: id
+            }
+
+            $http.post('/api/public/impressoes/fatura', param).then(function (response) {
+
+                if(response.data.result){
+
+                    window.open('/api/public' + response.data.file, '_blank');
+
+                }else{
+                    ngToast.create({
+                        className: 'danger',
+                        content: response.data.error
+                    });
+                }
+
+            }, function(response) {
+                $rootScope.is_error = true;
+                $rootScope.is_error_text = "Erro: " + response.data.error;
+            }).finally(function() {
+                $rootScope.is_loading = false;
+            });
+
+        }
+
+        $scope.print_recibo = function(id){
+            
+            $rootScope.is_loading = true;
+
+            var param = {
+                id_as: id
+            }
+
+            $http.post('/api/public/impressoes/recibo', param).then(function (response) {
+
+                if(response.data.result){
+
+                    window.open('/api/public' + response.data.file, '_blank');
+
+                }else{
+                    ngToast.create({
+                        className: 'danger',
+                        content: response.data.error
+                    });
+                }
+
+            }, function(response) {
+                $rootScope.is_error = true;
+                $rootScope.is_error_text = "Erro: " + response.data.error;
+            }).finally(function() {
+                $rootScope.is_loading = false;
+            });
+
+        }
+
+
     }
 
 })();

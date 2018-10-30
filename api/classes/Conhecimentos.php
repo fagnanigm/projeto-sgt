@@ -7,6 +7,7 @@ class Conhecimentos {
 	private $db;
 
 	public $base = UPLOAD_PATH;
+	public $impressoes_template_path = '../vendor/impressoes-templates/';
 
 	function __construct($db = false){
 		if(!$db){
@@ -78,11 +79,39 @@ class Conhecimentos {
 
 						$acbr_response = utf8_encode(file_get_contents($get_file['file']));
 
-
-
-
-
 						$response['acbr_response'] = $acbr_response;
+
+						// Gera o arquivo
+						$mpdf = new \Mpdf\Mpdf();
+
+						// Coleta o conteúdo
+
+						$content = Utilities::file_reader($this->impressoes_template_path.'conhecimento.html',array(
+							'|*CONTENT*|' => $acbr_response
+						));
+
+						$mpdf->WriteHTML($content);
+
+						$response['content'] = $content;
+
+						$mpdf->shrink_tables_to_fit = 1;
+
+						// Salva o arquivo
+						$dir = $this->get_directory($as['as_projeto_code_sequencial']);
+
+						if($dir['result']){
+
+							$filename = 'Conhecimento-'.date('d-m-Y-H-i-s').'.pdf';
+							$dir_file = $dir['path'].$filename;
+
+							$mpdf->Output($dir_file);
+
+							$response['file'] = $dir['uri'].$filename;
+							$response['result'] = true;
+
+						}else{
+							$response['error'] = $dir['error'];
+						}
 
 					}else{
 						$response['error'] = 'Erro ao baixar resposta do ACBr.';

@@ -1102,7 +1102,54 @@ class AutorizacaoServico {
 
 	}
 
+	public function emitir_os($args){
 
+		$response = array(
+			'result' => false
+		);
+
+		if(!isset($args['id'])){
+			$response['error'] = 'ID não informado.';
+			return $response;
+		}else{
+			
+			$as = $this->get_by_id($args['id']);
+
+			if(!$as['result']){
+				$response['error'] = $as['error'];
+				return $response;
+			}
+
+		}
+
+		// Inclui OS no Omie
+		$omie = new Omie();
+
+		$omie_inclui_os = $omie->incluirOS(array());
+
+		if(!$omie_inclui_os['response']['result']){
+			$response['error'] = "Erro ao incluir no Omie.";
+ 			return $response;
+		}
+
+		$response['omie_return'] = $omie_inclui_os['response'];
+
+		// Gera PDF
+
+		$impressoes = new Impressoes($this->db);
+
+		$response['impressao'] = $impressoes->print_os(array( 'id_as' => $args['id']));
+
+		if($response['impressao']['result']){
+			$response['result'] = true;
+		}else{
+			$response['error'] = "Erro ao gerar o PDF.";
+		}
+
+
+		return $response;
+
+	}
 	
 
 }

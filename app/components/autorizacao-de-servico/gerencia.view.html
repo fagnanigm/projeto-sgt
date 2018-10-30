@@ -478,7 +478,7 @@
 								</td>
 								<td>
 									<div class="input-group">
-										<input type="text" class="form-control" name="as_as_incluso_comercial_icms_valor" ng-model="as.as_as_incluso_comercial_icms_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_icms">
+										<input type="text" class="form-control" name="as_as_incluso_comercial_icms_valor" ng-model="as.as_as_incluso_comercial_icms_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_icms" readonly>
 										<div class="input-group-append">
 											<span class="input-group-text">R$</span>
 										</div>
@@ -502,7 +502,7 @@
 								</td>
 								<td>
 									<div class="input-group">
-										<input type="text" class="form-control" name="as_as_incluso_comercial_iss_valor" ng-model="as.as_as_incluso_comercial_iss_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_iss">
+										<input type="text" class="form-control" name="as_as_incluso_comercial_iss_valor" ng-model="as.as_as_incluso_comercial_iss_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_iss" readonly>
 										<div class="input-group-append">
 											<span class="input-group-text">R$</span>
 										</div>
@@ -645,7 +645,7 @@
 								</td>
 								<td>
 									<div class="input-group">
-										<input type="text" class="form-control" name="as_as_incluso_comercial_advalorem_valor" ng-model="as.as_as_incluso_comercial_advalorem_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_advalorem">
+										<input type="text" class="form-control" name="as_as_incluso_comercial_advalorem_valor" ng-model="as.as_as_incluso_comercial_advalorem_valor" money-mask ng-disabled="!as.as_as_incluso_comercial_advalorem" readonly>
 										<div class="input-group-append">
 											<span class="input-group-text">R$</span>
 										</div>
@@ -687,7 +687,7 @@
 									</td>
 									<td>
 										<div class="input-group">
-											<input type="text" class="form-control" name="as_as_incluso_contabil_icms_valor" ng-model="as.as_as_incluso_contabil_icms_valor" money-mask ng-disabled="!as.as_as_incluso_contabil_icms">
+											<input type="text" class="form-control" name="as_as_incluso_contabil_icms_valor" ng-model="as.as_as_incluso_contabil_icms_valor" money-mask ng-disabled="!as.as_as_incluso_contabil_icms" readonly>
 											<div class="input-group-append">
 												<span class="input-group-text">R$</span>
 											</div>
@@ -714,7 +714,7 @@
 									</td>
 									<td>
 										<div class="input-group">
-											<input type="text" class="form-control" name="as_as_incluso_contabil_iss_valor" ng-model="as.as_as_incluso_contabil_iss_valor" money-mask ng-disabled="!as.as_as_incluso_contabil_iss">
+											<input type="text" class="form-control" name="as_as_incluso_contabil_iss_valor" ng-model="as.as_as_incluso_contabil_iss_valor" money-mask ng-disabled="!as.as_as_incluso_contabil_iss" readonly>
 											<div class="input-group-append">
 												<span class="input-group-text">R$</span>
 											</div>
@@ -749,7 +749,7 @@
 									</td>
 									<td>
 										<div class="input-group">
-											<input type="text" class="form-control" name="as_as_incluso_contabil_inss_valor" ng-model="as.as_as_incluso_contabil_inss_valor" money-mask ng-disabled="!as.as_as_incluso_contabil_inss">
+											<input type="text" class="form-control" name="as_as_incluso_contabil_inss_valor" ng-model="as.as_as_incluso_contabil_inss_valor" money-mask ng-disabled="!as.as_as_incluso_contabil_inss" readonly>
 											<div class="input-group-append">
 												<span class="input-group-text">R$</span>
 											</div>
@@ -1394,17 +1394,19 @@
 				<div class="row my-3">
 					<div class="col-md-12">
 
-						<button class="btn btn-primary">Emitir OCC</button>
+						<button class="btn btn-primary" ng-click="print_occ(id_as)" type="button">Emitir OCC</button>
 
-						<button class="btn btn-primary" ng-if="as.as_as_forma_faturamento == 'cte'">Emitir CTE</button>
+						<button class="btn btn-primary" ng-if="as.as_as_forma_faturamento == 'cte'" ng-click="emitir_cte(id_as)" type="button">Emitir CTE</button>
 
-						<button class="btn btn-primary" ng-if="as.as_as_forma_faturamento == 'nfs' || as.as_as_forma_faturamento == 'nfe'">Emitir OS</button>
+						<button class="btn btn-primary" ng-if="as.as_as_forma_faturamento == 'cte'" ng-click="emitir_manifesto(id_as)" type="button">Emitir Manifesto</button>
 
-						<button class="btn btn-primary" ng-if="as.as_as_forma_faturamento == 'nd'">Emitir Nota de Débito</button>
+						<button class="btn btn-primary" ng-if="as.as_as_forma_faturamento == 'nfs' || as.as_as_forma_faturamento == 'nfe'" ng-click="emitir_os(id_as)" type="button">Emitir OS</button>
 
-						<button class="btn btn-primary" ng-if="as.as_as_forma_faturamento == 'fatura'">Emitir Fatura</button>
+						<button class="btn btn-primary" ng-if="as.as_as_forma_faturamento == 'nd'" ng-click="print_nd(id_as)" type="button">Emitir Nota de Débito</button>
 
-						<button class="btn btn-primary" ng-if="as.as_as_forma_faturamento == 'outros'">Emitir Recibo</button>
+						<button class="btn btn-primary" ng-if="as.as_as_forma_faturamento == 'fatura'" ng-click="print_fatura(id_as)" type="button">Emitir Fatura</button>
+
+						<button class="btn btn-primary" ng-if="as.as_as_forma_faturamento == 'outros'" ng-click="print_recibo(id_as)" type="button">Emitir Recibo</button>
 
 					</div>
 				</div>
