@@ -12,6 +12,8 @@
         $scope.user = {
             id : $localStorage.currentUser.id   
         };
+
+        $rootScope.is_loading = false;
         
         vm.user_change_password = function(){
         

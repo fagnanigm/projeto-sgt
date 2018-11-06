@@ -125,22 +125,15 @@
 		</tr>
 		
 	</table>
-
+	
 	<!-- pager -->
 	<div class="text-center margin-top-30">
-		<div aria-label="navigation" ng-if="cotacoes.config.total_pages > 1" class="d-inline-block">
-		    <ul class="pagination">
-		        <li ng-class="{disabled:cotacoes.config.current_page == 1}" class="page-item">
-		            <a href="/cotacoes/{{cotacoes.config.current_page - 1}}" class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-		        </li>
-		        <li ng-repeat="page in [] | range: cotacoes.config.total_pages | limitTo:10" ng-class="{active:cotacoes.config.current_page == page}" class="page-item">
-		            <a href="/cotacoes/{{page}}" class="page-link">{{page}}</a>
-		        </li>                
-		        <li ng-class="{disabled:cotacoes.config.current_page == cotacoes.config.total_pages}" class="page-item">
-		            <a href="/cotacoes/{{ cotacoes.config.current_page + 1 }}" class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
-		        </li>
-		    </ul>
-		</div>
+		<div aria-label="navigation" ng-if="config.total_pages > 1" class="d-inline-block"
+			paginate-navigation 
+			data-paginate="paginate"
+			data-config="config"
+			data-url="/cotacoes/">
+		</div>	
 	</div>
 
 </div>

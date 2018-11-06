@@ -14,4 +14,14 @@ $app->post('/relatorios/relatorio-as', function (Request $request, Response $res
 });
 
 
+// COTAÇÕES
+$app->post('/relatorios/cotacao/status', function (Request $request, Response $response, array $args) {
+
+	$relatorios = new Relatorios($this->db);
+	$data = $relatorios->generate_cotacao_status($request->getParams());
+
+	return $response->withJson($data);
+});
+
+
 ?>

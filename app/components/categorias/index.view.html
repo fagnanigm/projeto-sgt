@@ -55,10 +55,23 @@
 				<small>Código: #{{ val.id }}</small>
 			</td>
 			<td class="text-center">{{ val.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm' }}</td>
-			<td width="220">
-				<div class="buttons-capsule">
-					<a href="/categorias/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><a href="/categorias/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">Editar</a><button href="#" class="btn btn-sm btn-danger" ng-click="delete_categoria(val.id)">Excluir</button>
-				</div>
+			<td width="120" class="text-right">
+				
+				<a href="/categorias/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">
+					<i class="fa fa-file-text-o" aria-hidden="true"></i>
+					<div class="btn-tooltip">Visualizar</div>
+				</a>
+
+				<a href="/categorias/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">
+					<i class="fa fa-pencil" aria-hidden="true"></i>
+					<div class="btn-tooltip">Editar</div>
+				</a>
+
+				<button href="#" class="btn btn-sm btn-danger" ng-click="delete_categoria(val.id)">
+					<i class="fa fa-trash-o" aria-hidden="true"></i>
+					<div class="btn-tooltip">Excluir</div>
+				</button>
+
 			</td>
 		</tr>
 		
@@ -72,19 +85,12 @@
 
 	<!-- pager -->
 	<div class="text-center margin-top-30">
-		<div aria-label="navigation" ng-if="categorias.config.total_pages > 1" class="d-inline-block">
-		    <ul class="pagination">
-		        <li ng-class="{disabled:categorias.config.current_page == 1}" class="page-item">
-		            <a href="/categorias/{{categorias.config.current_page - 1}}" class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-		        </li>
-		        <li ng-repeat="page in [] | range: categorias.config.total_pages | limitTo:10" ng-class="{active:categorias.config.current_page == page}" class="page-item">
-		            <a href="/categorias/{{page}}" class="page-link">{{page}}</a>
-		        </li>                
-		        <li ng-class="{disabled:categorias.config.current_page == categorias.config.total_pages}" class="page-item">
-		            <a href="/categorias/{{ categorias.config.current_page + 1 }}" class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
-		        </li>
-		    </ul>
-		</div>
+		<div aria-label="navigation" ng-if="config.total_pages > 1" class="d-inline-block"
+			paginate-navigation 
+			data-paginate="paginate"
+			data-config="config"
+			data-url="/categorias/">
+		</div>	
 	</div>
 
 </div>

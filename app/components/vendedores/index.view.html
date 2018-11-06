@@ -11,8 +11,6 @@
 	</div>
 </div>
 
-
-
 <div class="box-content">
 
 	<div class="box-subtitle"><h2>Listagem dos vendedores</h2></div>
@@ -47,7 +45,7 @@
 		<tr>
 			<th>Vendedor</th>
 			<th class="text-center">Cadastrado</th>
-			<th width="220"></th>
+			<th width="120"></th>
 		</tr>
 		<tr ng-repeat="(key, val) in vendedores.results">
 			<td>
@@ -55,30 +53,36 @@
 				<small>{{ val.vendedor_email }}</small>
 			</td>
 			<td class="text-center">{{ val.create_timestamp * 1000 | date:"dd/MM/yyyy HH:mm" }}</td>
-			<td>
-				<div class="buttons-capsule">
-					<a href="/vendedores/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a><a href="/vendedores/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">Editar</a><button href="#" ng-click="delete_vendedor(val.id)" class="btn btn-sm btn-danger">Excluir</button>
-				</div>
+			<td width="120" class="text-right">
+				
+				<a href="/vendedores/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">
+					<i class="fa fa-file-text-o" aria-hidden="true"></i>
+					<div class="btn-tooltip">Visualizar</div>
+				</a>
+
+				<a href="/vendedores/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">
+					<i class="fa fa-pencil" aria-hidden="true"></i>
+					<div class="btn-tooltip">Editar</div>
+				</a>
+
+				<button href="#" ng-click="delete_vendedor(val.id)" class="btn btn-sm btn-danger">
+					<i class="fa fa-trash-o" aria-hidden="true"></i>
+					<div class="btn-tooltip">Excluir</div>
+				</button>
+
 			</td>
 		</tr>
 		
 	</table>
-
+	
 	<!-- pager -->
 	<div class="text-center margin-top-30">
-		<div aria-label="navigation" ng-if="vendedores.config.total_pages > 1" class="d-inline-block">
-		    <ul class="pagination">
-		        <li ng-class="{disabled:vendedores.config.current_page == 1}" class="page-item">
-		            <a href="/vendedores/{{vendedores.config.current_page - 1}}" class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-		        </li>
-		        <li ng-repeat="page in [] | range: vendedores.config.total_pages | limitTo:10" ng-class="{active:vendedores.config.current_page == page}" class="page-item">
-		            <a href="/vendedores/{{page}}" class="page-link">{{page}}</a>
-		        </li>                
-		        <li ng-class="{disabled:vendedores.config.current_page == vendedores.config.total_pages}" class="page-item">
-		            <a href="/vendedores/{{ vendedores.config.current_page + 1 }}" class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
-		        </li>
-		    </ul>
-		</div>
+		<div aria-label="navigation" ng-if="config.total_pages > 1" class="d-inline-block"
+			paginate-navigation 
+			data-paginate="paginate"
+			data-config="config"
+			data-url="/vendedores/">
+		</div>	
 	</div>
 
 </div>

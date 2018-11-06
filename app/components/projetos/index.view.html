@@ -77,28 +77,24 @@
 					'text-warning' : val.projeto_status == 'em-viagem'
 				}">{{ val.projeto_status_text }}</a>
 			</td>
-			<td width="100" class="text-center">
-				<a href="/projetos/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">Visualizar</a>
+			<td width="100" class="text-right">
+				<a href="/projetos/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">
+					<i class="fa fa-file-text-o" aria-hidden="true"></i>
+					<div class="btn-tooltip">Visualizar</div>
+				</a>
 			</td>
 		</tr>
 		
 	</table>
-
+	
 	<!-- pager -->
 	<div class="text-center margin-top-30">
-		<div aria-label="navigation" ng-if="projetos.config.total_pages > 1" class="d-inline-block">
-		    <ul class="pagination">
-		        <li ng-class="{disabled:projetos.config.current_page == 1}" class="page-item">
-		            <a href="/projetos/{{projetos.config.current_page - 1}}" class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-		        </li>
-		        <li ng-repeat="page in [] | range: projetos.config.total_pages | limitTo:10" ng-class="{active:projetos.config.current_page == page}" class="page-item">
-		            <a href="/projetos/{{page}}" class="page-link">{{page}}</a>
-		        </li>                
-		        <li ng-class="{disabled:projetos.config.current_page == projetos.config.total_pages}" class="page-item">
-		            <a href="/projetos/{{ projetos.config.current_page + 1 }}" class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
-		        </li>
-		    </ul>
-		</div>
+		<div aria-label="navigation" ng-if="config.total_pages > 1" class="d-inline-block"
+			paginate-navigation 
+			data-paginate="paginate"
+			data-config="config"
+			data-url="/projetos/">
+		</div>	
 	</div>
 
 </div>

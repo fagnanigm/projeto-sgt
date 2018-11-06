@@ -53,7 +53,8 @@ $app->add(new TokenAuthentication([
         '/validades-proposta',
         '/prazo-razoes',
         '/taxas-licencas',
-        '/cfop'
+        '/cfop',
+        '/impressoes'
     ),
     'passthrough' => array( // Permitidos
     	'/users/login'

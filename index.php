@@ -75,12 +75,12 @@
         <div class="sub-header">
             <div class="top-sub-header">
                 <div class="logo">
-                    <a href="/dashboard"><img src="/assets/img/logo_nec_white.png"></a>
+                    <a href="/dashboard"><img src="/assets/img/logo.jpg"></a>
                 </div>
                 <ul class="sub-header-menu">
-                    <li><a href="/usuarios">Usuários</a></li>
-                    <li><a href="/empresas">Empresas</a></li>
-                    <li><a href="/configuracoes">Configurações</a></li>
+                    <li ng-if="logged_user.permission != 'cadastros'"><a href="/usuarios">Usuários</a></li>
+                    <li ng-if="logged_user.permission != 'cadastros'"><a href="/empresas">Empresas</a></li>
+                    <li ng-if="logged_user.permission != 'cadastros'"><a href="/configuracoes">Configurações</a></li>
                     <li class="has-dropdown">
                         <a href="#"><i class="icon-user icons"></i> {{ logged_user.username }} <i class="icon-arrow-down icons"></i></a>
 
@@ -110,23 +110,24 @@
                     <li class="heading">
                         <h3 class="uppercase">Cadastros</h3>
                     </li>
-                    <li ng-class="{ active: $state.name == 'clientes' }"><a href="/clientes"><i class="icon-people icons"></i> Clientes</a></li>
-                    <li ng-class="{ active: $state.name == 'categorias' }"><a href="/categorias"><i class="icon-layers icons"></i> Categorias</a></li>
+                    <li ng-if="logged_user.permission != 'cadastros'" ng-class="{ active: $state.name == 'clientes' }"><a href="/clientes"><i class="icon-people icons"></i> Clientes</a></li>
+                    <li ng-if="logged_user.permission != 'cadastros'" ng-class="{ active: $state.name == 'categorias' }"><a href="/categorias"><i class="icon-layers icons"></i> Categorias</a></li>
                     <li ng-class="{ active: $state.name == 'locais' }"><a href="/locais"><i class="icon-location-pin icons"></i> Locais</a></li>
-                    <li ng-class="{ active: $state.name == 'vendedores' }"><a href="/vendedores"><i class="icon-badge icons"></i> Vendedores</a></li>
+                    <li ng-if="logged_user.permission != 'cadastros'" ng-class="{ active: $state.name == 'vendedores' }"><a href="/vendedores"><i class="icon-badge icons"></i> Vendedores</a></li>
                     <li ng-class="{ active: $state.name == 'veiculos' }"><a href="/veiculos"><i class="icon-rocket icons"></i> Veículos</a></li>
                     <li ng-class="{ active: $state.name == 'motoristas' }"><a href="/motoristas"><i class="icon-user icons"></i> Motoristas</a></li>
-                    <li class="heading">
+
+                    <li class="heading" ng-if="logged_user.permission != 'cadastros'">
                         <h3 class="uppercase">Comercial</h3>
                     </li>
 
-                    <li ng-class="{ active: $state.name == 'cotacoes' }"><a href="/cotacoes"><i class="icon-drawer icons"></i> Cotações</a></li>
+                    <li ng-if="logged_user.permission != 'cadastros'" ng-class="{ active: $state.name == 'cotacoes' }"><a href="/cotacoes"><i class="icon-drawer icons"></i> Cotações</a></li>
 
-                    <li ng-class="{ active: $state.name == 'projetos' }"><a href="/projetos"><i class="icon-grid icons"></i> Projetos</a></li>
+                    <li ng-if="logged_user.permission != 'cadastros'" ng-class="{ active: $state.name == 'projetos' }"><a href="/projetos"><i class="icon-grid icons"></i> Projetos</a></li>
 
-                    <li ng-class="{ active: $state.name == 'autorizacao-de-servico' }"><a href="/autorizacao-de-servico"><i class="icon-briefcase icons"></i> Aut. de serviço</a></li>
+                    <li ng-if="logged_user.permission != 'cadastros'" ng-class="{ active: $state.name == 'autorizacao-de-servico' }"><a href="/autorizacao-de-servico"><i class="icon-briefcase icons"></i> Aut. de serviço</a></li>
 
-                    <li ng-class="{ active: $state.name == 'relatorios' }"><a href="/relatorios"><i class="icon-pie-chart icons"></i> Relatórios</a></li>
+                    <li ng-if="logged_user.permission != 'cadastros'" ng-class="{ active: $state.name == 'relatorios' }"><a href="/relatorios"><i class="icon-pie-chart icons"></i> Relatórios</a></li>
                     
                 </ul>
 

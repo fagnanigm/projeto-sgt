@@ -55,29 +55,30 @@
 				<small>Código: #{{ val.cfop_codigo }}</small>
 			</td>
 			<td class="text-center">{{ val.create_timestamp * 1000 | date:"dd/MM/yyyy HH:mm" }}</td>
-			<td width="150">
-				<div class="buttons-capsule">
-					<a href="/configuracoes/cfops/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">Editar</a><button ng-click="delete_item(val.id)" class="btn btn-sm btn-danger">Excluir</button>
-				</div>
+			<td width="90" class="text-right">
+				
+				<a href="/configuracoes/cfops/gerencia/{{ val.id }}" class="btn btn-sm btn-warning">
+					<i class="fa fa-pencil" aria-hidden="true"></i>
+					<div class="btn-tooltip">Editar</div>
+				</a>
+
+				<button ng-click="delete_item(val.id)" class="btn btn-sm btn-danger">
+					<i class="fa fa-trash-o" aria-hidden="true"></i>
+					<div class="btn-tooltip">Excluir</div>
+				</button>
+
 			</td>
 		</tr>
 	</table>
 
 	<!-- pager -->
 	<div class="text-center margin-top-30">
-		<div aria-label="navigation" ng-if="config.total_pages > 1" class="d-inline-block">
-		    <ul class="pagination">
-		        <li ng-class="{disabled:config.current_page == 1}" class="page-item">
-		            <a href="/configuracoes/cfops/{{config.current_page - 1}}" class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-		        </li>
-		        <li ng-repeat="page in [] | range: config.total_pages | limitTo:10" ng-class="{active:config.current_page == page}" class="page-item">
-		            <a href="/configuracoes/cfops/{{page}}" class="page-link">{{page}}</a>
-		        </li>                
-		        <li ng-class="{disabled:config.current_page == config.total_pages}" class="page-item">
-		            <a href="/configuracoes/cfops/{{ config.current_page + 1 }}" class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
-		        </li>
-		    </ul>
-		</div>
+		<div aria-label="navigation" ng-if="config.total_pages > 1" class="d-inline-block"
+			paginate-navigation 
+			data-paginate="paginate"
+			data-config="config"
+			data-url="/configuracoes/cfops/">
+		</div>	
 	</div>
 
 </div>

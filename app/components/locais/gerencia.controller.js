@@ -182,6 +182,8 @@
 
         // Listagem para o mapa
 
+        /*
+
         $scope.$watch('local', function() {
 
             $scope.local.local_google_address = false;
@@ -214,6 +216,7 @@
             
 
         }
+        */
 
     }
 

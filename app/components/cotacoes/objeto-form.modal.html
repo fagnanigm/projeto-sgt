@@ -31,17 +31,77 @@
 						<input type="text" class="form-control" id="descricao" placeholder="Descrição" ng-model="objeto.objeto_descricao" required>
 					</div>
 				</div>
-				<div class="col-md-12">
-					<div class="form-group">
-						<label for="origem">Origem</label>
-						<input type="text" class="form-control" id="origem" placeholder="Origem" ng-model="objeto.objeto_origem" required>
+				
+				<div class="col-md-12" ng-if="cotacao.cotacao_modelo_impressao == 'modelo-2'">
+
+					<div class="box-subtitle margin-bottom-15">
+						<h2>Origem</h2>
 					</div>
+
+					<div class="form-group">
+						<label for="estado">Estado</label>
+						<select class="form-control" name="objeto_origem_uf" ng-model="objeto.objeto_origem_uf" ng-change="uf_origem_change(objeto.objeto_origem_uf)">
+							<option value="">Selecione...</option>
+							<option ng-repeat="(key, uf) in ufs" value="{{ uf.uf_sigla }}">{{ uf.uf_nome }}</option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label for="cidade">Cidade</label>
+						<select class="form-control" name="objeto_origem_cidade" ng-model="objeto.objeto_origem_cidade">
+							<option value="">Selecione...</option>
+							<option ng-repeat="(key, cidade) in origem_municipios" value="{{ cidade.municipio_nome }}" data-localidade-id="{{ cidade.id }}">{{ cidade.municipio_nome }}</option>
+						</select>
+					</div>
+
 				</div>
-				<div class="col-md-12">
-					<div class="form-group">
-						<label for="destino">Destino</label>
-						<input type="text" class="form-control" id="destino" placeholder="Destino" ng-model="objeto.objeto_destino" required>
+
+				<div class="col-md-12" ng-if="cotacao.cotacao_modelo_impressao == 'modelo-2'">
+
+					<div class="box-subtitle margin-bottom-15">
+						<h2>Destino</h2>
 					</div>
+
+					<div class="form-group">
+						<label for="estado">Estado</label>
+						<select class="form-control" name="objeto_destino_uf" ng-model="objeto.objeto_destino_uf" ng-change="uf_destino_change(objeto.objeto_destino_uf)">
+							<option value="">Selecione...</option>
+							<option ng-repeat="(key, uf) in ufs" value="{{ uf.uf_sigla }}">{{ uf.uf_nome }}</option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label for="cidade">Cidade</label>
+						<select class="form-control" name="objeto_destino_cidade" ng-model="objeto.objeto_destino_cidade">
+							<option value="">Selecione...</option>
+							<option ng-repeat="(key, cidade) in destino_municipios" value="{{ cidade.municipio_nome }}" data-localidade-id="{{ cidade.id }}">{{ cidade.municipio_nome }}</option>
+						</select>
+					</div>
+					
+				</div>
+
+				<div class="col-md-12" ng-if="cotacao.cotacao_modelo_impressao == 'modelo-1'">
+
+					<div class="box-subtitle margin-bottom-15">
+						<h2>Local do serviço</h2>
+					</div>
+
+					<div class="form-group">
+						<label for="estado">Estado</label>
+						<select class="form-control" name="local_estado" ng-model="objeto.objeto_local_servico_uf" ng-change="ufChange(objeto.objeto_local_servico_uf)">
+							<option value="">Selecione...</option>
+							<option ng-repeat="(key, uf) in ufs" value="{{ uf.uf_sigla }}">{{ uf.uf_nome }}</option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label for="cidade">Cidade</label>
+						<select class="form-control" name="local_cidade" ng-model="objeto.objeto_local_servico_cidade">
+							<option value="">Selecione...</option>
+							<option ng-repeat="(key, cidade) in municipios" value="{{ cidade.municipio_nome }}" data-localidade-id="{{ cidade.id }}">{{ cidade.municipio_nome }}</option>
+						</select>
+					</div>
+					
 				</div>
 
 			</div>

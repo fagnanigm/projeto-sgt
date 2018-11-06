@@ -53,7 +53,8 @@
                     cotacao_vi_pedagios : true,
                     cotacao_vi_escolta : true,
                     cotacao_vi_taxas : true,
-                    cotacao_equipamentos_tipos : []
+                    cotacao_equipamentos_tipos : [],
+                    cotacao_modelo_impressao: 'modelo-1'
                 }
 
                 var copy = $location.search().copy;
@@ -132,6 +133,7 @@
             get_validades_proposta();
             get_textos_padroes();
             get_equip_tipos_comerciais();
+            $rootScope.get_ufs();
         	get_cotacao();
         }
 
@@ -362,6 +364,26 @@
                 $scope.objeto.objeto_valor_total = quantidade * $scope.objeto.objeto_valor_unit;
             }, true);
 
+            $scope.$watch('objeto.objeto_local_servico_cidade',function(){
+                var localidade_id = $('select[name="local_cidade"] option:selected').data('localidade-id');
+                if(typeof(localidade_id) != 'undefined'){
+                    $scope.objeto.objeto_local_servico_id = localidade_id;
+                }
+            });
+
+            $scope.$watch('objeto.objeto_origem_cidade',function(){
+                var localidade_id = $('select[name="objeto_origem_cidade"] option:selected').data('localidade-id');
+                if(typeof(localidade_id) != 'undefined'){
+                    $scope.objeto.objeto_origem_id = localidade_id;
+                }
+            });
+
+            $scope.$watch('objeto.objeto_destino_cidade',function(){
+                var localidade_id = $('select[name="objeto_destino_cidade"] option:selected').data('localidade-id');
+                if(typeof(localidade_id) != 'undefined'){
+                    $scope.objeto.objeto_destino_id = localidade_id;
+                }
+            });
 
             $rootScope.openModal("/app/components/cotacoes/objeto-form.modal.html",false,$scope);
         }
@@ -380,6 +402,8 @@
             }else{
                 $scope.cotacao.cotacao_caracteristica_objetos[$scope.objeto.key] = $scope.objeto;
             }
+
+            console.log($scope.objeto);
             
             $scope.objeto = {};
             $rootScope.closeModal();
@@ -396,6 +420,46 @@
             $scope.objeto = $scope.cotacao.cotacao_caracteristica_objetos[key];
             $scope.objeto.is_edit = true;
             $scope.objeto.key = key;
+
+            $scope.$watch('[objeto.objeto_quantidade, objeto.objeto_valor_unit]', function() {
+                var quantidade = parseInt($scope.objeto.objeto_quantidade, 10);
+                quantidade = (!Number.isNaN(quantidade) ? quantidade : 1 );
+                $scope.objeto.objeto_valor_total = quantidade * $scope.objeto.objeto_valor_unit;
+            }, true);
+
+            $scope.$watch('objeto.objeto_local_servico_cidade',function(){
+                var localidade_id = $('select[name="local_cidade"] option:selected').data('localidade-id');
+                if(typeof(localidade_id) != 'undefined'){
+                    $scope.objeto.objeto_local_servico_id = localidade_id;
+                }
+            });
+
+            $scope.$watch('objeto.objeto_origem_cidade',function(){
+                var localidade_id = $('select[name="objeto_origem_cidade"] option:selected').data('localidade-id');
+                if(typeof(localidade_id) != 'undefined'){
+                    $scope.objeto.objeto_origem_id = localidade_id;
+                }
+            });
+
+            $scope.$watch('objeto.objeto_destino_cidade',function(){
+                var localidade_id = $('select[name="objeto_destino_cidade"] option:selected').data('localidade-id');
+                if(typeof(localidade_id) != 'undefined'){
+                    $scope.objeto.objeto_destino_id = localidade_id;
+                }
+            });
+
+            if($scope.objeto.objeto_local_servico_cidade.length > 0){
+                $rootScope.ufChange($scope.objeto.objeto_local_servico_uf);
+            }
+
+            if($scope.objeto.objeto_origem_cidade.length > 0){
+                $scope.uf_origem_change($scope.objeto.objeto_origem_uf)
+            }
+
+            if($scope.objeto.objeto_destino_cidade.length > 0){
+                $scope.uf_destino_change($scope.objeto.objeto_destino_uf)
+            }
+
             $rootScope.openModal("/app/components/cotacoes/objeto-form.modal.html",false,$scope);
         }
 
@@ -555,6 +619,24 @@
             }
         };
 
+
+        // Origem destino
+
+        $scope.uf_origem_change = function(term){
+            $rootScope.is_modal_loading = true;
+            $http.get('/api/public/localidades/get/municipios/'+term).then(function (response) {
+                $rootScope.origem_municipios = response.data.municipios;
+                $rootScope.is_modal_loading = false;
+            });
+        }
+
+        $scope.uf_destino_change = function(term){
+            $rootScope.is_modal_loading = true;
+            $http.get('/api/public/localidades/get/municipios/'+term).then(function (response) {
+                $rootScope.destino_municipios = response.data.municipios;
+                $rootScope.is_modal_loading = false;
+            });
+        }
          
     }
 

@@ -21,7 +21,16 @@ class CotacoesObjetos {
 		"objeto_valor_unit",
 		"objeto_valor_total",
 		"create_time",
-		"active"
+		"active",
+		"objeto_origem_cidade",
+		"objeto_origem_uf",
+		"objeto_origem_id",
+		"objeto_destino_cidade",
+		"objeto_destino_uf",
+		"objeto_destino_id",
+		"objeto_local_servico_cidade",
+		"objeto_local_servico_uf",
+		"objeto_local_servico_id"
 	);
 
 	function __construct($db = false){

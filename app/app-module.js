@@ -7,7 +7,8 @@
         .animation('.yAnimate',animation)
         .factory('PagerService', PagerService)
         .factory('beforeUnload', beforeUnload)
-        .filter('range', rangeService);
+        .filter('range', rangeService)
+        .directive('paginateNavigation', paginateNavigation);
 
     function run($rootScope, $http, $location, $localStorage, $state, $stateParams,AuthenticationService, GlobalServices, beforeUnload) {
 
@@ -45,6 +46,7 @@
                         $location.path('/');
                     }else{
                         $rootScope.logged_user = response.data.user;
+                        
                         $rootScope.is_logged = true;
 
                         // Converte algumas informações
@@ -189,5 +191,19 @@
         };
         return {};
     }
+
+
+    function paginateNavigation(){
+        return {
+            scope: {
+                paginate: '=',
+                config: '=',
+                url: '@url'
+            },
+            template: '<ul class="pagination"><li ng-repeat="(key, page) in paginate track by key" ng-class="{active:config.current_page == page}" class="page-item"><a href="{{ page != \'..\' ? url + page : \'#\' }} " class="page-link">{{page}}</a></li></ul>'
+        };
+    }
+    
+  
 
 })();

@@ -136,7 +136,7 @@ class Utilities {
 		$open = fopen($file, "r+");
 		$content = fread($open,filesize($file));
 		fclose($open);
-		$content = utf8_encode($content);
+		$content = $content;
 
 		foreach($vars as $var => $value){
 			$content = str_replace($var,$value,$content);

@@ -28,8 +28,17 @@
             });
 
             $http.get(rest_address).then(function (response) {
+
                 $scope.categorias = response.data;
                 $scope.categorias.config.current_page = parseInt($scope.categorias.config.current_page);
+
+                // Configurações
+                $scope.config = response.data.config;
+                $scope.config.current_page = parseInt($scope.config.current_page);
+
+                // Paginate
+                $scope.paginate = GlobalServices.get_paginate_list(response.data.config);
+
             }, function(response) {
                 $rootScope.is_error = true;
                 $rootScope.is_error_text = "Erro: " + response.data.error;

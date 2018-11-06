@@ -63,6 +63,7 @@ class Cotacoes {
 		"cotacao_carga_descarga_mob",
 		"cotacao_carga_descarga_mob_valor",
 		"cotacao_carga_descarga_mob_equip",
+		"cotacao_modelo_impressao",
 		"create_time",
 		"active"
 	);
@@ -549,7 +550,11 @@ class Cotacoes {
 		// Puxa os equipamentos + tipos comerciais
 
 		$select = $this->db->query("
-			SELECT ce.* FROM cotacoes_equipamentos ce WHERE ce.id_cotacao = '".$cotacao['id']."';
+			SELECT ce.*, tc.tipo_descricao, tc.tipo_nome
+			FROM cotacoes_equipamentos ce 
+				LEFT OUTER JOIN equip_tipos_comerciais tc
+				ON tc.id = ce.ce_tipo_comercial_id
+			WHERE ce.id_cotacao = '".$cotacao['id']."';
 		");
 
 		$cotacao['cotacao_equipamentos_tipos'] = $select->fetchAll(\PDO::FETCH_ASSOC);
@@ -684,9 +689,9 @@ class Cotacoes {
 		if(!$id){
 			$response['error'] = 'ID não informado.';
 		}
-
+		
 		$selectStatement = $this->db->query("
-			SELECT c.*, e.empresa_name, v.vendedor_nome, cat.cat_name, fg.forma_nome
+			SELECT c.*, e.empresa_name, v.vendedor_nome, cat.cat_name, fg.forma_nome, cp.prazo_nome, pr.razao_nome, vp.validade_nome
 				FROM cotacoes c 
 
 					INNER JOIN empresas e 
@@ -700,6 +705,15 @@ class Cotacoes {
 
 					LEFT OUTER JOIN formas_pagamento fg 
 					ON c.id_forma_pagamento = fg.id
+
+					LEFT OUTER JOIN autorizacao_servico_prazo_pg cp 
+					ON c.cotacao_condicoes_pagamento_id = cp.id
+
+					LEFT OUTER JOIN autorizacao_servico_prazo_razao pr 
+					ON c.cotacao_prazo_razao_id = pr.id
+
+					LEFT OUTER JOIN validades_proposta vp 
+					ON c.cotacao_validade_proposta_id = vp.id
 
 				WHERE c.id = '".$id."' AND c.active = 'Y'
 		");

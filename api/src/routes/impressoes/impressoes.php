@@ -15,7 +15,7 @@ $app->post('/impressoes/cotacao', function (Request $request, Response $response
 // Imprimir AS
 $app->post('/impressoes/as', function (Request $request, Response $response, array $args) {
 	$impressoes = new Impressoes($this->db);
-	$data = $impressoes->print_as($request->getParams());
+	$data = $impressoes->print_as($request->getParams(), $this->user_request);
 	return $response->withJson($data);
 });
 

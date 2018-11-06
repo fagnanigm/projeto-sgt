@@ -5,7 +5,7 @@
         .module('app')
         .controller('TiposTaxasLicencas.IndexController', Controller);
 
-    function Controller($rootScope,$scope,$http,$location,ngToast,$localStorage) {
+    function Controller($rootScope,$scope,$http,$location,ngToast,$localStorage,GlobalServices) {
         
         $scope.results = {};
 
@@ -27,14 +27,15 @@
 
             $http.get(rest_address).then(function (response) {
 
-                console.log(response);
-
                 // Configurações
                 $scope.config = response.data.config;
                 $scope.config.current_page = parseInt($scope.config.current_page);
 
                 // Resultados
                 $scope.results = response.data.results;
+
+                // Paginate
+                $scope.paginate = GlobalServices.get_paginate_list(response.data.config); 
                 
 
             }, function(response) {

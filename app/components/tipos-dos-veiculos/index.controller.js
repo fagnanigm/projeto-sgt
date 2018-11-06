@@ -5,7 +5,7 @@
         .module('app')
         .controller('TiposDosVeiculos.IndexController', Controller);
 
-    function Controller($rootScope,$scope,$http,$location,ngToast,$localStorage) {
+    function Controller($rootScope,$scope,$http,$location,ngToast,$localStorage,GlobalServices) {
         
         $scope.results = {};
 
@@ -36,6 +36,8 @@
                 // Resultados
                 $scope.results = response.data.results;
                 
+                // Paginate
+                $scope.paginate = GlobalServices.get_paginate_list(response.data.config); 
 
             }, function(response) {
                 $rootScope.is_error = true;

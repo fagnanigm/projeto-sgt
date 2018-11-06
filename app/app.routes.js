@@ -219,18 +219,22 @@
                 controller: 'Veiculos.GerenciaController',
                 controllerAs: 'vm'
             })
-
             .state('update-veiculo', {
                 url: '/veiculos/gerencia/{id_veiculo}?queryString',
                 templateUrl: 'app/components/veiculos/gerencia.view.html',
                 controller: 'Veiculos.GerenciaController',
                 controllerAs: 'vm'
             })
-
             .state('visualizar-veiculo', {
                 url: '/veiculos/visualizar/{id_veiculo}?queryString',
                 templateUrl: 'app/components/veiculos/visualizar.view.html',
                 controller: 'Veiculos.VisualizarController',
+                controllerAs: 'vm'
+            })
+            .state('veiculos-paged', {
+                url: '/veiculos/{page}?queryString',
+                templateUrl: 'app/components/veiculos/index.view.html',
+                controller: 'Veiculos.IndexController',
                 controllerAs: 'vm'
             })
 

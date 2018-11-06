@@ -13,6 +13,9 @@
         service.phone_parser = phone_parser;
         service.get_as_code_sequencial = get_as_code_sequencial;
         service.get_filter_load = get_filter_load;
+        service.get_paginate_list = get_paginate_list;
+
+        
 
         return service;
 
@@ -71,6 +74,47 @@
                 return phone;
 
             }  
+
+        }
+
+        function get_paginate_list(config){
+
+            var limit_itens = 5;
+
+            var pages = [];
+            var page;
+
+            // First
+            pages.push(1);
+
+            // Middle
+            if(config.total_pages > limit_itens){
+
+                var init = ( (config.current_page - 2) < 2 ? 2 : (config.current_page - 2));
+                var end = ( (init + limit_itens) > config.total_pages ? config.total_pages : (init + limit_itens) );
+
+                if(init > 2){
+                    pages.push('..');
+                }
+
+                for(page = init; page < end; page++){
+                    pages.push(page);
+                }
+
+                if(end < config.total_pages){
+                    pages.push('..');
+                }
+
+            }else{
+                for(page = 2; page < config.total_pages; page++){
+                    pages.push(page);
+                }                                
+            }
+
+            // Last
+            pages.push(config.total_pages);
+
+            return pages;
 
         }
 

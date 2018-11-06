@@ -12,7 +12,7 @@
 
         function initController() {
             
-            // Do something
+            $rootScope.is_loading = false;
 
         }    
 

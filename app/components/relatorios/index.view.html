@@ -6,57 +6,489 @@
 
 	<hr />
 
-	<div class="config-box" ng-init="init_relatorio_as()">
-		<h4>Relatório de AS</h4>
-		<p>Faça a emissão de relatório administrativo com os filtros abaixo.</p>
+	<ul class="nav nav-tabs" id="tabs-relatorios" role="tablist">
 
-		<form ng-submit="submit_relatorio_as()">
-			<div class="row">
-				<div class="col-md-3">
-					<div class="form-group">
-						<label for="status">Status</label>
-						<select class="form-control" ng-model="relatorio_as_filter.status">
-							<option value="0">Todos</option>
-							<option value="em-aberto">Em aberto</option>
-							<option value="carregado">Carregado</option>
-							<option value="aprovado">Em viagem</option>
-							<option value="em-operacao">Em operação</option>
-							<option value="faturado">Faturado</option>
-						</select>
+		<li class="nav-item">
+			<a class="nav-link active" id="cotacoes-tab" data-toggle="tab" href="#cotacoes" role="tab">
+				<i class="fa fa-file-text-o" aria-hidden="true"></i> Cotações
+			</a>
+		</li>
+
+		<li class="nav-item">
+			<a class="nav-link" id="projetos-tab" data-toggle="tab" href="#projetos" role="tab">
+				<i class="fa fa-briefcase" aria-hidden="true"></i> Projetos
+			</a>
+		</li>
+
+		<li class="nav-item">
+			<a class="nav-link" id="as-tab" data-toggle="tab" href="#as" role="tab">
+				<i class="fa fa-cog" aria-hidden="true"></i> AS
+			</a>
+		</li>
+
+	</ul>
+
+	<div class="tab-content margin-top-40">
+
+		<div class="tab-pane fade show active" id="cotacoes" role="tabpanel">
+
+			<!-- M rel 1 -->
+			<div class="config-box" ng-init="init_cotacao_status()">
+				<h4>Relatório de cotações por status (M. rel. 1)</h4>
+				<p>Faça a emissão de relatório das cotações por status com os filtros abaixo.</p>
+
+				<form ng-submit="submit_cotacao_status()">
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="status">Status</label>
+								<select class="form-control" ng-model="cotacao_status_filter.status">
+									<option value="0">Selecionar...</option>
+									<option value="em-aberto">Em aberto</option>
+									<option value="aprovado">Aprovado</option>
+									<option value="aguardando-preco">Aguardando preço</option>
+									<option value="pendente">Pendente</option>
+									<option value="cancelado">Cancelado</option>
+									<option value="reprovado">Reprovado</option>
+									<option value="orientativo">Orientativo</option>
+								</select>								
+							</div>
+						</div>
+						<div class="col-md-3">
+
+							<div class="form-group">
+								<label for="status">Início</label>
+								<input type="date" class="form-control" ng-model="cotacao_status_filter.init">
+							</div>
+
+						</div>
+						<div class="col-md-3">
+
+							<div class="form-group">
+								<label for="status">Fim</label>
+								<input type="date" class="form-control" ng-model="cotacao_status_filter.end">
+							</div>
+
+						</div>
 					</div>
-				</div>
-				<div class="col-md-3">
 
-					<div class="form-group">
-						<label for="status">Início</label>
-						<input type="date" class="form-control" ng-model="relatorio_as_filter.init">
-					</div>
+					<button type="submit" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Emitir</button>
 
-				</div>
-				<div class="col-md-3">
+				</form>
 
-					<div class="form-group">
-						<label for="status">Fim</label>
-						<input type="date" class="form-control" ng-model="relatorio_as_filter.end">
-					</div>
-
-				</div>
-				<div class="col-md-3">
-					<div class="form-group">
-						<label for="status">Categoria</label>
-						<select class="form-control" ng-model="relatorio_as_filter.categoria">
-							<option value="0">Todos</option>
-							<option ng-repeat="(key, val) in categorias" value="{{ val.id }}">{{ val.cat_name }}</option>
-						</select>
-					</div>
-				</div>
 			</div>
 
-			<button type="submit" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Emitir</button>
+			<!-- M rel 2 -->
+			<div class="config-box" ng-init="init_relatorio_as()">
+				<h4>Relatório de cotações por vendedor (M. rel. 2)</h4>
+				<p>Faça a emissão de relatório das cotações por vendedor com os filtros abaixo.</p>
 
-		</form>
+				<form ng-submit="submit_relatorio_as()">
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="status">Vendedor</label>
+								<select class="form-control" ng-model="relatorio_as_filter.status">
+									<option value="0">Selecione...</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-3">
 
-		
+							<div class="form-group">
+								<label for="status">Início</label>
+								<input type="date" class="form-control" ng-model="relatorio_as_filter.init">
+							</div>
+
+						</div>
+						<div class="col-md-3">
+
+							<div class="form-group">
+								<label for="status">Fim</label>
+								<input type="date" class="form-control" ng-model="relatorio_as_filter.end">
+							</div>
+
+						</div>
+					</div>
+
+					<button type="submit" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Emitir</button>
+
+				</form>
+
+			</div>
+
+			<!-- M rel 3 -->
+			<div class="config-box" ng-init="init_relatorio_as()">
+				<h4>Relatório de cotações por origem X destino (M. rel. 3)</h4>
+				<p>Faça a emissão de relatório das cotações por origem e destino com os filtros abaixo.</p>
+
+				<form ng-submit="submit_relatorio_as()">
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="status">Origem</label>
+								<select class="form-control" ng-model="relatorio_as_filter.status">
+									<option value="0">Selecione...</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="status">Destino</label>
+								<select class="form-control" ng-model="relatorio_as_filter.status">
+									<option value="0">Selecione...</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-3">
+
+							<div class="form-group">
+								<label for="status">Início</label>
+								<input type="date" class="form-control" ng-model="relatorio_as_filter.init">
+							</div>
+
+						</div>
+						<div class="col-md-3">
+
+							<div class="form-group">
+								<label for="status">Fim</label>
+								<input type="date" class="form-control" ng-model="relatorio_as_filter.end">
+							</div>
+
+						</div>
+					</div>
+
+					<button type="submit" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Emitir</button>
+
+				</form>
+
+			</div>
+
+			<!-- M rel 4 -->
+			<div class="config-box" ng-init="init_relatorio_as()">
+				<h4>Relatório de cotações por dimensional (M. rel. 4)</h4>
+				<p>Faça a emissão de relatório das cotações pelas dimensões dos objetos com os filtros abaixo.</p>
+
+				<form ng-submit="submit_relatorio_as()">
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="altura">Altura (mm)</label>
+								<input type="text" name="altura" id="altura" class="form-control">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="largura">Largura (mm)</label>
+								<input type="text" name="largura" id="largura" class="form-control">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="comprimento">Comprimento (mm)</label>
+								<input type="text" name="comprimento" id="comprimento" class="form-control">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="peso">Peso (kg)</label>
+								<input type="text" name="peso" id="peso" class="form-control">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="status">Início</label>
+								<input type="date" class="form-control" ng-model="relatorio_as_filter.init">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="status">Fim</label>
+								<input type="date" class="form-control" ng-model="relatorio_as_filter.end">
+							</div>
+						</div>
+					</div>
+
+					<button type="submit" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Emitir</button>
+
+				</form>
+
+			</div>
+
+			<!-- M rel 5 -->
+			<div class="config-box" ng-init="init_relatorio_as()">
+				<h4>Relatório de cotações por cliente (M. rel. 5)</h4>
+				<p>Faça a emissão de relatório das cotações por cliente com os filtros abaixo.</p>
+
+				<form ng-submit="submit_relatorio_as()">
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="status">Cliente</label>
+								<select class="form-control" ng-model="relatorio_as_filter.status">
+									<option value="0">Selecione...</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-3">
+
+							<div class="form-group">
+								<label for="status">Início</label>
+								<input type="date" class="form-control" ng-model="relatorio_as_filter.init">
+							</div>
+
+						</div>
+						<div class="col-md-3">
+
+							<div class="form-group">
+								<label for="status">Fim</label>
+								<input type="date" class="form-control" ng-model="relatorio_as_filter.end">
+							</div>
+
+						</div>
+					</div>
+
+					<button type="submit" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Emitir</button>
+
+				</form>
+
+			</div>
+
+			<!-- M rel 6 -->
+			<div class="config-box" ng-init="init_relatorio_as()">
+				<h4>Relatório de cotações por período (M. rel. 6)</h4>
+				<p>Faça a emissão de relatório das cotações por período.</p>
+
+				<form ng-submit="submit_relatorio_as()">
+					<div class="row">
+						<div class="col-md-3">
+
+							<div class="form-group">
+								<label for="status">Início</label>
+								<input type="date" class="form-control" ng-model="relatorio_as_filter.init">
+							</div>
+
+						</div>
+						<div class="col-md-3">
+
+							<div class="form-group">
+								<label for="status">Fim</label>
+								<input type="date" class="form-control" ng-model="relatorio_as_filter.end">
+							</div>
+
+						</div>
+					</div>
+
+					<button type="submit" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Emitir</button>
+
+				</form>
+
+			</div>
+
+
+
+		</div>
+
+		<div class="tab-pane fade" id="projetos" role="tabpanel">
+
+
+			<!-- M rel 7 -->
+			<div class="config-box" ng-init="init_relatorio_as()">
+				<h4>Relatório de projetos por cliente (M. rel. 7)</h4>
+				<p>Faça a emissão de relatório dos projetos por cliente com os filtros abaixo.</p>
+
+				<form ng-submit="submit_relatorio_as()">
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="status">Cliente</label>
+								<select class="form-control" ng-model="relatorio_as_filter.status">
+									<option value="0">Selecione...</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-3">
+
+							<div class="form-group">
+								<label for="status">Início</label>
+								<input type="date" class="form-control" ng-model="relatorio_as_filter.init">
+							</div>
+
+						</div>
+						<div class="col-md-3">
+
+							<div class="form-group">
+								<label for="status">Fim</label>
+								<input type="date" class="form-control" ng-model="relatorio_as_filter.end">
+							</div>
+
+						</div>
+					</div>
+
+					<button type="submit" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Emitir</button>
+
+				</form>
+
+			</div>
+
+			<!-- M rel 8 -->
+			<div class="config-box" ng-init="init_relatorio_as()">
+				<h4>Relatório de projetos por período (M. rel. 8)</h4>
+				<p>Faça a emissão de relatório dos projetos por período.</p>
+
+				<form ng-submit="submit_relatorio_as()">
+					<div class="row">
+						<div class="col-md-3">
+
+							<div class="form-group">
+								<label for="status">Início</label>
+								<input type="date" class="form-control" ng-model="relatorio_as_filter.init">
+							</div>
+
+						</div>
+						<div class="col-md-3">
+
+							<div class="form-group">
+								<label for="status">Fim</label>
+								<input type="date" class="form-control" ng-model="relatorio_as_filter.end">
+							</div>
+
+						</div>
+					</div>
+
+					<button type="submit" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Emitir</button>
+
+				</form>
+
+			</div>
+
+			<!-- M rel 9 -->
+			<div class="config-box" ng-init="init_relatorio_as()">
+				<h4>Relatório de projetos por categoria (M. rel. 9)</h4>
+				<p>Faça a emissão de relatório dos projetos por categoria com os filtros abaixo.</p>
+
+				<form ng-submit="submit_relatorio_as()">
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="status">Categoria</label>
+								<select class="form-control" ng-model="relatorio_as_filter.categoria">
+									<option value="0">Todos</option>
+									<option ng-repeat="(key, val) in categorias" value="{{ val.id }}">{{ val.cat_name }}</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-3">
+
+							<div class="form-group">
+								<label for="status">Início</label>
+								<input type="date" class="form-control" ng-model="relatorio_as_filter.init">
+							</div>
+
+						</div>
+						<div class="col-md-3">
+
+							<div class="form-group">
+								<label for="status">Fim</label>
+								<input type="date" class="form-control" ng-model="relatorio_as_filter.end">
+							</div>
+
+						</div>
+					</div>
+
+					<button type="submit" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Emitir</button>
+
+				</form>
+
+			</div>
+			
+
+		</div>
+
+		<div class="tab-pane fade" id="as" role="tabpanel">
+
+			<!-- M rel 10 -->
+			<div class="config-box" ng-init="init_relatorio_as()">
+				<h4>Relatório de AS por cliente (M. rel. 10)</h4>
+				<p>Faça a emissão de relatório das autorizações de serviços por cliente com os filtros abaixo.</p>
+
+				<form ng-submit="submit_relatorio_as()">
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="status">Cliente</label>
+								<select class="form-control" ng-model="relatorio_as_filter.status">
+									<option value="0">Selecione...</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-3">
+
+							<div class="form-group">
+								<label for="status">Início</label>
+								<input type="date" class="form-control" ng-model="relatorio_as_filter.init">
+							</div>
+
+						</div>
+						<div class="col-md-3">
+
+							<div class="form-group">
+								<label for="status">Fim</label>
+								<input type="date" class="form-control" ng-model="relatorio_as_filter.end">
+							</div>
+
+						</div>
+					</div>
+
+					<button type="submit" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Emitir</button>
+
+				</form>
+
+			</div>
+
+			<!-- M rel 12 -->
+			<div class="config-box" ng-init="init_relatorio_as()">
+				<h4>Relatório de AS por projeto (M. rel. 12)</h4>
+				<p>Faça a emissão de relatório das autorizações de serviços por projeto com os filtros abaixo.</p>
+
+				<form ng-submit="submit_relatorio_as()">
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="status">Projeto</label>
+								<select class="form-control" ng-model="relatorio_as_filter.status">
+									<option value="0">Selecione...</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-3">
+
+							<div class="form-group">
+								<label for="status">Início</label>
+								<input type="date" class="form-control" ng-model="relatorio_as_filter.init">
+							</div>
+
+						</div>
+						<div class="col-md-3">
+
+							<div class="form-group">
+								<label for="status">Fim</label>
+								<input type="date" class="form-control" ng-model="relatorio_as_filter.end">
+							</div>
+
+						</div>
+					</div>
+
+					<button type="submit" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Emitir</button>
+
+				</form>
+
+			</div>
+
+			
+			
+		</div>
+
 	</div>
 
 					

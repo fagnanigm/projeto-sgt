@@ -1128,6 +1128,8 @@
 
             $http.post('/api/public/impressoes/as', param).then(function (response) {
 
+                console.log(response);
+
                 if(response.data.result){
 
                     window.open('/api/public' + response.data.file, '_blank');
