@@ -79,17 +79,18 @@
 			</div>
 
 			<!-- M rel 2 -->
-			<div class="config-box" ng-init="init_relatorio_as()">
+			<div class="config-box" ng-init="init_cotacao_vendedores()">
 				<h4>Relatório de cotações por vendedor (M. rel. 2)</h4>
 				<p>Faça a emissão de relatório das cotações por vendedor com os filtros abaixo.</p>
 
-				<form ng-submit="submit_relatorio_as()">
+				<form ng-submit="submit_cotacao_vendedores()">
 					<div class="row">
 						<div class="col-md-3">
 							<div class="form-group">
 								<label for="status">Vendedor</label>
-								<select class="form-control" ng-model="relatorio_as_filter.status">
+								<select class="form-control" ng-model="cotacao_vendedores_filter.id_vendedor">
 									<option value="0">Selecione...</option>
+									<option ng-repeat="(key, val) in vendedores" value="{{ val.id }}">{{ val.vendedor_nome }}</option>
 								</select>
 							</div>
 						</div>
@@ -97,7 +98,7 @@
 
 							<div class="form-group">
 								<label for="status">Início</label>
-								<input type="date" class="form-control" ng-model="relatorio_as_filter.init">
+								<input type="date" class="form-control" ng-model="cotacao_vendedores_filter.init">
 							</div>
 
 						</div>
@@ -105,7 +106,7 @@
 
 							<div class="form-group">
 								<label for="status">Fim</label>
-								<input type="date" class="form-control" ng-model="relatorio_as_filter.end">
+								<input type="date" class="form-control" ng-model="cotacao_vendedores_filter.end">
 							</div>
 
 						</div>
@@ -118,25 +119,27 @@
 			</div>
 
 			<!-- M rel 3 -->
-			<div class="config-box" ng-init="init_relatorio_as()">
+			<div class="config-box" ng-init="init_cotacao_destino_origem()">
 				<h4>Relatório de cotações por origem X destino (M. rel. 3)</h4>
 				<p>Faça a emissão de relatório das cotações por origem e destino com os filtros abaixo.</p>
 
-				<form ng-submit="submit_relatorio_as()">
+				<form ng-submit="submit_cotacao_destino_origem()">
 					<div class="row">
 						<div class="col-md-3">
 							<div class="form-group">
 								<label for="status">Origem</label>
-								<select class="form-control" ng-model="relatorio_as_filter.status">
+								<select class="form-control" ng-model="cotacao_destino_filter.origem">
 									<option value="0">Selecione...</option>
+									<option ng-repeat="(key, val) in ufs" value="{{ val.uf_sigla }}">{{ val.uf_nome }}</option>
 								</select>
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
 								<label for="status">Destino</label>
-								<select class="form-control" ng-model="relatorio_as_filter.status">
+								<select class="form-control" ng-model="cotacao_destino_filter.destino">
 									<option value="0">Selecione...</option>
+									<option ng-repeat="(key, val) in ufs" value="{{ val.uf_sigla }}">{{ val.uf_nome }}</option>
 								</select>
 							</div>
 						</div>
@@ -144,7 +147,7 @@
 
 							<div class="form-group">
 								<label for="status">Início</label>
-								<input type="date" class="form-control" ng-model="relatorio_as_filter.init">
+								<input type="date" class="form-control" ng-model="cotacao_destino_filter.init">
 							</div>
 
 						</div>
@@ -152,7 +155,7 @@
 
 							<div class="form-group">
 								<label for="status">Fim</label>
-								<input type="date" class="form-control" ng-model="relatorio_as_filter.end">
+								<input type="date" class="form-control" ng-model="cotacao_destino_filter.end">
 							</div>
 
 						</div>
@@ -165,46 +168,46 @@
 			</div>
 
 			<!-- M rel 4 -->
-			<div class="config-box" ng-init="init_relatorio_as()">
+			<div class="config-box" ng-init="init_cotacao_dimensional()">
 				<h4>Relatório de cotações por dimensional (M. rel. 4)</h4>
 				<p>Faça a emissão de relatório das cotações pelas dimensões dos objetos com os filtros abaixo.</p>
 
-				<form ng-submit="submit_relatorio_as()">
+				<form ng-submit="submit_cotacao_dimensional()">
 					<div class="row">
 						<div class="col-md-3">
 							<div class="form-group">
 								<label for="altura">Altura (mm)</label>
-								<input type="text" name="altura" id="altura" class="form-control">
+								<input type="text" name="altura" id="altura" class="form-control" ng-model="cotacao_dimensional_filter.altura" mask="9?9?9?9?9?9.999">
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
 								<label for="largura">Largura (mm)</label>
-								<input type="text" name="largura" id="largura" class="form-control">
+								<input type="text" name="largura" id="largura" class="form-control" ng-model="cotacao_dimensional_filter.largura" mask="9?9?9?9?9?9.999">
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
 								<label for="comprimento">Comprimento (mm)</label>
-								<input type="text" name="comprimento" id="comprimento" class="form-control">
+								<input type="text" name="comprimento" id="comprimento" class="form-control" ng-model="cotacao_dimensional_filter.comprimento" mask="9?9?9?9?9?9.999">
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
 								<label for="peso">Peso (kg)</label>
-								<input type="text" name="peso" id="peso" class="form-control">
+								<input type="text" name="peso" id="peso" class="form-control" ng-model="cotacao_dimensional_filter.peso" mask="9?9?9?9?9?9.999">
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
 								<label for="status">Início</label>
-								<input type="date" class="form-control" ng-model="relatorio_as_filter.init">
+								<input type="date" class="form-control" ng-model="cotacao_dimensional_filter.init">
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
 								<label for="status">Fim</label>
-								<input type="date" class="form-control" ng-model="relatorio_as_filter.end">
+								<input type="date" class="form-control" ng-model="cotacao_dimensional_filter.end">
 							</div>
 						</div>
 					</div>
@@ -216,25 +219,30 @@
 			</div>
 
 			<!-- M rel 5 -->
-			<div class="config-box" ng-init="init_relatorio_as()">
+			<div class="config-box" ng-init="init_cotacao_cliente()">
 				<h4>Relatório de cotações por cliente (M. rel. 5)</h4>
 				<p>Faça a emissão de relatório das cotações por cliente com os filtros abaixo.</p>
 
-				<form ng-submit="submit_relatorio_as()">
+				<form ng-submit="submit_cotacao_cliente()">
 					<div class="row">
 						<div class="col-md-3">
 							<div class="form-group">
 								<label for="status">Cliente</label>
-								<select class="form-control" ng-model="relatorio_as_filter.status">
-									<option value="0">Selecione...</option>
-								</select>
+								
+								<div class="input-group">
+									<input type="text" class="form-control" id="cliente" placeholder="Selecione um cliente..." ng-model="cotacao_cliente_filter.cliente_nome" readonly>
+									<div class="input-group-append">
+										<button class="btn btn-primary" type="button" ng-click="open_choose_cliente('set_cotacao_cliente')"><i class="icon-magnifier icons"></i></button>
+									</div>
+								</div>
+
 							</div>
 						</div>
 						<div class="col-md-3">
 
 							<div class="form-group">
 								<label for="status">Início</label>
-								<input type="date" class="form-control" ng-model="relatorio_as_filter.init">
+								<input type="date" class="form-control" ng-model="cotacao_cliente_filter.init">
 							</div>
 
 						</div>
@@ -242,7 +250,7 @@
 
 							<div class="form-group">
 								<label for="status">Fim</label>
-								<input type="date" class="form-control" ng-model="relatorio_as_filter.end">
+								<input type="date" class="form-control" ng-model="cotacao_cliente_filter.end">
 							</div>
 
 						</div>
@@ -255,17 +263,17 @@
 			</div>
 
 			<!-- M rel 6 -->
-			<div class="config-box" ng-init="init_relatorio_as()">
+			<div class="config-box" ng-init="init_cotacao_periodo()">
 				<h4>Relatório de cotações por período (M. rel. 6)</h4>
 				<p>Faça a emissão de relatório das cotações por período.</p>
 
-				<form ng-submit="submit_relatorio_as()">
+				<form ng-submit="submit_cotacao_periodo()">
 					<div class="row">
 						<div class="col-md-3">
 
 							<div class="form-group">
 								<label for="status">Início</label>
-								<input type="date" class="form-control" ng-model="relatorio_as_filter.init">
+								<input type="date" class="form-control" ng-model="cotacao_periodo_filter.init">
 							</div>
 
 						</div>
@@ -273,7 +281,7 @@
 
 							<div class="form-group">
 								<label for="status">Fim</label>
-								<input type="date" class="form-control" ng-model="relatorio_as_filter.end">
+								<input type="date" class="form-control" ng-model="cotacao_periodo_filter.end">
 							</div>
 
 						</div>
@@ -293,25 +301,30 @@
 
 
 			<!-- M rel 7 -->
-			<div class="config-box" ng-init="init_relatorio_as()">
+			<div class="config-box" ng-init="init_projeto_cliente()">
 				<h4>Relatório de projetos por cliente (M. rel. 7)</h4>
 				<p>Faça a emissão de relatório dos projetos por cliente com os filtros abaixo.</p>
 
-				<form ng-submit="submit_relatorio_as()">
+				<form ng-submit="submit_projeto_cliente()">
 					<div class="row">
 						<div class="col-md-3">
 							<div class="form-group">
-								<label for="status">Cliente</label>
-								<select class="form-control" ng-model="relatorio_as_filter.status">
-									<option value="0">Selecione...</option>
-								</select>
+								<label for="projeto-cliente">Cliente</label>
+								
+								<div class="input-group">
+									<input type="text" class="form-control" id="projeto-cliente" placeholder="Selecione um cliente..." ng-model="projeto_cliente_filter.cliente_nome" readonly>
+									<div class="input-group-append">
+										<button class="btn btn-primary" type="button" ng-click="open_choose_cliente('set_projeto_cliente')"><i class="icon-magnifier icons"></i></button>
+									</div>
+								</div>
+
 							</div>
 						</div>
 						<div class="col-md-3">
 
 							<div class="form-group">
 								<label for="status">Início</label>
-								<input type="date" class="form-control" ng-model="relatorio_as_filter.init">
+								<input type="date" class="form-control" ng-model="projeto_cliente_filter.init">
 							</div>
 
 						</div>
@@ -319,7 +332,7 @@
 
 							<div class="form-group">
 								<label for="status">Fim</label>
-								<input type="date" class="form-control" ng-model="relatorio_as_filter.end">
+								<input type="date" class="form-control" ng-model="projeto_cliente_filter.end">
 							</div>
 
 						</div>
@@ -332,17 +345,17 @@
 			</div>
 
 			<!-- M rel 8 -->
-			<div class="config-box" ng-init="init_relatorio_as()">
+			<div class="config-box" ng-init="init_projeto_periodo()">
 				<h4>Relatório de projetos por período (M. rel. 8)</h4>
 				<p>Faça a emissão de relatório dos projetos por período.</p>
 
-				<form ng-submit="submit_relatorio_as()">
+				<form ng-submit="submit_projeto_periodo()">
 					<div class="row">
 						<div class="col-md-3">
 
 							<div class="form-group">
 								<label for="status">Início</label>
-								<input type="date" class="form-control" ng-model="relatorio_as_filter.init">
+								<input type="date" class="form-control" ng-model="projeto_periodo_filter.init">
 							</div>
 
 						</div>
@@ -350,7 +363,7 @@
 
 							<div class="form-group">
 								<label for="status">Fim</label>
-								<input type="date" class="form-control" ng-model="relatorio_as_filter.end">
+								<input type="date" class="form-control" ng-model="projeto_periodo_filter.end">
 							</div>
 
 						</div>
