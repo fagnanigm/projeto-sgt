@@ -74,6 +74,45 @@
             $scope.cliente_is_search = false;
         }
 
+        // Pesquisa de projetos
+
+        $scope.projeto_search_filter = { free_term : '' };
+        $scope.projeto_is_search = false;
+
+        $scope.search_modal_projeto = function(){
+            $rootScope.is_modal_loading = true;
+            
+            $http.get('/api/public/projetos/search?term=' + $scope.projeto_search_filter.free_term).then(function (response) {
+                
+                if(response.data.result){
+                    $scope.projetos = response.data.results;
+                    $scope.projeto_is_search = true;
+                }else{
+                    ngToast.create({
+                        className: 'danger',
+                        content: response.data.error
+                    });
+                }
+
+            }, function(response) {
+                $rootScope.is_error = true;
+                $rootScope.is_error_text = "Erro: " + response.data.message;
+            }).finally(function() {
+                $rootScope.is_modal_loading = false;
+            });
+
+        }
+
+        $scope.open_choose_projetos = function(fn){
+            $scope.open_choose_projeto_fn = fn;
+            $rootScope.openModal("/app/components/relatorios/projetos.modal.html",false,$scope);
+        }
+
+        $scope.choose_projeto = function(projeto){
+            $scope[$scope.open_choose_projeto_fn](projeto);
+            $rootScope.closeModal();
+            $scope.projeto_is_search = false;
+        }
 
         // Relatório de COTAÇÃO POR STATUS
         $scope.init_cotacao_status = function(){
@@ -492,6 +531,170 @@
 
             });
 
+        }
+
+        // Relatório de PROJETO POR CATEGORIA
+        $scope.init_projeto_categoria = function(){
+
+            var date = new Date();
+
+            $scope.projeto_categoria_filter = {
+                init: new Date(date.getFullYear(), date.getMonth(), 1),
+                end: new Date(),
+                id_categoria: '0'
+            }
+
+        }
+
+        $scope.submit_projeto_categoria = function(){
+
+            var filter = {
+                init: Math.floor($scope.projeto_categoria_filter.init.getTime() / 1000),
+                end: Math.floor($scope.projeto_categoria_filter.end.getTime() / 1000),
+                id_categoria: $scope.projeto_categoria_filter.id_categoria
+            }
+
+            if(filter.id_categoria == '0'){
+                ngToast.create({
+                    className: 'danger',
+                    content: "Selecione uma categoria para a emissão desse relatório."
+                });
+                return;
+            }
+
+            $rootScope.is_loading = true;
+
+            $http.post('/api/public/relatorios/projeto/categoria', filter).then(function (response) {
+
+                console.log(response);
+
+                $rootScope.is_loading = false;
+
+                if(response.data.result){
+                    
+                    window.open('/api/public' + response.data.file, '_blank');
+
+                }else{
+                    ngToast.create({
+                        className: 'danger',
+                        content: response.data.error
+                    });
+                }
+
+            });
+
+        }
+
+
+        // Relatório de AS POR CLIENTE
+        $scope.init_as_cliente = function(){
+
+            var date = new Date();
+
+            $scope.as_cliente_filter = {
+                init: new Date(date.getFullYear(), date.getMonth(), 1),
+                end: new Date(),
+                id_cliente: false
+            }
+
+        }
+
+        $scope.submit_as_cliente = function(){
+
+            var filter = {
+                init: Math.floor($scope.as_cliente_filter.init.getTime() / 1000),
+                end: Math.floor($scope.as_cliente_filter.end.getTime() / 1000),
+                id_cliente: $scope.as_cliente_filter.id_cliente
+            }
+
+            if(filter.id_cliente == false){
+                ngToast.create({
+                    className: 'danger',
+                    content: "Selecione um cliente para a emissão desse relatório."
+                });
+                return;
+            }
+
+            $rootScope.is_loading = true;
+
+            $http.post('/api/public/relatorios/as/cliente', filter).then(function (response) {
+
+                console.log(response);
+
+                $rootScope.is_loading = false;
+
+                if(response.data.result){
+                    
+                    window.open('/api/public' + response.data.file, '_blank');
+
+                }else{
+                    ngToast.create({
+                        className: 'danger',
+                        content: response.data.error
+                    });
+                }
+
+            });
+
+        }
+
+        $scope.set_as_cliente = function(cliente){
+            $scope.as_cliente_filter.cliente_nome = cliente.cliente_nome;
+            $scope.as_cliente_filter.id_cliente = cliente.id;
+        }
+
+
+        // Relatório de AS POR PROJETO
+        $scope.init_as_projeto = function(){
+
+            var date = new Date();
+
+            $scope.as_projeto_filter = {
+                id_projeto: false
+            }
+
+        }
+
+        $scope.submit_as_projeto = function(){
+
+            var filter = {
+                id_projeto: $scope.as_projeto_filter.id_projeto
+            }
+
+            if(filter.id_projeto == false){
+                ngToast.create({
+                    className: 'danger',
+                    content: "Selecione um projeto para a emissão desse relatório."
+                });
+                return;
+            }
+
+            $rootScope.is_loading = true;
+
+            $http.post('/api/public/relatorios/as/projeto', filter).then(function (response) {
+
+                console.log(response);
+
+                $rootScope.is_loading = false;
+
+                if(response.data.result){
+                    
+                    window.open('/api/public' + response.data.file, '_blank');
+
+                }else{
+                    ngToast.create({
+                        className: 'danger',
+                        content: response.data.error
+                    });
+                }
+
+            });
+
+        }
+
+        $scope.set_as_projeto = function(projeto){
+            $scope.as_projeto_filter.projeto_code = projeto.projeto_code;
+            $scope.as_projeto_filter.id_projeto = projeto.id
         }
 
 

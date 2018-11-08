@@ -426,11 +426,6 @@ class Projetos {
 
 		$response = array('result' => false);
 
-		if(!isset($args['context'])){
-			$response['error'] = 'Contexto não definido.';
-			return $response;
-		}
-
 		if(!isset($args['term'])){
 			$response['error'] = 'Termo não definido.';
 			return $response;
@@ -445,11 +440,11 @@ class Projetos {
 		
 		$select = $this->db->query('SELECT * FROM projetos 
 			WHERE active = \'Y\' 
-			AND id_empresa = \''.$args['context'].'\' AND (
-				projeto_apelido LIKE \'%'.$term.'%\' OR
-				projeto_codigo = \''.$term.'\'
+			AND (
+				projeto_nome LIKE \'%'.$term.'%\' OR
+				projeto_code_sequencial = \''.$term.'\'
 			)
-			ORDER BY projeto_apelido');
+			ORDER BY projeto_nome');
 			
 		$response['results'] = $this->parser_fetch($select->fetchAll(\PDO::FETCH_ASSOC),'all');
 

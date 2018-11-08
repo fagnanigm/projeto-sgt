@@ -87,5 +87,41 @@ $app->post('/relatorios/projeto/periodo', function (Request $request, Response $
 	return $response->withJson($data);
 });
 
+// PROJETOS - CATEGORIA
+$app->post('/relatorios/projeto/categoria', function (Request $request, Response $response, array $args) {
+
+	$relatorios = new Relatorios($this->db);
+	$data = $relatorios->generate_projeto_categoria($request->getParams());
+
+	return $response->withJson($data);
+});
+
+// PROJETOS - CUSTO
+$app->post('/relatorios/projeto/custo', function (Request $request, Response $response, array $args) {
+
+	$relatorios = new Relatorios($this->db);
+	$data = $relatorios->generate_projeto_custo($request->getParams());
+
+	return $response->withJson($data);
+});
+
+// AS - CLIENTE
+$app->post('/relatorios/as/cliente', function (Request $request, Response $response, array $args) {
+
+	$relatorios = new Relatorios($this->db);
+	$data = $relatorios->generate_as_cliente($request->getParams());
+
+	return $response->withJson($data);
+});
+
+// AS - PROJETO
+$app->post('/relatorios/as/projeto', function (Request $request, Response $response, array $args) {
+
+	$relatorios = new Relatorios($this->db);
+	$data = $relatorios->generate_as_projeto($request->getParams());
+
+	return $response->withJson($data);
+});
+
 
 ?>

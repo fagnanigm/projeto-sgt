@@ -77,11 +77,18 @@
 					'text-warning' : val.projeto_status == 'em-viagem'
 				}">{{ val.projeto_status_text }}</a>
 			</td>
-			<td width="100" class="text-right">
+			<td width="120" class="text-right">
+
+				<a href="#" class="btn btn-sm btn-secondary" ng-click="print_projeto_custo(val.id)">
+					<i class="fa fa-print" aria-hidden="true"></i>
+					<div class="btn-tooltip">Relatório de custo</div>
+				</a>
+
 				<a href="/projetos/visualizar/{{ val.id }}" class="btn btn-sm btn-primary">
 					<i class="fa fa-file-text-o" aria-hidden="true"></i>
 					<div class="btn-tooltip">Visualizar</div>
 				</a>
+
 			</td>
 		</tr>
 		

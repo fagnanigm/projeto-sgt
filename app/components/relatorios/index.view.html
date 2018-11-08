@@ -376,17 +376,17 @@
 			</div>
 
 			<!-- M rel 9 -->
-			<div class="config-box" ng-init="init_relatorio_as()">
+			<div class="config-box" ng-init="init_projeto_categoria()">
 				<h4>Relatório de projetos por categoria (M. rel. 9)</h4>
 				<p>Faça a emissão de relatório dos projetos por categoria com os filtros abaixo.</p>
 
-				<form ng-submit="submit_relatorio_as()">
+				<form ng-submit="submit_projeto_categoria()">
 					<div class="row">
 						<div class="col-md-3">
 							<div class="form-group">
 								<label for="status">Categoria</label>
-								<select class="form-control" ng-model="relatorio_as_filter.categoria">
-									<option value="0">Todos</option>
+								<select class="form-control" ng-model="projeto_categoria_filter.id_categoria">
+									<option value="0">Selecione...</option>
 									<option ng-repeat="(key, val) in categorias" value="{{ val.id }}">{{ val.cat_name }}</option>
 								</select>
 							</div>
@@ -395,7 +395,7 @@
 
 							<div class="form-group">
 								<label for="status">Início</label>
-								<input type="date" class="form-control" ng-model="relatorio_as_filter.init">
+								<input type="date" class="form-control" ng-model="projeto_categoria_filter.init">
 							</div>
 
 						</div>
@@ -403,7 +403,7 @@
 
 							<div class="form-group">
 								<label for="status">Fim</label>
-								<input type="date" class="form-control" ng-model="relatorio_as_filter.end">
+								<input type="date" class="form-control" ng-model="projeto_categoria_filter.end">
 							</div>
 
 						</div>
@@ -421,25 +421,30 @@
 		<div class="tab-pane fade" id="as" role="tabpanel">
 
 			<!-- M rel 10 -->
-			<div class="config-box" ng-init="init_relatorio_as()">
+			<div class="config-box" ng-init="init_as_cliente()">
 				<h4>Relatório de AS por cliente (M. rel. 10)</h4>
 				<p>Faça a emissão de relatório das autorizações de serviços por cliente com os filtros abaixo.</p>
 
-				<form ng-submit="submit_relatorio_as()">
+				<form ng-submit="submit_as_cliente()">
 					<div class="row">
 						<div class="col-md-3">
 							<div class="form-group">
 								<label for="status">Cliente</label>
-								<select class="form-control" ng-model="relatorio_as_filter.status">
-									<option value="0">Selecione...</option>
-								</select>
+								
+								<div class="input-group">
+									<input type="text" class="form-control" id="as-cliente" placeholder="Selecione um cliente..." ng-model="as_cliente_filter.cliente_nome" readonly>
+									<div class="input-group-append">
+										<button class="btn btn-primary" type="button" ng-click="open_choose_cliente('set_as_cliente')"><i class="icon-magnifier icons"></i></button>
+									</div>
+								</div>
+
 							</div>
 						</div>
 						<div class="col-md-3">
 
 							<div class="form-group">
 								<label for="status">Início</label>
-								<input type="date" class="form-control" ng-model="relatorio_as_filter.init">
+								<input type="date" class="form-control" ng-model="as_cliente_filter.init">
 							</div>
 
 						</div>
@@ -447,7 +452,7 @@
 
 							<div class="form-group">
 								<label for="status">Fim</label>
-								<input type="date" class="form-control" ng-model="relatorio_as_filter.end">
+								<input type="date" class="form-control" ng-model="as_cliente_filter.end">
 							</div>
 
 						</div>
@@ -460,35 +465,24 @@
 			</div>
 
 			<!-- M rel 12 -->
-			<div class="config-box" ng-init="init_relatorio_as()">
+			<div class="config-box" ng-init="init_as_projeto()">
 				<h4>Relatório de AS por projeto (M. rel. 12)</h4>
 				<p>Faça a emissão de relatório das autorizações de serviços por projeto com os filtros abaixo.</p>
 
-				<form ng-submit="submit_relatorio_as()">
+				<form ng-submit="submit_as_projeto()">
 					<div class="row">
-						<div class="col-md-3">
+						<div class="col-md-4">
 							<div class="form-group">
-								<label for="status">Projeto</label>
-								<select class="form-control" ng-model="relatorio_as_filter.status">
-									<option value="0">Selecione...</option>
-								</select>
+								<label for="as-projeto">Projeto</label>
+								
+								<div class="input-group">
+									<input type="text" class="form-control" id="as-projeto" placeholder="Selecione um projeto..." ng-model="as_projeto_filter.projeto_code" readonly>
+									<div class="input-group-append">
+										<button class="btn btn-primary" type="button" ng-click="open_choose_projetos('set_as_projeto')"><i class="icon-magnifier icons"></i></button>
+									</div>
+								</div>
+
 							</div>
-						</div>
-						<div class="col-md-3">
-
-							<div class="form-group">
-								<label for="status">Início</label>
-								<input type="date" class="form-control" ng-model="relatorio_as_filter.init">
-							</div>
-
-						</div>
-						<div class="col-md-3">
-
-							<div class="form-group">
-								<label for="status">Fim</label>
-								<input type="date" class="form-control" ng-model="relatorio_as_filter.end">
-							</div>
-
 						</div>
 					</div>
 

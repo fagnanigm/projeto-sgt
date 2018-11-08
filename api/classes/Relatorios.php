@@ -1295,6 +1295,86 @@ class Relatorios {
 
 	}
 
+	// PROJETOS - CUSTO
+	public function generate_projeto_custo($args){
+
+		$response = array(
+			'result' => false
+		);
+
+		// Gera o arquivo
+		$mpdf = new \Mpdf\Mpdf([			
+			'margin_top' => '28'
+		]);
+
+		// Header
+		$mpdf->SetHTMLHeader('
+			<table cellpadding="0" cellspacing="0" width="100%" style="width: 100%; border-bottom:1px solid #000;">
+				<tr>
+					<td><img src="logo.png"></td>
+					<td width="220">
+						<center>
+							<table style="width: 220px;" width="220">
+								<tr>
+									<td style="border:1px solid #000;  font-size: 12px; padding: 4px 5px;">
+										<strong>Relatório de Projetos<br />CUSTO</strong>
+									</td>
+								</tr>
+							</table>
+						</center>
+					</td>
+				</tr>
+			</table>
+		');
+
+		// Footer
+		$mpdf->SetFooter("Página {PAGENO} de {nb}");
+
+		$query = "
+			SELECT 
+				p.*
+			FROM projetos p
+			WHERE p.active = 'Y' 
+			AND p.id = '".$args['id_projeto']."'
+		";
+
+		$select = $this->db->query($query);
+		$content = $select->fetch(\PDO::FETCH_ASSOC);
+		$projeto_list = '';
+
+		$date = new \DateTime();
+		
+		$content = Utilities::file_reader($this->relatorios_template_path.'projeto-custo.html',array(
+			'|*PROJETOS_LIST*|' => $projeto_list,
+			'|*EMISSAO*|' => date('d/m/Y H:i'),
+			'|*CLIENTE*|' => $value['projeto_cliente_nome']
+		));
+
+		$mpdf->WriteHTML($content);
+
+		$mpdf->shrink_tables_to_fit = 1;
+
+		// Salva o arquivo
+		$dir = $this->get_directory();
+
+		if($dir['result']){
+
+			$filename = 'projeto-'.date('d-m-Y-H-i-s').'.pdf';
+			$dir_file = $dir['path'].$filename;
+
+			$mpdf->Output($dir_file);
+
+			$response['file'] = $dir['uri'].$filename;
+			$response['result'] = true;
+
+		}else{
+			$response['error'] = $dir['error'];
+		}		
+
+		return $response;
+
+	}
+
 	// PROJETOS - PERÍODO
 	public function generate_projeto_periodo($args){
 
@@ -1337,9 +1417,7 @@ class Relatorios {
 			SELECT 
 				p.*
 			FROM projetos p
-
 			WHERE p.active = 'Y' 
-			AND p.id_cliente = '".$args['id_cliente']."'
 		";
 
 		// Date range
@@ -1375,6 +1453,7 @@ class Relatorios {
 
 			$projeto_list .= '<tr>';
 				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;">'.$date->format('d/m/Y H:i').'</td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;">'.$value['projeto_cliente_nome'].'</td>';
 				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;">'.$value['projeto_nome'].'</td>';
 				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;" align="center"> ';
 
@@ -1410,11 +1489,10 @@ class Relatorios {
 			$projeto_list .= '</tr>';
 		}
 
-		$content = Utilities::file_reader($this->relatorios_template_path.'projeto-cliente.html',array(
+		$content = Utilities::file_reader($this->relatorios_template_path.'projeto-periodo.html',array(
 			'|*PROJETOS_LIST*|' => $projeto_list,
 			'|*PERIODO*|' => date('d/m/Y', $args['init']).' - '.date('d/m/Y', $args['end']),
 			'|*EMISSAO*|' => date('d/m/Y H:i'),
-			'|*CLIENTE*|' => $value['projeto_cliente_nome']
 		));
 
 		$mpdf->WriteHTML($content);
@@ -1441,6 +1519,456 @@ class Relatorios {
 		return $response;
 
 	}
+
+
+	// PROJETOS - CATEGORIA
+	public function generate_projeto_categoria($args){
+
+		$response = array(
+			'result' => false
+		);
+
+		// Gera o arquivo
+		$mpdf = new \Mpdf\Mpdf([			
+			'margin_top' => '28'
+		]);
+
+		$projetos = new Projetos($this->db);
+		$cotacoes_objetos = new CotacoesObjetos($this->db);
+		$categorias = new Categorias($this->db);
+
+		// Header
+		$mpdf->SetHTMLHeader('
+			<table cellpadding="0" cellspacing="0" width="100%" style="width: 100%; border-bottom:1px solid #000;">
+				<tr>
+					<td><img src="logo.png"></td>
+					<td width="220">
+						<center>
+							<table style="width: 220px;" width="220">
+								<tr>
+									<td style="border:1px solid #000;  font-size: 12px; padding: 4px 5px;">
+										<strong>Relatório de Projetos por Categoria</strong>
+									</td>
+								</tr>
+							</table>
+						</center>
+					</td>
+				</tr>
+			</table>
+		');
+
+		// Footer
+		$mpdf->SetFooter("Página {PAGENO} de {nb}");
+
+		$query = "
+			SELECT 
+				p.*
+			FROM projetos p
+			WHERE p.active = 'Y' 
+			AND p.id_categoria = '".$args['id_categoria']."'
+		";
+
+		// Date range
+		if(isset($args['init']) && isset($args['end'])){
+
+			$date = new \DateTime();
+
+			$date->setTimestamp($args['init']);
+			$init = $date->format("Y-m-d 00:00:00");
+
+			$date->setTimestamp($args['end']);
+			$end = $date->format("Y-m-d 23:59:59");
+
+			$query .= " AND p.create_time >= '".$init."' AND p.create_time <= '".$end."' ";
+			
+		}
+
+		$query .= " ORDER BY p.create_time DESC;";
+
+		$select = $this->db->query($query);
+		$contents = $select->fetchAll(\PDO::FETCH_ASSOC);
+		$projeto_list = '';
+
+		$date = new \DateTime();
+		
+		foreach ($contents as $key => $value) {
+
+			$bgcolor = (($key % 2) == 1 ? 'bgcolor="#ddebf7"' : '');
+
+			$date = new \DateTime($value['create_time']);
+
+			$objetos = $cotacoes_objetos->get(array('id_cotacao' => $value['id_cotacao'] ));
+
+			$projeto_list .= '<tr>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;">'.$date->format('d/m/Y H:i').'</td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;">'.$value['projeto_cliente_nome'].'</td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;">'.$value['projeto_nome'].'</td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;" align="center"> ';
+
+					foreach ($objetos['results'] as $obj_key => $objeto) {
+						$projeto_list .= '<p>'.$objeto['objeto_origem_cidade'].'-'.$objeto['objeto_origem_uf'].'</p>';
+					}
+
+				$projeto_list .= '</td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;" align="center"> ';
+
+					foreach ($objetos['results'] as $obj_key => $objeto) {
+						$projeto_list .= '<p>'.$objeto['objeto_destino_cidade'].'-'.$objeto['objeto_destino_uf'].'</p>';
+					}
+
+				$projeto_list .= '</td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;" align="center">';
+
+					foreach ($objetos['results'] as $obj_key => $objeto) {
+						$projeto_list .= '<p>'.
+							$objeto['objeto_comprimento'].'x'.
+							$objeto['objeto_largura'].'x'.
+							$objeto['objeto_altura'].'<br/>'.
+							$objeto['objeto_peso_unit'].
+							'</p>';
+					}
+
+				$projeto_list .= '</td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;"></td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;"></td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;"></td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;"></td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;"></td>';
+			$projeto_list .= '</tr>';
+		}
+
+		// Categoria 
+		$categoria = $categorias->get_by_id($args['id_categoria']);
+
+		$content = Utilities::file_reader($this->relatorios_template_path.'projeto-categoria.html',array(
+			'|*PROJETOS_LIST*|' => $projeto_list,
+			'|*PERIODO*|' => date('d/m/Y', $args['init']).' - '.date('d/m/Y', $args['end']),
+			'|*EMISSAO*|' => date('d/m/Y H:i'),
+			'|*CATEGORIA*|' => $categoria['categoria']['cat_name'],
+		));
+
+		$mpdf->WriteHTML($content);
+
+		$mpdf->shrink_tables_to_fit = 1;
+
+		// Salva o arquivo
+		$dir = $this->get_directory();
+
+		if($dir['result']){
+
+			$filename = 'projeto-'.date('d-m-Y-H-i-s').'.pdf';
+			$dir_file = $dir['path'].$filename;
+
+			$mpdf->Output($dir_file);
+
+			$response['file'] = $dir['uri'].$filename;
+			$response['result'] = true;
+
+		}else{
+			$response['error'] = $dir['error'];
+		}		
+
+		return $response;
+
+	}
+
+
+	// AS - CLIENTE
+	public function generate_as_cliente($args){
+
+		$response = array(
+			'result' => false
+		);
+
+		// Gera o arquivo
+		$mpdf = new \Mpdf\Mpdf([			
+			'margin_top' => '28'
+		]);
+
+		$as_objetos = new AsObjetos($this->db);
+
+		// Header
+		$mpdf->SetHTMLHeader('
+			<table cellpadding="0" cellspacing="0" width="100%" style="width: 100%; border-bottom:1px solid #000;">
+				<tr>
+					<td><img src="logo.png"></td>
+					<td width="220">
+						<center>
+							<table style="width: 220px;" width="220">
+								<tr>
+									<td style="border:1px solid #000;  font-size: 12px; padding: 4px 5px;">
+										<strong>Relatório de AS por Cliente</strong>
+									</td>
+								</tr>
+							</table>
+						</center>
+					</td>
+				</tr>
+			</table>
+		');
+
+		// Footer
+		$mpdf->SetFooter("Página {PAGENO} de {nb}");
+
+		$query = "
+			SELECT 
+				am.*,
+				c.cat_name
+			FROM autorizacao_servico am
+
+				INNER JOIN (SELECT MAX(a.id) as id FROM autorizacao_servico a GROUP BY a.id_revisao) a 
+				ON a.id = am.id
+
+				LEFT OUTER JOIN categorias c
+				ON c.id = am.id_categoria
+
+			WHERE am.active = 'Y' 
+			AND am.id_cliente = '".$args['id_cliente']."' 
+		";
+
+		// Date range
+		if(isset($args['init']) && isset($args['end'])){
+
+			$date = new \DateTime();
+
+			$date->setTimestamp($args['init']);
+			$init = $date->format("Y-m-d 00:00:00");
+
+			$date->setTimestamp($args['end']);
+			$end = $date->format("Y-m-d 23:59:59");
+
+			$query .= " AND am.create_time >= '".$init."' AND am.create_time <= '".$end."' ";
+			
+		}
+
+		$query .= " ORDER BY am.create_time DESC;";
+
+		$select = $this->db->query($query);
+		$contents = $select->fetchAll(\PDO::FETCH_ASSOC);
+		$projeto_list = '';
+
+		$date = new \DateTime();
+		
+		foreach ($contents as $key => $value) {
+
+			$bgcolor = (($key % 2) == 1 ? 'bgcolor="#ddebf7"' : '');
+
+			$date = new \DateTime($value['create_time']);
+
+			$objetos = $as_objetos->get(array('id_as' => $value['id_as'] ));
+
+			$projeto_list .= '<tr>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;">'.$date->format('d/m/Y H:i').'</td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;">'.$value['as_projeto_code'].'</td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;">'.$value['as_projeto_nome'].'</td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;" align="center"> ';
+
+					foreach ($objetos['results'] as $obj_key => $objeto) {
+						$projeto_list .= '<p>'.$objeto['objeto_origem_cidade'].'-'.$objeto['objeto_origem_uf'].'</p>';
+					}
+
+				$projeto_list .= '</td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;" align="center"> ';
+
+					foreach ($objetos['results'] as $obj_key => $objeto) {
+						$projeto_list .= '<p>'.$objeto['objeto_destino_cidade'].'-'.$objeto['objeto_destino_uf'].'</p>';
+					}
+
+				$projeto_list .= '</td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;" align="center">';
+
+					foreach ($objetos['results'] as $obj_key => $objeto) {
+						$projeto_list .= '<p>'.
+							$objeto['objeto_comprimento'].'x'.
+							$objeto['objeto_largura'].'x'.
+							$objeto['objeto_altura'].'<br/>'.
+							$objeto['objeto_peso_unit'].
+							'</p>';
+					}
+
+				$projeto_list .= '</td>';				
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;">'.$value['cat_name'].'</td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;"></td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;"></td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;"></td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;"></td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;"></td>';
+			$projeto_list .= '</tr>';
+		}
+
+
+		$content = Utilities::file_reader($this->relatorios_template_path.'as-cliente.html',array(
+			'|*PROJETOS_LIST*|' => $projeto_list,
+			'|*PERIODO*|' => date('d/m/Y', $args['init']).' - '.date('d/m/Y', $args['end']),
+			'|*EMISSAO*|' => date('d/m/Y H:i'),
+			'|*CLIENTE*|' => $value['as_projeto_cliente_nome'],
+		));
+
+		$mpdf->WriteHTML($content);
+
+		$mpdf->shrink_tables_to_fit = 1;
+
+		// Salva o arquivo
+		$dir = $this->get_directory();
+
+		if($dir['result']){
+
+			$filename = 'projeto-'.date('d-m-Y-H-i-s').'.pdf';
+			$dir_file = $dir['path'].$filename;
+
+			$mpdf->Output($dir_file);
+
+			$response['file'] = $dir['uri'].$filename;
+			$response['result'] = true;
+
+		}else{
+			$response['error'] = $dir['error'];
+		}		
+
+		return $response;
+
+	}
+
+
+	// AS - PROJETO
+	public function generate_as_projeto($args){
+
+		$response = array(
+			'result' => false
+		);
+
+		// Gera o arquivo
+		$mpdf = new \Mpdf\Mpdf([			
+			'margin_top' => '28'
+		]);
+
+		$as_objetos = new AsObjetos($this->db);
+
+		// Header
+		$mpdf->SetHTMLHeader('
+			<table cellpadding="0" cellspacing="0" width="100%" style="width: 100%; border-bottom:1px solid #000;">
+				<tr>
+					<td><img src="logo.png"></td>
+					<td width="220">
+						<center>
+							<table style="width: 220px;" width="220">
+								<tr>
+									<td style="border:1px solid #000;  font-size: 12px; padding: 4px 5px;">
+										<strong>Relatório de AS por Projeto</strong>
+									</td>
+								</tr>
+							</table>
+						</center>
+					</td>
+				</tr>
+			</table>
+		');
+
+		// Footer
+		$mpdf->SetFooter("Página {PAGENO} de {nb}");
+
+		$query = "
+			SELECT 
+				am.*,
+				c.cat_name
+			FROM autorizacao_servico am
+
+				INNER JOIN (SELECT MAX(a.id) as id FROM autorizacao_servico a GROUP BY a.id_revisao) a 
+				ON a.id = am.id
+
+				LEFT OUTER JOIN categorias c
+				ON c.id = am.id_categoria
+
+			WHERE am.active = 'Y' 
+			AND am.id_projeto = '".$args['id_projeto']."' 
+			ORDER BY am.create_time DESC;
+		";
+
+		$select = $this->db->query($query);
+		$contents = $select->fetchAll(\PDO::FETCH_ASSOC);
+		$projeto_list = '';
+
+		$date = new \DateTime();
+		
+		foreach ($contents as $key => $value) {
+
+			$bgcolor = (($key % 2) == 1 ? 'bgcolor="#ddebf7"' : '');
+
+			$date = new \DateTime($value['create_time']);
+
+			$objetos = $as_objetos->get(array('id_as' => $value['id_as'] ));
+
+			$projeto_list .= '<tr>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;">'.$date->format('d/m/Y H:i').'</td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;">'.$value['as_projeto_code'].'</td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;">'.$value['as_projeto_nome'].'</td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;" align="center"> ';
+
+					foreach ($objetos['results'] as $obj_key => $objeto) {
+						$projeto_list .= '<p>'.$objeto['objeto_origem_cidade'].'-'.$objeto['objeto_origem_uf'].'</p>';
+					}
+
+				$projeto_list .= '</td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;" align="center"> ';
+
+					foreach ($objetos['results'] as $obj_key => $objeto) {
+						$projeto_list .= '<p>'.$objeto['objeto_destino_cidade'].'-'.$objeto['objeto_destino_uf'].'</p>';
+					}
+
+				$projeto_list .= '</td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;" align="center">';
+
+					foreach ($objetos['results'] as $obj_key => $objeto) {
+						$projeto_list .= '<p>'.
+							$objeto['objeto_comprimento'].'x'.
+							$objeto['objeto_largura'].'x'.
+							$objeto['objeto_altura'].'<br/>'.
+							$objeto['objeto_peso_unit'].
+							'</p>';
+					}
+
+				$projeto_list .= '</td>';				
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;">'.$value['cat_name'].'</td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;"></td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;"></td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;"></td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;"></td>';
+				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;"></td>';
+			$projeto_list .= '</tr>';
+		}
+
+
+		$content = Utilities::file_reader($this->relatorios_template_path.'as-projeto.html',array(
+			'|*PROJETOS_LIST*|' => $projeto_list,
+			'|*EMISSAO*|' => date('d/m/Y H:i'),
+			'|*PROJETO*|' => $value['as_projeto_code'],
+		));
+
+		$mpdf->WriteHTML($content);
+
+		$mpdf->shrink_tables_to_fit = 1;
+
+		// Salva o arquivo
+		$dir = $this->get_directory();
+
+		if($dir['result']){
+
+			$filename = 'projeto-'.date('d-m-Y-H-i-s').'.pdf';
+			$dir_file = $dir['path'].$filename;
+
+			$mpdf->Output($dir_file);
+
+			$response['file'] = $dir['uri'].$filename;
+			$response['result'] = true;
+
+		}else{
+			$response['error'] = $dir['error'];
+		}		
+
+		return $response;
+
+	}
+	
 
 
 }

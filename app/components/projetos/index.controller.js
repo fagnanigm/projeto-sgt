@@ -50,6 +50,31 @@
         $scope.get_projetos();
     
 
+        $scope.print_projeto_custo = function(id_projeto){
+
+            $rootScope.is_loading = true;
+
+            $http.post('/api/public/relatorios/projeto/custo', { id_projeto: id_projeto }).then(function (response) {
+
+                console.log(response);
+
+                $rootScope.is_loading = false;
+
+                if(response.data.result){
+                    
+                    window.open('/api/public' + response.data.file, '_blank');
+
+                }else{
+                    ngToast.create({
+                        className: 'danger',
+                        content: response.data.error
+                    });
+                }
+
+            });
+
+        }
+
     }
 
 })();
