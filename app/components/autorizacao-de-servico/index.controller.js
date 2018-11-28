@@ -114,6 +114,31 @@
 
         }
 
+        $scope.print_as_custo = function(id_as){
+
+            $rootScope.is_loading = true;
+
+            $http.post('/api/public/relatorios/as/custo', { id_as: id_as }).then(function (response) {
+
+                console.log(response);
+
+                $rootScope.is_loading = false;
+
+                if(response.data.result){
+                    
+                    window.open('/api/public' + response.data.file, '_blank');
+
+                }else{
+                    ngToast.create({
+                        className: 'danger',
+                        content: response.data.error
+                    });
+                }
+
+            });
+
+        }
+
     }
 
 })();

@@ -8,118 +8,286 @@
 		<h2>Textos padrões na tela de cadastro de cotação</h2>
 	</div>
 
-	<div class="row">
-		<div class="col-md-8">
+	<hr />
 
-			<div class="card">
-				<div class="card-body">
+	<ul class="nav nav-tabs" id="tabs-cotacoes-textos" role="tablist">
 
-					<form ng-submit="save_texto_padrao('cotacao_objeto_operacao')">
+		<li class="nav-item">
+			<a class="nav-link active" id="tab-modelo01" data-toggle="tab" href="#modelo01" role="tab">
+				<i class="fa fa-navicon" aria-hidden="true"></i> Modelo 01
+			</a>
+		</li>
 
-						<h3>Escopo da operação</h3>
-						<textarea class="form-control" placeholder="Digite o texto padrão aqui..." ng-model="textos.cotacao_objeto_operacao"></textarea>
+		<li class="nav-item">
+			<a class="nav-link" id="tab-modelo02" data-toggle="tab" href="#modelo02" role="tab">
+				<i class="fa fa-navicon" aria-hidden="true"></i> Modelo 02
+			</a>
+		</li>
 
-						<div class="text-right margin-top-15">
-							<button class="btn btn-success" type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+	</ul>
+
+	<div class="tab-content margin-top-40">
+
+		<div class="tab-pane fade show active" id="modelo01" role="tabpanel">
+
+			<div class="row">
+				<div class="col-md-8">
+
+					<div class="card">
+						<div class="card-body">
+
+							<form ng-submit="save_texto_padrao('cotacao_objeto_operacao_modelo_01')">
+
+								<h3>Escopo da operação</h3>
+								<textarea class="form-control" placeholder="Digite o texto padrão aqui..." ng-model="textos.cotacao_objeto_operacao_modelo_01"></textarea>
+
+								<div class="text-right margin-top-15">
+									<button class="btn btn-success" type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+								</div>
+
+							</form>
+
 						</div>
+					</div>
 
-					</form>
+				</div>
+			</div>
+
+			<div class="row margin-top-30">
+				<div class="col-md-8">
+
+					<div class="card">
+						<div class="card-body">
+
+							<form ng-submit="save_texto_padrao('cotacao_complemento_objeto_modelo_01')">
+
+								<h3>Complemento do objeto</h3>
+								<textarea class="form-control" placeholder="Digite o texto padrão aqui..." ng-model="textos.cotacao_complemento_objeto_modelo_01"></textarea>
+
+								<div class="text-right margin-top-15">
+									<button class="btn btn-success" type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="row margin-top-30">
+				<div class="col-md-8">
+
+					<div class="card">
+						<div class="card-body">
+
+							<form ng-submit="save_texto_padrao('cotacao_complemento_condicoes_modelo_01')">
+
+								<h3>Complemento de condições</h3>
+								<textarea class="form-control" placeholder="Digite o texto padrão aqui..." ng-model="textos.cotacao_complemento_condicoes_modelo_01"></textarea>
+
+								<div class="text-right margin-top-15">
+									<button class="btn btn-success" type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="row margin-top-30">
+				<div class="col-md-8">
+
+					<div class="card">
+						<div class="card-body">
+
+							<form ng-submit="save_texto_padrao('cotacao_responsabilidades_modelo_01')">
+
+								<h3>Responsabilidades</h3>
+								<textarea class="form-control" placeholder="Digite o texto padrão aqui..." ng-model="textos.cotacao_responsabilidades_modelo_01"></textarea>
+
+								<div class="text-right margin-top-15">
+									<button class="btn btn-success" type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="row margin-top-30">
+				<div class="col-md-8">
+
+					<div class="card">
+						<div class="card-body">
+
+							<form ng-submit="save_texto_padrao('cotacao_devolucao_modelo_01')">
+
+								<h3>Devolução</h3>
+								<textarea class="form-control" placeholder="Digite o texto padrão aqui..." ng-model="textos.cotacao_devolucao_modelo_01"></textarea>
+
+								<div class="text-right margin-top-15">
+									<button class="btn btn-success" type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="row margin-top-30">
+				<div class="col-md-8">
+
+					<div class="card">
+						<div class="card-body">
+
+							<form ng-submit="save_texto_padrao('cotacao_observacoes_finais_modelo_01')">
+
+								<h3>Considerações finais</h3>
+								<textarea class="form-control" placeholder="Digite o texto padrão aqui..." ng-model="textos.cotacao_observacoes_finais_modelo_01"></textarea>
+
+								<div class="text-right margin-top-15">
+									<button class="btn btn-success" type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+								</div>
+
+							</form>
+
+						</div>
+					</div>
 
 				</div>
 			</div>
 
 		</div>
-	</div>
 
-	<div class="row margin-top-30">
-		<div class="col-md-8">
+		<div class="tab-pane fade" id="modelo02" role="tabpanel">
 
-			<div class="card">
-				<div class="card-body">
+			<div class="row">
+				<div class="col-md-8">
 
-					<form ng-submit="save_texto_padrao('cotacao_carga_descarga')">
+					<div class="card">
+						<div class="card-body">
 
-						<h3>Carga e descarga</h3>
-						<textarea class="form-control" placeholder="Digite o texto padrão aqui..." ng-model="textos.cotacao_carga_descarga"></textarea>
+							<form ng-submit="save_texto_padrao('cotacao_objeto_operacao')">
 
-						<div class="text-right margin-top-15">
-							<button class="btn btn-success" type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+								<h3>Escopo da operação</h3>
+								<textarea class="form-control" placeholder="Digite o texto padrão aqui..." ng-model="textos.cotacao_objeto_operacao"></textarea>
+
+								<div class="text-right margin-top-15">
+									<button class="btn btn-success" type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+								</div>
+
+							</form>
+
 						</div>
+					</div>
 
-					</form>
+				</div>
+			</div>
+
+			<div class="row margin-top-30">
+				<div class="col-md-8">
+
+					<div class="card">
+						<div class="card-body">
+
+							<form ng-submit="save_texto_padrao('cotacao_carga_descarga')">
+
+								<h3>Carga e descarga</h3>
+								<textarea class="form-control" placeholder="Digite o texto padrão aqui..." ng-model="textos.cotacao_carga_descarga"></textarea>
+
+								<div class="text-right margin-top-15">
+									<button class="btn btn-success" type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="row margin-top-30">
+				<div class="col-md-8">
+
+					<div class="card">
+						<div class="card-body">
+						
+							<form ng-submit="save_texto_padrao('cotacao_carencia')">
+
+								<h3>Carência / estadia</h3>
+								<textarea class="form-control" placeholder="Digite o texto padrão aqui..." ng-model="textos.cotacao_carencia"></textarea>
+
+								<div class="text-right margin-top-15">
+									<button class="btn btn-success" type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="row margin-top-30">
+				<div class="col-md-8">
+
+					<div class="card">
+						<div class="card-body">
+
+							<form ng-submit="save_texto_padrao('cotacao_prazo_execucao')">
+
+								<h3>Prazo de execução</h3>
+								<textarea class="form-control" placeholder="Digite o texto padrão aqui..." ng-model="textos.cotacao_prazo_execucao"></textarea>
+
+								<div class="text-right margin-top-15">
+									<button class="btn btn-success" type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="row margin-top-30">
+				<div class="col-md-8">
+
+					<div class="card">
+						<div class="card-body">
+
+							<form ng-submit="save_texto_padrao('cotacao_observacoes_finais')">
+
+								<h3>Considerações finais</h3>
+								<textarea class="form-control" placeholder="Digite o texto padrão aqui..." ng-model="textos.cotacao_observacoes_finais"></textarea>
+
+								<div class="text-right margin-top-15">
+									<button class="btn btn-success" type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+								</div>
+
+							</form>
+						</div>
+					</div>
 
 				</div>
 			</div>
 
 		</div>
-	</div>
 
-	<div class="row margin-top-30">
-		<div class="col-md-8">
-
-			<div class="card">
-				<div class="card-body">
-				
-					<form ng-submit="save_texto_padrao('cotacao_carencia')">
-
-						<h3>Carência / estadia</h3>
-						<textarea class="form-control" placeholder="Digite o texto padrão aqui..." ng-model="textos.cotacao_carencia"></textarea>
-
-						<div class="text-right margin-top-15">
-							<button class="btn btn-success" type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
-						</div>
-
-					</form>
-
-				</div>
-			</div>
-
-		</div>
-	</div>
-
-	<div class="row margin-top-30">
-		<div class="col-md-8">
-
-			<div class="card">
-				<div class="card-body">
-
-					<form ng-submit="save_texto_padrao('cotacao_prazo_execucao')">
-
-						<h3>Prazo de execução</h3>
-						<textarea class="form-control" placeholder="Digite o texto padrão aqui..." ng-model="textos.cotacao_prazo_execucao"></textarea>
-
-						<div class="text-right margin-top-15">
-							<button class="btn btn-success" type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
-						</div>
-
-					</form>
-
-				</div>
-			</div>
-
-		</div>
-	</div>
-
-	<div class="row margin-top-30">
-		<div class="col-md-8">
-
-			<div class="card">
-				<div class="card-body">
-
-					<form ng-submit="save_texto_padrao('cotacao_observacoes_finais')">
-
-						<h3>Considerações finais</h3>
-						<textarea class="form-control" placeholder="Digite o texto padrão aqui..." ng-model="textos.cotacao_observacoes_finais"></textarea>
-
-						<div class="text-right margin-top-15">
-							<button class="btn btn-success" type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
-						</div>
-
-					</form>
-				</div>
-			</div>
-
-		</div>
 	</div>
 
 

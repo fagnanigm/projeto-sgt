@@ -246,7 +246,7 @@ class Impressoes {
 			$objetos_operacao .= "<tr>";
 				$objetos_operacao .= "<td>".$value['objeto_quantidade']."</td>";
 				$objetos_operacao .= "<td>".$value['objeto_descricao']."</td>";
-				$objetos_operacao .= "<td>".$value['objeto_origem'].' '.$value['objeto_destino']."</td>";
+				$objetos_operacao .= "<td>".$value['objeto_origem'].' / '.$value['objeto_destino']."</td>";
 				$objetos_operacao .= "<td>".
 					$value['objeto_comprimento'].' x '.
 					$value['objeto_largura'].' x '.
@@ -392,7 +392,7 @@ class Impressoes {
 			'|*CONTENT*|' => '<pre>'.print_r($as, true).'</pre>'
 		));
 
-		$mpdf->WriteHTML($content);
+		$mpdf->WriteHTML(utf8_encode($content));
 
 		$mpdf->shrink_tables_to_fit = 1;
 
@@ -451,7 +451,7 @@ class Impressoes {
 			'|*CONTENT*|' => '<pre>'.print_r($as, true).'</pre>'
 		));
 
-		$mpdf->WriteHTML($content);
+		$mpdf->WriteHTML(utf8_encode($content));
 
 		$mpdf->shrink_tables_to_fit = 1;
 
@@ -509,7 +509,7 @@ class Impressoes {
 			'|*CONTENT*|' => '<pre>'.print_r($as, true).'</pre>'
 		));
 
-		$mpdf->WriteHTML($content);
+		$mpdf->WriteHTML(utf8_encode($content));
 
 		$mpdf->shrink_tables_to_fit = 1;
 
@@ -518,7 +518,7 @@ class Impressoes {
 
 		if($dir['result']){
 
-			$filename = 'OCC-'.date('d-m-Y-H-i-s').'.pdf';
+			$filename = 'Nota-de-Debito-'.date('d-m-Y-H-i-s').'.pdf';
 			$dir_file = $dir['path'].$filename;
 
 			$mpdf->Output($dir_file);
@@ -567,7 +567,7 @@ class Impressoes {
 			'|*CONTENT*|' => '<pre>'.print_r($as, true).'</pre>'
 		));
 
-		$mpdf->WriteHTML($content);
+		$mpdf->WriteHTML(utf8_encode($content));
 
 		$mpdf->shrink_tables_to_fit = 1;
 
@@ -625,7 +625,7 @@ class Impressoes {
 			'|*CONTENT*|' => '<pre>'.print_r($as, true).'</pre>'
 		));
 
-		$mpdf->WriteHTML($content);
+		$mpdf->WriteHTML(utf8_encode($content));
 
 		$mpdf->shrink_tables_to_fit = 1;
 

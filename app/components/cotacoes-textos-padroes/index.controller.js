@@ -6,8 +6,19 @@
         .controller('CotacoesTextosPadroes.IndexController', Controller);
 
     function Controller($rootScope,$scope,$http,$location,ngToast,$localStorage) {
+
+        $('#tabs-cotacoes-textos a').on('click', function (e) {
+            e.preventDefault()
+            $(this).tab('show')
+        });
         
         $scope.textos = {
+            cotacao_objeto_operacao_modelo_01 : '',
+            cotacao_complemento_objeto_modelo_01: '',
+            cotacao_complemento_condicoes_modelo_01: '',
+            cotacao_responsabilidades_modelo_01: '',
+            cotacao_devolucao_modelo_01: '',
+            cotacao_observacoes_finais_modelo_01: '',
             cotacao_objeto_operacao : '',
             cotacao_carga_descarga : '',
             cotacao_carencia : '',
@@ -17,7 +28,13 @@
 
         $scope.get_results = function(){
 
-            var rest_address = '/api/public/textos-padroes/get?keys=cotacao_objeto_operacao,cotacao_carga_descarga,cotacao_carencia,cotacao_prazo_execucao,cotacao_observacoes_finais';
+            var rest_address = '/api/public/textos-padroes/get?keys=';
+
+            $.each($scope.textos, function(key, val){
+                rest_address += key + ',';
+            });
+
+            rest_address = rest_address.slice(0, -1); 
 
             $http.get(rest_address).then(function (response) {
 

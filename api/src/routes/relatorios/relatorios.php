@@ -123,5 +123,14 @@ $app->post('/relatorios/as/projeto', function (Request $request, Response $respo
 	return $response->withJson($data);
 });
 
+// AS - CUSTO
+$app->post('/relatorios/as/custo', function (Request $request, Response $response, array $args) {
+
+	$relatorios = new Relatorios($this->db);
+	$data = $relatorios->generate_as_custo($request->getParams());
+
+	return $response->withJson($data);
+});
+
 
 ?>

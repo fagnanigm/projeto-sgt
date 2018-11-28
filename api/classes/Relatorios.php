@@ -207,7 +207,8 @@ class Relatorios {
 
 		// Gera o arquivo
 		$mpdf = new \Mpdf\Mpdf([			
-			'margin_top' => '28'
+			'margin_top' => '28',
+			'orientation' => 'L'
 		]);
 
 		// Header
@@ -358,7 +359,8 @@ class Relatorios {
 
 		// Gera o arquivo
 		$mpdf = new \Mpdf\Mpdf([			
-			'margin_top' => '28'
+			'margin_top' => '28',
+			'orientation' => 'L'
 		]);
 
 		// Header
@@ -509,7 +511,8 @@ class Relatorios {
 
 		// Gera o arquivo
 		$mpdf = new \Mpdf\Mpdf([			
-			'margin_top' => '28'
+			'margin_top' => '28',
+			'orientation' => 'L'
 		]);
 
 		// Header
@@ -657,7 +660,8 @@ class Relatorios {
 
 		// Gera o arquivo
 		$mpdf = new \Mpdf\Mpdf([			
-			'margin_top' => '28'
+			'margin_top' => '28',
+			'orientation' => 'L'
 		]);
 
 		// Header
@@ -809,7 +813,8 @@ class Relatorios {
 
 		// Gera o arquivo
 		$mpdf = new \Mpdf\Mpdf([			
-			'margin_top' => '28'
+			'margin_top' => '28',
+			'orientation' => 'L'
 		]);
 
 		// Header
@@ -977,7 +982,8 @@ class Relatorios {
 
 		// Gera o arquivo
 		$mpdf = new \Mpdf\Mpdf([			
-			'margin_top' => '28'
+			'margin_top' => '28',
+			'orientation' => 'L'
 		]);
 
 		// Header
@@ -1157,7 +1163,8 @@ class Relatorios {
 
 		// Gera o arquivo
 		$mpdf = new \Mpdf\Mpdf([			
-			'margin_top' => '28'
+			'margin_top' => '28',
+			'orientation' => 'L'
 		]);
 
 		$projetos = new Projetos($this->db);
@@ -1304,7 +1311,8 @@ class Relatorios {
 
 		// Gera o arquivo
 		$mpdf = new \Mpdf\Mpdf([			
-			'margin_top' => '28'
+			'margin_top' => '28',
+			'orientation' => 'L'
 		]);
 
 		// Header
@@ -1332,22 +1340,30 @@ class Relatorios {
 
 		$query = "
 			SELECT 
-				p.*
+				p.*,
+				v.vendedor_nome
 			FROM projetos p
+
+				INNER JOIN vendedores v 
+				ON v.id = p.id_vendedor	
+
 			WHERE p.active = 'Y' 
 			AND p.id = '".$args['id_projeto']."'
 		";
 
 		$select = $this->db->query($query);
 		$content = $select->fetch(\PDO::FETCH_ASSOC);
-		$projeto_list = '';
 
 		$date = new \DateTime();
 		
 		$content = Utilities::file_reader($this->relatorios_template_path.'projeto-custo.html',array(
-			'|*PROJETOS_LIST*|' => $projeto_list,
 			'|*EMISSAO*|' => date('d/m/Y H:i'),
-			'|*CLIENTE*|' => $value['projeto_cliente_nome']
+			'|*CLIENTE*|' => $content['projeto_cliente_nome'],
+			'|*PROJETO*|' => $content['projeto_nome'],
+			'|*DESC_PROJETO*|' => $content['projeto_descricao'],
+			'|*VENDEDOR*|' => $content['vendedor_nome'],
+			'|*ORIGEM*|' => '',
+			'|*DESTINO*|' => '',
 		));
 
 		$mpdf->WriteHTML($content);
@@ -1384,7 +1400,8 @@ class Relatorios {
 
 		// Gera o arquivo
 		$mpdf = new \Mpdf\Mpdf([			
-			'margin_top' => '28'
+			'margin_top' => '28',
+			'orientation' => 'L'
 		]);
 
 		$projetos = new Projetos($this->db);
@@ -1530,7 +1547,8 @@ class Relatorios {
 
 		// Gera o arquivo
 		$mpdf = new \Mpdf\Mpdf([			
-			'margin_top' => '28'
+			'margin_top' => '28',
+			'orientation' => 'L'
 		]);
 
 		$projetos = new Projetos($this->db);
@@ -1682,7 +1700,8 @@ class Relatorios {
 
 		// Gera o arquivo
 		$mpdf = new \Mpdf\Mpdf([			
-			'margin_top' => '28'
+			'margin_top' => '28',
+			'orientation' => 'L'
 		]);
 
 		$as_objetos = new AsObjetos($this->db);
@@ -1839,7 +1858,8 @@ class Relatorios {
 
 		// Gera o arquivo
 		$mpdf = new \Mpdf\Mpdf([			
-			'margin_top' => '28'
+			'margin_top' => '28',
+			'orientation' => 'L'
 		]);
 
 		$as_objetos = new AsObjetos($this->db);
@@ -1901,7 +1921,6 @@ class Relatorios {
 			$projeto_list .= '<tr>';
 				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;">'.$date->format('d/m/Y H:i').'</td>';
 				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;">'.$value['as_projeto_code'].'</td>';
-				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;">'.$value['as_projeto_nome'].'</td>';
 				$projeto_list .= '<td '.$bgcolor.' style="padding: 4px 5px;" align="center"> ';
 
 					foreach ($objetos['results'] as $obj_key => $objeto) {
@@ -1969,6 +1988,95 @@ class Relatorios {
 
 	}
 	
+
+	// AS - CUSTO
+	public function generate_as_custo($args){
+
+		$response = array(
+			'result' => false
+		);
+
+		// Gera o arquivo
+		$mpdf = new \Mpdf\Mpdf([			
+			'margin_top' => '28',
+			'orientation' => 'L'
+		]);
+
+		// Header
+		$mpdf->SetHTMLHeader('
+			<table cellpadding="0" cellspacing="0" width="100%" style="width: 100%; border-bottom:1px solid #000;">
+				<tr>
+					<td><img src="logo.png"></td>
+					<td width="220">
+						<center>
+							<table style="width: 220px;" width="220">
+								<tr>
+									<td style="border:1px solid #000;  font-size: 12px; padding: 4px 5px;">
+										<strong>Relatório de AS<br />CUSTO</strong>
+									</td>
+								</tr>
+							</table>
+						</center>
+					</td>
+				</tr>
+			</table>
+		');
+
+		// Footer
+		$mpdf->SetFooter("Página {PAGENO} de {nb}");
+
+		$query = "
+			SELECT 
+				a.*,
+				v.vendedor_nome
+			FROM autorizacao_servico a
+
+				INNER JOIN vendedores v 
+				ON v.id = a.id_vendedor	
+
+			WHERE a.active = 'Y' 
+			AND a.id = '".$args['id_as']."'
+		";
+
+		$select = $this->db->query($query);
+		$content = $select->fetch(\PDO::FETCH_ASSOC);
+
+		$date = new \DateTime();
+		
+		$content = Utilities::file_reader($this->relatorios_template_path.'as-custo.html',array(
+			'|*EMISSAO*|' => date('d/m/Y H:i'),
+			'|*CLIENTE*|' => $content['as_projeto_cliente_nome'],
+			'|*PROJETO*|' => $content['as_projeto_nome'],
+			'|*DESC_PROJETO*|' => $content['as_projeto_descricao'],
+			'|*VENDEDOR*|' => $content['vendedor_nome'],
+			'|*ORIGEM*|' => '',
+			'|*DESTINO*|' => '',
+		));
+
+		$mpdf->WriteHTML($content);
+
+		$mpdf->shrink_tables_to_fit = 1;
+
+		// Salva o arquivo
+		$dir = $this->get_directory();
+
+		if($dir['result']){
+
+			$filename = 'AS-'.date('d-m-Y-H-i-s').'.pdf';
+			$dir_file = $dir['path'].$filename;
+
+			$mpdf->Output($dir_file);
+
+			$response['file'] = $dir['uri'].$filename;
+			$response['result'] = true;
+
+		}else{
+			$response['error'] = $dir['error'];
+		}		
+
+		return $response;
+
+	}
 
 
 }

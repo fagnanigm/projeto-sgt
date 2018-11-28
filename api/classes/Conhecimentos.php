@@ -77,7 +77,7 @@ class Conhecimentos {
 
 					if($get_file['result']){
 
-						$acbr_response = utf8_encode(file_get_contents($get_file['file']));
+						$acbr_response = file_get_contents($get_file['file']);
 
 						$response['acbr_response'] = $acbr_response;
 
@@ -90,9 +90,7 @@ class Conhecimentos {
 							'|*CONTENT*|' => $acbr_response
 						));
 
-						$mpdf->WriteHTML($content);
-
-						$response['content'] = $content;
+						$mpdf->WriteHTML(utf8_encode($content));
 
 						$mpdf->shrink_tables_to_fit = 1;
 

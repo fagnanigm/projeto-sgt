@@ -217,8 +217,8 @@ class Veiculos {
 		// Filtro
 		if(isset($args['veiculo_term'])){
 			$query_count .= " AND ( ";
-				$query_count .= "veiculo_frota LIKE '%".$args['veiculo_term']."%' OR ";
-				$query_count .= "veiculo_modelo LIKE '%".$args['veiculo_term']."%' ";
+				$query_count .= "veiculo_frota = '".$args['veiculo_term']."' OR ";
+				$query_count .= "SUBSTRING(veiculo_placa, 5, 4) = '".$args['veiculo_term']."' ";
 			$query_count .= " ) ";
 			$is_search = true;
 		}
@@ -259,8 +259,8 @@ class Veiculos {
 				// Filtro
 				if(isset($args['veiculo_term'])){
 					$query .= " AND ( ";
-						$query .= "veiculo_frota LIKE '%".$args['veiculo_term']."%' OR ";
-						$query .= "veiculo_modelo LIKE '%".$args['veiculo_term']."%' ";
+						$query .= "veiculo_frota = '".$args['veiculo_term']."' OR ";
+						$query .= "SUBSTRING(veiculo_placa, 5, 4) = '".$args['veiculo_term']."' ";
 					$query .= " ) ";
 				}
 

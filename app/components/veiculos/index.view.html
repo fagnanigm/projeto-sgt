@@ -25,7 +25,7 @@
 				<div class="form-group margin-bottom-0">
 					<label>Filtro</label>
 					<div class="input-group mb-3">
-						<input type="text" class="form-control" placeholder="Modelo do veículo ou frota" name="veiculo_term" ng-model="get_filters.veiculo_term">
+						<input type="text" class="form-control" placeholder="Número da frota ou valor numérico da placa" name="veiculo_term" ng-model="get_filters.veiculo_term">
 						<div class="input-group-append">
 							<button class="btn btn-primary" type="submit"><i class="icon-magnifier icons"></i> Buscar</button>
 						</div>
@@ -46,6 +46,7 @@
 	<table class="table table-striped margin-top-30">
 		<tr>
 			<th>Veículo</th>
+			<th class="text-center" width="250">Placa</th>
 			<th class="text-center" width="250">Cadastrado</th>
 			<th width="120"></th>
 		</tr>
@@ -54,6 +55,7 @@
 				<strong>{{ val.veiculo_frota }} - {{ val.veiculo_modelo }}</strong><br />
 				<small>Código: #{{ val.id }}</small>
 			</td>
+			<td class="text-center">{{ val.veiculo_placa }}</td>
 			<td class="text-center">{{ val.create_timestamp * 1000 | date:'dd/MM/yyyy HH:mm' }}</td>
 			<td width="120" class="text-right">
 				
